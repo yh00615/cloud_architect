@@ -36,6 +36,8 @@ coverage
 
 # macOS
 .DS_Store
+._*
+**/._.DS_Store
 
 # Vite cache
 .vite/
