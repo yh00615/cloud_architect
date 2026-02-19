@@ -341,7 +341,7 @@ export const curriculum: WeekCurriculum[] = [
       {
         session: 2,
         type: 'theory',
-        title: 'Amazon EKS 아키텍처',
+        title: 'Amazon EKS 개요',
         hasContent: false,
         description:
           'Kubernetes 기본 개념, Amazon EKS 아키텍처, 컨트롤 플레인과 데이터 플레인',
@@ -453,7 +453,7 @@ export const curriculum: WeekCurriculum[] = [
       {
         session: 1,
         type: 'theory',
-        title: 'Amazon ElastiCache 캐싱',
+        title: '캐싱 전략',
         hasContent: false,
         description: '캐싱 개념과 필요성, 캐시 전략, TTL과 캐시 무효화',
         awsServices: ['Amazon ElastiCache'],
