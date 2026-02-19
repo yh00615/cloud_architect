@@ -1,0 +1,453 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Week 3-1: VPC 3-Tier 환경 구축 - Public/Private 서브넷, IGW, NAT Gateway 자동 생성'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: 'week3-1-vpc'
+    Description: 환경 이름 (리소스 명명에 사용)
+    AllowedPattern: ^[a-z0-9-]+$
+    ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+
+  LatestAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
+    Description: Latest Amazon Linux 2023 AMI ID
+
+Resources:
+  # VPC 생성
+  LabVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-VPC'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Purpose
+          Value: 'VPC Endpoint Lab'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  # Internet Gateway 생성
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-IGW'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  # Internet Gateway를 VPC에 연결
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref LabVPC
+      InternetGatewayId: !Ref InternetGateway
+
+  # Public Subnet A (ap-northeast-2a)
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref LabVPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: ap-northeast-2a
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Public-Subnet-A'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  # Public Subnet C (ap-northeast-2c)
+  PublicSubnetC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref LabVPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: ap-northeast-2c
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Public-Subnet-C'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  # Private Subnet A (ap-northeast-2a)
+  PrivateSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref LabVPC
+      CidrBlock: 10.0.11.0/24
+      AvailabilityZone: ap-northeast-2a
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Private-Subnet-A'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  # Private Subnet C (ap-northeast-2c)
+  PrivateSubnetC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref LabVPC
+      CidrBlock: 10.0.12.0/24
+      AvailabilityZone: ap-northeast-2c
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Private-Subnet-C'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  # Elastic IP for NAT Gateway A
+  NATGatewayEIPA:
+    Type: AWS::EC2::EIP
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-NAT-A-EIP'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  # NAT Gateway A (ap-northeast-2a)
+  NATGatewayA:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NATGatewayEIPA.AllocationId
+      SubnetId: !Ref PublicSubnetA
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-NAT-A'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  # Public Route Table
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref LabVPC
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Public-RT'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  # Public Route (0.0.0.0/0 -> Internet Gateway)
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  # Public Subnet A Association
+  PublicSubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetA
+      RouteTableId: !Ref PublicRouteTable
+
+  # Public Subnet C Association
+  PublicSubnetCRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetC
+      RouteTableId: !Ref PublicRouteTable
+
+  # Private Route Table A
+  PrivateRouteTableA:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref LabVPC
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Private-RT-A'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  # Private Route A (0.0.0.0/0 -> NAT Gateway A)
+  PrivateRouteA:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableA
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGatewayA
+
+  # Private Subnet A Association
+  PrivateSubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetA
+      RouteTableId: !Ref PrivateRouteTableA
+
+  # Private Route Table C (현재는 Private-Subnet-C도 Private-RT-A 사용)
+  # 고가용성을 위해서는 별도의 NAT Gateway C와 Private-RT-C 생성 권장
+  PrivateSubnetCRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetC
+      RouteTableId: !Ref PrivateRouteTableA
+
+  # EC2 Instance (테스트용 - Private Subnet)
+  TestEC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub '${EnvironmentName}-Test-EC2-SG'
+      GroupDescription: Security group for test EC2 instance
+      VpcId: !Ref LabVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 10.0.0.0/16
+          Description: SSH from VPC
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Test-EC2-SG'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  TestEC2InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${EnvironmentName}-EC2-InstanceRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-EC2-InstanceRole'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  TestEC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref TestEC2InstanceRole
+
+  # VPC Endpoint Security Group (SSM Interface Endpoints용)
+  VPCEndpointSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub '${EnvironmentName}-VPCEndpoint-SG'
+      GroupDescription: Security group for VPC Endpoints (SSM)
+      VpcId: !Ref LabVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 10.0.0.0/16
+          Description: HTTPS from VPC
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-VPCEndpoint-SG'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+
+  # SSM Interface Endpoint (Session Manager용)
+  SSMEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      VpcId: !Ref LabVPC
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.ssm'
+      VpcEndpointType: Interface
+      PrivateDnsEnabled: true
+      SubnetIds:
+        - !Ref PrivateSubnetA
+        - !Ref PrivateSubnetC
+      SecurityGroupIds:
+        - !Ref VPCEndpointSecurityGroup
+
+  # SSM Messages Interface Endpoint (Session Manager용)
+  SSMMessagesEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      VpcId: !Ref LabVPC
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.ssmmessages'
+      VpcEndpointType: Interface
+      PrivateDnsEnabled: true
+      SubnetIds:
+        - !Ref PrivateSubnetA
+        - !Ref PrivateSubnetC
+      SecurityGroupIds:
+        - !Ref VPCEndpointSecurityGroup
+
+  # EC2 Messages Interface Endpoint (Session Manager용)
+  EC2MessagesEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      VpcId: !Ref LabVPC
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.ec2messages'
+      VpcEndpointType: Interface
+      PrivateDnsEnabled: true
+      SubnetIds:
+        - !Ref PrivateSubnetA
+        - !Ref PrivateSubnetC
+      SecurityGroupIds:
+        - !Ref VPCEndpointSecurityGroup
+
+  TestEC2Instance:
+    Type: AWS::EC2::Instance
+    DependsOn:
+      - SSMEndpoint
+      - SSMMessagesEndpoint
+      - EC2MessagesEndpoint
+    Properties:
+      InstanceType: t3.micro
+      ImageId: !Ref LatestAmiId
+      SubnetId: !Ref PrivateSubnetA
+      SecurityGroupIds:
+        - !Ref TestEC2SecurityGroup
+      IamInstanceProfile: !Ref TestEC2InstanceProfile
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Test-Instance'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week3-1'
+        - Key: Purpose
+          Value: 'VPC Endpoint Lab'
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: '3-1'
+        - Key: CreatedBy
+          Value: CloudFormation
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install -y aws-cli
+
+Outputs:
+  VpcId:
+    Description: VPC ID (태스크 1에서 사용)
+    Value: !Ref LabVPC
+    Export:
+      Name: !Sub '${EnvironmentName}-VpcId'
+
+  PrivateRouteTableAId:
+    Description: Private Route Table A ID (태스크 1에서 사용)
+    Value: !Ref PrivateRouteTableA
+
+  EC2InstanceId:
+    Description: Test EC2 Instance ID (태스크 3에서 사용)
+    Value: !Ref TestEC2Instance

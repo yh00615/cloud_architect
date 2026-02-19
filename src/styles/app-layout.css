@@ -1,0 +1,74 @@
+/* App 레이아웃 스타일 - 미니멀 디자인 */
+
+/* TopNavigation 스타일 */
+.app-layout-top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--color-border-divider-default);
+}
+
+/* SideNavigation 스타일 개선 */
+.awsui-side-navigation {
+    background-color: var(--color-background-container-content);
+}
+
+/* 네비게이션 헤더 */
+.awsui-side-navigation-header {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-heading-default);
+    border-bottom: 1px solid var(--color-border-divider-default);
+}
+
+/* 네비게이션 섹션 */
+.awsui-side-navigation-section-header {
+    padding: 0.75rem 1.5rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-body-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 네비게이션 링크 */
+.awsui-side-navigation-link {
+    padding: 0.625rem 1.5rem;
+    font-size: 0.9375rem;
+    color: var(--color-text-body-default);
+    transition: all 0.15s ease;
+    border-left: 3px solid transparent;
+}
+
+.awsui-side-navigation-link:hover {
+    background-color: var(--color-background-layout-main);
+    color: var(--color-text-link-default);
+}
+
+.awsui-side-navigation-link-active {
+    background-color: rgba(255, 153, 0, 0.08);
+    border-left-color: #ff9900;
+    color: #ff9900;
+    font-weight: 600;
+}
+
+[data-awsui-theme="dark"] .awsui-side-navigation-link-active {
+    background-color: rgba(255, 153, 0, 0.12);
+}
+
+/* 구분선 */
+.awsui-side-navigation-divider {
+    margin: 0.5rem 0;
+    border-top: 1px solid var(--color-border-divider-default);
+}
+
+/* Footer 공간 확보 */
+.app-content-wrapper {
+    padding-bottom: 60px;
+}
+
+/* 다크모드 지원 */
+[data-awsui-theme="dark"] .app-content-wrapper {
+    padding-bottom: 60px;
+}

@@ -1,0 +1,197 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Week 1-1 Tag Editor Lab - QuickTable Restaurant Reservation System Resources for Tag Management Practice'
+
+Parameters:
+  BucketSuffix:
+    Type: String
+    Default: !Sub '${AWS::AccountId}'
+    Description: Suffix for S3 bucket names to ensure uniqueness
+
+Resources:
+  # S3 Bucket 1: QuickTable Reservations Bucket
+  ReservationsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'quicktable-reservations-${BucketSuffix}'
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: "1-1"
+        - Key: CreatedBy
+          Value: CloudFormation
+        - Key: Component
+          Value: Storage
+
+  # S3 Bucket 2: QuickTable Logs Bucket
+  LogsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'quicktable-logs-${BucketSuffix}'
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: "1-1"
+        - Key: CreatedBy
+          Value: CloudFormation
+        - Key: Component
+          Value: Logging
+
+  # DynamoDB Table: QuickTable Reservations
+  ReservationsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: QuickTableReservations
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: reservationId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: reservationId
+          KeyType: RANGE
+      Tags:
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: "1-1"
+        - Key: CreatedBy
+          Value: CloudFormation
+        - Key: Component
+          Value: Database
+
+  # IAM Role for Lambda
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: QuickTableLambdaExecutionRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: QuickTableDynamoDBReadPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:Query
+                Resource: !GetAtt ReservationsTable.Arn
+      Tags:
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: "1-1"
+        - Key: CreatedBy
+          Value: CloudFormation
+        - Key: Component
+          Value: Security
+
+  # Lambda Function: QuickTable Get Reservation
+  GetReservationFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: QuickTableGetReservation
+      Runtime: python3.12
+      Handler: index.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ReservationsTable
+      Code:
+        ZipFile: |
+          import json
+          import os
+          
+          def lambda_handler(event, context):
+              """
+              QuickTable 예약 조회 Lambda 함수
+              
+              이 함수는 QuickTable 레스토랑 예약 시스템에서 예약 정보를 조회합니다.
+              Tag Editor 실습에서 Lambda 함수 태그 관리를 연습하기 위한 샘플 함수입니다.
+              
+              Args:
+                  event (dict): Lambda 이벤트 객체
+                      - userId (str): 사용자 ID
+                      - reservationId (str): 예약 ID
+                  context (LambdaContext): Lambda 실행 컨텍스트
+              
+              Returns:
+                  dict: HTTP 응답 형식
+                      - statusCode (int): 200 (성공)
+                      - body (str): JSON 형식의 예약 정보
+              """
+              table_name = os.environ.get('TABLE_NAME', 'QuickTableReservations')
+              
+              # 샘플 응답 (실제 DynamoDB 조회는 Week 4-2에서 구현)
+              response = {
+                  'message': 'QuickTable Reservation System',
+                  'tableName': table_name,
+                  'status': 'Ready for reservations'
+              }
+              
+              return {
+                  'statusCode': 200,
+                  'body': json.dumps(response)
+              }
+      Tags:
+        - Key: Project
+          Value: AWS-Lab
+        - Key: Week
+          Value: "1-1"
+        - Key: CreatedBy
+          Value: CloudFormation
+        - Key: Component
+          Value: API
+
+Outputs:
+  ReservationsBucketName:
+    Description: Name of the QuickTable reservations S3 bucket
+    Value: !Ref ReservationsBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-ReservationsBucket'
+
+  LogsBucketName:
+    Description: Name of the QuickTable logs S3 bucket
+    Value: !Ref LogsBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-LogsBucket'
+
+  ReservationsTableName:
+    Description: Name of the QuickTable reservations DynamoDB table
+    Value: !Ref ReservationsTable
+    Export:
+      Name: !Sub '${AWS::StackName}-ReservationsTable'
+
+  GetReservationFunctionName:
+    Description: Name of the QuickTable get reservation Lambda function
+    Value: !Ref GetReservationFunction
+    Export:
+      Name: !Sub '${AWS::StackName}-GetReservationFunction'
+
+  GetReservationFunctionArn:
+    Description: ARN of the QuickTable get reservation Lambda function
+    Value: !GetAtt GetReservationFunction.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-GetReservationFunctionArn'

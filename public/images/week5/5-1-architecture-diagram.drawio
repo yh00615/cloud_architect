@@ -1,0 +1,121 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="RDS Multi-AZ Architecture" id="rds-multi-az">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- AWS Cloud -->
+        <mxCell id="aws-cloud" value="AWS Cloud" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud;strokeColor=#AAB7B8;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#AAB7B8;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="50" y="50" width="1300" height="800" as="geometry" />
+        </mxCell>
+        
+        <!-- VPC -->
+        <mxCell id="vpc" value="VPC&#xa;10.0.0.0/16" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc;strokeColor=#879196;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#879196;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="100" width="1200" height="700" as="geometry" />
+        </mxCell>
+        
+        <!-- Availability Zone A -->
+        <mxCell id="az-a" value="ap-northeast-2a" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_availability_zone;strokeColor=#545B64;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#545B64;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="150" width="500" height="600" as="geometry" />
+        </mxCell>
+        
+        <!-- Availability Zone C -->
+        <mxCell id="az-c" value="ap-northeast-2c" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_availability_zone;strokeColor=#545B64;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#545B64;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="150" width="500" height="600" as="geometry" />
+        </mxCell>
+        
+        <!-- Internet Gateway -->
+        <mxCell id="igw" value="Internet&#xa;Gateway" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#4D27AA;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.internet_gateway;" vertex="1" parent="1">
+          <mxGeometry x="670" y="60" width="60" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Public Subnet A -->
+        <mxCell id="public-subnet-a" value="Public Subnet A&#xa;10.0.1.0/24" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#248814;fillColor=#E9F3E6;verticalAlign=top;align=left;spacingLeft=30;fontColor=#248814;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="180" y="200" width="440" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Public Subnet C -->
+        <mxCell id="public-subnet-c" value="Public Subnet C&#xa;10.0.2.0/24" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#248814;fillColor=#E9F3E6;verticalAlign=top;align=left;spacingLeft=30;fontColor=#248814;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="780" y="200" width="440" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- NAT Gateway A -->
+        <mxCell id="nat-a" value="NAT&#xa;Gateway" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#4D27AA;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.nat_gateway;" vertex="1" parent="1">
+          <mxGeometry x="370" y="240" width="60" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Private Subnet A -->
+        <mxCell id="private-subnet-a" value="Private Subnet A&#xa;10.0.3.0/24" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#147EBA;fillColor=#E6F2F8;verticalAlign=top;align=left;spacingLeft=30;fontColor=#147EBA;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="180" y="360" width="440" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Private Subnet C -->
+        <mxCell id="private-subnet-c" value="Private Subnet C&#xa;10.0.4.0/24" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#147EBA;fillColor=#E6F2F8;verticalAlign=top;align=left;spacingLeft=30;fontColor=#147EBA;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="780" y="360" width="440" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- EC2 Instance -->
+        <mxCell id="ec2" value="EC2&#xa;Instance" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.ec2_instance;" vertex="1" parent="1">
+          <mxGeometry x="370" y="400" width="60" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- DB Subnet A -->
+        <mxCell id="db-subnet-a" value="DB Subnet A&#xa;10.0.5.0/24" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#C925D1;fillColor=#F5E6F8;verticalAlign=top;align=left;spacingLeft=30;fontColor=#C925D1;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="180" y="520" width="440" height="200" as="geometry" />
+        </mxCell>
+        
+        <!-- DB Subnet C -->
+        <mxCell id="db-subnet-c" value="DB Subnet C&#xa;10.0.6.0/24" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#C925D1;fillColor=#F5E6F8;verticalAlign=top;align=left;spacingLeft=30;fontColor=#C925D1;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="780" y="520" width="440" height="200" as="geometry" />
+        </mxCell>
+        
+        <!-- RDS Primary -->
+        <mxCell id="rds-primary" value="RDS MySQL&#xa;Primary" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#C925D1;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.rds_instance;" vertex="1" parent="1">
+          <mxGeometry x="320" y="600" width="60" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- RDS Standby -->
+        <mxCell id="rds-standby" value="RDS MySQL&#xa;Standby" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#C925D1;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.rds_instance;" vertex="1" parent="1">
+          <mxGeometry x="920" y="600" width="60" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Read Replica (Optional) -->
+        <mxCell id="read-replica" value="Read Replica&#xa;(Optional)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#C925D1;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.rds_instance;opacity=60;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="600" width="60" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Connections -->
+        <!-- IGW to Public Subnets -->
+        <mxCell id="conn-igw-public-a" value="" style="endArrow=classic;html=1;strokeColor=#879196;strokeWidth=2;" edge="1" parent="1" source="igw" target="public-subnet-a">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="conn-igw-public-c" value="" style="endArrow=classic;html=1;strokeColor=#879196;strokeWidth=2;" edge="1" parent="1" source="igw" target="public-subnet-c">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- NAT to Private Subnet -->
+        <mxCell id="conn-nat-private" value="" style="endArrow=classic;html=1;strokeColor=#879196;strokeWidth=2;" edge="1" parent="1" source="nat-a" target="private-subnet-a">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- EC2 to RDS Primary -->
+        <mxCell id="conn-ec2-rds" value="" style="endArrow=classic;html=1;strokeColor=#147EBA;strokeWidth=2;dashed=1;" edge="1" parent="1" source="ec2" target="rds-primary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- RDS Primary to Standby (Synchronous Replication) -->
+        <mxCell id="conn-primary-standby" value="" style="endArrow=classic;startArrow=classic;html=1;strokeColor=#D13212;strokeWidth=3;" edge="1" parent="1" source="rds-primary" target="rds-standby">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- RDS Primary to Read Replica (Asynchronous Replication) -->
+        <mxCell id="conn-primary-replica" value="" style="endArrow=classic;html=1;strokeColor=#FF9900;strokeWidth=2;dashed=1;" edge="1" parent="1" source="rds-primary" target="read-replica">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,732 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Week 9-3: AWS CodePipeline으로 Amazon EKS 배포 자동화 실습 환경'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: 'week9-3-eks-cicd-lab'
+    Description: 환경 이름 (리소스 태그에 사용)
+    AllowedPattern: ^[a-z0-9-]+$
+    ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+
+  EKSClusterName:
+    Type: String
+    Default: 'eks-cicd-cluster'
+    Description: EKS 클러스터 이름
+    AllowedPattern: ^[a-zA-Z0-9-]+$
+    ConstraintDescription: 영문자, 숫자, 하이픈만 사용 가능
+
+  RepositoryName:
+    Type: String
+    Default: 'eks-app-repo'
+    Description: CodeCommit 리포지토리 이름
+    AllowedPattern: ^[a-zA-Z0-9-_]+$
+    ConstraintDescription: 영문자, 숫자, 하이픈, 언더스코어만 사용 가능
+
+  ECRRepositoryName:
+    Type: String
+    Default: 'eks-app'
+    Description: ECR 리포지토리 이름
+    AllowedPattern: ^[a-z0-9-_/]+$
+    ConstraintDescription: 소문자, 숫자, 하이픈, 언더스코어, 슬래시만 사용 가능
+
+Resources:
+  # VPC
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-VPC'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # Internet Gateway
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-IGW'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  # Public Subnets
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Public-Subnet-A'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+        - Key: kubernetes.io/role/elb
+          Value: '1'
+
+  PublicSubnetC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: !Select [2, !GetAZs '']
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Public-Subnet-C'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+        - Key: kubernetes.io/role/elb
+          Value: '1'
+
+  # Private Subnets
+  PrivateSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.11.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Private-Subnet-A'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+        - Key: kubernetes.io/role/internal-elb
+          Value: '1'
+
+  PrivateSubnetC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.12.0/24
+      AvailabilityZone: !Select [2, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Private-Subnet-C'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+        - Key: kubernetes.io/role/internal-elb
+          Value: '1'
+
+  # NAT Gateway
+  NATGatewayEIP:
+    Type: AWS::EC2::EIP
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-NAT-EIP'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  NATGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NATGatewayEIP.AllocationId
+      SubnetId: !Ref PublicSubnetA
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-NAT-Gateway'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # Route Tables
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Public-RT'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetA
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnetCRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetC
+      RouteTableId: !Ref PublicRouteTable
+
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Private-RT'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  PrivateRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway
+
+  PrivateSubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetA
+      RouteTableId: !Ref PrivateRouteTable
+
+  PrivateSubnetCRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetC
+      RouteTableId: !Ref PrivateRouteTable
+
+  # EKS Cluster Role
+  EKSClusterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${EnvironmentName}-EKSClusterRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: eks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-EKSClusterRole'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # EKS Cluster
+  EKSCluster:
+    Type: AWS::EKS::Cluster
+    Properties:
+      Name: !Ref EKSClusterName
+      Version: '1.28'
+      RoleArn: !GetAtt EKSClusterRole.Arn
+      ResourcesVpcConfig:
+        SubnetIds:
+          - !Ref PublicSubnetA
+          - !Ref PublicSubnetC
+          - !Ref PrivateSubnetA
+          - !Ref PrivateSubnetC
+        EndpointPublicAccess: true
+        EndpointPrivateAccess: true
+      Tags:
+        - Key: Name
+          Value: !Ref EKSClusterName
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # EKS Node Role
+  EKSNodeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${EnvironmentName}-EKSNodeRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-EKSNodeRole'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # EKS Node Group
+  EKSNodeGroup:
+    Type: AWS::EKS::Nodegroup
+    DependsOn: EKSCluster
+    Properties:
+      NodegroupName: !Sub '${EnvironmentName}-NodeGroup'
+      ClusterName: !Ref EKSClusterName
+      NodeRole: !GetAtt EKSNodeRole.Arn
+      Subnets:
+        - !Ref PrivateSubnetA
+        - !Ref PrivateSubnetC
+      ScalingConfig:
+        DesiredSize: 2
+        MinSize: 1
+        MaxSize: 3
+      InstanceTypes:
+        - t3.medium
+      AmiType: AL2_x86_64
+      Tags:
+        Name: !Sub '${EnvironmentName}-EKS-Node'
+        Environment: !Ref EnvironmentName
+        Lab: 'Week9-3'
+        Purpose: 'EKS CI/CD Lab'
+
+  # ECR Repository
+  ECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: !Ref ECRRepositoryName
+      ImageScanningConfiguration:
+        ScanOnPush: true
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {
+            "rules": [
+              {
+                "rulePriority": 1,
+                "description": "Keep last 10 images",
+                "selection": {
+                  "tagStatus": "any",
+                  "countType": "imageCountMoreThan",
+                  "countNumber": 10
+                },
+                "action": {
+                  "type": "expire"
+                }
+              }
+            ]
+          }
+      Tags:
+        - Key: Name
+          Value: !Ref ECRRepositoryName
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # CodeCommit Repository
+  CodeCommitRepository:
+    Type: AWS::CodeCommit::Repository
+    Properties:
+      RepositoryName: !Ref RepositoryName
+      RepositoryDescription: EKS application source code repository
+      Tags:
+        - Key: Name
+          Value: !Ref RepositoryName
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # S3 Bucket for Artifacts
+  ArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${EnvironmentName}-artifacts-${AWS::AccountId}'
+      VersioningConfiguration:
+        Status: Enabled
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldArtifacts
+            Status: Enabled
+            ExpirationInDays: 30
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-artifacts'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # CodeBuild Role
+  CodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${EnvironmentName}-CodeBuildRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: CodeBuildPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/*'
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Resource: !Sub '${ArtifactBucket.Arn}/*'
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchGetImage
+                  - ecr:PutImage
+                  - ecr:InitiateLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:CompleteLayerUpload
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - eks:DescribeCluster
+                Resource: !GetAtt EKSCluster.Arn
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-CodeBuildRole'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # CodeBuild Project
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub '${EnvironmentName}-BuildProject'
+      Description: Build and push Docker image to ECR
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Artifacts:
+        Type: CODEPIPELINE
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:7.0
+        PrivilegedMode: true
+        EnvironmentVariables:
+          - Name: AWS_DEFAULT_REGION
+            Value: !Ref AWS::Region
+          - Name: AWS_ACCOUNT_ID
+            Value: !Ref AWS::AccountId
+          - Name: IMAGE_REPO_NAME
+            Value: !Ref ECRRepositoryName
+          - Name: IMAGE_TAG
+            Value: latest
+          - Name: EKS_CLUSTER_NAME
+            Value: !Ref EKSClusterName
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: buildspec.yml
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-BuildProject'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # CodePipeline Role
+  CodePipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${EnvironmentName}-CodePipelineRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codepipeline.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: CodePipelinePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Resource: !Sub '${ArtifactBucket.Arn}/*'
+              - Effect: Allow
+                Action:
+                  - codecommit:GetBranch
+                  - codecommit:GetCommit
+                  - codecommit:UploadArchive
+                  - codecommit:GetUploadArchiveStatus
+                Resource: !GetAtt CodeCommitRepository.Arn
+              - Effect: Allow
+                Action:
+                  - codebuild:BatchGetBuilds
+                  - codebuild:StartBuild
+                Resource: !GetAtt CodeBuildProject.Arn
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-CodePipelineRole'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # CodePipeline
+  CodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: !Sub '${EnvironmentName}-Pipeline'
+      RoleArn: !GetAtt CodePipelineRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: !Ref ArtifactBucket
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Provider: CodeCommit
+                Version: '1'
+              Configuration:
+                RepositoryName: !GetAtt CodeCommitRepository.Name
+                BranchName: main
+                PollForSourceChanges: false
+              OutputArtifacts:
+                - Name: SourceOutput
+        - Name: Build
+          Actions:
+            - Name: BuildAction
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: '1'
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+              InputArtifacts:
+                - Name: SourceOutput
+              OutputArtifacts:
+                - Name: BuildOutput
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-Pipeline'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+  # EventBridge Rule for CodeCommit
+  CodeCommitEventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub '${EnvironmentName}-CodeCommitRule'
+      Description: Trigger CodePipeline on CodeCommit push
+      EventPattern:
+        source:
+          - aws.codecommit
+        detail-type:
+          - CodeCommit Repository State Change
+        detail:
+          event:
+            - referenceCreated
+            - referenceUpdated
+          referenceType:
+            - branch
+          referenceName:
+            - main
+        resources:
+          - !GetAtt CodeCommitRepository.Arn
+      State: ENABLED
+      Targets:
+        - Arn: !Sub 'arn:aws:codepipeline:${AWS::Region}:${AWS::AccountId}:${CodePipeline}'
+          RoleArn: !GetAtt EventBridgeRole.Arn
+          Id: CodePipelineTarget
+
+  # EventBridge Role
+  EventBridgeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${EnvironmentName}-EventBridgeRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: StartPipelinePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: codepipeline:StartPipelineExecution
+                Resource: !Sub 'arn:aws:codepipeline:${AWS::Region}:${AWS::AccountId}:${CodePipeline}'
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvironmentName}-EventBridgeRole'
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Lab
+          Value: 'Week9-3'
+        - Key: Purpose
+          Value: 'EKS CI/CD Lab'
+
+Outputs:
+  VpcId:
+    Description: VPC ID
+    Value: !Ref VPC
+    Export:
+      Name: !Sub '${AWS::StackName}-VpcId'
+
+  EKSClusterName:
+    Description: EKS Cluster Name
+    Value: !Ref EKSCluster
+    Export:
+      Name: !Sub '${AWS::StackName}-EKSClusterName'
+
+  EKSClusterEndpoint:
+    Description: EKS Cluster Endpoint
+    Value: !GetAtt EKSCluster.Endpoint
+    Export:
+      Name: !Sub '${AWS::StackName}-EKSClusterEndpoint'
+
+  ECRRepositoryUri:
+    Description: ECR Repository URI
+    Value: !GetAtt ECRRepository.RepositoryUri
+    Export:
+      Name: !Sub '${AWS::StackName}-ECRRepositoryUri'
+
+  CodeCommitRepositoryUrl:
+    Description: CodeCommit Repository Clone URL (HTTPS)
+    Value: !GetAtt CodeCommitRepository.CloneUrlHttp
+    Export:
+      Name: !Sub '${AWS::StackName}-CodeCommitRepositoryUrl'
+
+  CodeBuildProjectName:
+    Description: CodeBuild Project Name
+    Value: !Ref CodeBuildProject
+    Export:
+      Name: !Sub '${AWS::StackName}-CodeBuildProjectName'
+
+  CodePipelineName:
+    Description: CodePipeline Name
+    Value: !Ref CodePipeline
+    Export:
+      Name: !Sub '${AWS::StackName}-CodePipelineName'
+
+  ArtifactBucketName:
+    Description: S3 Artifact Bucket Name
+    Value: !Ref ArtifactBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-ArtifactBucketName'
+
+  KubeconfigCommand:
+    Description: Command to update kubeconfig
+    Value: !Sub 'aws eks update-kubeconfig --name ${EKSCluster} --region ${AWS::Region}'
+
+  SetupInstructions:
+    Description: 다음 단계 안내
+    Value: !Sub |
+      CI/CD 환경 구축이 완료되었습니다!
+      
+      생성된 리소스:
+      - EKS Cluster: ${EKSCluster}
+      - ECR Repository: ${ECRRepository.RepositoryUri}
+      - CodeCommit Repository: ${CodeCommitRepository.Name}
+      - CodeBuild Project: ${CodeBuildProject}
+      - CodePipeline: ${CodePipeline}
+      
+      다음 단계:
+      1. kubectl 설정: aws eks update-kubeconfig --name ${EKSCluster} --region ${AWS::Region}
+      2. CodeCommit 리포지토리 클론: git clone ${CodeCommitRepository.CloneUrlHttp}
+      3. 애플리케이션 코드 및 buildspec.yml 추가
+      4. Git push로 파이프라인 자동 실행
