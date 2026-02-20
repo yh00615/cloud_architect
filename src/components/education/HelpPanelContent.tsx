@@ -563,11 +563,11 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
                               <div className="help-term-definition">
                                 {term.definition
                                   .split('\n')
-                                  .map((line, idx) => {
+                                  .map((line, lineIdx) => {
                                     // 첫 번째 줄(주요 설명)만 굵게 표시
-                                    if (idx === 0) {
+                                    if (lineIdx === 0) {
                                       return (
-                                        <React.Fragment key={idx}>
+                                        <React.Fragment key={lineIdx}>
                                           <strong className="help-term-definition-first-line">
                                             {highlightText(line, searchTerm)}
                                           </strong>
@@ -577,9 +577,9 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
                                       );
                                     }
                                     return (
-                                      <React.Fragment key={idx}>
+                                      <React.Fragment key={lineIdx}>
                                         {highlightText(line, searchTerm)}
-                                        {idx <
+                                        {lineIdx <
                                           term.definition.split('\n').length -
                                             1 && <br />}
                                       </React.Fragment>
@@ -594,8 +594,8 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
                                     direction="horizontal"
                                     size="xs"
                                   >
-                                    {term.weeks.map((week, idx) => (
-                                      <Badge key={idx} color="blue">
+                                    {term.weeks.map((week, weekIdx) => (
+                                      <Badge key={weekIdx} color="blue">
                                         {week}
                                       </Badge>
                                     ))}
