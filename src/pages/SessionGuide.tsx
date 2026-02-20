@@ -142,8 +142,10 @@ export const SessionGuide: React.FC = () => {
     sessionNumber: string;
   }>();
   const [markdownContent, setMarkdownContent] = useState<string>('');
-  const [referenceContent, setReferenceContent] = useState<string>('');
   const [cleanupContent, setCleanupContent] = useState<string>('');
+  const [referenceContent, setReferenceContent] = useState<string>('');
+  const [additionalResourcesContent, setAdditionalResourcesContent] =
+    useState<string>('');
   const [metadata, setMetadata] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -167,32 +169,39 @@ export const SessionGuide: React.FC = () => {
       if (sessionData.hasContent && sessionData.markdownPath) {
         try {
           const data = await loadMarkdownFile(sessionData.markdownPath);
-
           let content = data.content;
 
-          // "## 📚 참고:" 또는 "## 참고:" 섹션을 분리
-          const referenceMatch = content.match(/\n## (?:📚 )?참고:[\s\S]*$/);
+          // 역순으로 분리: 참고 → 추가 학습 리소스 → 리소스 정리
+
+          // 1. 참고 섹션 분리 (가장 마지막)
+          const referenceMatch = content.match(/\n## (?:📚 )?참고:/);
+          let refContent = '';
           if (referenceMatch) {
-            const refContent = referenceMatch[0].substring(1); // 앞의 \n 제거
-            setReferenceContent(refContent);
+            refContent = content.substring(referenceMatch.index! + 1);
             content = content.substring(0, referenceMatch.index);
-          } else {
-            setReferenceContent('');
           }
 
-          // "## 리소스 정리" 또는 "# 🗑️ 리소스 정리" 섹션을 분리
-          const cleanupMatch = content.match(
-            /\n##? (?:🗑️ )?리소스 정리[\s\S]*$/,
-          );
+          // 2. 추가 학습 리소스 섹션 분리
+          const additionalMatch = content.match(/\n## 추가 학습 리소스/);
+          let additionalContent = '';
+          if (additionalMatch) {
+            additionalContent = content.substring(additionalMatch.index! + 1);
+            content = content.substring(0, additionalMatch.index);
+          }
+
+          // 3. 리소스 정리 섹션 분리
+          const cleanupMatch = content.match(/\n##? (?:🗑️ )?리소스 정리/);
+          let cleanContent = '';
           if (cleanupMatch) {
-            const cleanContent = cleanupMatch[0].substring(1); // 앞의 \n 제거
-            setCleanupContent(cleanContent);
+            cleanContent = content.substring(cleanupMatch.index! + 1);
             content = content.substring(0, cleanupMatch.index);
-          } else {
-            setCleanupContent('');
           }
 
+          // 4. 상태 업데이트
           setMarkdownContent(content);
+          setCleanupContent(cleanContent);
+          setReferenceContent(refContent);
+          setAdditionalResourcesContent(additionalContent);
           setMetadata(data.metadata);
           setError(null);
         } catch (err) {
@@ -675,7 +684,12 @@ export const SessionGuide: React.FC = () => {
 
         referenceContent && (
           <Container key="reference-card" id="reference">
-            <MarkdownRenderer content={referenceContent} />
+            <SpaceBetween direction="vertical" size="l">
+              <MarkdownRenderer content={referenceContent} />
+              {additionalResourcesContent && (
+                <MarkdownRenderer content={additionalResourcesContent} />
+              )}
+            </SpaceBetween>
           </Container>
         ),
       ].filter(Boolean)}
