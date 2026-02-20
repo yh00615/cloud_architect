@@ -24,7 +24,7 @@ prerequisites:
 >
 > 💡 **실무 팁**: Amazon Bedrock은 사용한 토큰 수만큼만 비용이 발생합니다. 프롬프트를 간결하게 작성하고 불필요한 반복 테스트를 줄이면 비용을 절감할 수 있습니다.
 >
-> 리전별로 요금이 다를 수 있습니다. 최신 요금은 [AWS 요금 페이지](https://aws.amazon.com/bedrock/pricing/)에서 확인하세요.
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 [AWS 요금 페이지](https://aws.amazon.com/bedrock/pricing/)에서 확인하세요.**
 
 > [!IMPORTANT]
 > 이 실습을 시작하기 전에 AWS 리전을 **US East (N. Virginia) us-east-1**로 설정합니다.
