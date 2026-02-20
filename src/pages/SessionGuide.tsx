@@ -286,6 +286,7 @@ export const SessionGuide: React.FC = () => {
 
         <Container
           key="overview-card"
+          id="overview"
           header={
             <Header variant="h2">
               <span className="session-section-title main-header">
@@ -561,6 +562,7 @@ export const SessionGuide: React.FC = () => {
 
         <Container
           key="guide-card"
+          id="guide"
           header={
             <Header variant="h2">
               <span className="guide-header-title">
@@ -665,15 +667,15 @@ export const SessionGuide: React.FC = () => {
           </Container>
         ),
 
-        referenceContent && (
-          <Container key="reference-card">
-            <MarkdownRenderer content={referenceContent} />
+        cleanupContent && (
+          <Container key="cleanup-card" id="cleanup">
+            <MarkdownRenderer content={cleanupContent} />
           </Container>
         ),
 
-        cleanupContent && (
-          <Container key="cleanup-card">
-            <MarkdownRenderer content={cleanupContent} />
+        referenceContent && (
+          <Container key="reference-card" id="reference">
+            <MarkdownRenderer content={referenceContent} />
           </Container>
         ),
       ].filter(Boolean)}

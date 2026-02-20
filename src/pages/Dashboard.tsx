@@ -152,6 +152,7 @@ export const Dashboard: React.FC = () => {
 
       {/* 교과목 개요 카드 */}
       <Container
+        id="overview"
         header={
           <Header variant="h2">
             <span className="section-title">📚 교과목 개요</span>
@@ -206,6 +207,7 @@ export const Dashboard: React.FC = () => {
 
       {/* 주차별 커리큘럼 카드 */}
       <Container
+        id="curriculum"
         header={
           <Header
             variant="h2"
@@ -217,7 +219,12 @@ export const Dashboard: React.FC = () => {
       >
         <SpaceBetween direction="vertical" size="m">
           {curriculum.map((week) => (
-            <Box key={week.week} padding="m" className="week-card">
+            <Box
+              key={week.week}
+              id={`week-${week.week}`}
+              padding="m"
+              className="week-card"
+            >
               <SpaceBetween direction="vertical" size="m">
                 {/* 주차 헤더 */}
                 <SpaceBetween

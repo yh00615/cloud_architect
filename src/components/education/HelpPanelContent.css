@@ -19,6 +19,25 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
+/* 페이지 목차 헤더 클릭 가능 */
+.toc-header-clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  margin: -0.25rem -0.5rem;
+  border-radius: 6px;
+}
+
+.toc-header-clickable:hover {
+  background: var(--color-background-button-normal-hover);
+  transform: translateX(2px);
+}
+
+.toc-header-clickable:active {
+  background: var(--color-background-button-normal-active);
+}
+
 .toc-items {
   display: flex;
   flex-direction: column;
@@ -31,6 +50,7 @@
   display: block;
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
+  color: inherit !important;
 }
 
 .toc-section a:hover {
@@ -40,6 +60,22 @@
 
 .toc-section a:active {
   background: var(--color-background-button-normal-active);
+}
+
+/* TOC 아이템 텍스트 스타일 */
+.toc-item-text {
+  display: inline-block;
+}
+
+.toc-level-1 {
+  font-weight: bold;
+  color: var(--color-text-heading-default) !important;
+}
+
+.toc-level-2 {
+  padding-left: 1.5rem;
+  color: var(--color-text-body-secondary) !important;
+  font-weight: normal;
 }
 
 /* 다크모드 */

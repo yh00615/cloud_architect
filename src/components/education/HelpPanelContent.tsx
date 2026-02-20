@@ -90,6 +90,37 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
   // 마크다운에서 목차 추출
   useEffect(() => {
     const extractToc = async () => {
+      // Dashboard 페이지인 경우
+      if (location.pathname === '/dashboard') {
+        const toc: TocItem[] = [
+          {
+            id: 'overview',
+            title: '교과목 개요',
+            level: 1,
+            emoji: '📚',
+          },
+          {
+            id: 'curriculum',
+            title: '주차별 커리큘럼',
+            level: 1,
+            emoji: '📅',
+          },
+        ];
+
+        // 각 주차를 소주제로 추가
+        curriculum.forEach((week) => {
+          toc.push({
+            id: `week-${week.week}`,
+            title: `${week.week}주차: ${week.title}`,
+            level: 2,
+            emoji: '📌',
+          });
+        });
+
+        setTableOfContents(toc);
+        return;
+      }
+
       // SessionGuide 페이지인지 확인
       const pathMatch = location.pathname.match(
         /^\/week\/(\d+)\/session\/(\d+)$/,
@@ -119,28 +150,55 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
 
         const toc: TocItem[] = [];
 
-        // 리소스 정리와 참고 섹션 분리
-        const cleanupMatch = content.match(/\n(?:##? 🗑️ )?리소스 정리[\s\S]*$/);
-        const referenceMatch = content.match(/\n## (?:📚 )?참고:[\s\S]*$/);
+        // 리소스 정리와 참고 섹션의 위치 찾기
+        const cleanupMatch = content.match(/\n##? (?:🗑️ )?리소스 정리/);
+        const referenceMatch = content.match(/\n## (?:📚 )?참고:/);
 
         let mainContent = content;
-        let cleanupContent = '';
-        let referenceContent = '';
+        let hasCleanup = false;
+        let hasReference = false;
 
-        if (cleanupMatch) {
-          cleanupContent = cleanupMatch[0];
+        // 리소스 정리와 참고 섹션의 순서 파악
+        if (cleanupMatch && referenceMatch) {
+          // 둘 다 있는 경우
+          hasCleanup = true;
+          hasReference = true;
+
+          // 어느 것이 먼저 나오는지 확인
+          if (cleanupMatch.index! < referenceMatch.index!) {
+            // 리소스 정리가 먼저
+            mainContent = content.substring(0, cleanupMatch.index);
+          } else {
+            // 참고가 먼저
+            mainContent = content.substring(0, referenceMatch.index);
+          }
+        } else if (cleanupMatch) {
+          // 리소스 정리만 있는 경우
+          hasCleanup = true;
           mainContent = content.substring(0, cleanupMatch.index);
-        }
-
-        if (
-          referenceMatch &&
-          referenceMatch.index! < (cleanupMatch?.index || Infinity)
-        ) {
-          referenceContent = referenceMatch[0];
+        } else if (referenceMatch) {
+          // 참고만 있는 경우
+          hasReference = true;
           mainContent = content.substring(0, referenceMatch.index);
         }
 
-        // 1. 메인 콘텐츠에서 태스크 추출
+        // 1. 실습 개요 섹션 추가
+        toc.push({
+          id: 'overview',
+          title: '실습 개요',
+          level: 1,
+          emoji: '📋',
+        });
+
+        // 2. 실습 가이드 대주제 추가
+        toc.push({
+          id: 'guide',
+          title: '실습 가이드',
+          level: 1,
+          emoji: '🎯',
+        });
+
+        // 3. 메인 콘텐츠에서 태스크 추출 (소주제로)
         const taskRegex = /^##\s+태스크\s+(\d+):\s+(.+)$/gm;
         let match;
         while ((match = taskRegex.exec(mainContent)) !== null) {
@@ -154,8 +212,8 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
           });
         }
 
-        // 2. 리소스 정리 섹션
-        if (cleanupContent) {
+        // 4. 리소스 정리 섹션
+        if (hasCleanup) {
           toc.push({
             id: 'cleanup',
             title: '리소스 정리',
@@ -164,11 +222,9 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
           });
         }
 
-        // 3. 참고 섹션
-        if (referenceContent) {
-          const refMatch = referenceContent.match(
-            /^##\s+(?:📚 )?참고:\s*(.+)$/m,
-          );
+        // 5. 참고 섹션
+        if (hasReference) {
+          const refMatch = content.match(/^##\s+(?:📚 )?참고:\s*(.+)$/m);
           if (refMatch) {
             const refTitle = refMatch[1].trim();
             toc.push({
@@ -334,7 +390,22 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
     // 해당 섹션으로 스크롤
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // 메인 콘텐츠 영역 찾기
+      const mainContent = document.querySelector(
+        '.awsui-app-layout__content-main',
+      );
+
+      if (mainContent) {
+        // 메인 콘텐츠 영역 내에서 스크롤
+        const elementTop = element.offsetTop;
+        mainContent.scrollTo({ top: elementTop - 80, behavior: 'smooth' });
+      } else {
+        // 폴백: 전체 페이지 스크롤
+        const yOffset = -80;
+        const y =
+          element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     }
   };
 
@@ -344,11 +415,34 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
         {/* 페이지 목차 (SessionGuide 페이지에서만 표시) */}
         {tableOfContents.length > 0 && (
           <div className="toc-section">
-            <Box variant="h3" padding={{ bottom: 's' }}>
-              📖 페이지 목차
-            </Box>
+            <div
+              className="toc-header-clickable"
+              onClick={() => {
+                // 전체 페이지 스크롤
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // 메인 콘텐츠 영역도 스크롤
+                const selectors = [
+                  '.awsui-app-layout__content',
+                  '[data-awsui-app-layout-content]',
+                  'main',
+                ];
+
+                for (const selector of selectors) {
+                  const element = document.querySelector(selector);
+                  if (element && typeof element.scrollTo === 'function') {
+                    element.scrollTo({ top: 0, behavior: 'smooth' });
+                    break;
+                  }
+                }
+              }}
+            >
+              <Box variant="h3" padding={{ bottom: 's' }}>
+                📖 페이지 목차
+              </Box>
+            </div>
             <div className="toc-items">
-              {tableOfContents.map((item) => (
+              {tableOfContents.map((item, index) => (
                 <Link
                   key={item.id}
                   variant="secondary"
@@ -358,13 +452,12 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
                   }}
                   fontSize={item.level === 1 ? 'body-m' : 'body-s'}
                 >
-                  <Box
-                    padding={{ left: item.level === 2 ? 'm' : undefined }}
-                    color={item.level === 1 ? 'inherit' : 'text-body-secondary'}
+                  <span
+                    className={`toc-item-text ${item.level === 1 ? 'toc-level-1' : 'toc-level-2'}`}
                   >
                     {item.emoji && `${item.emoji} `}
                     {item.title}
-                  </Box>
+                  </span>
                 </Link>
               ))}
             </div>
