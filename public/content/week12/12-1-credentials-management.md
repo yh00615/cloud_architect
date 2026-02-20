@@ -1,18 +1,15 @@
 ---
-title: "AWS Secrets Manager와 AWS Systems Manager를 활용한 자격증명 관리"
+title: 'AWS Secrets Manager와 AWS Systems Manager를 활용한 자격증명 관리'
 week: 12
 session: 1
 awsServices:
   - AWS Systems Manager
   - AWS Secrets Manager
 learningObjectives:
-  - 코드에 자격증명을 하드코딩하는 문제점을 이해할 수 있습니다
-  - AWS Systems Manager Parameter Store를 사용하여 설정을 관리할 수 있습니다
-  - AWS Secrets Manager로 민감한 정보를 안전하게 저장할 수 있습니다
-  - AWS Config의 개념과 필요성을 이해할 수 있습니다
-  - AWS Config Rules를 사용하여 리소스 규정 준수를 확인할 수 있습니다
-  - Amazon GuardDuty의 위협 탐지 기능을 이해할 수 있습니다
-  - EventBridge와 Lambda를 활용하여 보안 위협에 자동으로 대응할 수 있습니다
+  - AWS Systems Manager Parameter Store에 데이터베이스 연결 정보를 저장할 수 있습니다
+  - AWS Secrets Manager에 Amazon RDS 자격증명을 저장하고 자동 로테이션을 설정할 수 있습니다
+  - AWS Lambda 함수에서 Parameter Store와 Secrets Manager를 조회할 수 있습니다
+  - 하드코딩된 자격증명을 제거하고 보안을 강화할 수 있습니다
 prerequisites:
   - AWS IAM 기본 개념 이해.
   - AWS Lambda 기본 사용 경험.
@@ -25,41 +22,44 @@ prerequisites:
 
 > [!WARNING]
 > **실습 보안 주의사항 및 비용 정보**:
-> 
+>
 > 이 실습은 교육 목적으로 설계되었으며, 다음 사항에 유의합니다:
+>
 > - **더미 자격증명 사용**: 실습에서 사용하는 비밀번호와 API 키는 더미 값입니다. 실제 환경에서는 절대 가이드에 자격증명을 기록하지 않습니다.
 > - **로그 출력 금지**: Lambda 함수 코드는 실습 목적으로 자격증명을 CloudWatch Logs에 출력합니다. 프로덕션 환경에서는 절대로 자격증명을 로그에 출력하지 않습니다.
 > - **즉시 삭제 필요**: 실습 종료 후 모든 시크릿과 리소스를 즉시 삭제해야 합니다.
-> 
+>
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
-> 
+>
 > **예상 비용** (ap-northeast-2 리전 기준):
-> 
-> | 리소스 | 타입 | 월 비용 |
-> |--------|------|---------|
-> | Secrets Manager | 시크릿 2개 | 약 $0.80 |
-> | KMS 키 | 고객 관리형 | 약 $1.00 |
-> | Lambda 함수 | 실행 비용 | 프리 티어 범위 내 |
-> | Parameter Store | Standard 파라미터 2개 | 무료 |
-> | CloudWatch Logs | 로그 저장 | 프리 티어 범위 내 |
-> | **총 예상** | | **약 $1.80** |
-> 
+>
+> | 리소스          | 타입                  | 월 비용           |
+> | --------------- | --------------------- | ----------------- |
+> | Secrets Manager | 시크릿 2개            | 약 $0.80          |
+> | KMS 키          | 고객 관리형           | 약 $1.00          |
+> | Lambda 함수     | 실행 비용             | 프리 티어 범위 내 |
+> | Parameter Store | Standard 파라미터 2개 | 무료              |
+> | CloudWatch Logs | 로그 저장             | 프리 티어 범위 내 |
+> | **총 예상**     |                       | **약 $1.80**      |
+>
 > **추가 비용**:
+>
 > - Secrets Manager API 호출: $0.05/10,000건
 > - KMS API 호출: $0.03/10,000건
-> 
+>
 > **중요**: KMS 키는 삭제 예약 시 즉시 비용 청구가 중단됩니다. Secrets Manager 시크릿은 삭제 대기 기간(7일) 동안 비용이 계속 발생하므로 AWS CloudShell에서 즉시 삭제하는 것을 권장합니다.
 
 > [!DOWNLOAD]
 > [week12-1-credentials-management.zip](/files/week12/week12-1-credentials-management.zip)
+>
 > - `lambda_function.py` - Secrets Manager와 Parameter Store 조회 AWS Lambda 함수 코드
 > - `lambda-iam-policy.json` - AWS Lambda 함수 AWS IAM 정책 (Secrets Manager, Parameter Store, KMS 접근 권한)
 > - `README.txt` - 파일 사용 방법 및 주의사항
-> 
+>
 > **파일 용도**: 이 zip 파일에는 태스크 5에서 사용할 AWS Lambda 함수 코드와 AWS IAM 정책이 포함되어 있습니다. 실습에서는 AWS 콘솔에서 직접 코드를 입력하지만, 참고용으로 제공됩니다.
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 5: AWS Lambda 함수에서 시크릿 사용 (lambda_function.py를 AWS Lambda 코드 편집기에 붙여넣고, lambda-iam-policy.json을 AWS IAM 인라인 정책으로 추가)
 
 ## 태스크 1: KMS 키 생성
@@ -79,16 +79,17 @@ prerequisites:
 
 > [!NOTE]
 > **현재 로그인 정보 확인 방법**:
-> 
+>
 > 1. AWS 콘솔 우측 상단 계정명 클릭
 > 2. "Security credentials" 선택
 > 3. 현재 사용자/역할 ARN 확인
-> 
+>
 > **환경별 검색 방법**:
+>
 > - **IAM 사용자**: 사용자 이름 (예: student01)
 > - **IAM 역할**: 역할 이름 (예: LabRole, voclabs)
 > - **AWS SSO**: 권한 세트 이름
-> 
+>
 > ⚠️ 아무것도 선택하지 않으면 키 관리자가 없어 나중에 키를 수정하거나 삭제할 수 없습니다. 반드시 현재 사용 중인 자격증명을 선택하세요.
 
 11. [[Next]] 버튼을 클릭합니다.
@@ -105,10 +106,10 @@ prerequisites:
 19. [[Edit]] 버튼을 클릭합니다.
 20. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `12-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `12-1`    |
 | `CreatedBy` | `Student` |
 
 21. [[Save changes]] 버튼을 클릭합니다.
@@ -137,10 +138,10 @@ prerequisites:
 10. **Description**에 `Production MySQL database credentials`를 입력합니다.
 11. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `12-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `12-1`    |
 | `CreatedBy` | `Student` |
 
 12. [[Next]] 버튼을 클릭합니다.
@@ -168,10 +169,10 @@ prerequisites:
 9. **Description**에 `External service API credentials`를 입력합니다.
 10. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `12-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `12-1`    |
 | `CreatedBy` | `Student` |
 
 11. [[Next]] 버튼을 클릭합니다.
@@ -195,10 +196,10 @@ prerequisites:
 8. **Value**에 `ap-northeast-2`를 입력합니다.
 9. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `12-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `12-1`    |
 | `CreatedBy` | `Student` |
 
 10. [[Create parameter]] 버튼을 클릭합니다.
@@ -216,20 +217,20 @@ prerequisites:
 
 Parameter Store에서 파라미터를 조회할 때 `with_decryption` 파라미터의 동작은 파라미터 타입에 따라 다릅니다:
 
-| 파라미터 타입 | with_decryption | 반환값 |
-|--------------|-----------------|--------|
-| String | 해당 없음 | 평문 값 (암호화되지 않음) |
-| SecureString | True | 복호화된 평문 값 ✅ |
-| SecureString | False | 암호화된 값 (사용 불가) ❌ |
+| 파라미터 타입 | with_decryption | 반환값                     |
+| ------------- | --------------- | -------------------------- |
+| String        | 해당 없음       | 평문 값 (암호화되지 않음)  |
+| SecureString  | True            | 복호화된 평문 값 ✅        |
+| SecureString  | False           | 암호화된 값 (사용 불가) ❌ |
 
 String 타입은 애초에 암호화되지 않으므로 `with_decryption` 값에 관계없이 항상 평문으로 반환됩니다. SecureString 타입은 반드시 `with_decryption=True`로 조회해야 사용 가능한 값을 얻을 수 있습니다. Lambda 코드에서 `/prod/app/config/db-connection-string`은 SecureString이므로 `with_decryption=True`(기본값)로 조회합니다.
 
 19. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `12-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `12-1`    |
 | `CreatedBy` | `Student` |
 
 20. [[Create parameter]] 버튼을 클릭합니다.
@@ -277,10 +278,10 @@ ssm_client = boto3.client('ssm', region_name='ap-northeast-2')
 def get_secret(secret_name):
     """
     Secrets Manager에서 시크릿 조회
-    
+
     Args:
         secret_name (str): 시크릿 이름 (예: prod/db/mysql/credentials)
-    
+
     Returns:
         dict: 시크릿 값 (JSON 파싱됨)
     """
@@ -294,11 +295,11 @@ def get_secret(secret_name):
 def get_parameter(parameter_name, with_decryption=True):
     """
     Parameter Store에서 파라미터 조회
-    
+
     Args:
         parameter_name (str): 파라미터 이름 (예: /prod/app/config/region)
         with_decryption (bool): SecureString 복호화 여부
-    
+
     Returns:
         str: 파라미터 값
     """
@@ -315,11 +316,11 @@ def get_parameter(parameter_name, with_decryption=True):
 def get_parameters_by_path(path, with_decryption=True):
     """
     경로로 여러 파라미터 조회
-    
+
     Args:
         path (str): 파라미터 경로 (예: /prod/app/config)
         with_decryption (bool): SecureString 복호화 여부
-    
+
     Returns:
         dict: 파라미터 이름과 값의 딕셔너리
     """
@@ -337,11 +338,11 @@ def get_parameters_by_path(path, with_decryption=True):
 def mask_value(value, visible_chars=3):
     """
     자격증명 마스킹 함수
-    
+
     Args:
         value (str): 마스킹할 값
         visible_chars (int): 표시할 앞자리 수 (기본값: 3)
-    
+
     Returns:
         str: 마스킹된 값 (예: "adm***")
     """
@@ -352,11 +353,11 @@ def mask_value(value, visible_chars=3):
 def lambda_handler(event, context):
     """
     Lambda 핸들러 함수
-    
+
     Args:
         event (dict): Lambda 이벤트
         context (LambdaContext): Lambda 실행 컨텍스트
-    
+
     Returns:
         dict: HTTP 응답 형식
     """
@@ -365,25 +366,25 @@ def lambda_handler(event, context):
         db_credentials = get_secret('prod/db/mysql/credentials')
         # ✅ 보안 모범 사례: 자격증명 존재 여부만 확인 (값 출력 금지)
         print(f"DB credentials retrieved: {'username' in db_credentials and 'password' in db_credentials}")
-        
+
         # 2. API 키 조회
         api_credentials = get_secret('prod/api/external-service')
         # ✅ 보안 모범 사례: 자격증명 존재 여부만 확인
         print(f"API credentials retrieved: {'api_key' in api_credentials and 'api_secret' in api_credentials}")
-        
+
         # 3. 개별 파라미터 조회 (암호화되지 않은 값)
         region = get_parameter('/prod/app/config/region', with_decryption=False)
         print(f"Region: {region}")  # 리전은 민감정보 아님 - 출력 가능
-        
+
         # 4. 암호화된 파라미터 조회
         db_connection = get_parameter('/prod/app/config/db-connection-string')
         # ✅ 보안 모범 사례: 연결 문자열 앞부분만 마스킹하여 표시
         print(f"DB Connection prefix: {mask_value(db_connection, 8)}")
-        
+
         # 5. 경로로 모든 설정 조회
         all_configs = get_parameters_by_path('/prod/app/config')
         print(f"All configs: {list(all_configs.keys())}")
-        
+
         return {
             'statusCode': 200,
             'body': json.dumps({
@@ -392,7 +393,7 @@ def lambda_handler(event, context):
                 'config_count': len(all_configs)
             })
         }
-        
+
     except Exception as e:
         print(f"Error: {str(e)}")
         return {
@@ -409,6 +410,7 @@ def lambda_handler(event, context):
 
 > [!NOTE]
 > **Lambda Timeout 설정 이유**:
+>
 > - Lambda 기본 Timeout은 3초입니다
 > - Secrets Manager API 호출: 평균 50-200ms
 > - Parameter Store API 호출: 평균 50-200ms
@@ -417,23 +419,24 @@ def lambda_handler(event, context):
 > - 안전 마진 포함: 30초 권장
 
 13. [[Save]] 버튼을 클릭합니다.
-11. [[Manage tags]] 버튼을 클릭합니다.
-12. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+14. [[Manage tags]] 버튼을 클릭합니다.
+15. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `12-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `12-1`    |
 | `CreatedBy` | `Student` |
 
 13. [[Save]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > **이 실습 vs 실제 프로덕션 환경**:
-> 
+>
 > **이 실습**: Lambda가 VPC 외부에서 실행 → 인터넷을 통해 Secrets Manager/Parameter Store에 직접 접근 → 별도 네트워크 설정 불필요
-> 
+>
 > **실제 프로덕션 환경** (VPC 내부 Lambda):
+>
 > - **방법 1: VPC Endpoint 생성 (권장)**
 >   - `secretsmanager`용 Interface Endpoint
 >   - `ssm`용 Interface Endpoint
@@ -454,52 +457,49 @@ def lambda_handler(event, context):
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "secretsmanager:GetSecretValue"
-            ],
-            "Resource": [
-                "arn:aws:secretsmanager:ap-northeast-2:123456789012:secret:prod/db/mysql/credentials-*",
-                "arn:aws:secretsmanager:ap-northeast-2:123456789012:secret:prod/api/external-service-*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ssm:GetParameter",
-                "ssm:GetParameters",
-                "ssm:GetParametersByPath"
-            ],
-            "Resource": [
-                "arn:aws:ssm:ap-northeast-2:123456789012:parameter/prod/*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "kms:Decrypt"
-            ],
-            "Resource": "arn:aws:kms:ap-northeast-2:123456789012:key/12345678-1234-1234-1234-123456789012"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["secretsmanager:GetSecretValue"],
+      "Resource": [
+        "arn:aws:secretsmanager:ap-northeast-2:123456789012:secret:prod/db/mysql/credentials-*",
+        "arn:aws:secretsmanager:ap-northeast-2:123456789012:secret:prod/api/external-service-*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:GetParameters",
+        "ssm:GetParametersByPath"
+      ],
+      "Resource": ["arn:aws:ssm:ap-northeast-2:123456789012:parameter/prod/*"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["kms:Decrypt"],
+      "Resource": "arn:aws:kms:ap-northeast-2:123456789012:key/12345678-1234-1234-1234-123456789012"
+    }
+  ]
 }
 ```
 
 > [!IMPORTANT]
 > **ARN 교체 필수**:
+>
 > - **KMS 키 ARN**: `Resource` 필드의 KMS 키 ARN을 태스크 1에서 복사한 실제 ARN으로 교체합니다.
 > - **계정 ID**: Secrets Manager와 Parameter Store ARN의 `123456789012` 부분을 본인의 AWS 계정 ID로 교체합니다.
-> 
+>
 > **예시**:
+>
 > - KMS: `arn:aws:kms:ap-northeast-2:123456789012:key/12345678-...`
 > - Secrets Manager: `arn:aws:secretsmanager:ap-northeast-2:123456789012:secret:prod/*`
 > - Parameter Store: `arn:aws:ssm:ap-northeast-2:123456789012:parameter/prod/*`
 
 > [!NOTE]
 > **정책 설명**:
+>
 > - **Secrets Manager**: `prod/` 경로의 시크릿만 접근 가능. Secrets Manager ARN에는 6자리 랜덤 접미사가 자동으로 붙으므로 (예: `prod/db/mysql/credentials-AbCdEf`) 각 시크릿별로 `-*` 와일드카드를 사용합니다. `prod/*`만 사용하면 접미사를 포함하지 못해 권한이 적용되지 않습니다.
 > - **Parameter Store**: `prod/` 경로의 파라미터만 접근 가능.
 > - **KMS Decrypt**: 특정 KMS 키만 사용하여 복호화 가능. 이 권한은 Secrets Manager 시크릿 복호화와 Parameter Store SecureString 파라미터 복호화 모두에 사용됩니다. 보안 모범 사례에 따라 와일드카드(`*`) 대신 특정 키 ARN을 사용합니다.
@@ -547,6 +547,7 @@ def lambda_handler(event, context):
 8. **Execution results**에서 로그를 확인합니다.
 
 > [!OUTPUT]
+>
 > ```
 > DB credentials retrieved: True
 > API credentials retrieved: True
@@ -616,11 +617,12 @@ aws secretsmanager delete-secret \
 > CloudShell은 AWS Management Console에서 제공하는 브라우저 기반 셸 환경입니다. AWS CLI가 사전 설치되어 있고 자격 증명이 자동으로 구성되므로 별도 설정이 필요 없습니다.
 
 > [!OUTPUT]
+>
 > ```json
 > {
->     "ARN": "arn:aws:secretsmanager:ap-northeast-2:123456789012:secret:prod/db/mysql/credentials-AbCdEf",
->     "Name": "prod/db/mysql/credentials",
->     "DeletionDate": 1234567890.0
+>   "ARN": "arn:aws:secretsmanager:ap-northeast-2:123456789012:secret:prod/db/mysql/credentials-AbCdEf",
+>   "Name": "prod/db/mysql/credentials",
+>   "DeletionDate": 1234567890.0
 > }
 > ```
 
@@ -658,11 +660,12 @@ aws secretsmanager delete-secret \
 
 > [!IMPORTANT]
 > **안전한 삭제 순서**:
-> 
+>
 > - **권장 순서**: Secrets Manager 시크릿 즉시 삭제(옵션 A) → Parameter Store 파라미터 삭제 → KMS 키 삭제 예약
 > - **이유**: 시크릿이 이미 삭제되었으므로 KMS 키를 안전하게 삭제 예약할 수 있습니다
-> 
+>
 > **옵션 B(콘솔 예약 삭제) 사용 시 주의**:
+>
 > - 시크릿과 KMS 키 모두 7일 대기 기간이 있습니다
 > - 시크릿이 삭제 대기 중인 상태에서 KMS 키도 삭제 대기에 들어가면 시크릿 복호화가 불가능해집니다
 > - 시크릿 복구 가능성이 없다면 즉시 삭제(옵션 A)를 사용하거나, 시크릿 삭제 대기 기간(7일)이 완전히 끝난 후 KMS 키를 삭제 예약하세요
@@ -707,6 +710,7 @@ aws secretsmanager delete-secret \
 ### Secrets Manager vs Parameter Store
 
 **AWS Secrets Manager**:
+
 - 자격증명 전용 관리 서비스입니다
 - 자동 로테이션 기능을 제공합니다 (RDS, Redshift, DocumentDB, ElastiCache, Redshift Serverless 지원)
 - 시크릿당 $0.40/월 + API 호출당 $0.05/10,000건
@@ -714,6 +718,7 @@ aws secretsmanager delete-secret \
 - 버전 관리 및 롤백 기능을 제공합니다
 
 **AWS Systems Manager Parameter Store**:
+
 - 일반 설정값 및 자격증명 모두 저장 가능합니다
 - Standard 파라미터는 무료입니다 (최대 10,000개)
 - Advanced 파라미터는 $0.05/월 (4KB 이상, 정책 지원)
@@ -721,6 +726,7 @@ aws secretsmanager delete-secret \
 - SecureString 타입으로 KMS 암호화를 지원합니다
 
 **선택 기준**:
+
 - **데이터베이스 자격증명**: Secrets Manager (자동 로테이션 필요)
 - **API 키**: Secrets Manager (민감한 정보)
 - **애플리케이션 설정**: Parameter Store (비용 효율적)
@@ -729,17 +735,20 @@ aws secretsmanager delete-secret \
 ### KMS 암호화 원리
 
 **대칭 키 암호화**:
+
 - 하나의 키로 암호화와 복호화를 모두 수행합니다
 - AWS 서비스 통합에 최적화되어 있습니다
 - 키는 AWS KMS 내부에서만 사용되며 외부로 노출되지 않습니다
 
 **봉투 암호화 (Envelope Encryption)**:
+
 1. KMS가 데이터 키(Data Key)를 생성합니다
 2. 데이터 키로 실제 데이터를 암호화합니다
 3. KMS 마스터 키로 데이터 키를 암호화합니다
 4. 암호화된 데이터와 암호화된 데이터 키를 함께 저장합니다
 
 **이중 권한 구조**:
+
 - **키 정책 (Key Policy)**: KMS 키 자체의 접근 제어
 - **IAM 정책**: 사용자/역할의 KMS 작업 권한
 - 두 정책 모두에서 허용되어야 접근 가능합니다
@@ -747,6 +756,7 @@ aws secretsmanager delete-secret \
 ### 시크릿 로테이션 개념
 
 **자동 로테이션**:
+
 - Secrets Manager가 주기적으로 자격증명을 변경합니다
 - Lambda 함수를 사용하여 로테이션 로직을 구현합니다
 - AWS가 기본 제공 로테이션 함수를 지원하는 서비스: Amazon RDS, Amazon Redshift, Amazon DocumentDB, Amazon ElastiCache, Amazon Redshift Serverless
@@ -755,6 +765,7 @@ aws secretsmanager delete-secret \
 > **기본 제공 로테이션 함수**: AWS가 미리 작성한 Lambda 함수를 제공하여 별도 코드 작성 없이 자동 로테이션을 설정할 수 있습니다. 다른 서비스는 사용자 정의 Lambda 함수를 작성해야 합니다.
 
 **로테이션 프로세스**:
+
 1. **createSecret**: 새 자격증명 생성
 2. **setSecret**: 데이터베이스에 새 자격증명 설정
 3. **testSecret**: 새 자격증명으로 연결 테스트 (선택적 단계)
@@ -764,6 +775,7 @@ aws secretsmanager delete-secret \
 > **testSecret 단계**: AWS 공식 문서에서는 testSecret을 선택적 단계로 정의합니다. 로테이션 함수 구현 시 이 단계를 생략할 수 있으며, 생략하면 setSecret 후 바로 finishSecret이 실행됩니다.
 
 **로테이션 주기**:
+
 - 권장: 30-90일
 - 규정 준수: 조직 정책에 따라 설정
 - 자동 로테이션 시 애플리케이션 재시작 불필요 (Secrets Manager에서 자동 조회)
@@ -771,21 +783,25 @@ aws secretsmanager delete-secret \
 ### 보안 모범 사례
 
 **최소 권한 원칙**:
+
 - IAM 정책에서 특정 시크릿/파라미터만 접근 허용합니다
 - 와일드카드(`*`) 사용을 최소화합니다
 - 리소스 ARN을 명시적으로 지정합니다
 
 **암호화 키 관리**:
+
 - 고객 관리형 키(CMK)를 사용하여 암호화를 제어합니다
 - 키 정책에서 Key users를 명시적으로 지정합니다
 - 키 로테이션을 활성화합니다 (1년 주기 권장)
 
 **감사 및 모니터링**:
+
 - CloudTrail로 시크릿 접근 로그를 기록합니다
 - CloudWatch Alarms로 비정상 접근을 감지합니다
 - AWS Config로 시크릿 설정 변경을 추적합니다
 
 **애플리케이션 통합**:
+
 - 환경 변수에 시크릿을 하드코딩하지 않습니다
 - 런타임에 Secrets Manager/Parameter Store에서 조회합니다
 - 캐싱을 사용하여 API 호출 비용을 절감합니다 (TTL 5-60분 권장)
@@ -811,6 +827,7 @@ secret = cache.get_secret_string('prod/db/mysql/credentials')
 
 > [!NOTE]
 > **파라미터 설명**:
+>
 > - `max_cache_size`: 캐시할 최대 시크릿 수 (기본값: 1000)
 > - `secret_version_stage_refresh_interval`: 캐시 갱신 주기 (초 단위, 기본값: 3600초 = 1시간)
 > - 공식 라이브러리는 자동으로 만료된 캐시를 갱신하고 버전 관리를 처리합니다
@@ -823,23 +840,23 @@ _secret_cache = {}
 def get_secret_cached(secret_name, ttl_seconds=3600):
     """
     시크릿 캐싱 함수
-    
+
     Args:
         secret_name (str): 시크릿 이름
         ttl_seconds (int): 캐시 유효 시간 (초)
-    
+
     Returns:
         dict: 시크릿 값
     """
     import time
     now = time.time()
-    
+
     # 캐시 확인
     if secret_name in _secret_cache:
         value, timestamp = _secret_cache[secret_name]
         if now - timestamp < ttl_seconds:
             return value  # 캐시 히트
-    
+
     # 캐시 미스: Secrets Manager에서 조회
     value = get_secret(secret_name)
     _secret_cache[secret_name] = (value, now)
@@ -847,6 +864,7 @@ def get_secret_cached(secret_name, ttl_seconds=3600):
 ```
 
 **캐싱 모범 사례**:
+
 - **TTL 설정**: 5-60분 권장 (보안과 비용의 균형)
 - **Lambda 전역 변수**: 컨테이너 재사용 시 캐시 유지
 - **로테이션 고려**: 로테이션 주기보다 짧은 TTL 설정

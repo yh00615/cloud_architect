@@ -6,10 +6,10 @@ awsServices:
   - Amazon CloudWatch
   - Amazon EKS
 learningObjectives:
-  - Amazon CloudWatch Container Insights를 활성화하여 Amazon EKS 클러스터의 성능 메트릭과 로그를 수집할 수 있습니다
-  - Amazon CloudWatch Logs Insights로 컨테이너 로그를 쿼리하고 분석할 수 있습니다
-  - 커스텀 대시보드와 알람을 설정하여 프로액티브 모니터링을 구현할 수 있습니다
-  - Horizontal Pod Autoscaler를 설정하여 자동 스케일링을 구현할 수 있습니다
+  - Amazon EKS 클러스터에 Amazon CloudWatch Container Insights를 활성화할 수 있습니다
+  - Amazon CloudWatch에서 Pod CPU/메모리 메트릭을 확인할 수 있습니다
+  - Amazon CloudWatch Logs Insights로 컨테이너 로그를 쿼리할 수 있습니다
+  - 커스텀 대시보드와 알람을 생성할 수 있습니다
 prerequisites:
   - Week 7-3 Amazon EKS 클러스터 생성 실습 완료
   - kubectl 기본 명령어 숙지
