@@ -9,27 +9,26 @@ on:
 jobs:
   review:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
-      
+
       - name: Install dependencies
-        run: npm ci
-      
+        run: npm install
+
       - name: Run comprehensive review
         id: review
         run: |
           npm run review
           echo "review_completed=true" >> $GITHUB_OUTPUT
         continue-on-error: true
-      
+
       - name: Upload review report
         if: always()
         uses: actions/upload-artifact@v3
@@ -37,14 +36,14 @@ jobs:
           name: review-report
           path: REVIEW_REPORT.json
           retention-days: 30
-      
+
       - name: Comment PR with results
         if: github.event_name == 'pull_request' && always()
         uses: actions/github-script@v6
         with:
           script: |
             const fs = require('fs');
-            
+
             try {
               const report = JSON.parse(fs.readFileSync('REVIEW_REPORT.json', 'utf8'));
               
@@ -89,12 +88,12 @@ jobs:
               
               const comment = `
             ## ${gradeEmoji[report.overall.grade]} 종합 검토 결과
-            
+
             ### 📊 전체 점수
             ${getScoreColor(report.overall.score)} **${report.overall.score}점** (${report.overall.grade}등급)
-            
+
             ---
-            
+
             ### 📦 소스코드 검토
             | 항목 | 결과 |
             |------|------|
@@ -102,11 +101,11 @@ jobs:
             | ✅ 통과 | ${report.code.passed}개 |
             | ❌ 실패 | ${report.code.failed}개 |
             | ⚠️ 경고 | ${report.code.warnings}개 |
-            
+
             ${codeIssues ? '**주요 문제:**\n' + codeIssues : '✅ 문제 없음'}
-            
+
             ---
-            
+
             ### 📚 실습 가이드 검토
             | 항목 | 결과 |
             |------|------|
@@ -114,38 +113,38 @@ jobs:
             | ✅ 통과 | ${report.guides.passed}개 |
             | ❌ 실패 | ${report.guides.failed}개 |
             | ⚠️ 경고 | ${report.guides.warnings}개 |
-            
+
             ${guideIssues ? '**주요 문제:**\n' + guideIssues : '✅ 문제 없음'}
-            
+
             ---
-            
+
             ${recommendations ? '### 💡 권장사항\n\n' + recommendations + '\n\n---\n' : ''}
-            
+
             ### 📋 다음 단계
             ${report.overall.score >= 80 
               ? '✅ **배포 준비 완료!** 모든 기준을 충족했습니다.' 
               : `⚠️ **개선 필요**: 오류를 수정한 후 다시 커밋하세요.
-            
+
             \`\`\`bash
             # 로컬에서 검증
             npm run review
-            
+
             # 오류 자동 수정 시도
             npm run lint:fix
             npm run fix:auto
-            
+
             # 재검증
             npm run review
             \`\`\`
             `}
-            
+
             ---
-            
+
             <details>
             <summary>📄 상세 리포트 보기</summary>
-            
+
             전체 리포트는 [Artifacts](${context.payload.pull_request.html_url}/checks)에서 다운로드할 수 있습니다.
-            
+
             </details>
               `;
               
@@ -188,7 +187,7 @@ jobs:
                 body: '⚠️ 종합 검토 중 오류가 발생했습니다. 로그를 확인해주세요.'
               });
             }
-      
+
       - name: Check quality threshold
         if: always()
         run: |

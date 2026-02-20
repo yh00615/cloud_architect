@@ -6,7 +6,7 @@ import path from 'path';
 export default defineConfig({
   // GitHub Pages 배포 시 리포지토리 이름으로 변경하세요
   // 예: https://username.github.io/repo-name/ → base: '/repo-name/'
-  base: process.env.NODE_ENV === 'production' ? '/university-lab-guide/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/cloud_architect/' : '/',
   plugins: [react()],
   resolve: {
     alias: {
