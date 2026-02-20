@@ -646,7 +646,20 @@ Monitoring 탭에서는 규칙의 실행 통계를 확인할 수 있습니다.
 > [!WARNING]
 > 다음 단계를 **반드시 수행**하여 불필요한 비용을 방지합니다.
 
-### 단계 1: EventBridge 규칙 삭제
+---
+
+## 1단계: 리소스 삭제
+
+다음 두 가지 방법 중 하나를 선택하여 리소스를 삭제할 수 있습니다.
+
+### 옵션 1: AWS 콘솔에서 수동 삭제 (권장)
+
+> [!TIP]
+> AWS 관리 콘솔 방식을 선호하거나 각 단계를 확인하면서 삭제하고 싶은 경우 이 방법을 권장합니다.
+>
+> AWS CLI 명령어에 익숙한 경우 아래 [옵션 2](#option-2)를 사용하면 더 빠르게 삭제할 수 있습니다.
+
+**EventBridge 규칙 삭제**
 
 1. EventBridge 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Rules**를 선택합니다.
@@ -662,7 +675,64 @@ Monitoring 탭에서는 규칙의 실행 통계를 확인할 수 있습니다.
 8. [[Delete]] 버튼을 클릭합니다.
 9. 확인 창에 `delete`를 입력한 후 [[Delete]] 버튼을 클릭합니다.
 
-### 단계 2: AWS CloudFormation 스택 삭제
+### 옵션 2: AWS CloudShell 스크립트로 일괄 삭제
+
+> [!TIP]
+> AWS CLI 명령어에 익숙하거나 빠른 삭제를 원하는 경우 이 방법을 사용하세요.
+>
+> 콘솔 방식이 더 편하다면 위 [옵션 1](#option-1)을 참고하세요.
+
+1. AWS Management Console 상단의 CloudShell 아이콘을 클릭합니다.
+2. CloudShell이 열리면 다음 명령어를 실행합니다:
+
+```bash
+# EventBridge 규칙 삭제
+EVENT_BUS_NAME="week4-3-quicktable-events-lab-ReservationEventBus"
+
+RULES=$(aws events list-rules \
+  --region ap-northeast-2 \
+  --event-bus-name $EVENT_BUS_NAME \
+  --query 'Rules[].Name' \
+  --output text)
+
+if [ -n "$RULES" ]; then
+  for RULE in $RULES; do
+    echo "삭제 중: EventBridge Rule $RULE"
+
+    # 타겟 제거
+    TARGETS=$(aws events list-targets-by-rule \
+      --region ap-northeast-2 \
+      --event-bus-name $EVENT_BUS_NAME \
+      --rule $RULE \
+      --query 'Targets[].Id' \
+      --output text)
+
+    if [ -n "$TARGETS" ]; then
+      aws events remove-targets \
+        --region ap-northeast-2 \
+        --event-bus-name $EVENT_BUS_NAME \
+        --rule $RULE \
+        --ids $TARGETS
+    fi
+
+    # 규칙 삭제
+    aws events delete-rule \
+      --region ap-northeast-2 \
+      --event-bus-name $EVENT_BUS_NAME \
+      --name $RULE
+  done
+  echo "EventBridge Rules 삭제 완료"
+else
+  echo "삭제할 EventBridge Rules가 없습니다"
+fi
+```
+
+> [!NOTE]
+> 스크립트는 EventBridge 규칙의 타겟을 먼저 제거한 후 규칙을 삭제합니다. 삭제는 즉시 완료됩니다.
+
+---
+
+## 2단계: AWS CloudFormation 스택 삭제
 
 1. AWS CloudFormation 콘솔로 이동합니다.
 2. `week4-3-quicktable-events-lab-stack` 스택을 선택합니다.
@@ -673,7 +743,26 @@ Monitoring 탭에서는 규칙의 실행 통계를 확인할 수 있습니다.
 > [!NOTE]
 > 스택 삭제에 2-3분이 소요됩니다. AWS CloudFormation 스택을 삭제하면 AWS Lambda 함수 3개, Amazon DynamoDB 테이블, EventBridge Event Bus, AWS Lambda 역할, Amazon SNS Topic 등 모든 리소스가 자동으로 삭제됩니다.
 
-### 단계 3: CloudWatch Log Groups 삭제
+---
+
+## 2단계: AWS CloudFormation 스택 삭제
+
+1. AWS CloudFormation 콘솔로 이동합니다.
+2. `week4-3-quicktable-events-lab-stack` 스택을 선택합니다.
+3. [[Delete]] 버튼을 클릭합니다.
+4. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
+5. 스택 삭제가 완료될 때까지 기다립니다.
+
+> [!NOTE]
+> 스택 삭제에 2-3분이 소요됩니다. AWS CloudFormation 스택을 삭제하면 AWS Lambda 함수 3개, Amazon DynamoDB 테이블, EventBridge Event Bus, AWS Lambda 역할, Amazon SNS Topic 등 모든 리소스가 자동으로 삭제됩니다.
+
+---
+
+## 3단계: CloudWatch Log Groups 삭제
+
+CloudWatch Log Groups는 CloudFormation 스택 삭제 시 자동으로 삭제되지 않으므로 수동으로 삭제해야 합니다.
+
+### 옵션 1: AWS 콘솔에서 수동 삭제
 
 1. CloudWatch 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Log groups**를 선택합니다.
@@ -684,8 +773,34 @@ Monitoring 탭에서는 규칙의 실행 통계를 확인할 수 있습니다.
 4. 각 Log Group을 선택한 후 **Actions** > `Delete log group(s)`를 선택합니다.
 5. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
+### 옵션 2: AWS CloudShell 스크립트로 일괄 삭제
+
+1. AWS Management Console 상단의 CloudShell 아이콘을 클릭합니다.
+2. CloudShell이 열리면 다음 명령어를 실행합니다:
+
+```bash
+# CloudWatch Log Groups 삭제
+LOG_GROUPS=$(aws logs describe-log-groups \
+  --region ap-northeast-2 \
+  --log-group-name-prefix "/aws/lambda/week4-3-quicktable-events-lab-" \
+  --query 'logGroups[].logGroupName' \
+  --output text)
+
+if [ -n "$LOG_GROUPS" ]; then
+  for LOG_GROUP in $LOG_GROUPS; do
+    echo "삭제 중: $LOG_GROUP"
+    aws logs delete-log-group \
+      --region ap-northeast-2 \
+      --log-group-name $LOG_GROUP
+  done
+  echo "CloudWatch Log Groups 삭제 완료"
+else
+  echo "삭제할 CloudWatch Log Groups가 없습니다"
+fi
+```
+
 > [!NOTE]
-> CloudWatch Log Groups는 CloudFormation 스택 삭제 시 자동으로 삭제되지 않으므로 수동으로 삭제해야 합니다. Lambda 함수가 3개이므로 Log Group도 3개 생성됩니다.
+> Lambda 함수가 3개이므로 Log Group도 3개 생성됩니다. 스크립트는 모든 Log Group을 자동으로 찾아 삭제합니다.
 
 ✅ **실습 종료**: 모든 리소스가 정리되었습니다.
 

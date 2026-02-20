@@ -1,5 +1,5 @@
 ---
-title: "AWS IAM 정책 Condition 요소 활용"
+title: 'AWS IAM 정책 Condition 요소 활용'
 week: 2
 session: 1
 awsServices:
@@ -18,7 +18,6 @@ prerequisites:
   - JSON 형식 이해
 ---
 
-
 이 실습에서는 **AWS IAM Policy의 Condition 요소**를 활용하여 **세밀한 권한 제어**를 구현하는 방법을 학습합니다.
 
 먼저 **테스트용 Amazon S3 버킷**을 생성하고, **MFA(Multi-Factor Authentication) 기반 정책**을 구현하여 민감한 작업(삭제, 쓰기)에는 MFA 인증을 필수로 요구하도록 설정합니다. 그런 다음 **IP 주소 기반 정책**을 작성하여 특정 IP에서만 Amazon S3 접근을 허용합니다.
@@ -27,14 +26,15 @@ prerequisites:
 
 > [!DOWNLOAD]
 > [week2-1-iam-policy-condition.zip](/files/week2/week2-1-iam-policy-condition.zip)
+>
 > - `mfa-policy.json` - MFA 강제 정책 템플릿 (태스크 2에서 Amazon S3 쓰기 작업 시 MFA 인증 필수 정책 작성 참고)
 > - `ip-restriction-policy.json` - IP 제한 정책 템플릿 (태스크 3에서 특정 IP 범위만 Amazon S3 접근 허용 정책 작성 참고)
 > - `time-based-policy.json` - 시간 기반 정책 템플릿 (태스크 4에서 특정 기간만 Amazon S3 접근 허용 정책 작성 참고)
 > - `complex-condition-policy.json` - 복합 조건 정책 템플릿 (태스크 5에서 암호화+IP+MFA 조건 조합 정책 작성 참고)
 > - `README.md` - 정책 사용 방법 및 Condition 키 레퍼런스
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - **태스크 2: MFA 강제 정책 생성**
 >   mfa-policy.json 파일을 참고하여 Amazon S3 객체 삭제 및 버킷 삭제 작업 시 MFA 인증을 필수로 요구하는 정책을 작성하고, BoolIfExists 조건을 사용하여 aws:MultiFactorAuthPresent 키로 MFA 인증 여부를 확인합니다
 > - **태스크 3: IP 주소 제한 정책 생성**
@@ -120,10 +120,10 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 12. [[Edit]] 버튼을 클릭합니다.
 13. [[Add tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `2-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `2-1`     |
 | `CreatedBy` | `Student` |
 
 14. [[Save changes]] 버튼을 클릭합니다.
@@ -136,12 +136,12 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!CONCEPT] BoolIfExists 조건 연산자
 > **BoolIfExists**는 조건 키가 요청 컨텍스트에 존재하지 않을 때도 조건을 평가합니다. **aws:MultiFactorAuthPresent** 키는 MFA 인증으로 로그인했을 때만 요청에 포함되며, IAM 사용자의 장기 자격증명(Access Key)으로 API를 호출하면 이 키 자체가 요청에 포함되지 않습니다.
-> 
+>
 > **장기 자격증명 설명**: IAM 사용자의 Access Key는 만료되지 않는 장기 자격증명입니다. 이와 달리 AWS STS(Security Token Service)로 발급받은 임시 자격증명은 세션 토큰과 함께 MFA 정보를 포함할 수 있습니다.
-> 
+>
 > - **Bool**: 키가 없으면 조건 평가를 건너뜁니다 (Deny가 적용되지 않음)
 > - **BoolIfExists**: 키가 없어도 조건을 평가합니다 (키가 없으면 false로 간주하여 Deny 적용)
-> 
+>
 > 따라서 **BoolIfExists**를 사용하면 MFA 없이 Access Key로 API를 호출하는 경우에도 Deny가 적용되어 보안이 강화됩니다.
 
 1. AWS IAM 콘솔로 이동합니다.
@@ -166,11 +166,7 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
        {
          "Sid": "AllowS3WriteWithMFA",
          "Effect": "Allow",
-         "Action": [
-           "s3:PutObject",
-           "s3:DeleteObject",
-           "s3:DeleteBucket"
-         ],
+         "Action": ["s3:PutObject", "s3:DeleteObject", "s3:DeleteBucket"],
          "Resource": "*",
          "Condition": {
            "BoolIfExists": {
@@ -181,11 +177,7 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
        {
          "Sid": "DenyS3ActionsWithoutMFA",
          "Effect": "Deny",
-         "Action": [
-           "s3:PutObject",
-           "s3:DeleteObject",
-           "s3:DeleteBucket"
-         ],
+         "Action": ["s3:PutObject", "s3:DeleteObject", "s3:DeleteBucket"],
          "Resource": "*",
          "Condition": {
            "BoolIfExists": {
@@ -198,24 +190,25 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
    ```
    > [!NOTE]
    > 이 정책은 버킷 목록 조회는 허용하고, 객체 업로드/삭제는 MFA 인증이 있을 때만 허용합니다. MFA 없이 쓰기 작업을 시도하면 Deny가 적용됩니다.
-   > 
-   > **Allow와 Deny 구조 설명**: 
+   >
+   > **Allow와 Deny 구조 설명**:
+   >
    > - **AllowListBucketWithoutMFA** Statement는 MFA 없이도 버킷 목록 조회를 허용합니다.
    > - **AllowS3WriteWithMFA** Statement는 MFA가 있을 때 Amazon S3 쓰기 작업을 허용합니다. 이 Statement가 없으면 condition-test-user는 다른 Amazon S3 권한이 없으므로 MFA가 있어도 쓰기 작업을 수행할 수 없습니다.
    > - **DenyS3ActionsWithoutMFA** Statement는 다른 정책에서 부여한 Amazon S3 권한도 MFA 없이는 차단합니다.
-   > - **Deny는 항상 Allow보다 우선**하므로, 다른 정책이 s3:*를 허용하더라도 MFA 없이는 쓰기 작업이 차단됩니다.
+   > - **Deny는 항상 Allow보다 우선**하므로, 다른 정책이 s3:\*를 허용하더라도 MFA 없이는 쓰기 작업이 차단됩니다.
    > - 이 세 Statement를 함께 사용하면 "MFA가 있을 때만 Amazon S3 쓰기 작업이 가능하다"는 강력한 제한을 구현할 수 있습니다.
-   > 
+   >
    > **이 실습의 테스트 제한사항**: 태스크 7에서는 IAM 사용자의 Access Key(장기 자격증명)를 사용하므로 MFA 세션을 시뮬레이션할 수 없습니다. 따라서 이 실습에서는 "MFA 없이 쓰기 차단"만 테스트하고, "MFA 있을 때 쓰기 허용"은 테스트하지 않습니다. MFA 있을 때의 동작을 테스트하려면 AWS 콘솔에 MFA 인증으로 로그인한 후 Amazon S3 콘솔에서 직접 파일을 업로드해야 합니다.
 6. [[Next]] 버튼을 클릭합니다.
 7. **Policy name**에 `S3MFARequiredPolicy`를 입력합니다.
 8. **Description**에 `Requires MFA for Amazon S3 write operations`를 입력합니다.
 9. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `2-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `2-1`     |
 | `CreatedBy` | `Student` |
 
 10. [[Create policy]] 버튼을 클릭합니다.
@@ -258,9 +251,7 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
          "Resource": "*",
          "Condition": {
            "IpAddress": {
-             "aws:SourceIp": [
-               "YOUR_IP_ADDRESS/32"
-             ]
+             "aws:SourceIp": ["YOUR_IP_ADDRESS/32"]
            }
          }
        },
@@ -271,9 +262,7 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
          "Resource": "*",
          "Condition": {
            "NotIpAddress": {
-             "aws:SourceIp": [
-               "YOUR_IP_ADDRESS/32"
-             ]
+             "aws:SourceIp": ["YOUR_IP_ADDRESS/32"]
            }
          }
        }
@@ -283,27 +272,28 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!IMPORTANT]
 > **필수 확인**: `YOUR_IP_ADDRESS`를 실제 IP 주소로 변경했는지 반드시 확인하세요. 플레이스홀더를 그대로 사용하면 모든 Amazon S3 접근이 차단됩니다.
-> 
+>
 > **예시**: 본인의 IP가 `1.2.3.4`라면 `"YOUR_IP_ADDRESS/32"`를 `"1.2.3.4/32"`로 변경합니다.
-> 
+>
 > **CIDR 표기법 설명**: `/32`는 단일 IP 주소를 의미합니다. 여러 IP를 허용하려면 배열로 추가할 수 있습니다: `["1.2.3.4/32", "5.6.7.8/32"]`
 
-   > [!NOTE]
-   > **Allow와 Deny 구조 설명**:
-   > - **AllowFromSpecificIP** Statement는 지정된 IP에서의 Amazon S3 접근을 허용합니다.
-   > - **DenyFromOtherIPs** Statement는 다른 정책에서 부여한 Amazon S3 권한도 지정된 IP 외에서는 차단합니다.
-   > - **Deny는 항상 Allow보다 우선**하므로, 다른 정책이 s3:*를 허용하더라도 IP 외부에서는 차단됩니다.
-   > - 이 두 Statement를 함께 사용하면 "이 IP에서만 S3를 사용할 수 있다"는 강력한 제한을 구현할 수 있습니다.
+> [!NOTE]
+> **Allow와 Deny 구조 설명**:
+>
+> - **AllowFromSpecificIP** Statement는 지정된 IP에서의 Amazon S3 접근을 허용합니다.
+> - **DenyFromOtherIPs** Statement는 다른 정책에서 부여한 Amazon S3 권한도 지정된 IP 외에서는 차단합니다.
+> - **Deny는 항상 Allow보다 우선**하므로, 다른 정책이 s3:\*를 허용하더라도 IP 외부에서는 차단됩니다.
+> - 이 두 Statement를 함께 사용하면 "이 IP에서만 S3를 사용할 수 있다"는 강력한 제한을 구현할 수 있습니다.
 
 8. [[Next]] 버튼을 클릭합니다.
 9. **Policy name**에 `S3IPRestrictionPolicy`를 입력합니다.
 10. **Description**에 `Restricts Amazon S3 access to specific IP addresses`를 입력합니다.
 11. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `2-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `2-1`     |
 | `CreatedBy` | `Student` |
 
 12. [[Create policy]] 버튼을 클릭합니다.
@@ -322,20 +312,23 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!CONCEPT] aws:CurrentTime 조건 키와 시간대 처리
 > **aws:CurrentTime**은 날짜와 시간을 모두 포함한 전체 타임스탬프를 비교합니다. 이 정책은 **특정 기간**(예: 2026년 1월 1일부터 12월 31일까지)에만 접근을 허용하는 데 적합합니다.
-> 
+>
 > **시간대 처리**:
+>
 > - AWS IAM 정책의 시간 조건은 항상 **UTC(협정 세계시)** 기준입니다
 > - 한국 시간(KST)은 UTC+9이므로, 한국 시간 09:00는 UTC 00:00입니다
 > - 예: 한국 시간 2026-01-01 09:00 → UTC 2026-01-01 00:00
 > - 정책 작성 시 반드시 UTC로 변환하여 입력해야 합니다
-> 
+>
 > **매일 반복되는 업무 시간 제한의 한계**:
+>
 > - **aws:CurrentTime**은 특정 날짜 범위 제한에 적합합니다
 > - 매일 반복되는 시간대 제한(예: 매일 09:00-18:00)에는 적합하지 않습니다
 > - 이유: 날짜와 시간을 함께 비교하므로, "매일 09:00-18:00"을 표현할 수 없습니다
 > - 대안: AWS Lambda 함수 + Amazon EventBridge 스케줄러, AWS Config 규칙, 또는 서드파티 솔루션 사용
-> 
+>
 > **실무 활용 시나리오**:
+>
 > - ✅ 프로젝트 기간 제한 (2026-01-01 ~ 2026-12-31)
 > - ✅ 임시 계약직 직원 접근 기간 제한
 > - ✅ 특정 이벤트 기간 동안만 리소스 접근 허용
@@ -391,26 +384,28 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!IMPORTANT]
 > **필수 확인**: `YYYY`를 현재 연도로 변경했는지 반드시 확인하세요. 플레이스홀더를 그대로 사용하면 정책이 작동하지 않습니다.
-> 
+>
 > **예시**: 2026년에 실습하는 경우 `YYYY-01-01T00:00:00Z`를 `2026-01-01T00:00:00Z`로, `YYYY-12-31T23:59:59Z`를 `2026-12-31T23:59:59Z`로 변경합니다.
 
-   > [!NOTE]
-   > 이 정책은 지정된 연도(1월 1일부터 12월 31일까지)에만 Amazon S3 접근을 허용합니다. 기간 외에는 명시적 Deny로 모든 Amazon S3 작업이 차단됩니다.
-   > 
-   > **Allow와 Deny 구조 설명**:
-   > - **AllowDuringSpecificPeriod** Statement는 지정된 기간 내에 Amazon S3 접근을 허용합니다.
-   > - **DenyOutsideSpecificPeriod**와 **DenyAfterSpecificPeriod** Statement는 다른 정책에서 부여한 Amazon S3 권한도 기간 외에는 차단합니다.
-   > - **Deny는 항상 Allow보다 우선**하므로, 다른 정책이 s3:*를 허용하더라도 기간 외에는 차단됩니다.
-   > - 이 세 Statement를 함께 사용하면 "이 기간에만 Amazon S3를 사용할 수 있다"는 강력한 제한을 구현할 수 있습니다.
-4. [[Next]] 버튼을 클릭합니다.
-5. **Policy name**에 `S3TimeBasedPolicy`를 입력합니다.
-6. **Description**에 `Restricts Amazon S3 access to specific date range`를 입력합니다.
-7. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+> [!NOTE]
+> 이 정책은 지정된 연도(1월 1일부터 12월 31일까지)에만 Amazon S3 접근을 허용합니다. 기간 외에는 명시적 Deny로 모든 Amazon S3 작업이 차단됩니다.
+>
+> **Allow와 Deny 구조 설명**:
+>
+> - **AllowDuringSpecificPeriod** Statement는 지정된 기간 내에 Amazon S3 접근을 허용합니다.
+> - **DenyOutsideSpecificPeriod**와 **DenyAfterSpecificPeriod** Statement는 다른 정책에서 부여한 Amazon S3 권한도 기간 외에는 차단합니다.
+> - **Deny는 항상 Allow보다 우선**하므로, 다른 정책이 s3:\*를 허용하더라도 기간 외에는 차단됩니다.
+> - 이 세 Statement를 함께 사용하면 "이 기간에만 Amazon S3를 사용할 수 있다"는 강력한 제한을 구현할 수 있습니다.
+>
+> 4. [[Next]] 버튼을 클릭합니다.
+> 5. **Policy name**에 `S3TimeBasedPolicy`를 입력합니다.
+> 6. **Description**에 `Restricts Amazon S3 access to specific date range`를 입력합니다.
+> 7. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `2-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `2-1`     |
 | `CreatedBy` | `Student` |
 
 8. [[Create policy]] 버튼을 클릭합니다.
@@ -461,18 +456,18 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 > [!IMPORTANT]
 > **필수 확인**: `YOUR_IP_ADDRESS`를 실제 IP 주소로 변경했는지 반드시 확인하세요. 현재 IP는 `https://checkip.amazonaws.com`에서 확인할 수 있습니다.
 
-   > [!NOTE]
-   > 이 정책은 여러 조건을 동시에 만족해야 Amazon S3 객체 업로드가 가능합니다: 암호화 필수(AES256), 특정 IP 범위, MFA 인증. 모든 조건이 AND 연산으로 결합되어 있습니다.
+> [!NOTE]
+> 이 정책은 여러 조건을 동시에 만족해야 Amazon S3 객체 업로드가 가능합니다: 암호화 필수(AES256), 특정 IP 범위, MFA 인증. 모든 조건이 AND 연산으로 결합되어 있습니다.
 
 4. [[Next]] 버튼을 클릭합니다.
 5. **Policy name**에 `S3ComplexConditionPolicy`를 입력합니다.
 6. **Description**에 `Amazon S3 access with multiple conditions`를 입력합니다.
 7. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `2-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `2-1`     |
 | `CreatedBy` | `Student` |
 
 8. [[Create policy]] 버튼을 클릭합니다.
@@ -496,7 +491,7 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!NOTE]
 > 이 실습에서는 AWS CLI만 사용하므로 콘솔 로그인 권한이 필요하지 않습니다. Access Key만 생성하여 CLI에서 사용합니다.
-> 
+>
 > **CloudShell 사용 방식 설명**: 태스크 7에서 AWS CloudShell을 사용하지만, CloudShell은 현재 로그인한 관리자 계정의 자격증명을 사용합니다. condition-test-user의 자격증명은 `--profile condition-test` 옵션으로 별도로 지정하여 테스트하므로, condition-test-user에게 콘솔 접근 권한이 필요하지 않습니다.
 
 5. [[Next]] 버튼을 클릭합니다.
@@ -523,10 +518,10 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 18. [[Manage tags]] 버튼을 클릭합니다.
 19. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `2-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `2-1`     |
 | `CreatedBy` | `Student` |
 
 20. [[Save changes]] 버튼을 클릭합니다.
@@ -600,6 +595,7 @@ aws sts get-caller-identity --profile condition-test
 ```
 
 > [!OUTPUT]
+>
 > ```json
 > {
 >   "UserId": "AIDAI...",
@@ -615,13 +611,14 @@ aws s3 ls --profile condition-test
 ```
 
 > [!OUTPUT]
+>
 > ```
 > YYYY-MM-DD HH:MM:SS iam-condition-lab-[이니셜]-[숫자]
 > ```
 
 > [!NOTE]
 > 날짜와 버킷 목록은 실습 환경에 따라 다를 수 있습니다. 버킷 목록 조회는 MFA 없이도 성공합니다. S3MFARequiredPolicy의 AllowListBucketWithoutMFA Statement가 `s3:ListAllMyBuckets`, `s3:ListBucket`, `s3:GetBucketLocation` 작업을 허용합니다.
-> 
+>
 > **보안 관점 설명**: `s3:ListAllMyBuckets`는 `Resource: "*"`로 설정되어 있어 계정 내 모든 버킷 목록을 조회할 수 있습니다. 이는 AWS S3 서비스의 설계상 버킷 목록 조회는 계정 수준 작업이기 때문입니다. 태스크 1에서 생성한 버킷뿐만 아니라 계정에 존재하는 다른 버킷도 모두 표시됩니다. 특정 버킷만 보이도록 제한하려면 버킷별 정책이나 IAM 권한 경계(Permission Boundary)를 사용해야 합니다.
 
 3. 테스트 파일을 생성합니다:
@@ -637,6 +634,7 @@ aws s3 cp test.txt s3://iam-condition-lab-YOUR-INITIALS-12345/ --profile conditi
 ```
 
 > [!OUTPUT]
+>
 > ```
 > An error occurred (AccessDenied) when calling the PutObject operation: Access Denied
 > ```
@@ -651,15 +649,16 @@ aws s3 rm s3://iam-condition-lab-YOUR-INITIALS-12345/test.txt --profile conditio
 ```
 
 > [!OUTPUT]
+>
 > ```
 > An error occurred (AccessDenied) when calling the DeleteObject operation: Access Denied
 > ```
 
 > [!NOTE]
-> 삭제 작업도 MFA 없이는 차단됩니다. 
-> 
+> 삭제 작업도 MFA 없이는 차단됩니다.
+>
 > **Amazon S3 보안 설계 설명**: 이전 단계에서 업로드가 실패했으므로 `test.txt` 객체는 버킷에 존재하지 않습니다. 그러나 Amazon S3는 권한이 없는 요청에 대해 객체 존재 여부를 노출하지 않기 위해 항상 `AccessDenied`를 반환합니다. 이는 보안 설계의 일부로, 권한이 없는 사용자가 객체의 존재 여부를 추측하지 못하도록 합니다. 만약 권한이 있는 상태에서 존재하지 않는 객체를 삭제하려고 하면 `NoSuchKey` 또는 `404 Not Found` 오류가 반환됩니다.
-> 
+>
 > 이로써 MFA 강제 정책이 올바르게 작동함을 확인했습니다.
 
 ✅ **태스크 완료**: MFA 정책이 올바르게 작동함을 확인했습니다.
@@ -694,6 +693,7 @@ aws s3 ls --profile condition-test
 ```
 
 > [!OUTPUT]
+>
 > ```
 > YYYY-MM-DD HH:MM:SS iam-condition-lab-[이니셜]-[숫자]
 > ```
@@ -731,7 +731,7 @@ aws s3 ls --profile condition-test
 > [!WARNING]
 > 다음 단계를 **반드시 수행**하여 불필요한 리소스를 정리합니다.
 
-### 단계 1: Tag Editor로 리소스 확인
+## 1단계: Tag Editor로 리소스 확인
 
 1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
@@ -750,7 +750,7 @@ aws s3 ls --profile condition-test
 > [!NOTE]
 > Tag Editor는 리소스를 찾는 용도로만 사용됩니다. 실제 삭제는 다음 단계에서 수행합니다.
 
-### 단계 2: Access Key 삭제
+## 2단계: Access Key 삭제
 
 1. AWS IAM 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Users**를 선택합니다.
@@ -764,7 +764,7 @@ aws s3 ls --profile condition-test
 10. **Actions** > `Delete`를 선택합니다.
 11. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
-### 단계 3: AWS CLI 프로파일 삭제
+## 3단계: AWS CLI 프로파일 삭제
 
 1. AWS CloudShell로 이동합니다.
 2. 다음 명령어를 실행하여 condition-test 프로파일이 존재하는지 확인합니다:
@@ -798,6 +798,7 @@ aws configure list --profile condition-test
 ```
 
 > [!OUTPUT]
+>
 > ```
 > The config profile (condition-test) could not be found
 > ```
@@ -811,7 +812,7 @@ rm ~/.aws/credentials.bak ~/.aws/config.bak
 > [!NOTE]
 > AWS CloudShell의 홈 디렉토리는 세션 간 유지되므로, 프로파일을 삭제하지 않으면 다음에 CloudShell을 열었을 때도 condition-test 프로파일이 남아있습니다. 보안을 위해 반드시 삭제해야 합니다.
 
-### 단계 4: AWS IAM 사용자 삭제
+## 4단계: AWS IAM 사용자 삭제
 
 1. AWS IAM 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Users**를 선택합니다.
@@ -826,7 +827,7 @@ rm ~/.aws/credentials.bak ~/.aws/config.bak
 7. [[Delete]] 버튼을 클릭합니다.
 8. 화면 상단에 녹색 배너로 "User condition-test-user deleted successfully"라는 성공 메시지가 표시됩니다.
 
-### 단계 5: AWS IAM 정책 삭제
+## 5단계: AWS IAM 정책 삭제
 
 1. 왼쪽 메뉴에서 **Policies**를 선택합니다.
 2. 정책 목록에서 `S3MFARequiredPolicy`를 검색합니다.
@@ -840,14 +841,14 @@ rm ~/.aws/credentials.bak ~/.aws/config.bak
 6. [[Delete]] 버튼을 클릭합니다.
 7. 화면 상단에 녹색 배너로 "Policy S3MFARequiredPolicy deleted successfully"라는 성공 메시지가 표시됩니다.
 8. 동일한 방법으로 다음 정책들을 각각 삭제합니다:
-    - `S3IPRestrictionPolicy`
-    - `S3TimeBasedPolicy`
-    - `S3ComplexConditionPolicy`
+   - `S3IPRestrictionPolicy`
+   - `S3TimeBasedPolicy`
+   - `S3ComplexConditionPolicy`
 
 > [!NOTE]
 > 각 정책 삭제 시마다 정책 이름을 정확히 입력해야 합니다. 4개의 정책을 모두 삭제하면 정책 목록에서 더 이상 표시되지 않습니다.
 
-### 단계 6: Amazon S3 버킷 삭제
+## 6단계: Amazon S3 버킷 삭제
 
 1. Amazon S3 콘솔로 이동합니다.
 2. 버킷 목록에서 `iam-condition-lab-YOUR-INITIALS-12345` 버킷을 검색합니다.
@@ -995,11 +996,7 @@ rm ~/.aws/credentials.bak ~/.aws/config.bak
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": [
-        "s3:GetObject",
-        "s3:PutObject",
-        "s3:ListBucket"
-      ],
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:ListBucket"],
       "Resource": [
         "arn:aws:s3:::project-bucket",
         "arn:aws:s3:::project-bucket/*"
@@ -1029,9 +1026,7 @@ rm ~/.aws/credentials.bak ~/.aws/config.bak
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": [
-        "lambda:InvokeFunction"
-      ],
+      "Action": ["lambda:InvokeFunction"],
       "Resource": "arn:aws:lambda:ap-northeast-2:*:function:BlackFridayPromotion",
       "Condition": {
         "DateGreaterThan": {
@@ -1084,11 +1079,11 @@ rm ~/.aws/credentials.bak ~/.aws/config.bak
 
 **한국 시간(KST)을 UTC로 변환하는 방법**:
 
-| 한국 시간 (KST, UTC+9) | UTC 시간 | 정책에 입력할 값 |
-|----------------------|---------|----------------|
-| 2026-01-01 09:00 | 2026-01-01 00:00 | `2026-01-01T00:00:00Z` |
-| 2026-01-01 18:00 | 2026-01-01 09:00 | `2026-01-01T09:00:00Z` |
-| 2026-12-31 23:59 | 2026-12-31 14:59 | `2026-12-31T14:59:59Z` |
+| 한국 시간 (KST, UTC+9) | UTC 시간         | 정책에 입력할 값       |
+| ---------------------- | ---------------- | ---------------------- |
+| 2026-01-01 09:00       | 2026-01-01 00:00 | `2026-01-01T00:00:00Z` |
+| 2026-01-01 18:00       | 2026-01-01 09:00 | `2026-01-01T09:00:00Z` |
+| 2026-12-31 23:59       | 2026-12-31 14:59 | `2026-12-31T14:59:59Z` |
 
 **변환 공식**: UTC 시간 = 한국 시간 - 9시간
 
@@ -1099,6 +1094,7 @@ rm ~/.aws/credentials.bak ~/.aws/config.bak
 **문제**: AWS IAM 정책만으로는 "매일 09:00-18:00"을 구현할 수 없습니다.
 
 **대안 1: AWS Lambda + Amazon EventBridge**
+
 ```python
 # Lambda 함수로 매일 09:00에 정책 연결, 18:00에 정책 분리
 import boto3
@@ -1106,7 +1102,7 @@ import boto3
 def lambda_handler(event, context):
     iam = boto3.client('iam')
     action = event['action']  # 'attach' or 'detach'
-    
+
     if action == 'attach':
         iam.attach_user_policy(
             UserName='employee-user',
@@ -1120,40 +1116,46 @@ def lambda_handler(event, context):
 ```
 
 **EventBridge 규칙**:
+
 - 09:00 KST (00:00 UTC): Lambda 함수 호출 (action=attach)
 - 18:00 KST (09:00 UTC): Lambda 함수 호출 (action=detach)
 
 **대안 2: AWS Config 규칙**
+
 - AWS Config로 업무 시간 외 API 호출을 감지하고 알림
 - 실시간 차단은 불가능하지만, 사후 감사 및 경고 가능
 
 **대안 3: 서드파티 솔루션**
+
 - HashiCorp Vault: 시간 기반 동적 자격증명 발급
 - AWS IAM Identity Center: 세션 시간 제한 설정
 
 #### 7. 시간 기반 정책 모범 사례
 
 **1. 여유 시간 확보**
+
 - 시작 시간: 실제 필요 시간보다 1-2시간 일찍 설정
 - 종료 시간: 실제 필요 시간보다 1-2시간 늦게 설정
 - 이유: 시간대 변환 오류, 업무 지연 등을 고려
 
 **2. 명시적 Deny 사용**
+
 - Allow만 사용하면 다른 정책의 Allow가 우선될 수 있음
 - Deny를 함께 사용하여 기간 외 접근을 확실히 차단
 
 **3. 알림 설정**
+
 - Amazon CloudWatch Events로 정책 만료 7일 전 알림
 - AWS Lambda로 자동 연장 또는 관리자 승인 워크플로우 구현
 
 **4. 테스트**
+
 - 정책 적용 전 테스트 사용자로 충분히 테스트
 - 시간대 변환이 올바른지 확인
 - 기간 시작/종료 시점에 실제 동작 확인
 
 **5. 문서화**
+
 - 정책 Description에 기간 및 목적 명시
 - 태그로 만료일 표시 (예: `ExpiryDate=2026-12-31`)
 - 정책 검토 주기 설정 (월 1회 권장)
-
-

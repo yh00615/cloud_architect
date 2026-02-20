@@ -884,7 +884,7 @@ Week 4-3에서 구축한 QuickTable API와 Week 10-2의 ElastiCache 인프라를
 
 ## 2단계: 리소스 삭제
 
-### EventBridge 규칙 삭제
+#### EventBridge 규칙 삭제
 
 1. EventBridge 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Rules**를 선택합니다.

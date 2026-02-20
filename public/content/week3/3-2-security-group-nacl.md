@@ -561,7 +561,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ---
 
-### 1. Tag Editor로 생성된 리소스 확인
+## 1단계: Tag Editor로 생성된 리소스 확인
 
 실습에서 생성한 모든 리소스를 Tag Editor로 확인합니다.
 
@@ -584,7 +584,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ---
 
-### 2. 리소스 삭제
+## 2단계: 리소스 삭제
 
 수동으로 생성한 NACL을 먼저 삭제한 후 CloudFormation 스택을 삭제합니다.
 
@@ -686,7 +686,7 @@ done
 
 ---
 
-### 3. CloudFormation 스택 삭제
+## 3단계: CloudFormation 스택 삭제
 
 마지막으로 CloudFormation 스택을 삭제하여 나머지 모든 리소스를 정리합니다.
 
@@ -726,7 +726,7 @@ done
 
 ---
 
-### 4. 최종 삭제 확인 (Tag Editor 활용)
+## 4단계: 최종 삭제 확인 (Tag Editor 활용)
 
 모든 리소스가 정상적으로 삭제되었는지 Tag Editor로 최종 확인합니다.
 

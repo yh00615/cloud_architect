@@ -552,7 +552,7 @@ curl -I https://www.google.com
 
 ---
 
-### 1. Tag Editor로 생성된 리소스 확인
+## 1단계: Tag Editor로 생성된 리소스 확인
 
 실습에서 생성한 모든 리소스를 Tag Editor로 확인합니다.
 
@@ -585,7 +585,7 @@ curl -I https://www.google.com
 
 ---
 
-### 2. 리소스 삭제
+## 2단계: 리소스 삭제
 
 다음 두 가지 방법 중 하나를 선택하여 리소스를 삭제할 수 있습니다.
 
@@ -650,7 +650,7 @@ fi
 
 ---
 
-### 3. CloudFormation 스택 삭제
+## 3단계: CloudFormation 스택 삭제
 
 마지막으로 CloudFormation 스택을 삭제하여 나머지 모든 리소스를 정리합니다.
 
@@ -690,7 +690,7 @@ fi
 
 ---
 
-### 4. 최종 삭제 확인 (Tag Editor 활용)
+## 4단계: 최종 삭제 확인 (Tag Editor 활용)
 
 모든 리소스가 정상적으로 삭제되었는지 Tag Editor로 최종 확인합니다.
 

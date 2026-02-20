@@ -1,5 +1,5 @@
 ---
-title: "draw.io로 HA 아키텍처 다이어그램 작성"
+title: 'draw.io로 HA 아키텍처 다이어그램 작성'
 week: 1
 session: 3
 awsServices: []
@@ -20,11 +20,12 @@ prerequisites:
 
 > [!DOWNLOAD]
 > [week1-3-architecture-lab.zip](/files/week1/week1-3-architecture-lab.zip)
+>
 > - `README.md` - QuickTable 아키텍처 설계 가이드 및 Multi-AZ 고가용성 원칙 설명
 > - `template-info.md` - Draw.io 템플릿 사용 안내 및 AWS 아이콘 라이브러리 로드 방법
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 1: Draw.io 환경 설정 - template-info.md를 참고하여 AWS 아이콘 라이브러리를 자동으로 로드하는 URL 파라미터 사용법을 확인하고 작업 환경을 설정합니다
 > - 태스크 2-8: QuickTable 아키텍처 다이어그램 작성 - README.md를 참고하여 Multi-AZ 고가용성 설계 원칙, 3-Tier 아키텍처 구성 요소, 보안 그룹 설계 모범 사례, Auto Scaling 전략 등을 학습하고 다이어그램에 적용합니다
 
@@ -50,10 +51,11 @@ prerequisites:
 5. [[Create New Diagram]] 버튼을 클릭합니다.
 6. **Blank Diagram**을 선택합니다.
 7. [[Create]] 버튼을 클릭합니다.
-5. 다이어그램 이름을 `quicktable-architecture`로 입력합니다.
-6. 저장 위치를 선택합니다.
+8. 다이어그램 이름을 `quicktable-architecture`로 입력합니다.
+9. 저장 위치를 선택합니다.
 
 > [!NOTE]
+>
 > - **Device**를 선택하면 로컬 컴퓨터에 저장됩니다.
 > - 클라우드 저장소를 선택하면 어디서나 접근할 수 있습니다.
 
@@ -101,6 +103,7 @@ prerequisites:
 9. 세 번째 서브넷 레이블을 `Private DB Subnet C (10.0.22.0/24)`로 설정합니다.
 
 > [!NOTE]
+>
 > - **퍼블릭 서브넷**: 인터넷 게이트웨이를 통해 외부와 통신하며, Application Load Balancer가 배치됩니다.
 > - **프라이빗 애플리케이션 서브넷**: NAT Gateway를 통해 외부로 나가는 트래픽만 허용하며, Amazon EC2 웹 서버와 앱 서버가 배치됩니다.
 > - **프라이빗 데이터베이스 서브넷**: 외부 인터넷 접근이 차단되며, Amazon RDS 데이터베이스가 배치됩니다.
@@ -124,6 +127,7 @@ prerequisites:
 11. 각 NAT Gateway에서 해당 AZ의 Private App Subnet으로 화살표를 연결합니다.
 
 > [!NOTE]
+>
 > - **Internet Gateway**: 퍼블릭 서브넷의 리소스가 인터넷과 양방향 통신을 할 수 있도록 합니다.
 > - **NAT Gateway**: 프라이빗 서브넷의 리소스가 인터넷으로 나가는 트래픽을 처리합니다. NAT Gateway는 퍼블릭 서브넷에 배치되며, Internet Gateway를 통해 인터넷에 연결됩니다. 프라이빗 서브넷의 리소스는 NAT Gateway를 통해 인터넷으로 나가는 트래픽만 허용하며, 외부에서 들어오는 트래픽은 차단합니다. Multi-AZ 구성으로 고가용성을 보장합니다.
 
@@ -167,6 +171,7 @@ prerequisites:
 17. 각 Web Server에서 해당 AZ의 App Server로 화살표를 연결합니다.
 
 > [!NOTE]
+>
 > - **Web Tier**: Nginx 또는 Apache를 실행하며, 정적 콘텐츠를 제공하고 요청을 App Tier로 전달합니다.
 > - **App Tier**: Node.js 또는 Python 애플리케이션을 실행하며, 비즈니스 로직을 처리합니다.
 > - **Auto Scaling**: 트래픽에 따라 Amazon EC2 인스턴스 수를 자동으로 조정하여 비용을 최적화하고 가용성을 보장합니다.
@@ -188,6 +193,7 @@ prerequisites:
 9. 화살표 레이블을 `MySQL (3306)`로 설정합니다.
 
 > [!NOTE]
+>
 > - **Amazon RDS Multi-AZ**: Primary DB 인스턴스와 Standby DB 인스턴스가 서로 다른 가용 영역에 배포됩니다.
 > - **동기식 복제**: Primary에 쓰기가 발생하면 즉시 Standby로 복제됩니다.
 > - **자동 페일오버**: Primary에 장애가 발생하면 1-2분 내에 Standby가 자동으로 Primary로 승격됩니다.
@@ -219,11 +225,12 @@ prerequisites:
 
 > [!NOTE]
 > 보안 그룹은 계층화된 보안을 구현합니다:
+>
 > - **ALB-SG**: 인터넷에서 HTTPS(443) 트래픽만 허용
 > - **Web-SG**: ALB에서 HTTP(80) 트래픽만 허용
 > - **App-SG**: Web Tier에서 8080 포트 트래픽만 허용
 > - **DB-SG**: App Tier에서 MySQL(3306) 트래픽만 허용
-> 
+>
 > 각 계층은 이전 계층의 보안 그룹만 허용하여 최소 권한 원칙을 적용합니다.
 
 ✅ **태스크 완료**: 보안 그룹이 표시되었습니다.
@@ -266,7 +273,7 @@ prerequisites:
 
 ---
 
-# 🗑️ 리소스 정리
+## 리소스 정리
 
 > [!NOTE]
 > 이 실습은 Draw.io를 사용한 다이어그램 작성 실습으로, AWS 리소스를 생성하지 않았습니다.
@@ -331,12 +338,14 @@ prerequisites:
 ### 3-Tier 아키텍처 개요
 
 **계층 분리의 이점**
+
 - 각 계층은 독립적으로 확장 가능합니다.
 - 보안 그룹으로 계층 간 트래픽을 제어합니다.
 - 장애 격리가 용이하여 한 계층의 문제가 다른 계층에 영향을 주지 않습니다.
 - 유지보수와 업데이트가 쉽습니다.
 
 **QuickTable 3-Tier 구성**
+
 - **프레젠테이션 계층**: Application Load Balancer (퍼블릭 서브넷)
 - **애플리케이션 계층**: Amazon EC2 Web Server + App Server (프라이빗 애플리케이션 서브넷)
 - **데이터 계층**: Amazon RDS MySQL Multi-AZ (프라이빗 데이터베이스 서브넷)
@@ -344,16 +353,19 @@ prerequisites:
 ### Multi-AZ 고가용성 설계
 
 **가용 영역 분산**
+
 - 2개의 가용 영역(ap-northeast-2a, ap-northeast-2c)을 사용합니다.
 - 각 AZ에 동일한 구성의 서브넷을 배치합니다.
 - 하나의 AZ에 장애가 발생해도 다른 AZ에서 서비스를 계속 제공합니다.
 
 **Application Load Balancer**
+
 - 2개의 퍼블릭 서브넷에 배포되어 고가용성을 보장합니다.
 - Health Check를 통해 정상 인스턴스로만 트래픽을 전달합니다.
 - Cross-Zone Load Balancing으로 AZ 간 트래픽을 균등하게 분산합니다.
 
 **Amazon RDS Multi-AZ**
+
 - Primary DB 인스턴스와 Standby DB 인스턴스가 서로 다른 AZ에 배포됩니다.
 - 동기식 복제로 데이터 일관성을 보장합니다.
 - 자동 페일오버로 1-2분 내에 Standby가 Primary로 승격됩니다.
@@ -361,12 +373,14 @@ prerequisites:
 ### 네트워크 구성
 
 **Amazon VPC 설계**
+
 - CIDR 블록: 10.0.0.0/16 (65,536개 IP 주소)
 - 퍼블릭 서브넷: 10.0.1.0/24, 10.0.2.0/24 (각 256개 IP)
 - 프라이빗 애플리케이션 서브넷: 10.0.11.0/24, 10.0.12.0/24
 - 프라이빗 데이터베이스 서브넷: 10.0.21.0/24, 10.0.22.0/24
 
 **인터넷 연결**
+
 - 인터넷 게이트웨이: 퍼블릭 서브넷의 리소스가 인터넷과 양방향 통신
 - NAT Gateway: 프라이빗 서브넷의 리소스가 인터넷으로 나가는 트래픽만 허용
 - Multi-AZ NAT Gateway: 각 AZ에 NAT Gateway를 배치하여 고가용성 보장
@@ -374,12 +388,14 @@ prerequisites:
 ### 보안 그룹 설계
 
 **계층화된 보안**
+
 - **QuickTable-ALB-SG**: 인터넷(0.0.0.0/0)에서 HTTPS(443) 트래픽만 허용
 - **QuickTable-Web-SG**: ALB 보안 그룹에서 HTTP(80) 트래픽만 허용
 - **QuickTable-App-SG**: Web 보안 그룹에서 8080 포트 트래픽만 허용
 - **QuickTable-DB-SG**: App 보안 그룹에서 MySQL(3306) 트래픽만 허용
 
 **최소 권한 원칙**
+
 - 각 계층은 이전 계층의 보안 그룹만 허용합니다.
 - 불필요한 포트는 모두 차단합니다.
 - 데이터베이스는 외부 인터넷 접근이 완전히 차단됩니다.
@@ -387,47 +403,56 @@ prerequisites:
 ### Auto Scaling 전략
 
 **Web Tier Auto Scaling**
+
 - 최소 인스턴스: 2개 (각 AZ에 1개씩)
 - 최대 인스턴스: 10개
 - 스케일링 정책: CPU 사용률 70% 이상 시 스케일 아웃
 
 **App Tier Auto Scaling**
+
 - 최소 인스턴스: 2개 (각 AZ에 1개씩)
 - 최대 인스턴스: 20개
 - 스케일링 정책: CPU 사용률 60% 이상 시 스케일 아웃
 
 **스케일링 쿨다운**
+
 - 스케일 아웃 후 5분 대기 (인스턴스 초기화 시간 고려)
 - 스케일 인 후 10분 대기 (트래픽 변동 고려)
 
 ### Amazon RDS 데이터베이스 설계
 
 **Multi-AZ 배포**
+
 - Primary DB: ap-northeast-2a
 - Standby DB: ap-northeast-2c
 - 동기식 복제로 RPO(Recovery Point Objective) = 0
 
 **자동 백업**
+
 - 백업 보존 기간: 7일
 - 백업 시간: 새벽 3-4시 (트래픽이 적은 시간)
 - Point-in-Time Recovery 지원
 
 **읽기 성능 최적화**
+
 - Read Replica를 추가하여 읽기 트래픽 분산 가능
 - 애플리케이션에서 읽기/쓰기 엔드포인트 분리
 
 ### 비용 최적화
 
 **Amazon EC2 인스턴스 타입 선택**
+
 - Web Tier: t3.small (2 vCPU, 2GB RAM) - 가벼운 웹 서버
 - App Tier: t3.medium (2 vCPU, 4GB RAM) - 비즈니스 로직 처리
 - Reserved Instance 또는 Savings Plans로 비용 절감
 
 **NAT Gateway 비용 절감**
+
 - Amazon VPC Endpoint를 사용하여 Amazon S3, Amazon DynamoDB 접근 시 NAT Gateway 우회
 - 트래픽이 적은 환경에서는 NAT Instance 고려
 
 **Amazon RDS 비용 최적화**
+
 - db.t3.micro 또는 db.t3.small로 시작
 - 트래픽 증가 시 수직 확장 (인스턴스 타입 변경)
 - Reserved Instance로 최대 60% 비용 절감
@@ -435,16 +460,19 @@ prerequisites:
 ### 모니터링 및 로깅
 
 **Amazon CloudWatch 메트릭**
+
 - ALB: 요청 수, 응답 시간, 오류율
 - Amazon EC2: CPU 사용률, 네트워크 트래픽, 디스크 I/O
 - Amazon RDS: CPU 사용률, 연결 수, 읽기/쓰기 IOPS
 
 **Amazon CloudWatch Logs**
+
 - ALB 액세스 로그: S3에 저장
 - Amazon EC2 애플리케이션 로그: Amazon CloudWatch Logs Agent로 수집
 - Amazon RDS 슬로우 쿼리 로그: 성능 최적화에 활용
 
 **Amazon CloudWatch Alarms**
+
 - CPU 사용률 80% 이상: Amazon SNS 알림
 - Amazon RDS 연결 수 90% 이상: 경고
 - ALB 5xx 오류율 5% 이상: 긴급 알림
@@ -452,11 +480,13 @@ prerequisites:
 ### 재해 복구 전략
 
 **백업 전략**
+
 - Amazon RDS 자동 백업: 매일 새벽 3시
 - Amazon EC2 AMI 스냅샷: 주 1회
 - 백업 데이터를 다른 리전에 복제 (선택사항)
 
 **복구 시나리오**
+
 - **AZ 장애**: Multi-AZ 구성으로 자동 페일오버 (1-2분)
 - **리전 장애**: 다른 리전에 백업에서 복구 (RTO: 1-2시간)
 - **데이터 손상**: Point-in-Time Recovery로 특정 시점 복구
@@ -464,16 +494,19 @@ prerequisites:
 ### 확장 가능성
 
 **수평 확장**
+
 - Auto Scaling으로 Amazon EC2 인스턴스 수 자동 조정
 - Read Replica 추가로 읽기 성능 향상
 - ALB가 자동으로 트래픽 분산
 
 **수직 확장**
+
 - Amazon EC2 인스턴스 타입 변경 (t3.small → t3.medium → t3.large)
 - Amazon RDS 인스턴스 타입 변경 (db.t3.micro → db.t3.small → db.t3.medium)
 - 다운타임 최소화 (RDS는 Multi-AZ 페일오버 활용)
 
 **서버리스 전환 경로**
+
 - Week 4-3: AWS Lambda + API Gateway로 애플리케이션 계층 전환
 - Week 5-3: DynamoDB로 데이터 계층 전환
 - Week 10-2: ElastiCache로 캐싱 계층 추가

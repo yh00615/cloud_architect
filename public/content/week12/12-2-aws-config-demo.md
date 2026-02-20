@@ -448,12 +448,14 @@ AWS Config는 선택한 규칙에 따라 적절한 Trigger type을 자동으로 
 - 규정 위반 시 자동 알림 기능을 설정했습니다
 - Conformance Pack으로 여러 규칙을 일괄 배포했습니다
 
-### 리소스 정리
+## 리소스 정리
 
 > [!WARNING]
 > 다음 단계를 **반드시 수행**하여 불필요한 비용을 방지합니다.
 
-#### 방법 1: Tag Editor로 리소스 찾기 (권장)
+---
+
+## 1단계: Tag Editor로 리소스 찾기
 
 1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
@@ -470,9 +472,9 @@ AWS Config는 선택한 규칙에 따라 적절한 Trigger type을 자동으로 
 >
 > AWS Config가 자동 생성한 S3 버킷, SNS 토픽, Conformance Pack 등은 태그를 추가하지 않았으므로 Tag Editor에 표시되지 않습니다. 이러한 리소스는 각 서비스 콘솔에서 직접 삭제해야 합니다.
 
-#### 방법 2: 수동 삭제
+---
 
-##### Conformance Pack 삭제
+## 2단계: Conformance Pack 삭제
 
 1. AWS Config 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Conformance packs**를 선택합니다.
@@ -481,7 +483,9 @@ AWS Config는 선택한 규칙에 따라 적절한 Trigger type을 자동으로 
 5. 확인 창에서 `delete`를 입력합니다.
 6. [[Delete]] 버튼을 클릭합니다.
 
-##### AWS Config Rules 삭제
+---
+
+## 3단계: AWS Config Rules 삭제
 
 > [!IMPORTANT]
 > Remediation 설정이 활성화된 상태에서 Config Rule을 삭제하면 오류가 발생할 수 있습니다. 반드시 Remediation을 먼저 제거한 후 Rule을 삭제해야 합니다.
@@ -503,7 +507,9 @@ AWS Config는 선택한 규칙에 따라 적절한 Trigger type을 자동으로 
     - `iam-password-policy`
     - `vpc-sg-open-only-to-authorized-ports`
 
-##### Configuration Recorder 중지 및 삭제
+---
+
+## 4단계: Configuration Recorder 중지 및 삭제
 
 1. 왼쪽 메뉴에서 **Settings**를 선택합니다.
 2. **Recorder** 섹션에서 [[Edit]] 버튼을 클릭합니다.
@@ -535,7 +541,43 @@ aws configservice delete-delivery-channel --delivery-channel-name default
 > [!NOTE]
 > Delivery Channel은 AWS 콘솔에서 직접 삭제할 수 없으므로 AWS CLI를 사용합니다.
 
-### 테스트 버킷 삭제
+---
+
+## 4단계: Configuration Recorder 중지 및 삭제
+
+1. 왼쪽 메뉴에서 **Settings**를 선택합니다.
+2. **Recorder** 섹션에서 [[Edit]] 버튼을 클릭합니다.
+3. **Recording is on** 토글을 끕니다.
+4. [[Save]] 버튼을 클릭합니다.
+
+> [!NOTE]
+> Configuration Recorder를 중지하면 리소스 변경 추적이 중단되지만, 기존 데이터는 S3에 유지됩니다.
+
+5. AWS Management Console 상단 오른쪽의 CloudShell 아이콘을 클릭합니다.
+6. CloudShell이 열리면 다음 명령어를 실행하여 Configuration Recorder를 삭제합니다:
+
+```bash
+aws configservice delete-configuration-recorder --configuration-recorder-name default
+```
+
+> [!TIP]
+> AWS CloudShell을 사용하면 브라우저에서 바로 AWS CLI 명령어를 실행할 수 있습니다. AWS CLI 설치나 자격 증명 설정이 필요 없으며, 사전 구성된 환경에서 즉시 명령어를 실행할 수 있습니다.
+
+> [!NOTE]
+> Configuration Recorder를 삭제해야 Delivery Channel 삭제가 가능합니다.
+
+7. 다음 명령어를 실행하여 Delivery Channel을 삭제합니다:
+
+```bash
+aws configservice delete-delivery-channel --delivery-channel-name default
+```
+
+> [!NOTE]
+> Delivery Channel은 AWS 콘솔에서 직접 삭제할 수 없으므로 AWS CLI를 사용합니다.
+
+---
+
+## 5단계: 테스트 버킷 삭제
 
 1. Amazon S3 콘솔로 이동합니다.
 2. `config-test-bucket-{계정ID}` 버킷을 선택합니다.
@@ -547,7 +589,9 @@ aws configservice delete-delivery-channel --delivery-channel-name default
 8. 확인 창에서 버킷 이름을 입력합니다.
 9. [[Delete bucket]] 버튼을 클릭합니다.
 
-### Amazon S3 버킷 삭제 (Config 데이터)
+---
+
+## 6단계: Amazon S3 버킷 삭제 (Config 데이터)
 
 1. Config가 생성한 버킷을 찾습니다 (이름: `config-bucket-{계정ID}`).
 2. 버킷을 선택합니다.
@@ -559,7 +603,9 @@ aws configservice delete-delivery-channel --delivery-channel-name default
 8. 확인 창에서 버킷 이름을 입력합니다.
 9. [[Delete bucket]] 버튼을 클릭합니다.
 
-### Amazon SNS 토픽 및 구독 삭제
+---
+
+## 7단계: Amazon SNS 토픽 및 구독 삭제
 
 1. Amazon SNS 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Topics**를 선택합니다.
@@ -571,7 +617,9 @@ aws configservice delete-delivery-channel --delivery-channel-name default
 > [!NOTE]
 > Amazon SNS 토픽을 삭제하면 연결된 모든 구독도 자동으로 삭제됩니다.
 
-### Remediation IAM 역할 삭제 (태스크 6.1에서 새 역할을 생성한 경우)
+---
+
+## 8단계: Remediation IAM 역할 삭제 (선택사항)
 
 > [!NOTE]
 > 태스크 6.1에서 기존 IAM 역할을 선택한 경우 이 단계를 건너뛰세요. 새 역할을 생성한 경우에만 삭제가 필요합니다.
@@ -586,7 +634,9 @@ aws configservice delete-delivery-channel --delivery-channel-name default
 > [!NOTE]
 > 태스크 6.1에서 [[Create a role]] 버튼으로 생성한 경우, 역할 이름은 생성 시 직접 지정했거나 자동 생성된 이름입니다. IAM 콘솔에서 생성 날짜를 기준으로 해당 역할을 찾을 수 있습니다.
 
-### CloudWatch Log Group 삭제 (선택사항)
+---
+
+## 9단계: CloudWatch Log Group 삭제 (선택사항)
 
 > [!NOTE]
 > AWS Config는 기본적으로 CloudWatch Logs에 로그를 전송하지 않습니다. 이 단계는 Delivery Channel 설정 시 CloudWatch Logs를 활성화한 경우에만 필요합니다. 로그 그룹이 존재하지 않으면 이 단계를 건너뛰세요.

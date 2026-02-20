@@ -1,5 +1,5 @@
 ---
-title: "AWS Resource Groups & Tag Editor를 활용한 리소스 관리"
+title: 'AWS Resource Groups & Tag Editor를 활용한 리소스 관리'
 week: 1
 session: 1
 awsServices:
@@ -18,19 +18,21 @@ prerequisites:
 
 > [!DOWNLOAD]
 > [week1-1-tag-editor-lab.zip](/files/week1/week1-1-tag-editor-lab.zip)
+>
 > - `tag-editor-lab-stack.yaml` - CloudFormation 템플릿 (태스크 0에서 QuickTable 리소스 자동 생성: S3 버킷 2개, Lambda 함수 1개, DynamoDB 테이블 1개, IAM 역할 1개)
 > - `README.md` - CloudFormation 배포 가이드 및 아키텍처 설명
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 0: 실습 환경 구축 (CloudFormation 스택 생성)
 
 이 데모에서는 AWS 리소스 태그(Tag)의 개념과 **AWS Resource Groups & Tag Editor**를 활용한 리소스 관리 방법을 학습합니다.
 
 > [!CONCEPT] AWS 리소스 태그 (Resource Tags)
 > AWS 태그는 리소스를 분류하고 추적하는 데 사용되는 키-값 쌍입니다.
-> 
+>
 > **주요 활용 사례**:
+>
 > - 프로젝트별, 환경별, 비용 센터별로 리소스 구분
 > - Cost Explorer에서 태그별 비용 분석
 > - Tag Editor로 특정 태그를 가진 리소스 빠르게 검색
@@ -42,14 +44,16 @@ prerequisites:
 
 > [!CONCEPT] AWS Resource Groups & Tag Editor
 > **Resource Groups & Tag Editor**는 여러 AWS 서비스의 리소스를 한 곳에서 검색하고 태그를 관리할 수 있는 통합 도구입니다.
-> 
+>
 > **Tag Editor 기능**:
+>
 > - 여러 리전의 리소스를 한 번에 검색
 > - 여러 AWS 서비스의 리소스를 통합 검색
 > - 태그 키와 값으로 필터링
 > - 여러 리소스에 동시에 태그 추가/수정/삭제
-> 
+>
 > **Resource Groups 기능**:
+>
 > - 태그 기반 동적 그룹 생성
 > - CloudWatch 대시보드와 통합하여 그룹 단위 모니터링
 > - Systems Manager와 통합하여 그룹 단위 자동화
@@ -90,21 +94,23 @@ AWS CloudFormation 스택은 다음 QuickTable 리소스를 생성합니다:
 12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 찾습니다.
 13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
 | `CreatedBy` | `Student` |
 
 > [!IMPORTANT]
 > **스택 레벨 태그 vs 템플릿 내 태그**
-> 
+>
 > **스택 레벨 태그** (여기서 추가):
+>
 > - CloudFormation 스택 자체와 스택이 생성하는 태그 전파를 지원하는 모든 리소스에 자동 전파됩니다
 > - 일부 리소스 타입은 태그 전파를 지원하지 않을 수 있습니다
-> 
+>
 > **템플릿 내 태그**:
+>
 > - CloudFormation 템플릿에 정의된 태그로, 템플릿이 생성하는 모든 리소스에 직접 추가됩니다
-> 
+>
 > 이 실습에서는 두 가지 방법을 모두 사용하여 태그 전파 방식을 학습합니다. 템플릿에는 `Week=1-1` 태그만 포함되어 있으므로, 스택 레벨에서 `Project`와 `CreatedBy` 태그를 추가합니다.
 
 14. [[Next]] 버튼을 클릭합니다.
@@ -161,9 +167,9 @@ AWS CloudFormation 스택은 다음 QuickTable 리소스를 생성합니다:
 
 9. [[Add tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
 | `CreatedBy` | `Student` |
 
 10. [[Save changes]] 버튼을 클릭합니다.
@@ -186,11 +192,12 @@ AWS CloudFormation 스택은 다음 QuickTable 리소스를 생성합니다:
 6. [[Search resources]] 버튼을 클릭합니다.
 
 > [!OUTPUT]
+>
 > ```
 > 다음 리소스가 표시됩니다:
 > - quicktable-reservations-xxx (태그 3개: Week, Project, CreatedBy)
 > - quicktable-logs-xxx (태그 1개: Week)
-> 
+>
 > 두 번째 버킷(logs)에는 Project와 CreatedBy 태그가 없습니다.
 > ```
 
@@ -208,9 +215,9 @@ AWS CloudFormation 스택은 다음 QuickTable 리소스를 생성합니다:
 
 9. **Add tags** 섹션에서 [[Add tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
 | `CreatedBy` | `Student` |
 
 10. [[Review and apply tag changes]] 버튼을 클릭합니다.
@@ -251,6 +258,7 @@ AWS CloudFormation 스택은 다음 QuickTable 리소스를 생성합니다:
 > **All regions 선택 이유**: AWS IAM 역할은 글로벌 리소스이므로 특정 리전(ap-northeast-2)만 선택하면 검색 결과에 표시되지 않습니다. All regions를 선택하면 리전별 리소스(S3, Lambda, DynamoDB)와 글로벌 리소스(IAM)를 모두 검색할 수 있습니다.
 
 > [!OUTPUT]
+>
 > ```
 > 다음 리소스가 표시됩니다:
 > - Amazon S3 버킷 2개 (quicktable-reservations-xxx, quicktable-logs-xxx)
@@ -258,7 +266,7 @@ AWS CloudFormation 스택은 다음 QuickTable 리소스를 생성합니다:
 > - Amazon DynamoDB 테이블 1개 (QuickTableReservations)
 > - AWS IAM 역할 1개 (QuickTableLambdaExecutionRole)
 > - CloudWatch Log Group 1개 이상 (Lambda 함수 로그 그룹 등)
-> 
+>
 > 최소 5개 이상의 리소스가 Week=1-1 태그를 가지고 있습니다.
 > ```
 
@@ -328,7 +336,7 @@ AWS CloudFormation 스택은 다음 QuickTable 리소스를 생성합니다:
 
 ---
 
-# 🗑️ 리소스 정리
+## 리소스 정리
 
 > [!WARNING]
 > 다음 단계를 **반드시 수행**하여 불필요한 비용을 방지하세요.
@@ -348,7 +356,7 @@ AWS CloudFormation 스택은 다음 QuickTable 리소스를 생성합니다:
 7. 이 실습에서 생성한 모든 QuickTable 리소스가 표시됩니다.
 
 > [!NOTE]
-> Tag Editor는 리소스를 **찾는 용도**로만 사용됩니다. 
+> Tag Editor는 리소스를 **찾는 용도**로만 사용됩니다.
 > 실제 삭제는 2단계에서 수행합니다.
 
 ## 2단계: 리소스 삭제
@@ -411,16 +419,19 @@ Resource Groups는 리소스를 그룹화하는 논리적 컨테이너이므로 
 AWS 태그는 리소스를 효과적으로 관리하기 위한 핵심 도구입니다. 태그를 통해 다음을 수행할 수 있습니다:
 
 **리소스 분류 및 검색**
+
 - 프로젝트별, 환경별, 팀별로 리소스 그룹화
 - Tag Editor로 특정 태그를 가진 리소스 빠르게 검색
 - Resource Groups로 관련 리소스 논리적 그룹화
 
 **비용 추적 및 최적화**
+
 - Cost Explorer에서 태그별 비용 분석
 - 프로젝트별, 부서별 비용 할당
 - 예산 알림 설정 시 태그 기반 필터링
 
 **자동화 및 운영**
+
 - AWS Systems Manager에서 태그 기반 자동화
 - AWS Lambda 함수에서 태그 기반 리소스 관리
 - Amazon CloudWatch 알람에서 태그 기반 모니터링
@@ -429,13 +440,14 @@ AWS 태그는 리소스를 효과적으로 관리하기 위한 핵심 도구입�
 
 이 강의에서 사용하는 표준 태그 3개:
 
-| Tag Key | Tag Value | 설명 |
-|---------|-----------|------|
-| `Project` | `AWS-Lab` | 프로젝트 식별자 (고정값) |
-| `Week` | `{주차}-{세션}` | 주차 및 세션 번호 (예: 1-1, 5-3) |
-| `CreatedBy` | `Student` | 생성자 구분 (고정값) |
+| Tag Key     | Tag Value       | 설명                             |
+| ----------- | --------------- | -------------------------------- |
+| `Project`   | `AWS-Lab`       | 프로젝트 식별자 (고정값)         |
+| `Week`      | `{주차}-{세션}` | 주차 및 세션 번호 (예: 1-1, 5-3) |
+| `CreatedBy` | `Student`       | 생성자 구분 (고정값)             |
 
 **태그 명명 규칙**:
+
 - Tag Key는 PascalCase 사용 (Project, Week, CreatedBy)
 - Tag Value는 간결하고 명확하게 작성
 - 일관성 유지가 가장 중요
@@ -443,36 +455,41 @@ AWS 태그는 리소스를 효과적으로 관리하기 위한 핵심 도구입�
 ### Tag Editor 활용
 
 **검색 기능**
+
 - 여러 리전의 리소스를 한 번에 검색
 - 여러 AWS 서비스의 리소스를 통합 검색
 - 태그 키와 값으로 필터링
 
 **일괄 태그 관리**
+
 - 여러 리소스에 동시에 태그 추가/수정/삭제
 - 태그 표준화 및 정리 작업 효율화
 - 태그 규칙 준수 확인
 
 **제한사항**
 
-| 제한사항 | 설명 |
-|---------|------|
-| 검색 및 태그 관리 전용 | Tag Editor는 리소스를 찾고 태그를 관리하는 용도로만 사용됩니다 |
-| 리소스 삭제 불가 | 실제 리소스 삭제는 각 서비스 콘솔에서 수행해야 합니다 |
-| 일부 리소스 미지원 | 모든 AWS 리소스 타입을 지원하지는 않습니다 |
-| 리전 선택 필요 | 특정 리전 또는 All regions를 선택하여 검색합니다. 글로벌 리소스(IAM 등)는 All regions 선택 시에만 표시됩니다 |
+| 제한사항               | 설명                                                                                                         |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------ |
+| 검색 및 태그 관리 전용 | Tag Editor는 리소스를 찾고 태그를 관리하는 용도로만 사용됩니다                                               |
+| 리소스 삭제 불가       | 실제 리소스 삭제는 각 서비스 콘솔에서 수행해야 합니다                                                        |
+| 일부 리소스 미지원     | 모든 AWS 리소스 타입을 지원하지는 않습니다                                                                   |
+| 리전 선택 필요         | 특정 리전 또는 All regions를 선택하여 검색합니다. 글로벌 리소스(IAM 등)는 All regions 선택 시에만 표시됩니다 |
 
 ### Resource Groups 활용
 
 **그룹 타입**
+
 - **Tag based**: 태그 기반 동적 그룹 (태그가 일치하는 리소스 자동 포함)
 - **AWS CloudFormation stack based**: AWS CloudFormation 스택 기반 그룹
 
 **통합 기능**
+
 - Amazon CloudWatch 대시보드: 그룹 단위 모니터링
 - AWS Systems Manager: 그룹 단위 자동화 및 패치 관리
 - AWS Config: 그룹 단위 규정 준수 확인
 
 **모범 사례**
+
 - 프로젝트별, 환경별, 애플리케이션별로 그룹 생성
 - 명확한 그룹 이름과 설명 사용
 - 정기적으로 그룹 멤버십 검토
@@ -488,7 +505,7 @@ AWS 태그는 리소스를 효과적으로 관리하기 위한 핵심 도구입�
 5. Tag Editor로 삭제 확인.
 
 **장점**:
+
 - 실습에서 생성한 리소스를 빠르게 찾을 수 있음
 - 삭제 누락 방지
 - 불필요한 비용 발생 방지
-
