@@ -1,5 +1,5 @@
 ---
-title: "3-tier 아키텍처 보안 그룹 및 NACL 구성"
+title: '3-tier 아키텍처 보안 그룹 및 NACL 구성'
 week: 3
 session: 2
 awsServices:
@@ -24,23 +24,24 @@ prerequisites:
 
 > [!DOWNLOAD]
 > [week3-2-security-group-lab.zip](/files/week3/week3-2-security-group-lab.zip)
+>
 > - `week3-2-security-group-lab.yaml` - 3-Tier Amazon VPC 및 빈 보안 그룹 AWS CloudFormation 템플릿
 > - `README.md` - 아키텍처 설명 및 보안 그룹 규칙 레퍼런스
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 0: Amazon VPC 환경 구축 (AWS CloudFormation 템플릿 배포하여 Amazon VPC, 서브넷, 빈 보안 그룹 자동 생성)
 > - 태스크 1-5: 각 계층별 보안 그룹 규칙 추가 (README.md 참조)
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
-> 
+>
 > **예상 비용** (ap-northeast-2 리전 기준):
-> 
-> | 리소스 | 타입 | 시간당 비용 |
-> |--------|------|------------|
-> | NAT Gateway | - | 약 $0.045 |
-> | **총 예상** | - | **약 $0.045** |
+>
+> | 리소스      | 타입 | 시간당 비용   |
+> | ----------- | ---- | ------------- |
+> | NAT Gateway | -    | 약 $0.045     |
+> | **총 예상** | -    | **약 $0.045** |
 
 ## 태스크 0: Amazon VPC 환경 구축
 
@@ -53,6 +54,7 @@ prerequisites:
 ![3-Tier 보안 그룹 아키텍처 - ALB, Web Tier, App Tier, DB Tier로 구성된 계층별 보안 그룹 체인 구조](/images/week3/3-2-architecture-diagram.png)
 
 **아키텍처 구성**:
+
 - **ALB-SG (Application Load Balancer)**: 인터넷(0.0.0.0/0)에서 HTTP/HTTPS 트래픽 허용
 - **Web-Tier-SG (웹 서버 계층)**: ALB-SG로부터만 HTTP/HTTPS 트래픽 허용
 - **App-Tier-SG (애플리케이션 계층)**: Web-Tier-SG로부터만 Port 8080 트래픽 허용
@@ -87,10 +89,10 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 찾습니다.
 13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `3-2` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `3-2`     |
 | `CreatedBy` | `Student` |
 
 14. [[Next]] 버튼을 클릭합니다.
@@ -142,7 +144,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!NOTE]
 > 모든 보안 그룹의 인바운드 규칙이 비어 있습니다. CloudFormation이 빈 보안 그룹만 생성했으며, 다음 태스크에서 학생이 직접 인바운드 규칙을 추가합니다.
-> 
+>
 > **학습 목적**: CloudFormation이 빈 보안 그룹만 생성한 이유는 학생들이 직접 인바운드 규칙을 추가하면서 보안 그룹 체인의 구성 방법을 체험하기 위함입니다. 실무에서는 AWS CloudFormation 템플릿에 모든 규칙을 포함하여 자동화합니다.
 
 ✅ **확인 완료**: 빈 보안 그룹 4개가 준비되었습니다.
@@ -158,14 +160,14 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 5. [[Edit inbound rules]] 버튼을 클릭합니다.
 6. [[Add rule]] 버튼을 클릭합니다.
 7. 첫 번째 규칙을 설정합니다:
-    - **Type**에서 `HTTP`를 선택합니다.
-    - **Source**에서 `0.0.0.0/0`을 입력합니다.
-    - **Description**에 `Allow HTTP from internet`를 입력합니다.
+   - **Type**에서 `HTTP`를 선택합니다.
+   - **Source**에서 `0.0.0.0/0`을 입력합니다.
+   - **Description**에 `Allow HTTP from internet`를 입력합니다.
 8. [[Add rule]] 버튼을 다시 클릭합니다.
 9. 두 번째 규칙을 설정합니다:
-    - **Type**에서 `HTTPS`를 선택합니다.
-    - **Source**에서 `0.0.0.0/0`을 입력합니다.
-    - **Description**에 `Allow HTTPS from internet`를 입력합니다.
+   - **Type**에서 `HTTPS`를 선택합니다.
+   - **Source**에서 `0.0.0.0/0`을 입력합니다.
+   - **Description**에 `Allow HTTPS from internet`를 입력합니다.
 10. [[Save rules]] 버튼을 클릭합니다.
 
 ✅ **태스크 완료**: ALB 보안 그룹 인바운드 규칙이 구성되었습니다.
@@ -179,42 +181,43 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 3. [[Edit inbound rules]] 버튼을 클릭합니다.
 4. [[Add rule]] 버튼을 클릭합니다.
 5. 첫 번째 규칙을 설정합니다:
-    - **Type**에서 `HTTP`를 선택합니다.
-    - **Source**에서 `Custom`을 선택한 후, 검색 필드에 `ALB-SG`를 입력하여 `week3-2-security-group-ALB-SG`를 찾아 선택합니다.
-    - **Description**에 `Allow HTTP from ALB`를 입력합니다.
+   - **Type**에서 `HTTP`를 선택합니다.
+   - **Source**에서 `Custom`을 선택한 후, 검색 필드에 `ALB-SG`를 입력하여 `week3-2-security-group-ALB-SG`를 찾아 선택합니다.
+   - **Description**에 `Allow HTTP from ALB`를 입력합니다.
 6. [[Add rule]] 버튼을 다시 클릭합니다.
 7. 두 번째 규칙을 설정합니다:
-    - **Type**에서 `HTTPS`를 선택합니다.
-    - **Source**에서 `Custom`을 선택한 후, 검색 필드에 `ALB-SG`를 입력하여 `week3-2-security-group-ALB-SG`를 찾아 선택합니다.
-    - **Description**에 `Allow HTTPS from ALB`를 입력합니다.
+   - **Type**에서 `HTTPS`를 선택합니다.
+   - **Source**에서 `Custom`을 선택한 후, 검색 필드에 `ALB-SG`를 입력하여 `week3-2-security-group-ALB-SG`를 찾아 선택합니다.
+   - **Description**에 `Allow HTTPS from ALB`를 입력합니다.
 8. [[Add rule]] 버튼을 다시 클릭합니다.
 9. 세 번째 규칙을 설정합니다:
-    - **Type**에서 `SSH`를 선택합니다.
-    - **Source**에서 `My IP`를 선택합니다.
-    - **Description**에 `Allow SSH from my IP`를 입력합니다.
+   - **Type**에서 `SSH`를 선택합니다.
+   - **Source**에서 `My IP`를 선택합니다.
+   - **Description**에 `Allow SSH from my IP`를 입력합니다.
 
 > [!NOTE]
 > **"My IP" 동작 방식**: "My IP"는 현재 콘솔에 접속한 IP 주소를 자동으로 감지합니다. 카페, 학교 등 네트워크 환경이 변경되면 IP가 달라지므로 SSH 접근이 차단될 수 있습니다. 이 경우 보안 그룹 규칙을 업데이트해야 합니다.
 
 > [!WARNING]
 > **학교/회사 네트워크에서 "My IP" 사용 시 주의사항**: 학교나 회사 네트워크에서 "My IP"를 선택하면 해당 네트워크의 공인 IP가 자동으로 입력됩니다. 이 경우 다음 사항에 유의해야 합니다:
-> 
+>
 > **공유 IP 문제**: NAT를 사용하는 환경에서는 여러 사용자가 동일한 공인 IP를 공유합니다. 따라서 본인만 접근하려고 해도 같은 네트워크의 다른 사용자도 SSH 접근이 가능합니다.
-> 
+>
 > **IP 변경 문제**: 학교/회사 네트워크의 공인 IP는 관리자가 변경할 수 있으며, DHCP로 동적 할당되는 경우 주기적으로 변경될 수 있습니다. IP가 변경되면 SSH 접근이 차단됩니다.
-> 
+>
 > **방화벽 제한**: 학교/회사 방화벽이 특정 포트(SSH 22번 등)를 차단하는 경우 보안 그룹 규칙과 무관하게 접근이 불가능합니다.
-> 
+>
 > **권장 사항**: 개인 네트워크(집, 카페 등)에서 실습하거나, Session Manager를 사용하여 SSH 없이 EC2에 접속하는 것을 권장합니다.
 
 > [!IMPORTANT]
 > **프라이빗 서브넷 SSH 접근 제한**: 이 실습에서 Web-SG에 "My IP"로 SSH 규칙을 추가하지만, 프라이빗 서브넷에 있는 Web Server는 퍼블릭 IP가 없어 인터넷에서 직접 SSH 접속이 불가능합니다. 실제로 프라이빗 서브넷의 EC2에 SSH로 접속하려면 다음 방법 중 하나를 사용해야 합니다:
-> 
+>
 > **접근 방법**:
+>
 > - **Bastion Host**: 퍼블릭 서브넷에 Bastion Host를 배치하고, Bastion을 통해 프라이빗 서브넷의 EC2에 접속
 > - **VPN 연결**: AWS VPN 또는 Direct Connect를 통해 VPC 내부 네트워크에 접속
 > - **Session Manager**: AWS Systems Manager Session Manager를 사용하여 SSH 없이 브라우저에서 접속 (권장)
-> 
+>
 > **이 실습의 목적**: 이 SSH 규칙은 보안 그룹 설정 방법을 학습하기 위한 것입니다. 실제 프로덕션 환경에서는 프라이빗 서브넷의 EC2에 직접 SSH 규칙을 추가하지 않고, Bastion Host나 Session Manager를 통해 접근합니다.
 
 10. [[Save rules]] 버튼을 클릭합니다.
@@ -230,15 +233,15 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 3. [[Edit inbound rules]] 버튼을 클릭합니다.
 4. [[Add rule]] 버튼을 클릭합니다.
 5. 첫 번째 규칙을 설정합니다:
-    - **Type**에서 `Custom TCP`를 선택합니다.
-    - **Port range**에 `8080`을 입력합니다.
-    - **Source**에서 `Custom`을 선택한 후, 검색 필드에 `Web-SG`를 입력하여 `week3-2-security-group-Web-SG`를 찾아 선택합니다.
-    - **Description**에 `Allow 8080 from Web tier`를 입력합니다.
+   - **Type**에서 `Custom TCP`를 선택합니다.
+   - **Port range**에 `8080`을 입력합니다.
+   - **Source**에서 `Custom`을 선택한 후, 검색 필드에 `Web-SG`를 입력하여 `week3-2-security-group-Web-SG`를 찾아 선택합니다.
+   - **Description**에 `Allow 8080 from Web tier`를 입력합니다.
 6. [[Add rule]] 버튼을 다시 클릭합니다.
 7. 두 번째 규칙을 설정합니다:
-    - **Type**에서 `SSH`를 선택합니다.
-    - **Source**에서 `Custom`을 선택한 후, 검색 필드에 `Web-SG`를 입력하여 `week3-2-security-group-Web-SG`를 찾아 선택합니다.
-    - **Description**에 `Allow SSH from Web tier`를 입력합니다.
+   - **Type**에서 `SSH`를 선택합니다.
+   - **Source**에서 `Custom`을 선택한 후, 검색 필드에 `Web-SG`를 입력하여 `week3-2-security-group-Web-SG`를 찾아 선택합니다.
+   - **Description**에 `Allow SSH from Web tier`를 입력합니다.
 8. [[Save rules]] 버튼을 클릭합니다.
 
 ✅ **태스크 완료**: App Tier 보안 그룹 인바운드 규칙이 구성되었습니다.
@@ -252,9 +255,9 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 3. [[Edit inbound rules]] 버튼을 클릭합니다.
 4. [[Add rule]] 버튼을 클릭합니다.
 5. 첫 번째 규칙을 설정합니다:
-    - **Type**에서 `MySQL/Aurora`를 선택합니다.
-    - **Source**에서 `Custom`을 선택한 후, 검색 필드에 `App-SG`를 입력하여 `week3-2-security-group-App-SG`를 찾아 선택합니다.
-    - **Description**에 `Allow MySQL from App tier`를 입력합니다.
+   - **Type**에서 `MySQL/Aurora`를 선택합니다.
+   - **Source**에서 `Custom`을 선택한 후, 검색 필드에 `App-SG`를 입력하여 `week3-2-security-group-App-SG`를 찾아 선택합니다.
+   - **Description**에 `Allow MySQL from App tier`를 입력합니다.
 6. [[Save rules]] 버튼을 클릭합니다.
 
 > [!NOTE]
@@ -274,36 +277,42 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 다음 각 시나리오에서 트래픽이 허용되는지 차단되는지 판단하고, 그 이유를 생각해봅니다.
 
 **시나리오 1: 인터넷 → ALB (HTTP)**
+
 - 출발지: 인터넷 (0.0.0.0/0)
 - 목적지: ALB (ALB-SG)
 - 프로토콜: HTTP (80)
 - 결과: ?
 
 **시나리오 2: ALB → Web Server (HTTP)**
+
 - 출발지: ALB (ALB-SG)
 - 목적지: Web Server (Web-Tier-SG)
 - 프로토콜: HTTP (80)
 - 결과: ?
 
 **시나리오 3: 인터넷 → Web Server (HTTP)**
+
 - 출발지: 인터넷 (0.0.0.0/0)
 - 목적지: Web Server (Web-Tier-SG)
 - 프로토콜: HTTP (80)
 - 결과: ?
 
 **시나리오 4: Web Server → App Server (8080)**
+
 - 출발지: Web Server (Web-Tier-SG)
 - 목적지: App Server (App-Tier-SG)
 - 프로토콜: Custom TCP (8080)
 - 결과: ?
 
 **시나리오 5: Web Server → Database (3306)**
+
 - 출발지: Web Server (Web-Tier-SG)
 - 목적지: Database (DB-Tier-SG)
 - 프로토콜: MySQL (3306)
 - 결과: ?
 
 **시나리오 6: App Server → Database (3306)**
+
 - 출발지: App Server (App-Tier-SG)
 - 목적지: Database (DB-Tier-SG)
 - 프로토콜: MySQL (3306)
@@ -317,30 +326,36 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!NOTE]
 > **정답 및 해설**:
-> 
+>
 > **시나리오 1: ✅ 허용**
+>
 > - ALB-SG 인바운드 규칙에 "HTTP (80) from 0.0.0.0/0"이 있으므로 허용됩니다.
-> 
+>
 > **시나리오 2: ✅ 허용**
+>
 > - Web-Tier-SG 인바운드 규칙에 "HTTP (80) from ALB-SG"가 있으므로 허용됩니다.
-> 
+>
 > **시나리오 3: ❌ 차단**
+>
 > - Web-Tier-SG 인바운드 규칙에 "HTTP (80) from ALB-SG"만 있고, 인터넷(0.0.0.0/0)에서의 직접 접근은 허용하지 않으므로 차단됩니다.
 > - 이것이 보안 그룹 체인의 핵심입니다. Web Server는 ALB를 통해서만 접근 가능합니다.
-> 
+>
 > **시나리오 4: ✅ 허용**
+>
 > - App-Tier-SG 인바운드 규칙에 "Custom TCP (8080) from Web-Tier-SG"가 있으므로 허용됩니다.
-> 
+>
 > **시나리오 5: ❌ 차단**
+>
 > - DB-Tier-SG 인바운드 규칙에 "MySQL (3306) from App-Tier-SG"만 있고, Web-Tier-SG에서의 직접 접근은 허용하지 않으므로 차단됩니다.
 > - 데이터베이스는 App Server를 통해서만 접근 가능합니다.
-> 
+>
 > **시나리오 6: ✅ 허용**
+>
 > - DB-Tier-SG 인바운드 규칙에 "MySQL (3306) from App-Tier-SG"가 있으므로 허용됩니다.
 
 > [!IMPORTANT]
 > **보안 그룹 체인의 핵심 원리**: 각 계층은 이전 계층으로부터만 트래픽을 받도록 제한됩니다. 이를 통해 최소 권한 원칙(Least Privilege)과 심층 방어(Defense in Depth)를 구현합니다.
-> 
+>
 > **실무 적용**: 프로덕션 환경에서는 이러한 보안 그룹 체인을 사용하여 각 계층을 격리하고, 공격자가 한 계층을 침투하더라도 다른 계층으로 확산되는 것을 방지합니다.
 
 > [!NOTE]
@@ -362,10 +377,10 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 5. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `3-2` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `3-2`     |
 | `CreatedBy` | `Student` |
 
 6. [[Create network ACL]] 버튼을 클릭합니다.
@@ -377,40 +392,44 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 9. [[Edit inbound rules]] 버튼을 클릭합니다.
 10. 다음 4개의 인바운드 규칙을 [[Add new rule]] 버튼을 클릭하여 순서대로 추가합니다:
 
-   **규칙 1 - HTTP 트래픽 허용**
-   - Rule number: `100`
-   - Type: `HTTP (80)`
-   - Source: `0.0.0.0/0`
-   - Allow/Deny: `Allow`
+    **규칙 1 - HTTP 트래픽 허용**
 
-   **규칙 2 - HTTPS 트래픽 허용**
-   - Rule number: `110`
-   - Type: `HTTPS (443)`
-   - Source: `0.0.0.0/0`
-   - Allow/Deny: `Allow`
+- Rule number: `100`
+- Type: `HTTP (80)`
+- Source: `0.0.0.0/0`
+- Allow/Deny: `Allow`
 
-   **규칙 3 - SSH 트래픽 허용**
-   - Rule number: `120`
-   - Type: `SSH (22)`
-   - Source: `0.0.0.0/0`
-   - Allow/Deny: `Allow`
+**규칙 2 - HTTPS 트래픽 허용**
+
+- Rule number: `110`
+- Type: `HTTPS (443)`
+- Source: `0.0.0.0/0`
+- Allow/Deny: `Allow`
+
+**규칙 3 - SSH 트래픽 허용**
+
+- Rule number: `120`
+- Type: `SSH (22)`
+- Source: `0.0.0.0/0`
+- Allow/Deny: `Allow`
 
 > [!WARNING]
 > 이 실습에서는 편의를 위해 SSH를 전체 인터넷(0.0.0.0/0)에서 허용하지만, 프로덕션 환경에서는 반드시 특정 IP 주소 또는 IP 범위로 제한해야 합니다. 보안 그룹에서 "My IP"로 제한했더라도 NACL에서 전체 허용하면 보안이 약화됩니다.
 
-   **규칙 4 - 임시 포트 허용 (응답 트래픽용)**
-   - Rule number: `130`
-   - Type: `Custom TCP`
-   - Port range: `1024-65535`
-   - Source: `0.0.0.0/0`
-   - Allow/Deny: `Allow`
+**규칙 4 - 임시 포트 허용 (응답 트래픽용)**
+
+- Rule number: `130`
+- Type: `Custom TCP`
+- Port range: `1024-65535`
+- Source: `0.0.0.0/0`
+- Allow/Deny: `Allow`
 
 11. [[Save changes]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > **임시 포트 (Ephemeral Ports)**: 클라이언트가 서버에 요청을 보낼 때, 서버의 응답을 받기 위해 클라이언트 측에서 임시로 열리는 포트입니다 (1024-65535 범위). 예를 들어, 브라우저가 웹 서버(포트 80)에 접속할 때 브라우저는 자신의 임시 포트(예: 50234)를 열어서 응답을 받습니다. NACL은 Stateless이므로 응답 트래픽을 위해 이 포트 범위를 명시적으로 허용해야 합니다.
-> 
-> **NACL 규칙 번호 평가 순서**: NACL 규칙은 번호가 작은 것부터 순서대로 평가됩니다. 첫 번째로 매칭되는 규칙이 적용되고 나머지는 무시됩니다. 10 간격(100, 110, 120...)으로 설정하면 나중에 중간에 규칙을 추가할 수 있어 유연합니다. 예를 들어, 105번에 특정 IP 차단 규칙을 추가하면 100번(HTTP 허용)과 110번(HTTPS 허용) 사이에 삽입됩니다. 마지막에 암묵적 Deny(*) 규칙이 있어 명시적으로 허용하지 않은 모든 트래픽은 차단됩니다.
+>
+> **NACL 규칙 번호 평가 순서**: NACL 규칙은 번호가 작은 것부터 순서대로 평가됩니다. 첫 번째로 매칭되는 규칙이 적용되고 나머지는 무시됩니다. 10 간격(100, 110, 120...)으로 설정하면 나중에 중간에 규칙을 추가할 수 있어 유연합니다. 예를 들어, 105번에 특정 IP 차단 규칙을 추가하면 100번(HTTP 허용)과 110번(HTTPS 허용) 사이에 삽입됩니다. 마지막에 암묵적 Deny(\*) 규칙이 있어 명시적으로 허용하지 않은 모든 트래픽은 차단됩니다.
 
 ### 아웃바운드 규칙 설정
 
@@ -454,10 +473,10 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 4. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `3-2` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `3-2`     |
 | `CreatedBy` | `Student` |
 
 5. [[Create network ACL]] 버튼을 클릭합니다.
@@ -513,8 +532,9 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!TIP]
 > **서브넷 식별 방법**: 서브넷 이름에 "Private"가 포함된 서브넷들을 선택합니다. 메모장에 저장한 PrivateSubnetAId와 PrivateSubnetCId를 참고하여 올바른 서브넷을 선택합니다.
-> 
+>
 > **서브넷 구분 팁**:
+>
 > - **이름으로 구분**: CloudFormation이 생성한 서브넷은 이름에 "Public" 또는 "Private"가 포함되어 있습니다
 > - **서브넷 ID로 구분**: 메모장에 저장한 출력값과 일치하는 서브넷 ID를 찾습니다
 > - **CIDR 블록으로 구분**: 프라이빗 서브넷은 10.0.11.0/24, 10.0.12.0/24 범위를 사용합니다
@@ -539,12 +559,45 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 > [!WARNING]
 > 다음 단계를 **반드시 수행**하여 불필요한 비용을 방지하세요.
 
-### 단계 1: 수동 생성 NACL 삭제
+---
+
+### 1. Tag Editor로 생성된 리소스 확인
+
+실습에서 생성한 모든 리소스를 Tag Editor로 확인합니다.
+
+#### CloudFormation으로 생성한 리소스 확인
+
+1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
+3. **Regions**에서 `ap-northeast-2`를 선택합니다.
+4. **Resource types**에서 `All supported resource types`를 선택합니다.
+5. **Tags** 섹션에서 다음을 입력합니다:
+   - **Tag key**: `Name`
+   - **Optional tag value**에 `week3-2`를 입력합니다.
+6. [[Search resources]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> 수동으로 생성한 NACL을 먼저 삭제해야 AWS CloudFormation 스택 삭제가 성공합니다. NACL이 서브넷에 연결되어 있으면 CloudFormation이 서브넷을 삭제할 때 실패할 수 있습니다.
+> CloudFormation 스택으로 생성된 Amazon VPC, 서브넷, 보안 그룹 등 모든 리소스가 표시됩니다. 수동으로 생성한 NACL은 태그가 없어 표시되지 않지만, 다음 단계에서 삭제합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon VPC`를 검색하고 선택합니다.
+> [!TIP]
+> Tag Editor는 리소스 확인 용도로만 사용하며, 실제 삭제는 다음 단계에서 수행합니다.
+
+---
+
+### 2. 리소스 삭제
+
+수동으로 생성한 NACL을 먼저 삭제한 후 CloudFormation 스택을 삭제합니다.
+
+### 옵션 1: AWS 콘솔에서 수동 삭제 (권장)
+
+> [!TIP]
+> AWS 관리 콘솔 방식을 선호하거나 각 단계를 확인하면서 삭제하고 싶은 경우 이 방법을 권장합니다.
+>
+> AWS CLI 명령어에 익숙한 경우 아래 [옵션 2](#option-2)를 사용하면 더 빠르게 삭제할 수 있습니다.
+
+**NACL 삭제**
+
+1. Amazon VPC 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Network ACLs**를 선택합니다.
 3. `Public-NACL`을 선택합니다.
 4. 하단의 **Subnet associations** 탭을 선택합니다.
@@ -553,7 +606,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 7. [[Save changes]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> 서브넷 연결을 해제하면 해당 서브넷은 기본 NACL(Default NACL)로 자동 전환됩니다. 기본 NACL은 모든 트래픽을 허용하므로, 삭제 과정에서 일시적으로 보안이 약화될 수 있습니다. 실습 환경이므로 문제없지만, 프로덕션 환경에서는 주의가 필요합니다.
+> 서브넷 연결을 해제하면 해당 서브넷은 기본 NACL로 자동 전환됩니다.
 
 8. `Private-NACL`을 선택합니다.
 9. 하단의 **Subnet associations** 탭을 선택합니다.
@@ -562,74 +615,132 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 12. [[Save changes]] 버튼을 클릭합니다.
 13. `Public-NACL`을 선택합니다.
 14. **Actions** > `Delete network ACL`을 선택합니다.
-15. 확인 창이 나타나면 `delete`를 입력합니다.
-16. [[Delete]] 버튼을 클릭합니다.
-17. `Private-NACL`을 선택합니다.
-18. **Actions** > `Delete network ACL`을 선택합니다.
-19. 확인 창이 나타나면 `delete`를 입력합니다.
-20. [[Delete]] 버튼을 클릭합니다.
-
-### 단계 2: AWS CloudFormation 스택 삭제
+15. 확인 창에서 `delete`를 입력하고 [[Delete]] 버튼을 클릭합니다.
+16. `Private-NACL`을 선택합니다.
+17. **Actions** > `Delete network ACL`을 선택합니다.
+18. 확인 창에서 `delete`를 입력하고 [[Delete]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> NACL을 삭제한 후 AWS CloudFormation 스택을 삭제하면 보안 그룹, Amazon VPC 등 모든 리소스가 자동으로 삭제됩니다. 보안 그룹 간 참조 관계(Web-SG → ALB-SG, App-SG → Web-SG, DB-SG → App-SG)가 있으면 스택 삭제가 실패할 수 있습니다. 실패 시 단계 3을 수행합니다.
+> NACL 삭제는 즉시 완료됩니다.
 
-19. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
-20. 스택 목록에서 `week3-2-security-group-stack` 스택을 찾습니다.
-21. `week3-2-security-group-stack` 스택의 체크박스를 선택합니다.
-22. [[Delete]] 버튼을 클릭합니다.
-23. 확인 창에서 [[Delete]] 버튼을 다시 클릭합니다.
+### 옵션 2: AWS CloudShell 스크립트로 일괄 삭제
+
+> [!TIP]
+> AWS CLI 명령어에 익숙하거나 빠른 삭제를 원하는 경우 이 방법을 사용하세요.
+>
+> 콘솔 방식이 더 편하다면 위 [옵션 1](#option-1)을 참고하세요.
+
+1. AWS Management Console 상단의 CloudShell 아이콘을 클릭합니다.
+2. CloudShell이 열리면 다음 명령어를 실행합니다:
+
+```bash
+# VPC ID 찾기
+VPC_ID=$(aws ec2 describe-vpcs \
+  --region ap-northeast-2 \
+  --filters "Name=tag:Name,Values=week3-2-security-group-VPC" \
+  --query 'Vpcs[0].VpcId' \
+  --output text)
+
+# NACL 찾기 및 삭제
+NACL_IDS=$(aws ec2 describe-network-acls \
+  --region ap-northeast-2 \
+  --filters "Name=vpc-id,Values=$VPC_ID" "Name=default,Values=false" \
+  --query 'NetworkAcls[*].NetworkAclId' \
+  --output text)
+
+for NACL_ID in $NACL_IDS; do
+  echo "NACL 삭제 중: $NACL_ID"
+
+  # 서브넷 연결 해제
+  ASSOCIATIONS=$(aws ec2 describe-network-acls \
+    --region ap-northeast-2 \
+    --network-acl-ids $NACL_ID \
+    --query 'NetworkAcls[0].Associations[?!IsDefault].NetworkAclAssociationId' \
+    --output text)
+
+  for ASSOC_ID in $ASSOCIATIONS; do
+    # 기본 NACL로 재연결
+    DEFAULT_NACL=$(aws ec2 describe-network-acls \
+      --region ap-northeast-2 \
+      --filters "Name=vpc-id,Values=$VPC_ID" "Name=default,Values=true" \
+      --query 'NetworkAcls[0].NetworkAclId' \
+      --output text)
+
+    aws ec2 replace-network-acl-association \
+      --region ap-northeast-2 \
+      --association-id $ASSOC_ID \
+      --network-acl-id $DEFAULT_NACL
+  done
+
+  # NACL 삭제
+  aws ec2 delete-network-acl \
+    --region ap-northeast-2 \
+    --network-acl-id $NACL_ID
+
+  echo "NACL 삭제 완료: $NACL_ID"
+done
+```
 
 > [!NOTE]
-> 스택 목록 페이지로 돌아갑니다.
+> 스크립트는 week3-2 VPC의 모든 사용자 정의 NACL을 자동으로 찾아 삭제합니다.
 
-24. `week3-2-security-group-stack` 스택을 클릭하여 상세 페이지로 이동합니다.
-25. **Events** 탭을 선택합니다.
+---
 
-> [!NOTE]
-> 스택 삭제에 5-7분이 소요됩니다. **Events** 탭에서 리소스 삭제 과정을 실시간으로 확인할 수 있습니다.
+### 3. CloudFormation 스택 삭제
 
-26. 페이지를 새로고침하여 최신 상태를 확인합니다.
-27. 스택이 목록에서 완전히 사라질 때까지 기다립니다.
+마지막으로 CloudFormation 스택을 삭제하여 나머지 모든 리소스를 정리합니다.
 
-> [!NOTE]
-> AWS CloudFormation 스택을 삭제하면 Amazon VPC, 서브넷, NAT Gateway, Internet Gateway, 보안 그룹 등 모든 네트워크 리소스가 자동으로 삭제됩니다. 스택이 목록에서 사라지면 모든 리소스가 성공적으로 삭제된 것입니다.
-
-### 방법 2: Tag Editor로 리소스 확인 (선택사항)
+1. AWS Management Console에 로그인한 후 상단 검색창에서 `CloudFormation`을 검색하고 선택합니다.
+2. 스택 목록에서 `week3-2-security-group-stack` 스택을 검색합니다.
+3. `week3-2-security-group-stack` 스택의 체크박스를 선택합니다.
 
 > [!NOTE]
-> 이 실습에서는 수동으로 생성한 NACL에 태그를 추가하지 않았으므로, Tag Editor로 NACL을 찾을 수 없습니다. 하지만 CloudFormation으로 생성된 리소스(VPC, 서브넷, 보안 그룹 등)는 자동으로 태그가 추가되어 있어 Tag Editor로 확인할 수 있습니다.
+> 스택이 선택되면 체크박스에 체크 표시가 나타나고, 상단의 [[Delete]] 버튼이 활성화됩니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+4. [[Delete]] 버튼을 클릭합니다.
+5. 확인 창에서 [[Delete]] 버튼을 다시 클릭하여 삭제를 확인합니다.
+
+> [!NOTE]
+> 확인 후 스택 목록 페이지로 돌아갑니다.
+
+6. `week3-2-security-group-stack` 스택의 **Status** 열을 확인합니다.
+
+> [!NOTE]
+> 스택 삭제가 시작되면 **Status**가 "DELETE_IN_PROGRESS"로 표시됩니다. CloudFormation이 생성한 모든 리소스를 역순으로 삭제합니다.
+
+7. 스택을 클릭하여 상세 페이지로 이동합니다.
+8. **Events** 탭을 선택합니다.
+
+> [!NOTE]
+> **Events** 탭에는 리소스 삭제 과정이 실시간으로 표시됩니다. 보안 그룹, 서브넷, Amazon VPC 등이 순차적으로 삭제됩니다. 삭제에 3-5분이 소요됩니다.
+
+9. 스택 삭제가 완료될 때까지 기다립니다.
+
+> [!NOTE]
+> 스택이 완전히 삭제되면 스택 목록에서 사라집니다. 만약 "DELETE_FAILED"가 표시되면 **Events** 탭에서 오류 원인을 확인하고, 보안 그룹 간 참조 관계를 수동으로 제거한 후 스택 삭제를 다시 시도합니다.
+
+10. 스택 목록 페이지로 돌아가서 `week3-2-security-group-stack` 스택이 목록에서 사라졌는지 확인합니다.
+
+> [!NOTE]
+> 스택이 목록에 표시되지 않으면 성공적으로 삭제된 것입니다.
+
+---
+
+### 4. 최종 삭제 확인 (Tag Editor 활용)
+
+모든 리소스가 정상적으로 삭제되었는지 Tag Editor로 최종 확인합니다.
+
+1. AWS Management Console에서 `Resource Groups & Tag Editor`로 이동합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
 5. **Tags** 섹션에서 다음을 입력합니다:
-   - **Tag key**: `aws:cloudformation:stack-name`
-   - **Tag value**: `week3-2-security-group-stack`
+   - **Tag key**: `Name`
+   - **Optional tag value**에 `week3-2`를 입력합니다.
 6. [[Search resources]] 버튼을 클릭합니다.
-7. CloudFormation으로 생성된 모든 리소스가 표시됩니다.
 
 > [!NOTE]
-> Tag Editor는 리소스를 찾는 용도로만 사용됩니다. 실제 삭제는 각 서비스 콘솔에서 수행해야 합니다.
-
-### 단계 3: 스택 삭제 실패 시 보안 그룹 규칙 삭제 (필요시만)
-
-> [!TROUBLESHOOTING]
-> **문제**: AWS CloudFormation 스택 삭제 시 "DELETE_FAILED"가 발생합니다
-> 
-> **원인**: 보안 그룹 간 참조 관계 때문일 수 있습니다. 보안 그룹의 인바운드 규칙에서 다른 보안 그룹을 Source로 지정한 경우, 삭제 순서에 따라 실패할 수 있습니다.
-> 
-> **해결**:
-> 1. Amazon VPC 콘솔로 이동합니다.
-> 2. 왼쪽 메뉴에서 **Security groups**를 선택합니다.
-> 3. `week3-2-security-group-ALB-SG`를 선택합니다.
-> 4. 하단의 **Inbound rules** 탭을 선택합니다.
-> 5. [[Edit inbound rules]] 버튼을 클릭합니다.
-> 6. 각 규칙 오른쪽의 [[Remove]] 버튼을 클릭하여 삭제합니다.
-> 7. [[Save rules]] 버튼을 클릭합니다.
-> 8. `week3-2-security-group-Web-SG`, `week3-2-security-group-App-SG`, `week3-2-security-group-DB-SG`에 대해서도 3-7단계를 반복합니다.
-> 9. AWS CloudFormation 콘솔로 돌아가 스택 삭제를 다시 시도합니다.
+> 검색 결과에 리소스가 표시되지 않으면 모든 리소스가 성공적으로 삭제된 것입니다.
 
 ✅ **실습 종료**: 모든 리소스가 정리되었습니다.
 
@@ -643,14 +754,14 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### 보안 그룹 vs NACL
 
-| 항목 | 보안 그룹 (Stateful) | NACL (Stateless) |
-|:-----|:--------------------|:-----------------|
-| 연결 추적 | 추적함 | 추적 안 함 |
-| 응답 트래픽 | 자동 허용 | 명시적 허용 필요 |
-| 규칙 평가 | 모든 규칙 평가 | 번호 순서대로 평가 |
-| 적용 레벨 | 인스턴스 | 서브넷 |
-| 규칙 타입 | Allow만 | Allow + Deny |
-| 아웃바운드 규칙 | 기본 전체 허용 | 명시적 설정 필요 |
+| 항목            | 보안 그룹 (Stateful) | NACL (Stateless)   |
+| :-------------- | :------------------- | :----------------- |
+| 연결 추적       | 추적함               | 추적 안 함         |
+| 응답 트래픽     | 자동 허용            | 명시적 허용 필요   |
+| 규칙 평가       | 모든 규칙 평가       | 번호 순서대로 평가 |
+| 적용 레벨       | 인스턴스             | 서브넷             |
+| 규칙 타입       | Allow만              | Allow + Deny       |
+| 아웃바운드 규칙 | 기본 전체 허용       | 명시적 설정 필요   |
 
 💡 **핵심**: 보안 그룹은 인바운드만 설정하면 되지만, NACL은 인바운드와 아웃바운드(임시 포트 포함)를 모두 설정해야 합니다.
 
@@ -659,9 +770,9 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### 최소 권한 원칙
 
-| 구분 | 설정 | 설명 |
-|:-----|:-----|:-----|
-| ❌ 잘못된 예시 | `DB-Tier-SG Inbound: MySQL (3306) from 0.0.0.0/0` | 인터넷 전체에서 데이터베이스 접근 허용 (보안 위험) |
-| ✅ 올바른 예시 | `DB-Tier-SG Inbound: MySQL (3306) from App-Tier-SG` | App 계층에서만 데이터베이스 접근 허용 (최소 권한) |
+| 구분           | 설정                                                | 설명                                               |
+| :------------- | :-------------------------------------------------- | :------------------------------------------------- |
+| ❌ 잘못된 예시 | `DB-Tier-SG Inbound: MySQL (3306) from 0.0.0.0/0`   | 인터넷 전체에서 데이터베이스 접근 허용 (보안 위험) |
+| ✅ 올바른 예시 | `DB-Tier-SG Inbound: MySQL (3306) from App-Tier-SG` | App 계층에서만 데이터베이스 접근 허용 (최소 권한)  |
 
 💡 **심층 방어 (Defense in Depth)**: NACL (서브넷 레벨) → 보안 그룹 (인스턴스 레벨) → OS 방화벽 순으로 다층 보안을 구성합니다.

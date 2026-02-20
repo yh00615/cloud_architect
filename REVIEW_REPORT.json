@@ -1,10 +1,283 @@
 {
   "code": {
     "total": 7,
-    "passed": 7,
+    "passed": 6,
     "failed": 0,
-    "warnings": 0,
-    "issues": []
+    "warnings": 66,
+    "issues": [
+      {
+        "category": "컴포넌트 구조",
+        "severity": "warning",
+        "count": 66,
+        "message": "컴포넌트 표준 구조 미준수",
+        "details": [
+          {
+            "file": "src/components/education/._CopyableCode.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._CopyableCode.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._CopyableCode.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/education/._FileDownload.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._FileDownload.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._FileDownload.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/education/._HelpPanelContent.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._HelpPanelContent.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._HelpPanelContent.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/education/._InfoCard.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._InfoCard.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._InfoCard.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/education/._KeyPointsChecklist.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._KeyPointsChecklist.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._KeyPointsChecklist.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/education/._LabEnvironmentSetup.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._LabEnvironmentSetup.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._LabEnvironmentSetup.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/education/._LabStep.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._LabStep.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._LabStep.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/education/._ModelRegistryCard.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._ModelRegistryCard.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._ModelRegistryCard.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/education/._PipelineVisualizer.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._PipelineVisualizer.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._PipelineVisualizer.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/education/._TaskDescription.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._TaskDescription.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._TaskDescription.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/education/._TaskQuiz.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._TaskQuiz.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._TaskQuiz.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/education/._WeekCard.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/education/._WeekCard.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/education/._WeekCard.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/interactive/._ProgressTracker.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/interactive/._ProgressTracker.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/interactive/._ProgressTracker.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/interactive/._QuickJump.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/interactive/._QuickJump.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/interactive/._QuickJump.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/interactive/._Week11QuickJump.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/interactive/._Week11QuickJump.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/interactive/._Week11QuickJump.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/layout/._AppLayout.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/layout/._AppLayout.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/layout/._AppLayout.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/layout/._Footer.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/layout/._Footer.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/layout/._Footer.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/markdown/._MarkdownRenderer.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/markdown/._MarkdownRenderer.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/markdown/._MarkdownRenderer.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/ui/._AWSButton.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/ui/._AWSButton.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/ui/._AWSButton.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/ui/._GuideBadge.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/ui/._GuideBadge.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/ui/._GuideBadge.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/ui/._Keyword.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/ui/._Keyword.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/ui/._Keyword.tsx",
+            "issue": "export const 방식 미사용"
+          },
+          {
+            "file": "src/components/ui/._UserValue.tsx",
+            "issue": "Props 인터페이스 누락"
+          },
+          {
+            "file": "src/components/ui/._UserValue.tsx",
+            "issue": "React.FC 타입 미사용"
+          },
+          {
+            "file": "src/components/ui/._UserValue.tsx",
+            "issue": "export const 방식 미사용"
+          }
+        ]
+      }
+    ]
   },
   "guides": {
     "total": 3,
@@ -14,8 +287,14 @@
     "issues": []
   },
   "overall": {
-    "score": 100,
+    "score": 90,
     "grade": "A",
-    "recommendations": []
+    "recommendations": [
+      {
+        "priority": "medium",
+        "message": "코드 품질 경고가 많습니다",
+        "action": "ESLint 및 구조 개선 필요"
+      }
+    ]
   }
 }

@@ -520,17 +520,31 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
 
           // p 태그 처리
           if (node?.type === 'p' || node?.props?.node?.tagName === 'p') {
-            const text = extractText(node.props?.children);
-            const cleaned = text
-              .replace(
-                /\[!(NOTE|WARNING|TIP|ERROR|SUCCESS|COST|IMPORTANT|TROUBLESHOOTING|CONCEPT)\]/g,
-                '',
-              )
-              .trim();
-            if (cleaned) {
+            const children = node.props?.children;
+
+            // children을 처리하여 첫 번째 문자열에서만 Alert 마커 제거
+            const processedChildren = Array.isArray(children)
+              ? children.map((child: any, index: number) => {
+                  if (typeof child === 'string' && index === 0) {
+                    // 첫 번째 문자열에서만 Alert 마커 제거
+                    return child.replace(
+                      /\[!(NOTE|WARNING|TIP|ERROR|SUCCESS|COST|IMPORTANT|TROUBLESHOOTING|CONCEPT|DOWNLOAD|OUTPUT)\]\s*/g,
+                      '',
+                    );
+                  }
+                  return child;
+                })
+              : typeof children === 'string'
+                ? children.replace(
+                    /\[!(NOTE|WARNING|TIP|ERROR|SUCCESS|COST|IMPORTANT|TROUBLESHOOTING|CONCEPT|DOWNLOAD|OUTPUT)\]\s*/g,
+                    '',
+                  )
+                : children;
+
+            if (processedChildren) {
               result.push(
                 <div key={`text-${key++}`} className="alert-content-text">
-                  {cleaned}
+                  {processedChildren}
                 </div>,
               );
             }
@@ -553,24 +567,36 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
 
           // 문자열 처리
           if (typeof node === 'string' && node.trim()) {
-            result.push(
-              <div key={`text-${key++}`} className="alert-content-text">
-                {node}
-              </div>,
+            // Alert 마커 제거
+            const cleanedText = node.replace(
+              /\[!(NOTE|WARNING|TIP|ERROR|SUCCESS|COST|IMPORTANT|TROUBLESHOOTING|CONCEPT|DOWNLOAD|OUTPUT)\]\s*/g,
+              '',
             );
+            if (cleanedText.trim()) {
+              result.push(
+                <div key={`text-${key++}`} className="alert-content-text">
+                  {cleanedText}
+                </div>,
+              );
+            }
           }
         };
 
         // [!TYPE] 제거 후 children 처리
         const filteredChildren = Array.isArray(children)
-          ? children.filter((child: any) => {
-              if (typeof child === 'string') {
-                return !child.match(
-                  /\[!(NOTE|WARNING|TIP|ERROR|SUCCESS|COST|IMPORTANT|TROUBLESHOOTING|CONCEPT)\]/,
-                );
-              }
-              return true;
-            })
+          ? children
+              .map((child: any) => {
+                if (typeof child === 'string') {
+                  // Alert 마커 제거
+                  const cleaned = child.replace(
+                    /\[!(NOTE|WARNING|TIP|ERROR|SUCCESS|COST|IMPORTANT|TROUBLESHOOTING|CONCEPT|DOWNLOAD|OUTPUT)\]\s*/g,
+                    '',
+                  );
+                  return cleaned || null;
+                }
+                return child;
+              })
+              .filter((child: any) => child !== null && child !== '')
           : children;
 
         if (Array.isArray(filteredChildren)) {
@@ -787,6 +813,36 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
           <AWSButton href={`https://console.aws.amazon.com/${service}`}>
             {children}
           </AWSButton>
+        );
+      }
+
+      // 앵커 링크 (#으로 시작) - 페이지 내 스크롤
+      if (href?.startsWith('#')) {
+        const handleClick = (e: React.MouseEvent) => {
+          e.preventDefault();
+          const targetId = href.substring(1); // # 제거
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            // 헤더 높이 + 여유 공간 (80px) 고려
+            const headerOffset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition =
+              elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth',
+            });
+
+            // URL 업데이트
+            window.history.pushState(null, '', href);
+          }
+        };
+
+        return (
+          <a href={href} onClick={handleClick} className="markdown-anchor-link">
+            {children}
+          </a>
         );
       }
 
@@ -1044,12 +1100,20 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     h3: ({ children }: any) => {
       const text = String(children);
 
-      // ID 생성: 리소스 정리 하위 섹션 (### 단계 1:, ### 단계 2:)
+      // ID 생성: 리소스 정리 하위 섹션 또는 옵션
       let id = '';
-      const stepMatch = text.match(/(?:(\d+)단계|단계\s+(\d+))/);
-      if (stepMatch) {
-        const stepNumber = stepMatch[1] || stepMatch[2];
-        id = `cleanup-step-${stepNumber}`;
+
+      // 옵션 패턴 (옵션 1, 옵션 2)
+      const optionMatch = text.match(/옵션\s*(\d+)/);
+      if (optionMatch) {
+        id = `option-${optionMatch[1]}`;
+      } else {
+        // 단계 패턴 (1단계, 단계 1)
+        const stepMatch = text.match(/(?:(\d+)단계|단계\s+(\d+))/);
+        if (stepMatch) {
+          const stepNumber = stepMatch[1] || stepMatch[2];
+          id = `cleanup-step-${stepNumber}`;
+        }
       }
 
       return (
@@ -1066,12 +1130,20 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     h4: ({ children }: any) => {
       const text = String(children);
 
-      // ID 생성: 리소스 정리 하위 섹션 (#### 1단계:, #### 2단계:)
+      // ID 생성: 리소스 정리 하위 섹션 또는 옵션
       let id = '';
-      const stepMatch = text.match(/(?:(\d+)단계|단계\s+(\d+))/);
-      if (stepMatch) {
-        const stepNumber = stepMatch[1] || stepMatch[2];
-        id = `cleanup-step-${stepNumber}`;
+
+      // 옵션 패턴 (옵션 1, 옵션 2)
+      const optionMatch = text.match(/옵션\s*(\d+)/);
+      if (optionMatch) {
+        id = `option-${optionMatch[1]}`;
+      } else {
+        // 단계 패턴 (1단계, 단계 1)
+        const stepMatch = text.match(/(?:(\d+)단계|단계\s+(\d+))/);
+        if (stepMatch) {
+          const stepNumber = stepMatch[1] || stepMatch[2];
+          id = `cleanup-step-${stepNumber}`;
+        }
       }
 
       return (

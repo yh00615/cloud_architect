@@ -492,3 +492,21 @@
 [data-awsui-theme='dark'] .concept-html-list li::before {
   color: #e9ebed;
 }
+
+/* OPTION Alert 스타일 - 옵션 선택 가이드 */
+.info-box--option {
+  background-color: rgba(245, 158, 11, 0.14);
+  /* 앰버/황금색 - 라이트 모드 더 진하게 */
+  border-color: rgba(245, 158, 11, 0.6);
+}
+
+.info-box--option .info-box-icon {
+  display: none;
+  /* 아이콘 숨김 */
+}
+
+/* 다크모드 지원 */
+[data-awsui-theme='dark'] .info-box--option {
+  background-color: rgba(251, 191, 36, 0.15);
+  border-color: rgba(251, 191, 36, 0.6);
+}
