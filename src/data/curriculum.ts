@@ -87,7 +87,7 @@ export const curriculum: WeekCurriculum[] = [
         markdownPath: '/content/week2/2-1-iam-policy-condition.md',
         description:
           'AWS 인증과 권한, AWS IAM 정책 구조 및 평가 로직, 고급 권한 제어 기법',
-        awsServices: ['AWS IAM', 'Amazon S3'],
+        awsServices: ['AWS IAM'],
       },
       {
         session: 2,
