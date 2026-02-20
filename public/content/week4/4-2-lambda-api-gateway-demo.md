@@ -1,5 +1,5 @@
 ---
-title: "Amazon API Gateway 인증 구성"
+title: 'Amazon API Gateway 인증 구성'
 week: 4
 session: 2
 awsServices:
@@ -7,13 +7,10 @@ awsServices:
   - Amazon API Gateway
   - Amazon Cognito
 learningObjectives:
-  - 서버리스 컴퓨팅의 특징과 제약사항을 설명할 수 있습니다
-  - AWS Lambda의 이벤트 기반 실행 모델과 핸들러 함수 구조를 이해할 수 있습니다
-  - AWS Lambda의 메모리, 동시성 등 성능 최적화 기법을 적용할 수 있습니다
-  - RESTful API 설계 원칙을 적용할 수 있습니다
-  - Amazon API Gateway와 AWS Lambda 통합을 구성할 수 있습니다
-  - API 인증 방식을 비교하고 선택할 수 있습니다
-  - 이벤트 기반 아키텍처의 개념과 핵심 구성 요소를 이해할 수 있습니다
+  - AWS Lambda 함수를 생성하고 Amazon DynamoDB를 조회할 수 있습니다
+  - Amazon API Gateway REST API를 생성하고 AWS Lambda와 통합할 수 있습니다
+  - Amazon Cognito User Pool로 API 인증을 구성할 수 있습니다
+  - Postman으로 인증된 API 요청을 테스트할 수 있습니다
 prerequisites:
   - Week 3 Amazon VPC 및 네트워킹 이해.
   - REST API 기본 개념 이해.
@@ -23,30 +20,31 @@ prerequisites:
 
 > [!NOTE]
 > 이 실습에서는 Amazon API Gateway, AWS Lambda, Amazon DynamoDB 등 사전 인프라가 AWS CloudFormation 템플릿으로 제공됩니다. 학생이 직접 수행하는 것은 Cognito 생성, Authorizer 설정, 인증 테스트입니다.
-> 
+>
 > **리전**: 이 실습은 `ap-northeast-2` (서울) 리전에서 진행됩니다.
 
 > [!DOWNLOAD]
 > [week4-2-quicktable-api-lab.zip](/files/week4/week4-2-quicktable-api-lab.zip)
+>
 > - `week4-2-quicktable-api-lab.yaml` - AWS CloudFormation 템플릿 (태스크 0에서 Amazon DynamoDB, AWS Lambda, Amazon API Gateway 자동 생성)
 > - `week4-2-README.md` - 아키텍처 설명 및 배포 가이드
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 0: 실습 환경 구축 (AWS CloudFormation 스택 생성)
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
-> 
+>
 > **예상 비용** (ap-northeast-2 리전 기준):
-> 
-> | 서비스 | 프리 티어 | 실습 사용량 | 비용 |
-> |--------|----------|------------|------|
-> | Amazon Cognito | 월 50,000 MAU | 1-2명 | 무료 |
-> | Amazon API Gateway | 월 100만 건 | 약 10회 | 무료 |
-> | AWS Lambda | 월 100만 건 | 약 10회 | 무료 |
-> | Amazon DynamoDB | 25GB, 25 WCU/RCU | 약 10개 항목 | 무료 |
-> | **총 예상** | - | - | **$0 (프리 티어 범위 내)** |
+>
+> | 서비스             | 프리 티어        | 실습 사용량  | 비용                       |
+> | ------------------ | ---------------- | ------------ | -------------------------- |
+> | Amazon Cognito     | 월 50,000 MAU    | 1-2명        | 무료                       |
+> | Amazon API Gateway | 월 100만 건      | 약 10회      | 무료                       |
+> | AWS Lambda         | 월 100만 건      | 약 10회      | 무료                       |
+> | Amazon DynamoDB    | 25GB, 25 WCU/RCU | 약 10개 항목 | 무료                       |
+> | **총 예상**        | -                | -            | **$0 (프리 티어 범위 내)** |
 
 ## 태스크 0: 실습 환경 구축
 
@@ -57,28 +55,33 @@ prerequisites:
 AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 **Amazon DynamoDB 테이블: Reservations**
+
 - **파티션 키**: `userId` (String) - Cognito 사용자 ID
 - **정렬 키**: `reservationId` (String) - UUID 형식 예약 ID
 - **속성**: restaurantName, date, time, partySize, phoneNumber, status, createdAt
 
 **AWS Lambda 함수: CreateReservation**
+
 - **트리거**: Amazon API Gateway POST /reservations
 - **입력 파라미터**: restaurantName, date, time, partySize, phoneNumber
 - **자동 생성**: userId (Cognito 토큰에서 추출), reservationId (UUID), status (pending), createdAt
 - **권한**: Amazon DynamoDB PutItem
 
 **AWS Lambda 함수: GetReservations**
+
 - **트리거**: Amazon API Gateway GET /reservations
 - **동작**: userId 기반으로 해당 사용자의 예약만 조회
 - **권한**: Amazon DynamoDB Query
 
 **Amazon API Gateway: QuickTableAPI**
+
 - **리소스**: /reservations
 - **메서드**: POST, GET
 - **통합**: AWS Lambda 프록시 통합 (AWS Lambda 함수와 연결)
 - **인증**: 없음 (태스크 3에서 Authorizer 추가)
 
 **AWS IAM 역할: Lambda 실행 역할**
+
 - **권한**: Amazon DynamoDB 접근, Amazon CloudWatch Logs 작성
 
 ### 상세 단계
@@ -89,19 +92,19 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 4. [[Create stack]] 버튼을 클릭합니다.
 5. **Choose a stack creation method**에서 `With new resources (standard)`를 선택합니다.
 6. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
-6. **Specify template**에서 `Upload a template file`을 선택합니다.
-7. [[Choose file]] 버튼을 클릭한 후 `week4-2-quicktable-api-lab.yaml` 파일을 선택합니다.
-8. [[Next]] 버튼을 클릭합니다.
-9. **Stack name**에 `week4-2-quicktable-api-lab-stack`을 입력합니다.
-10. **Parameters** 섹션에서 기본값을 유지합니다.
-11. [[Next]] 버튼을 클릭합니다.
-12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 확인합니다.
-13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+7. **Specify template**에서 `Upload a template file`을 선택합니다.
+8. [[Choose file]] 버튼을 클릭한 후 `week4-2-quicktable-api-lab.yaml` 파일을 선택합니다.
+9. [[Next]] 버튼을 클릭합니다.
+10. **Stack name**에 `week4-2-quicktable-api-lab-stack`을 입력합니다.
+11. **Parameters** 섹션에서 기본값을 유지합니다.
+12. [[Next]] 버튼을 클릭합니다.
+13. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 확인합니다.
+14. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `4-2` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `4-2`     |
 | `CreatedBy` | `Student` |
 
 14. [[Next]] 버튼을 클릭합니다.
@@ -142,16 +145,16 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!IMPORTANT]
 > **Cognito 콘솔 UI 변경 안내:**
-> 
+>
 > 이 가이드는 **New experience (2024년 이후 기본)** 기준으로 작성되었습니다.
-> 
+>
 > **New experience (2024년 이후 기본):**
-> 
+>
 > - 단계별로 설정을 진행하며, 각 섹션이 명확히 구분되어 있습니다.
 > - 이 가이드의 단계를 그대로 따라하면 됩니다.
-> 
+>
 > **Legacy experience를 사용하는 경우:**
-> 
+>
 > - 모든 설정이 한 페이지에 표시됩니다.
 > - 각 섹션을 찾아 동일한 설정을 적용하면 됩니다.
 
@@ -166,15 +169,15 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!IMPORTANT]
 > **Cognito 콘솔 UI 변경 안내:**
-> 
+>
 > 이 가이드는 **New experience (2024년 이후 기본)** 기준으로 작성되었습니다.
-> 
+>
 > **New experience (2024년 이후 기본):**
-> 
+>
 > - **Self-service sign-up** 섹션에서 `Enable self-registration`을 체크합니다.
-> 
+>
 > **Legacy experience를 사용하는 경우:**
-> 
+>
 > - **Sign-up experience** 섹션에서 `Allow users to sign themselves up`을 체크합니다.
 
 1. **Self-service sign-up**에서 `Enable self-registration`을 체크합니다.
@@ -191,17 +194,17 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!IMPORTANT]
 > **Hosted authentication pages 옵션 위치:**
-> 
+>
 > **New experience (2024년 이후 기본):**
-> 
+>
 > - **Hosted authentication pages** 체크박스가 User Pool 이름 입력 섹션 아래에 있습니다.
 > - 이 옵션을 체크하지 않으면 Cognito Hosted UI가 생성되지 않습니다.
-> 
+>
 > **Legacy experience를 사용하는 경우:**
-> 
+>
 > - **App integration** 섹션에서 `Use the Cognito Hosted UI` 옵션을 찾습니다.
 > - 이 옵션을 체크하지 않습니다.
-> 
+>
 > 이 실습에서는 Hosted UI를 사용하지 않으므로 체크하지 않습니다.
 
 5. **Initial app client** 섹션에서 다음을 설정합니다:
@@ -212,28 +215,30 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!IMPORTANT]
 > **ALLOW_USER_PASSWORD_AUTH 설정 위치:**
-> 
+>
 > 이 가이드는 **New experience (2024년 이후 기본)** 기준으로 작성되었습니다.
-> 
+>
 > **New experience (2024년 이후 기본):**
+>
 > 1. User Pool 생성 마지막 단계에서 **Advanced app client settings** 섹션을 확장합니다.
 > 2. **Authentication flows** 섹션에서 `ALLOW_USER_PASSWORD_AUTH`를 체크합니다.
-> 
+>
 > **Legacy experience를 사용하는 경우:**
+>
 > 1. User Pool 생성 후 **App integration** 탭을 선택합니다.
 > 2. **App clients and analytics** 섹션에서 App Client를 선택합니다.
 > 3. [[Edit]] 버튼을 클릭합니다.
 > 4. **Authentication flows** 섹션에서 `ALLOW_USER_PASSWORD_AUTH`를 체크합니다.
-> 
+>
 > 이 설정을 활성화하지 않으면 태스크 4에서 `initiate-auth` 명령어가 "USER_PASSWORD_AUTH flow not enabled" 오류로 실패합니다.
 
 8. 아래로 스크롤하여 **Tags - optional** 섹션을 확장합니다.
 9. [[Add tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `4-2` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `4-2`     |
 | `CreatedBy` | `Student` |
 
 10. [[Next]] 버튼을 클릭합니다.
@@ -323,10 +328,11 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!CONCEPT] JWT 토큰 기반 인증
 > Cognito는 사용자 로그인 시 3가지 JWT 토큰을 발급합니다:
+>
 > - **IdToken**: 사용자 정보를 포함하며, Amazon API Gateway Authorizer에서 사용됩니다.
 > - **AccessToken**: 리소스 접근 권한을 나타냅니다.
 > - **RefreshToken**: 만료된 토큰을 갱신하는 데 사용됩니다.
-> 
+>
 > API 호출 시 Authorization 헤더에 IdToken을 포함하면, Amazon API Gateway Authorizer가 자동으로 검증하고 AWS Lambda 함수에 사용자 정보를 전달합니다.
 
 ### 태스크 4.1: AWS CloudShell 환경 변수 설정
@@ -352,7 +358,7 @@ export TEST_EMAIL="test@example.com"
 > [!IMPORTANT]
 > `YOUR_CLIENT_ID`, `YOUR_USER_POOL_ID`, `API_URL`을 실제 값으로 변경합니다.
 > 환경 변수를 사용하면 이후 명령어에서 긴 값을 반복 입력하지 않아도 됩니다.
-> 
+>
 > **공유 환경에서 이메일 충돌 방지**: 여러 학생이 동일한 AWS 계정을 공유하는 경우, `TEST_EMAIL` 환경 변수를 고유한 값으로 변경합니다 (예: `test-yourname@example.com`).
 
 > [!WARNING]
@@ -382,10 +388,11 @@ aws cognito-idp sign-up \
 ```
 
 > [!OUTPUT]
+>
 > ```json
 > {
->     "UserConfirmed": false,
->     "UserSub": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+>   "UserConfirmed": false,
+>   "UserSub": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 > }
 > ```
 
@@ -398,9 +405,10 @@ aws cognito-idp sign-up \
 
 > [!NOTE]
 > **공유 환경에서 이메일 충돌 가능성**: 여러 학생이 동일한 AWS 계정을 공유하는 경우, 동일한 이메일 주소로 사용자를 생성하면 "UsernameExistsException" 오류가 발생할 수 있습니다. 이 경우 태스크 4.1에서 `TEST_EMAIL` 환경 변수를 고유한 값으로 변경합니다:
+>
 > - `export TEST_EMAIL="test-yourname@example.com"` (예: `test-john@example.com`)
 > - `export TEST_EMAIL="test-123@example.com"` (임의의 숫자 추가)
-> 
+>
 > 환경 변수를 변경한 후 이 태스크의 명령어를 다시 실행하면 고유한 이메일로 사용자가 생성됩니다.
 
 2. 사용자를 확인합니다:
@@ -439,6 +447,7 @@ echo "ID Token (first 50 characters): ${ID_TOKEN:0:50}..."
 ```
 
 > [!OUTPUT]
+>
 > ```
 > ID Token (first 50 characters): eyJraWQiOiJxxx...
 > ```
@@ -447,7 +456,7 @@ echo "ID Token (first 50 characters): ${ID_TOKEN:0:50}..."
 > IdToken은 매우 긴 문자열(수백~수천 자)입니다. 환경 변수 `$ID_TOKEN`에 저장하면 이후 API 호출 시 편리하게 사용할 수 있습니다.
 
 > [!WARNING]
-> **IdToken 만료 안내**: IdToken은 기본적으로 1시간 후 만료됩니다. 
+> **IdToken 만료 안내**: IdToken은 기본적으로 1시간 후 만료됩니다.
 > 태스크 5에서 "The incoming token has expired" 오류가 발생하면, 이 태스크의 `initiate-auth` 명령어를 다시 실행하여 새 토큰을 획득합니다.
 
 ✅ **태스크 완료**: 사용자가 생성되고 인증 토큰을 획득했습니다.
@@ -469,11 +478,13 @@ curl -X POST $API_URL/reservations \
 
 > [!NOTE]
 > **날짜 형식 안내**: `"date": "2026-03-20"` 부분을 실제 날짜로 변경합니다.
+>
 > - 예: `"date": "2026-04-15"` (2026년 4월 15일)
 > - 현재 날짜 이후의 날짜를 입력하는 것이 자연스럽습니다.
 
 > [!TIP]
 > JSON 출력을 보기 좋게 포맷팅하려면 `| python3 -m json.tool`을 추가합니다:
+>
 > ```bash
 > curl -X POST $API_URL/reservations \
 >   -H "Authorization: $ID_TOKEN" \
@@ -486,6 +497,7 @@ curl -X POST $API_URL/reservations \
 > 환경 변수 `$API_URL`과 `$ID_TOKEN`을 사용하므로 값을 직접 입력할 필요가 없습니다.
 
 > [!OUTPUT]
+>
 > ```json
 > {
 >   "userId": "<cognito-user-id>",
@@ -502,11 +514,12 @@ curl -X POST $API_URL/reservations \
 
 > [!NOTE]
 > **출력값 설명**:
+>
 > - `userId`: Cognito에서 자동으로 생성된 고유 사용자 ID (UUID 형식)
 > - `reservationId`: 자동 생성된 예약 ID (UUID 형식, 예: `550e8400-e29b-41d4-a716-446655440000`)
 > - `date`: 요청 시 입력한 날짜가 그대로 반환됩니다 (예: `2026-03-20`)
 > - `createdAt`: 실제 실행 시점의 타임스탬프 (ISO 8601 형식, 예: `2026-02-18T05:30:00.123Z`)
-> 
+>
 > `date`와 `createdAt`은 실행 시점에 따라 달라지므로 예상 출력과 다를 수 있습니다.
 
 ### 태스크 5.2: 예약 목록 조회 테스트
@@ -519,6 +532,7 @@ curl -X GET $API_URL/reservations \
 ```
 
 > [!OUTPUT]
+>
 > ```json
 > [
 >   {
@@ -537,11 +551,12 @@ curl -X GET $API_URL/reservations \
 
 > [!NOTE]
 > **출력값 설명**:
+>
 > - `userId`: Cognito에서 자동으로 생성된 고유 사용자 ID (UUID 형식)
 > - `reservationId`: 자동 생성된 예약 ID (UUID 형식, 예: `550e8400-e29b-41d4-a716-446655440000`)
 > - `date`: 태스크 5.1에서 입력한 날짜가 그대로 반환됩니다 (예: `2026-03-20`)
 > - `createdAt`: 실제 실행 시점의 타임스탬프 (ISO 8601 형식, 예: `2026-02-18T05:30:00.123Z`)
-> 
+>
 > `date`와 `createdAt`은 실행 시점에 따라 달라지므로 예상 출력과 다를 수 있습니다.
 
 ### 태스크 5.3: 인증 없이 API 호출 테스트
@@ -553,8 +568,9 @@ curl -X GET $API_URL/reservations
 ```
 
 > [!OUTPUT]
+>
 > ```json
-> {"message":"Unauthorized"}
+> { "message": "Unauthorized" }
 > ```
 
 > [!NOTE]
@@ -570,8 +586,9 @@ curl -X GET $API_URL/reservations \
 ```
 
 > [!OUTPUT]
+>
 > ```json
-> {"message":"Unauthorized"}
+> { "message": "Unauthorized" }
 > ```
 
 > [!NOTE]
@@ -625,10 +642,11 @@ curl -X GET $API_URL/reservations \
 
 > [!TROUBLESHOOTING]
 > **문제**: Cognito User Pool 삭제 시 "Cannot delete user pool with domain" 오류가 발생합니다
-> 
+>
 > **원인**: User Pool에 도메인이 설정되어 있으면 먼저 도메인을 삭제해야 합니다.
-> 
+>
 > **해결**:
+>
 > 1. Cognito 콘솔에서 `QuickTableUserPool`을 선택합니다.
 > 2. **App integration** 탭을 선택합니다.
 > 3. **Domain** 섹션에서 [[Delete domain]] 버튼을 클릭합니다.
@@ -648,10 +666,11 @@ curl -X GET $API_URL/reservations \
 
 > [!TROUBLESHOOTING]
 > **문제**: CloudFormation 스택 삭제 시 "DELETE_FAILED" 상태가 발생합니다
-> 
+>
 > **원인**: DynamoDB 테이블에 데이터가 있거나 Lambda 함수에 연결된 리소스가 있을 수 있습니다.
-> 
+>
 > **해결**:
+>
 > 1. CloudFormation 콘솔에서 스택을 선택합니다.
 > 2. **Events** 탭을 선택하여 삭제 실패 원인을 확인합니다.
 > 3. DynamoDB 테이블 삭제 실패 시:
@@ -686,33 +705,40 @@ curl -X GET $API_URL/reservations \
 ### 인증 흐름
 
 **1단계: 사용자 등록 및 확인**
+
 - 사용자가 Cognito User Pool에 등록합니다.
 - 이메일 인증 또는 관리자 확인을 통해 계정을 활성화합니다.
 
 **2단계: 로그인 및 토큰 획득**
+
 - 사용자가 이메일과 비밀번호로 로그인합니다.
 - Cognito가 IdToken, AccessToken, RefreshToken을 발급합니다.
 
 **3단계: API 호출**
+
 - 클라이언트가 Authorization 헤더에 IdToken을 포함하여 API를 호출합니다.
 - Amazon API Gateway Authorizer가 토큰을 자동으로 검증합니다.
 
 **4단계: AWS Lambda 실행**
+
 - 토큰이 유효하면 AWS Lambda 함수를 호출합니다.
 - `event['requestContext']['authorizer']['claims']`에 사용자 정보가 포함됩니다.
 
 **5단계: 사용자별 데이터 격리**
+
 - AWS Lambda 함수가 Cognito 사용자 ID를 추출합니다.
 - DynamoDB에서 해당 사용자의 데이터만 조회/수정합니다.
 
 ### JWT 토큰 구조
 
 **IdToken 구성**:
+
 - **Header**: 토큰 타입 및 서명 알고리즘 (RS256)
 - **Payload**: 사용자 정보 (sub, email, name 등)
 - **Signature**: Cognito User Pool의 RSA 프라이빗 키로 서명 (검증 시 Cognito가 공개하는 공개 키 사용)
 
 **주요 Claim**:
+
 - `sub`: Cognito 사용자 ID (고유 식별자)
 - `email`: 사용자 이메일 주소
 - `name`: 사용자 이름
@@ -722,16 +748,19 @@ curl -X GET $API_URL/reservations \
 ### 보안 모범 사례
 
 **토큰 관리**:
+
 - IdToken은 메모리(변수) 또는 HttpOnly 쿠키에 저장하는 것이 권장됩니다. LocalStorage/SessionStorage는 XSS 공격에 노출될 수 있어 보안에 취약합니다.
 - 토큰 만료 시 RefreshToken을 사용하여 갱신합니다.
 - HTTPS를 사용하여 토큰 전송 시 암호화합니다.
 
 **User Pool 설정**:
+
 - 프로덕션 환경에서는 MFA를 활성화합니다.
 - 강력한 비밀번호 정책을 설정합니다.
 - 계정 복구 옵션을 구성합니다.
 
 **Amazon API Gateway 설정**:
+
 - Authorizer 캐싱을 활성화하여 성능을 향상시킵니다 (기본 300초).
 - CORS를 적절히 설정하여 허용된 도메인만 접근하도록 합니다.
 - Amazon CloudWatch Logs를 활성화하여 인증 실패를 모니터링합니다.

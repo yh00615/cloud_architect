@@ -1,5 +1,5 @@
 ---
-title: "Amazon Bedrock Knowledge Bases 기반 RAG 구현"
+title: 'Amazon Bedrock Knowledge Bases 기반 RAG 구현'
 week: 14
 session: 2
 awsServices:
@@ -7,8 +7,10 @@ awsServices:
   - Amazon S3
   - Amazon OpenSearch Serverless
 learningObjectives:
-  - RAG (Retrieval-Augmented Generation)의 개념과 동작 원리를 설명할 수 있습니다.
-  - Amazon Bedrock Knowledge Bases를 활용하여 RAG 시스템을 구축할 수 있습니다.
+  - Amazon S3 버킷에 문서를 업로드할 수 있습니다
+  - Amazon Bedrock Knowledge Base를 생성하고 Amazon S3를 데이터 소스로 연결할 수 있습니다
+  - Amazon OpenSearch Serverless 컬렉션을 구성할 수 있습니다
+  - 문서 기반 질의응답을 테스트하고 RAG 동작을 확인할 수 있습니다
 prerequisites:
   - Amazon S3 기본 사용 경험.
   - 생성형 AI 기본 개념 이해.
@@ -16,25 +18,25 @@ prerequisites:
 
 > [!IMPORTANT]
 > **리전 설정 필수**: 이 실습은 **US East (N. Virginia)** 또는 **US West (Oregon)** 리전에서 진행합니다.
-> 
+>
 > **권장 이유**:
-> 
+>
 > - 모든 Amazon Bedrock 모델(Claude 3.5 Sonnet, Titan Embeddings 등)이 지원됩니다
 > - Knowledge Base와 Agent 통합 시 안정적입니다
 > - Week 14-3 Agent와 같은 리전에서 통합해야 합니다
 
 > [!WARNING]
 > 이 데모는 AWS 리소스를 생성하며 다음 비용이 발생합니다.
-> 
+>
 > **예상 비용** (ap-northeast-2 리전 기준):
-> 
-> | 리소스 | 타입 | 시간당 비용 | 월 비용 (24/7 운영 시) |
-> |--------|------|------------|---------------------|
-> | OpenSearch Serverless | 최소 2 OCU | 약 $0.48 | 약 $346 |
-> | Knowledge Base 쿼리 | - | 무료 티어 범위 | - |
-> 
+>
+> | 리소스                | 타입       | 시간당 비용    | 월 비용 (24/7 운영 시) |
+> | --------------------- | ---------- | -------------- | ---------------------- |
+> | OpenSearch Serverless | 최소 2 OCU | 약 $0.48       | 약 $346                |
+> | Knowledge Base 쿼리   | -          | 무료 티어 범위 | -                      |
+>
 > **⚠️ 중요**:
-> 
+>
 > - OpenSearch Serverless는 최소 2 OCU(인덱싱 1 + 검색 1)를 사용합니다
 > - 실습 후 미삭제 시 월 약 $346의 비용이 지속적으로 발생합니다
 > - 실습 종료 후 반드시 리소스를 삭제해야 합니다
@@ -46,15 +48,15 @@ QuickTable 레스토랑의 메뉴, 영업 정보, FAQ 문서를 벡터 데이터
 
 > [!CONCEPT] RAG (Retrieval-Augmented Generation)
 > RAG는 생성형 AI의 한계를 극복하기 위한 아키텍처입니다.
-> 
+>
 > **LLM의 한계:**
-> 
+>
 > - 학습 데이터에 없는 최신 정보에 대해 답변하기 어렵습니다
 > - 기업 내부 문서나 특정 도메인 지식에 접근할 수 없습니다
 > - 잘못된 정보를 생성할 수 있습니다 (Hallucination)
-> 
+>
 > **RAG 동작 원리:**
-> 
+>
 > - **Retrieval (검색)**: 사용자 질문과 관련된 문서를 벡터 데이터베이스에서 검색합니다
 > - **Augmentation (증강)**: 검색된 문서를 컨텍스트로 LLM에 제공합니다
 > - **Generation (생성)**: LLM이 컨텍스트를 기반으로 정확한 답변을 생성합니다
@@ -68,13 +70,14 @@ Knowledge Base는 Amazon S3 버킷의 문서를 자동으로 읽어 벡터 임�
 
 > [!IMPORTANT]
 > **리전 선택 주의사항:**
-> 
+>
 > - 이 실습은 Amazon Bedrock이 지원되는 리전에서 진행해야 합니다
 > - **권장 리전**: US East (N. Virginia) 또는 US West (Oregon) - 모든 모델 지원
 > - **서울 리전(ap-northeast-2)**: 일부 모델(Claude 3.5 Sonnet 등)이 지원되지 않을 수 있습니다
 > - Week 14-3 Agent와 통합하려면 같은 리전을 사용해야 합니다
-> 
+>
 > **모델 가용성 확인 방법:**
+>
 > 1. Amazon Bedrock 콘솔 → 왼쪽 메뉴 **Foundation models** → **Model catalog**
 > 2. 사용하려는 모델(Claude 3.5 Sonnet, Titan Embeddings 등)이 현재 리전에서 사용 가능한지 확인
 > 3. **Anthropic 모델(Claude)**: 첫 사용 시 Use case 양식 제출 필요 (즉시 승인)
@@ -88,13 +91,13 @@ Knowledge Base는 Amazon S3 버킷의 문서를 자동으로 읽어 벡터 임�
 > 버킷 이름은 전 세계적으로 고유해야 합니다.
 
 5. **AWS Region**에서 `Asia Pacific (Seoul) ap-northeast-2`를 선택합니다.
-5. 아래로 스크롤하여 **Tags - optional** 섹션을 확인합니다.
-6. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+6. 아래로 스크롤하여 **Tags - optional** 섹션을 확인합니다.
+7. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `14-2` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `14-2`    |
 | `CreatedBy` | `Student` |
 
 7. 나머지 설정은 기본값을 유지합니다.
@@ -265,6 +268,7 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 
 > [!CONCEPT] Knowledge Base 아키텍처
 > Knowledge Base는 다음 구성 요소로 이루어집니다:
+>
 > 1. **Data source**: 문서가 저장된 Amazon S3 버킷
 > 2. **Embedding model**: 문서를 벡터로 변환하는 AI 모델
 > 3. **Vector database**: 벡터를 저장하고 검색하는 데이터베이스 (OpenSearch Serverless)
@@ -291,10 +295,11 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 
 > [!CONCEPT] 임베딩 모델 선택
 > Amazon Bedrock은 여러 임베딩 모델을 제공합니다:
+>
 > - **Cohere Embed Multilingual v3**: 다국어 지원 우수, 한국어 임베딩 품질 높음 (권장)
 > - **Titan Embeddings G1 - Text**: 영어 중심, 한국어 지원 제한적
 > - **Titan Embeddings V2**: 개선된 다국어 지원
-> 
+>
 > 한국어 문서의 경우 Cohere Embed Multilingual v3가 가장 적합합니다.
 
 15. **Vector database**에서 `Quick create a new vector store`를 선택합니다.
@@ -313,8 +318,6 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 > OpenSearch Serverless 컬렉션이 자동으로 생성되고 AWS IAM 역할이 구성됩니다.
 
 19. 상태가 "Creating"에서 "Active"로 변경될 때까지 기다립니다.
-
-
 
 ✅ **태스크 완료**: Knowledge Base가 생성되었습니다.
 
@@ -359,9 +362,10 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 
 > [!CONCEPT] Foundation Model 선택
 > Knowledge Base는 다양한 Foundation Model과 통합할 수 있습니다:
+>
 > - **Claude 3.5 Sonnet**: 최신 모델, 빠른 응답 속도, 한국어 지원 우수 (권장)
 > - **Claude 3 Sonnet**: 이전 세대, 안정적인 성능
-> 
+>
 > 한국어 질문의 경우 Claude 3.5 Sonnet 또는 Claude 3 Sonnet이 권장됩니다.
 
 3. 질문 입력창에 다음을 입력합니다: `안심 스테이크 가격이 얼마인가요?`.
@@ -369,6 +373,7 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 5. **Generated response** 섹션에서 답변을 확인합니다.
 
 > [!OUTPUT]
+>
 > ```
 > 안심 스테이크(200g)는 38,000원입니다.
 > 미디엄 레어로 추천되며, 감자 퓨레와 구운 야채가 포함되어 있습니다.
@@ -390,6 +395,7 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 3. 답변을 확인합니다.
 
 > [!OUTPUT]
+>
 > ```
 > 주말 영업 시간은 11:00부터 23:00까지이며, 라스트 오더는 22:00입니다.
 > 주차는 건물 지하 주차장을 이용하실 수 있으며, 2시간 무료 주차가 제공됩니다.
@@ -415,8 +421,9 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 3. 답변을 확인합니다.
 
 > [!OUTPUT]
+>
 > ```
-> 현재 배달 서비스는 제공하지 않습니다. 
+> 현재 배달 서비스는 제공하지 않습니다.
 > 매장 방문 또는 테이크아웃만 가능합니다.
 > ```
 
@@ -537,11 +544,13 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 ### RAG vs 일반 LLM
 
 **일반 LLM의 한계:**
+
 - 학습 데이터 이후의 정보를 알 수 없음
 - 기업 내부 문서나 개인 데이터에 접근 불가
 - 환각(hallucination) 발생 가능 - 그럴듯한 거짓 정보 생성
 
 **RAG의 장점:**
+
 - 최신 정보 및 기업 문서 활용 가능
 - 답변의 근거(source) 제공으로 신뢰성 향상
 - 환각 방지 - 문서에 없는 정보는 "모른다"고 답변
@@ -550,44 +559,52 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 ### 벡터 검색 원리
 
 **1단계: 임베딩 생성**
+
 - 문서를 작은 청크로 분할
 - 각 청크를 벡터(숫자 배열)로 변환
 - 의미가 유사한 텍스트는 벡터 공간에서 가까운 위치에 배치
 
 **2단계: 사용자 질문 임베딩**
+
 - 사용자 질문도 동일한 방식으로 벡터로 변환
 - 질문 벡터와 문서 벡터 간의 유사도 계산
 
 **3단계: 관련 문서 검색**
+
 - 코사인 유사도(cosine similarity)로 가장 관련성 높은 청크 검색
 - 상위 K개 청크를 LLM에 컨텍스트로 제공 (기본 K=5)
 
 **4단계: 답변 생성**
+
 - LLM이 검색된 문서를 기반으로 답변 생성
 - 문서에 없는 정보는 답변하지 않음
 
 ### Knowledge Base 구성 요소
 
 **Data Source (데이터 소스):**
+
 - Amazon S3 버킷, Confluence, SharePoint, Salesforce 등 지원
 - 지원 형식: TXT, PDF, MD, HTML, DOC, DOCX, CSV, XLS, XLSX
-- **동기화 방식**: 
+- **동기화 방식**:
   - 수동: Sync 버튼 클릭
   - 자동(스케줄): 콘솔에서 Sync schedule 설정 (시간별/일별/주별)
   - 자동(이벤트): EventBridge + Lambda로 S3 업로드 시 즉시 동기화
 
 **Embedding Model (임베딩 모델):**
+
 - Cohere Embed Multilingual v3: 다국어 지원 우수, 한국어 임베딩 품질 높음 (권장)
 - Titan Embeddings G1: 영어 중심, 한국어 지원 제한적
 - Titan Embeddings V2: 개선된 다국어 지원
 - 벡터 차원: 1024 (Titan G1), 1024 (Cohere Multilingual v3)
 
 **Vector Database (벡터 데이터베이스):**
+
 - OpenSearch Serverless: 완전 관리형, 자동 스케일링
 - 벡터 인덱스: HNSW (Hierarchical Navigable Small World)
 - 검색 속도: 밀리초 단위
 
 **Foundation Model (기반 모델):**
+
 - Claude 3.5 Sonnet: 최신 모델, 한국어 지원 우수 (권장)
 - Claude 3 Sonnet/Opus: 이전 세대, 안정적인 성능
 - Titan Text: AWS 자체 모델, 영어 중심, 한국어 성능 제한적
@@ -596,17 +613,20 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 ### 청킹 전략
 
 **고정 크기 청킹 (Fixed-size Chunking):**
+
 - 기본 방식: 300 토큰 단위로 분할 (약 200-250 단어, 영어 기준)
 - 한국어: 토큰당 단어 수가 영어와 다르므로 실제 단어 수는 다를 수 있음
 - 장점: 간단하고 빠름
 - 단점: 문맥이 끊길 수 있음
 
 **의미 기반 청킹 (Semantic Chunking):**
+
 - 문단, 섹션 단위로 분할
 - 장점: 문맥 유지
 - 단점: 청크 크기가 불균일
 
 **계층적 청킹 (Hierarchical Chunking):**
+
 - 문서 → 섹션 → 문단 계층 구조 유지
 - 장점: 문서 구조 보존
 - 단점: 복잡한 구현
@@ -614,31 +634,37 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 ### 검색 최적화
 
 **하이브리드 검색:**
+
 - 벡터 검색 + 키워드 검색 결합
 - 의미 유사도와 정확한 키워드 매칭 모두 활용
 
 **재순위화 (Reranking):**
+
 - 검색된 청크를 다시 정렬
 - 더 정확한 답변을 위해 상위 청크 선택
 
 **메타데이터 필터링:**
+
 - 문서 유형, 날짜, 작성자 등으로 필터링
 - 검색 범위 축소로 정확도 향상
 
 ### 실무 활용 사례
 
 **레스토랑 고객 지원 챗봇:**
+
 - 메뉴, 영업 시간, 예약 정책을 Knowledge Base에 저장
 - 고객 질문에 즉시 정확한 답변 제공
 - 24/7 자동 응답으로 고객 만족도 향상
 - QuickTable 예시: "비건 메뉴가 있나요?", "주차 가능한가요?", "단체 예약이 가능한가요?"
 
 **기업 내부 검색:**
+
 - 사내 문서, 정책, 프로세스를 Knowledge Base에 저장
 - 직원이 필요한 정보를 빠르게 검색
 - 온보딩 시간 단축
 
 **법률/의료 문서 분석:**
+
 - 방대한 법률 판례, 의료 논문을 Knowledge Base에 저장
 - 전문가가 관련 사례를 빠르게 검색
 - 의사결정 지원
@@ -646,20 +672,24 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 ### 비용 최적화
 
 **임베딩 비용:**
+
 - Titan Embeddings G1: 1,000 토큰당 $0.0001
 - Cohere Embed Multilingual v3: 1,000 토큰당 $0.0001
 - 100만 토큰 처리 시 약 $0.10
 
 **벡터 데이터베이스 비용:**
+
 - OpenSearch Serverless: 시간당 $0.48 (최소 2 OCU 기준, ap-northeast-2 리전)
 - 월 약 $346 (24/7 운영 시)
 - ⚠️ 실습 후 미삭제 시 지속적으로 비용 발생
 
 **Foundation Model 비용:**
+
 - Claude 3 Sonnet: 1,000 입력 토큰당 $0.003, 1,000 출력 토큰당 $0.015
 - 1,000 질문 처리 시 약 $5-10 (질문 길이에 따라)
 
 **최적화 전략:**
+
 - 청크 크기 조정으로 벡터 수 감소
 - 캐싱으로 중복 질문 처리
 - 배치 처리로 임베딩 비용 절감

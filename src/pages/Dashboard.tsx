@@ -15,6 +15,99 @@ import { curriculum } from '@/data/curriculum';
 import '@/styles/dashboard.css';
 import '@/styles/info-boxes.css';
 
+// AWS 서비스명을 CSS 클래스명으로 변환
+const getServiceBadgeClass = (service: string): string => {
+  const serviceMap: { [key: string]: string } = {
+    // Management & Governance
+    'AWS Console': 'console',
+    'AWS Management Console': 'console',
+    'AWS CloudShell': 'cloudshell',
+    'Amazon CloudWatch': 'cloudwatch',
+    'AWS CloudFormation': 'cloudformation',
+    'AWS Well-Architected Tool': 'well-architected-tool',
+
+    // Storage
+    'Amazon S3': 's3',
+    'Amazon EBS': 'ebs',
+
+    // Compute
+    'Amazon EC2': 'ec2',
+    'AWS Lambda': 'lambda',
+    'Amazon ECS': 'ecs',
+    'AWS Auto Scaling': 'auto-scaling',
+
+    // Networking
+    'Amazon VPC': 'vpc',
+    'Elastic Load Balancing': 'elb',
+    'Application Load Balancer': 'alb',
+    'Amazon API Gateway': 'api-gateway',
+    'Amazon CloudFront': 'cloudfront',
+    'Amazon Route 53': 'route-53',
+
+    // Database
+    'Amazon RDS': 'rds',
+    'Amazon Aurora': 'rds',
+    'Amazon DynamoDB': 'dynamodb',
+    'Amazon ElastiCache': 'elasticache',
+
+    // Developer Tools
+    'AWS CodePipeline': 'codepipeline',
+    'AWS CodeBuild': 'codebuild',
+    'AWS CodeCommit': 'codecommit',
+    'AWS CodeDeploy': 'codedeploy',
+    'AWS Infrastructure Composer': 'infrastructure-composer',
+
+    // Security
+    'AWS IAM': 'iam',
+    'AWS STS': 'iam',
+    'AWS Organizations': 'organizations',
+    'Amazon Cognito': 'cognito',
+    'Amazon GuardDuty': 'guardduty',
+    'AWS Security Hub': 'security-hub',
+    'AWS Secrets Manager': 'secrets-manager',
+    'AWS KMS': 'kms',
+    'AWS Certificate Manager': 'certificate-manager',
+
+    // Management & Governance (추가 서비스)
+    'AWS Systems Manager': 'systems-manager',
+    'AWS Systems Manager Parameter Store': 'parameter-store',
+    'Amazon SNS': 'sns',
+    'AWS Config': 'config',
+    'Amazon EventBridge': 'eventbridge',
+
+    // Analytics
+    'AWS Glue': 'glue',
+    'Amazon Athena': 'athena',
+    'AWS Lake Formation': 'lake-formation',
+    'Amazon QuickSight': 'quicksight',
+    'Amazon Quick Suite': 'quick-suite',
+
+    // Cloud Financial Management
+    'AWS Cost Explorer': 'cost-explorer',
+    'AWS Budgets': 'budgets',
+
+    // Machine Learning
+    'Amazon SageMaker': 'sagemaker',
+    'Amazon Rekognition': 'rekognition',
+    'Amazon Bedrock': 'bedrock',
+
+    // Analytics (추가)
+    'OpenSearch Serverless': 'opensearch-serverless',
+    'Amazon OpenSearch Serverless': 'opensearch-serverless',
+
+    // Containers
+    'Amazon ECR': 'ecr',
+    'Amazon EKS': 'eks',
+    Kubernetes: 'kubernetes',
+
+    // Additional Services
+    'AWS X-Ray': 'xray',
+    'AWS Resource Groups & Tag Editor': 'resource-groups',
+  };
+
+  return serviceMap[service] || 'default';
+};
+
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
@@ -59,6 +152,7 @@ export const Dashboard: React.FC = () => {
 
       {/* 교과목 개요 카드 */}
       <Container
+        id="overview"
         header={
           <Header variant="h2">
             <span className="section-title">📚 교과목 개요</span>
@@ -113,6 +207,7 @@ export const Dashboard: React.FC = () => {
 
       {/* 주차별 커리큘럼 카드 */}
       <Container
+        id="curriculum"
         header={
           <Header
             variant="h2"
@@ -124,7 +219,12 @@ export const Dashboard: React.FC = () => {
       >
         <SpaceBetween direction="vertical" size="m">
           {curriculum.map((week) => (
-            <Box key={week.week} padding="m" className="week-card">
+            <Box
+              key={week.week}
+              id={`week-${week.week}`}
+              padding="m"
+              className="week-card"
+            >
               <SpaceBetween direction="vertical" size="m">
                 {/* 주차 헤더 */}
                 <SpaceBetween
@@ -230,22 +330,14 @@ export const Dashboard: React.FC = () => {
                               관련 AWS 서비스:
                             </Box>
                             <SpaceBetween direction="horizontal" size="xs">
-                              {uniqueServices.map((service, idx) => {
-                                // AWS/Amazon 접두사 제거하여 클래스명 생성
-                                const className = service
-                                  .replace(/^(AWS|Amazon)\s+/i, '')
-                                  .toLowerCase()
-                                  .replace(/\s+/g, '-');
-
-                                return (
-                                  <span
-                                    key={idx}
-                                    className={`aws-service-badge ${className}`}
-                                  >
-                                    {service}
-                                  </span>
-                                );
-                              })}
+                              {uniqueServices.map((service, idx) => (
+                                <span
+                                  key={idx}
+                                  className={`aws-service-badge ${getServiceBadgeClass(service)}`}
+                                >
+                                  {service}
+                                </span>
+                              ))}
                             </SpaceBetween>
                           </SpaceBetween>
                         </Box>

@@ -142,7 +142,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
 
   // 도움말 패널 내용
   const helpPanel = (
-    <HelpPanel header={<Box variant="h3">AWS 용어 사전</Box>} footer={null}>
+    <HelpPanel header={<Box variant="h3">목차 및 용어 사전</Box>} footer={null}>
       <HelpPanelContent />
     </HelpPanel>
   );
@@ -160,9 +160,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
             {
               type: 'button',
               iconName: 'status-info',
-              text: '용어 사전',
+              text: '목차 및 용어 사전',
               onClick: () => setToolsOpen(!toolsOpen),
-              ariaLabel: '용어 사전 열기',
+              ariaLabel: '목차 및 용어 사전 열기',
             },
             {
               type: 'button',

@@ -1,13 +1,14 @@
 ---
-title: "AWS X-Ray를 활용한 서버리스 애플리케이션 추적"
+title: 'AWS X-Ray를 활용한 서버리스 애플리케이션 추적'
 week: 13
 session: 2
 awsServices:
   - AWS X-Ray
 learningObjectives:
-  - AWS X-Ray의 구성요소와 분산 추적 방식을 설명할 수 있습니다
-  - 서비스 맵과 트레이스를 활용하여 서비스 간 의존성과 병목 지점을 식별할 수 있습니다
-  - AWS X-Ray Insights의 자동 이상 탐지 기능을 설명할 수 있습니다
+  - AWS Lambda 함수에 AWS X-Ray SDK를 추가하고 추적을 활성화할 수 있습니다
+  - Amazon API Gateway와 Amazon DynamoDB 호출을 AWS X-Ray로 추적할 수 있습니다
+  - 서비스 맵에서 Amazon API Gateway → AWS Lambda → Amazon DynamoDB 흐름을 확인할 수 있습니다
+  - 트레이스 분석으로 병목 구간과 오류를 식별할 수 있습니다
 prerequisites:
   - Week 1-12 완료
   - 시스템 모니터링 기본 개념 이해
@@ -18,13 +19,14 @@ prerequisites:
 
 > [!DOWNLOAD]
 > [week13-2-quicktable-xray-lab.zip](/files/week13/week13-2-quicktable-xray-lab.zip)
+>
 > - `week13-2-quicktable-xray-lab.yaml` - AWS CloudFormation 템플릿 (태스크 0에서 QuickTable 환경 자동 생성: Reservations 테이블, CreateReservation/GetReservations AWS Lambda 함수, Amazon API Gateway, AWS X-Ray 추적 활성화)
 > - `create_reservation.py` - AWS X-Ray SDK가 통합된 예약 생성 AWS Lambda 함수 코드
 > - `get_reservations.py` - AWS X-Ray SDK가 통합된 예약 조회 AWS Lambda 함수 코드
 > - `README.md` - AWS CloudFormation 배포 가이드, AWS X-Ray 추적 설정, 아키텍처 설명
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 0: 실습 환경 구축 (AWS CloudFormation 스택 생성으로 QuickTable API 인프라 자동 배포)
 > - 태스크 2: AWS X-Ray 추적 활성화 확인 (AWS Lambda 함수의 Active tracing 설정 확인)
 > - 태스크 3: API 호출 및 트레이스 생성 (예약 생성/조회 API 호출하여 AWS X-Ray 트레이스 데이터 생성)
@@ -33,15 +35,15 @@ prerequisites:
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
-> 
+>
 > **예상 비용** (ap-northeast-2 리전 기준):
-> 
-> | 리소스 | 타입 | 비용 |
-> |--------|------|------|
-> | AWS Lambda 함수 | 실행 시간 기반 | 프리 티어 범위 내 (12개월) |
-> | Amazon API Gateway | 요청 기반 | 프리 티어 범위 내 (12개월) |
-> | Amazon DynamoDB | On-demand | 프리 티어 범위 내 (항상 무료) |
-> | AWS X-Ray | 트레이스 기반 | 월 100,000개까지 무료 (항상 무료) |
+>
+> | 리소스             | 타입           | 비용                              |
+> | ------------------ | -------------- | --------------------------------- |
+> | AWS Lambda 함수    | 실행 시간 기반 | 프리 티어 범위 내 (12개월)        |
+> | Amazon API Gateway | 요청 기반      | 프리 티어 범위 내 (12개월)        |
+> | Amazon DynamoDB    | On-demand      | 프리 티어 범위 내 (항상 무료)     |
+> | AWS X-Ray          | 트레이스 기반  | 월 100,000개까지 무료 (항상 무료) |
 
 프리 티어 적용 기간에 유의하세요.
 
@@ -49,7 +51,7 @@ prerequisites:
 > AWS Lambda와 API Gateway의 프리 티어는 계정 생성 후 12개월까지만 적용됩니다.
 > DynamoDB와 X-Ray는 항상 무료입니다.
 > 프리 티어가 만료된 계정에서는 소액의 비용이 발생할 수 있습니다.
-> 
+>
 > AWS X-Ray 프리 티어는 매월 갱신되며 계정 생성 후 12개월이 아닌 **항상 무료(Always Free)**입니다.
 
 ## 태스크 0: 실습 환경 구축
@@ -81,10 +83,10 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 확인합니다.
 13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `13-2` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `13-2`    |
 | `CreatedBy` | `Student` |
 
 > [!NOTE]
@@ -131,19 +133,21 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 > [!NOTE]
 > AWS CloudFormation 템플릿에서 AWS X-Ray SDK가 포함된 AWS Lambda 함수 코드가 자동으로 배포되었습니다.
 > 코드에는 `aws_xray_sdk` 라이브러리를 사용하여 Amazon DynamoDB 호출을 추적하는 로직이 포함되어 있습니다.
-> 
+>
 > **다음 코드 패턴을 확인하세요**:
+>
 > - `from aws_xray_sdk.core import patch_all, xray_recorder` - SDK 임포트
 > - `patch_all()` - boto3 DynamoDB 호출 자동 추적
 > - `@xray_recorder.capture('create_reservation')` - 커스텀 서브세그먼트 데코레이터
 > - `subsegment.put_annotation()` - 검색 가능한 어노테이션 추가
 > - `subsegment.put_metadata()` - 상세 메타데이터 추가
-> 
+>
 > **주요 코드 패턴**:
+>
 > ```python
 > from aws_xray_sdk.core import patch_all, xray_recorder
 > patch_all()  # boto3 DynamoDB 호출 자동 추적
-> 
+>
 > @xray_recorder.capture('create_reservation')
 > def create_reservation(event):
 >     subsegment = xray_recorder.current_subsegment()
@@ -188,18 +192,21 @@ export API_URL="YOUR_API_URL"
 
 > [!IMPORTANT]
 > `YOUR_API_URL` 부분을 태스크 0에서 복사한 Invoke URL로 변경합니다.
-> 
+>
 > **URL 형식 주의**:
+>
 > - Invoke URL 형식: `https://abc123.execute-api.ap-northeast-2.amazonaws.com/prod`
 > - URL 끝에 `/prod`가 이미 포함되어 있습니다
 > - 요청 시 `/reservations`를 추가하여 전체 경로는 `/prod/reservations`가 됩니다
-> 
+>
 > **잘못된 예시**:
+>
 > ```bash
 > export API_URL="YOUR_API_URL"  # ❌ 그대로 입력하면 안 됨
 > ```
-> 
+>
 > **올바른 예시** (본인의 URL로 변경):
+>
 > ```bash
 > export API_URL="https://abc123def4.execute-api.ap-northeast-2.amazonaws.com/prod"
 > ```
@@ -219,6 +226,7 @@ curl -X POST ${API_URL}/reservations \
 ```
 
 > [!OUTPUT]
+>
 > ```json
 > {
 >   "userId": "anonymous",
@@ -237,8 +245,9 @@ curl -X POST ${API_URL}/reservations \
 
 > [!NOTE]
 > 요청 본문에 `userId` 필드가 없으므로 Lambda 함수가 기본값 "anonymous"를 설정합니다.
-> 
+>
 > **userId 기본값 동작**:
+>
 > - DynamoDB 테이블의 키가 userId/reservationId이므로, 모든 예약이 "anonymous" 사용자로 생성됩니다
 > - 예약 조회 시 "anonymous" 사용자의 모든 예약이 반환됩니다
 > - 실제 프로덕션 환경에서는 Amazon Cognito 등을 사용하여 실제 사용자 ID를 전달해야 합니다
@@ -258,6 +267,7 @@ curl -X GET ${API_URL}/reservations
 ```
 
 > [!OUTPUT]
+>
 > ```json
 > [
 >   {
@@ -297,8 +307,9 @@ curl -X GET ${API_URL}/reservations
 
 > [!NOTE]
 > 서비스 맵이 표시되는 데 최대 5분이 소요될 수 있습니다. 페이지를 새로고침하여 확인합니다.
-> 
+>
 > **서비스 맵 구성 요소**:
+>
 > - **Client 노드**: API Gateway가 아니라 요청을 보낸 클라이언트(CloudShell/curl)를 나타냅니다
 > - **Amazon API Gateway 노드**: QuickTableXRayAPI REST API를 나타냅니다
 > - 두 노드는 별도로 표시됩니다
@@ -325,8 +336,9 @@ curl -X GET ${API_URL}/reservations
 > [!NOTE]
 > CloudFormation 템플릿으로 배포된 Lambda 함수 코드에는 `subsegment.put_annotation()`으로 추가된 어노테이션이 포함되어 있습니다.
 > 어노테이션에는 restaurantName, date, status 등의 정보가 포함되어 있으며, 이를 통해 특정 조건으로 트레이스를 필터링할 수 있습니다.
-> 
+>
 > 어노테이션이 표시되지 않는 경우:
+>
 > - 태스크 1에서 확인한 Lambda 함수 코드에 `subsegment.put_annotation()` 호출이 있는지 재확인하세요
 > - 트레이스가 충분히 생성되었는지 확인하세요 (태스크 3, 4에서 5-10회 API 호출)
 
@@ -349,8 +361,9 @@ curl -X GET ${API_URL}/reservations
 > [!NOTE]
 > X-Ray Insights는 **충분한 트레이스 데이터(수백~수천 건)**가 있어야 이상 탐지가 작동합니다.
 > 실습에서는 트레이스 수가 적어(수 건~수십 건) 이상이 표시되지 않을 가능성이 높습니다.
-> 
+>
 > **Insights 활용 시나리오**:
+>
 > - 프로덕션 환경에서 대량의 트레이스 데이터가 수집되는 경우
 > - 응답 시간이나 오류율이 평소와 다른 패턴을 보이는 경우
 > - 자동으로 이상을 탐지하고 알림을 받고 싶은 경우
@@ -429,7 +442,7 @@ curl -X GET ${API_URL}/reservations
 > [!NOTE]
 > CloudFormation으로 생성된 Lambda 함수 이름에는 스택 ID가 포함되어 있습니다.
 > 예: `/aws/lambda/CreateReservation-week13-2-quicktable-xray-lab-stack-ABC123`
-> 
+>
 > API Gateway 로그 그룹(`/aws/apigateway/QuickTableXRayAPI`)은 CloudFormation 템플릿에서 CloudWatch 로깅을 명시적으로 활성화한 경우에만 생성됩니다.
 > 해당 로그 그룹이 존재하지 않을 수 있으며, 존재하는 로그 그룹만 삭제하면 됩니다.
 
@@ -457,12 +470,14 @@ curl -X GET ${API_URL}/reservations
 QuickTable 레스토랑 예약 시스템에서 X-Ray는 다음과 같은 분산 추적을 제공합니다:
 
 **요청 흐름**:
+
 1. 클라이언트가 API Gateway에 예약 생성 요청을 전송합니다
 2. API Gateway가 CreateReservation AWS Lambda 함수를 호출합니다
 3. AWS Lambda 함수가 Amazon DynamoDB Reservations 테이블에 예약 데이터를 저장합니다
 4. 응답이 역순으로 클라이언트에게 전달됩니다
 
 **추적 정보**:
+
 - 전체 요청 시간: Amazon API Gateway 수신부터 클라이언트 응답까지
 - AWS Lambda 실행 시간: 함수 초기화 + 비즈니스 로직 실행
 - Amazon DynamoDB 작업 시간: PutItem/Query 작업 소요 시간
@@ -470,11 +485,13 @@ QuickTable 레스토랑 예약 시스템에서 X-Ray는 다음과 같은 분산 
 ### AWS X-Ray 구성 요소
 
 **세그먼트 (Segment)**:
+
 - **Amazon API Gateway 세그먼트**: API 요청 수신 및 AWS Lambda 호출
 - **AWS Lambda 세그먼트**: CreateReservation 또는 GetReservations 함수 실행
 - **Amazon DynamoDB 세그먼트**: Reservations 테이블 읽기/쓰기 작업
 
 **서브세그먼트 (Subsegment)**:
+
 - **create_reservation**: 예약 생성 비즈니스 로직
 - **get_reservations**: 예약 조회 비즈니스 로직
 - **dynamodb_put_item**: Amazon DynamoDB PutItem 작업
@@ -482,12 +499,14 @@ QuickTable 레스토랑 예약 시스템에서 X-Ray는 다음과 같은 분산 
 - **validate_input**: 입력 데이터 검증
 
 **어노테이션 (Annotation)**:
+
 - `restaurantName`: 레스토랑 이름 (검색 가능)
 - `date`: 예약 날짜 (검색 가능)
 - `status`: 예약 상태 (검색 가능)
 - `operation`: 작업 유형 (create, get)
 
 **메타데이터 (Metadata)**:
+
 - `reservation_data`: 전체 예약 데이터
 - `user_id`: 사용자 ID
 - `request_body`: 요청 본문
@@ -502,24 +521,28 @@ Client → Amazon API Gateway → AWS Lambda (CreateReservation) → Amazon Dyna
 ```
 
 **성능 지표**:
+
 - **평균 응답 시간**: 전체 요청 처리 시간
 - **요청 수**: 시간당 예약 생성/조회 요청 수
 - **오류율**: 실패한 요청 비율
 - **스로틀링**: Amazon DynamoDB 용량 초과로 제한된 요청
 
 **병목 지점 식별**:
+
 - AWS Lambda 콜드 스타트: 첫 요청 시 초기화 시간 증가
 - Amazon DynamoDB 쓰기 지연: 대량 예약 생성 시 지연 발생
 
 ### AWS X-Ray SDK 사용 패턴
 
 **자동 추적**:
+
 ```python
 from aws_xray_sdk.core import patch_all
 patch_all()  # boto3 Amazon DynamoDB 호출 자동 추적
 ```
 
 **커스텀 서브세그먼트**:
+
 ```python
 from aws_xray_sdk.core import xray_recorder
 
@@ -533,6 +556,7 @@ def create_reservation(event):
 ```
 
 **어노테이션 및 메타데이터**:
+
 ```python
 segment = xray_recorder.current_segment()
 segment.put_annotation('operation', 'create')  # 검색 가능
@@ -542,38 +566,46 @@ segment.put_metadata('request', event)  # 상세 정보
 ### 실전 활용 사례
 
 **1. 성능 최적화**:
+
 - 트레이스 분석으로 Amazon DynamoDB Query 시간이 긴 것을 발견
 - GSI 추가로 쿼리 성능 개선 (500ms → 50ms)
 
 **2. 오류 추적**:
+
 - 특정 레스토랑 예약 시 오류율 증가 발견
 - 메타데이터 분석으로 입력 데이터 검증 오류 확인
 - 검증 로직 개선으로 오류율 감소
 
 **3. 용량 계획**:
+
 - 서비스 맵에서 피크 시간대 요청 수 확인
 - Amazon DynamoDB Auto Scaling 설정으로 용량 자동 조정
 
 **4. 사용자 경험 개선**:
+
 - 평균 응답 시간 분석으로 느린 API 식별
 - AWS Lambda 메모리 증가로 실행 시간 단축
 
 ### 모범 사례
 
 **어노테이션 활용**:
+
 - 검색 가능한 정보는 어노테이션으로 저장합니다
 - 레스토랑 이름, 날짜, 상태 등을 어노테이션으로 추가합니다
 - 필터링 및 그룹화에 활용합니다
 
 **서브세그먼트 세분화**:
+
 - 병목 지점을 정확히 식별하기 위해 서브세그먼트를 세분화합니다
 - 입력 검증, 비즈니스 로직, Amazon DynamoDB 작업을 별도 서브세그먼트로 추적합니다
 
 **오류 처리**:
+
 - 오류 발생 시 세그먼트에 오류 정보를 기록합니다
 - 오류 원인과 스택 트레이스를 메타데이터로 저장합니다
 
 **샘플링 규칙**:
+
 - 프로덕션 환경에서는 샘플링 규칙을 사용하여 비용을 절감합니다
 - 중요한 요청은 100% 추적하고, 일반 요청은 샘플링합니다
 - 예: 예약 생성은 100%, 예약 조회는 10% 샘플링

@@ -1,5 +1,5 @@
 ---
-title: "AWS Glue를 활용한 데이터 파이프라인 구축"
+title: 'AWS Glue를 활용한 데이터 파이프라인 구축'
 week: 11
 session: 3
 awsServices:
@@ -7,19 +7,15 @@ awsServices:
   - Amazon Athena
   - Amazon S3
 learningObjectives:
-  - 데이터 레이크와 데이터 웨어하우스의 차이를 이해할 수 있습니다
-  - S3 데이터 레이크의 3계층 구조(Raw/Processed/Curated)를 설명할 수 있습니다
-  - S3 스토리지 클래스의 종류와 사용 사례를 이해할 수 있습니다
-  - AWS Glue Crawler의 동작 원리와 Data Catalog의 역할을 설명할 수 있습니다
-  - Amazon Athena로 서버리스 SQL 쿼리를 실행할 수 있습니다
-  - AWS Lambda를 사용하여 데이터를 전처리할 수 있습니다
-  - AWS Glue ETL Job으로 데이터를 변환하고 파이프라인을 자동화할 수 있습니다
+  - Amazon S3에 Raw/Processed/Curated 3계층 데이터 레이크 구조를 생성할 수 있습니다
+  - AWS Lambda로 Raw 데이터를 전처리하여 Processed로 이동할 수 있습니다
+  - AWS Glue ETL Job으로 데이터를 변환하고 Curated로 저장할 수 있습니다
+  - Amazon EventBridge로 데이터 파이프라인을 자동화할 수 있습니다
 prerequisites:
   - Amazon S3 기본 개념 이해.
   - SQL 쿼리 기본 지식.
   - CSV/JSON 데이터 형식 이해.
 ---
-
 
 이 실습에서는 **AWS Glue**와 **Amazon Athena**를 활용하여 **서버리스 데이터 파이프라인**을 구축합니다.
 
@@ -29,9 +25,10 @@ prerequisites:
 
 > [!NOTE]
 > **이 실습의 자동화 범위**:
+>
 > - ✅ **자동**: S3 업로드 → EventBridge → Lambda → Crawler 실행
 > - ⚠️ **수동**: ETL Job 실행 (태스크 3에서 직접 실행)
-> 
+>
 > 완전 자동화를 위해서는 Crawler 완료 후 ETL Job을 트리거하는 추가 Lambda 함수나 Step Functions 워크플로우가 필요합니다.
 
 > [!NOTE]
@@ -39,26 +36,27 @@ prerequisites:
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
-> 
+>
 > **예상 비용** (ap-northeast-2 리전 기준):
-> 
-> | 리소스 | 타입 | 시간당 비용 |
-> |--------|------|------------|
-> | AWS Glue Crawler | - | 약 $0.44/DPU-Hour |
-> | AWS Glue ETL Job | - | 약 $0.44/DPU-Hour |
-> | Amazon S3 | Standard | 약 $0.025/GB |
-> | Amazon Athena | - | 약 $5/TB (스캔 데이터) |
-> | **총 예상** | - | **약 $0.50-1.00** |
-> 
+>
+> | 리소스           | 타입     | 시간당 비용            |
+> | ---------------- | -------- | ---------------------- |
+> | AWS Glue Crawler | -        | 약 $0.44/DPU-Hour      |
+> | AWS Glue ETL Job | -        | 약 $0.44/DPU-Hour      |
+> | Amazon S3        | Standard | 약 $0.025/GB           |
+> | Amazon Athena    | -        | 약 $5/TB (스캔 데이터) |
+> | **총 예상**      | -        | **약 $0.50-1.00**      |
+>
 > AWS Glue Crawler와 ETL Job은 실행 시간에 따라 과금되며, 이 실습에서는 각각 1-2분 정도 실행됩니다.
 > [week11-3-data-pipeline-lab.zip](/files/week11/week11-3-data-pipeline-lab.zip)
+>
 > - `week11-3-data-pipeline-lab.yaml` - AWS CloudFormation 템플릿 (태스크 0에서 Amazon S3 버킷, AWS Glue Database, Crawler, ETL Job, AWS Lambda 함수 등 모든 리소스 자동 생성)
 > - `sales-data.csv` - 추가 테스트 데이터 (태스크 5에서 파이프라인 테스트용으로 업로드)
 > - `sales-data-2.csv` - 추가 테스트 데이터 (태스크 5에서 파이프라인 테스트용으로 업로드)
 > - `README.txt` - 파일 사용 방법 및 주의사항
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 0: 실습 환경 구축 (AWS CloudFormation 템플릿으로 Amazon S3, AWS Glue, Lambda 등 모든 리소스 자동 생성 및 샘플 데이터 자동 업로드)
 > - 태스크 5: 파이프라인 테스트 (sales-data.csv 또는 sales-data-2.csv를 업로드하여 AWS Lambda 자동 트리거 확인)
 
@@ -87,10 +85,10 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 4. [[Create stack]] 드롭다운을 클릭한 후 `With new resources (standard)`를 선택합니다.
 5. **Prepare template**에서 `Template is ready`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
-6. [[Choose file]] 버튼을 클릭한 후 `week11-3-data-pipeline-lab.yaml` 파일을 선택합니다.
-7. [[Next]] 버튼을 클릭합니다.
-8. **Stack name**에 `week11-3-pipeline-stack`을 입력합니다.
-9. **Parameters** 섹션에서 다음을 입력합니다:
+7. [[Choose file]] 버튼을 클릭한 후 `week11-3-data-pipeline-lab.yaml` 파일을 선택합니다.
+8. [[Next]] 버튼을 클릭합니다.
+9. **Stack name**에 `week11-3-pipeline-stack`을 입력합니다.
+10. **Parameters** 섹션에서 다음을 입력합니다:
     - **StudentId**: 본인의 학번 또는 고유 식별자 (예: `20240001` 또는 `student01`)
     - **EnvironmentName**: `week11-3-pipeline` (기본값 유지)
 
@@ -103,10 +101,10 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 11. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 확인합니다.
 12. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `11-3` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `11-3`    |
 | `CreatedBy` | `Student` |
 
 > [!NOTE]
@@ -138,6 +136,7 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 
 > [!NOTE]
 > **SetupInstructions** 출력값에서 전체 파이프라인 흐름을 확인할 수 있습니다:
+>
 > 1. 새 파일이 데이터 버킷의 `raw/` 폴더에 업로드됨
 > 2. EventBridge가 Amazon S3 이벤트 감지
 > 3. AWS Lambda 함수가 AWS Glue Crawler 시작
@@ -149,7 +148,6 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 > 이 실습에서는 **Crawler만 자동으로 실행**됩니다. AWS Glue ETL Job은 태스크 3에서 수동으로 실행합니다. 완전 자동화를 위해서는 Crawler 완료 후 ETL Job을 트리거하는 추가 Lambda 함수나 Step Functions 워크플로우가 필요합니다.
 
 ✅ **태스크 완료**: 실습 환경이 준비되었습니다.
-
 
 ## 태스크 1: 자동 생성된 리소스 확인
 
@@ -181,6 +179,7 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 
 > [!NOTE]
 > 이 스크립트는 AWS Glue ETL Job에서 사용되며, 데이터 변환 로직이 포함되어 있습니다. 스크립트는 다음 작업을 수행합니다:
+>
 > - 원본 CSV 데이터를 읽어옵니다
 > - 날짜 필드에서 연도(year)와 월(month)을 추출합니다
 > - 데이터를 Parquet 형식으로 변환합니다
@@ -234,9 +233,9 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 
 > [!NOTE]
 > 이 AWS Lambda 함수는 Amazon S3의 `raw/` 폴더에 새 파일이 업로드되면 **EventBridge를 통해 자동으로 트리거**되어 AWS Glue Crawler를 시작합니다.
-> 
+>
 > **데이터 파이프라인 흐름**: S3 업로드 → EventBridge 이벤트 감지 → Lambda 함수 실행 → Glue Crawler 시작
-> 
+>
 > CloudFormation 템플릿에서 S3 EventBridge 알림과 EventBridge 규칙이 자동으로 구성됩니다.
 
 ✅ **태스크 완료**: 모든 리소스가 자동으로 생성되었음을 확인했습니다.
@@ -257,10 +256,11 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 
 > [!TROUBLESHOOTING]
 > **문제**: Crawler를 다시 실행하려고 할 때 "CrawlerRunningException" 오류가 발생합니다
-> 
+>
 > **원인**: Crawler가 이미 실행 중입니다. 한 번에 하나의 Crawler만 실행할 수 있습니다.
-> 
-> **해결**: 
+>
+> **해결**:
+>
 > 1. Crawler의 **Status**가 "Ready"로 변경될 때까지 기다립니다
 > 2. 페이지를 새로고침하여 최신 상태를 확인합니다
 > 3. 상태가 "Ready"가 되면 다시 실행할 수 있습니다
@@ -270,12 +270,12 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 7. 왼쪽 메뉴에서 **Data Catalog** > **Tables**를 선택합니다.
 8. `raw` 테이블을 클릭합니다.
 9. **Schema** 탭에서 자동으로 추론된 컬럼들을 확인합니다:
-    - transaction_id (bigint)
-    - customer_id (string)
-    - product_id (string)
-    - amount (double)
-    - transaction_date (string)
-    - region (string)
+   - transaction_id (bigint)
+   - customer_id (string)
+   - product_id (string)
+   - amount (double)
+   - transaction_date (string)
+   - region (string)
 
 > [!NOTE]
 > Crawler가 CSV 파일의 헤더를 읽고 자동으로 스키마를 생성했습니다.
@@ -358,22 +358,23 @@ LOCATION 's3://week11-data-{StudentId}-ap-northeast-2/processed/';
 
 > [!IMPORTANT]
 > `{StudentId}`를 본인의 학번 또는 고유 식별자로 변경합니다. 예: `s3://week11-data-20240001-ap-northeast-2/processed/`
-> 
+>
 > 이 값을 변경하지 않으면 쿼리가 실패합니다.
 
 > [!IMPORTANT]
 > 이 쿼리는 **EXTERNAL TABLE**을 생성합니다. EXTERNAL TABLE은 데이터를 Amazon S3에 그대로 두고 메타데이터만 AWS Glue Data Catalog에 저장합니다. 테이블을 삭제해도 Amazon S3의 실제 데이터는 삭제되지 않습니다.
-> 
+>
 > **컬럼 구조 설명**:
+>
 > - 원본 컬럼 6개: `transaction_id`, `customer_id`, `product_id`, `amount`, `transaction_date`, `region`
 > - ETL Job이 추가한 컬럼 2개: `"year"`, `"month"` (transaction_date에서 추출)
-> 
+>
 > **예약어 처리**: `year`와 `month`는 Athena(Presto 기반)의 예약어이므로 큰따옴표로 감싸야 합니다. 예약어를 그대로 사용하면 테이블 생성 시 오류가 발생할 수 있습니다.
-> 
+>
 > **파티셔닝 여부**: 이 실습의 ETL 스크립트는 `year`와 `month`를 **일반 컬럼**으로 추가합니다. 파티션 디렉터리(`year=2024/month=1/`)로 저장하지 않으므로 위 DDL이 올바릅니다.
-> 
+>
 > 만약 파티셔닝을 사용하려면 ETL 스크립트를 수정하고 DDL도 다음과 같이 변경해야 합니다:
-> 
+>
 > ```sql
 > CREATE EXTERNAL TABLE processed_transactions (
 >     transaction_id bigint,
@@ -390,12 +391,12 @@ LOCATION 's3://week11-data-{StudentId}-ap-northeast-2/processed/';
 
 > [!NOTE]
 > **💡 왜 수동으로 테이블을 생성하나요?**
-> 
+>
 > 현재 Crawler는 `raw/` 폴더만 스캔합니다. `processed/` 폴더의 Parquet 데이터를 쿼리하려면:
-> 
+>
 > **방법 1 (이 실습)**: Athena DDL로 수동 테이블 생성
 > **방법 2 (권장)**: `processed/` 폴더용 Crawler 추가 생성
-> 
+>
 > 이 실습에서는 Athena DDL 작성 방법을 학습하기 위해 방법 1을 사용합니다.
 
 4. [[Run]] 버튼을 클릭합니다.
@@ -411,6 +412,7 @@ SELECT * FROM processed_transactions LIMIT 10;
 2. [[Run]] 버튼을 클릭합니다.
 
 > [!OUTPUT]
+>
 > ```
 > transaction_id | customer_id | product_id | amount | transaction_date | region | year | month
 > 1              | C001        | P001       | 100.50 | 2024-01-15       | Seoul  | 2024 | 1
@@ -420,7 +422,7 @@ SELECT * FROM processed_transactions LIMIT 10;
 3. 지역별 매출을 분석하는 쿼리를 실행합니다:
 
 ```sql
-SELECT 
+SELECT
     region,
     COUNT(*) as transaction_count,
     SUM(amount) as total_sales,
@@ -433,7 +435,7 @@ ORDER BY total_sales DESC;
 4. 월별 매출 추이를 확인하는 쿼리를 실행합니다:
 
 ```sql
-SELECT 
+SELECT
     "year",
     "month",
     COUNT(*) as transaction_count,
@@ -445,12 +447,12 @@ ORDER BY "year", "month";
 
 > [!NOTE]
 > `year`와 `month`는 Athena(Presto 기반)의 예약어입니다. 컬럼명으로 사용 시 큰따옴표로 감싸야 합니다. 예약어를 그대로 사용하면 "line X:Y: 'year' cannot be resolved" 오류가 발생합니다.
-> 
+>
 > **예약어 처리 예시**:
-> 
+>
 > ```sql
 > -- 연도별 거래 현황 (year는 예약어이므로 큰따옴표 필수)
-> SELECT 
+> SELECT
 >     "year",
 >     "month",
 >     COUNT(*) as transaction_count,
@@ -459,13 +461,13 @@ ORDER BY "year", "month";
 > GROUP BY "year", "month"
 > ORDER BY "year", "month";
 > ```
-> 
+>
 > 예약어를 컬럼명으로 사용할 때는 반드시 큰따옴표로 감싸야 합니다. 별칭(alias)은 예약어가 아니므로 큰따옴표가 필요하지 않습니다.
 
 5. 제품별 판매 실적을 확인하는 쿼리를 실행합니다:
 
 ```sql
-SELECT 
+SELECT
     product_id,
     COUNT(*) as sales_count,
     SUM(amount) as total_revenue,
@@ -494,11 +496,12 @@ ORDER BY total_revenue DESC;
 
 > [!NOTE]
 > 파일이 업로드되면 다음 과정이 자동으로 진행됩니다:
+>
 > 1. EventBridge가 Amazon S3 이벤트 감지
 > 2. AWS Lambda 함수가 자동으로 실행됨
 > 3. AWS Lambda 함수가 AWS Glue Crawler 시작
 > 4. Crawler가 새 데이터를 스캔하고 카탈로그 업데이트
-> 
+>
 > 단, **AWS Glue ETL Job은 자동으로 실행되지 않습니다**. 이 실습에서는 Crawler만 자동화되어 있으며, ETL Job은 수동으로 실행해야 합니다. 완전 자동화를 위해서는 Crawler 완료 후 ETL Job을 트리거하는 추가 Lambda 함수나 Step Functions 워크플로우가 필요합니다.
 
 7. AWS Lambda 콘솔로 이동합니다.
@@ -530,13 +533,13 @@ ORDER BY total_revenue DESC;
 
 > [!NOTE]
 > **Workgroup 및 Database 재확인**:
-> 
+>
 > 다른 페이지를 이동한 후 Athena 콘솔로 돌아오면 Workgroup이나 Database 선택이 초기화될 수 있습니다. 쿼리 실행 전 반드시 다음을 확인하세요:
-> 
+>
 > 1. **Workgroup**: `primary` 선택 확인 (상단 오른쪽)
 > 2. **Database**: `week11_pipeline_{StudentId}` 선택 확인 (왼쪽 상단 드롭다운)
 > 3. **Tables**: 왼쪽 목록에 `raw` 테이블이 표시되는지 확인
-> 
+>
 > 테이블이 표시되지 않으면 태스크 2의 Crawler 실행이 완료되었는지 확인하세요.
 
 18. **Database**에서 `week11_pipeline_{StudentId}`를 선택합니다.
@@ -610,8 +613,9 @@ SELECT COUNT(*) as total_records FROM raw;
 
 > [!IMPORTANT]
 > Amazon S3 버킷에 객체가 있으면 AWS CloudFormation 스택 삭제가 실패합니다. 반드시 3개 버킷을 모두 비운 후 스택을 삭제해야 합니다.
-> 
+>
 > **버킷을 비워야 하는 이유**:
+>
 > - `week11-data-{StudentId}-ap-northeast-2`: 원본 데이터(`raw/`)와 처리된 데이터(`processed/`)가 저장되어 있습니다
 > - `week11-scripts-{StudentId}-ap-northeast-2`: ETL 스크립트(`etl-script.py`)가 저장되어 있습니다
 > - `week11-temp-{StudentId}-ap-northeast-2`: ETL Job 임시 파일(`temp/`)과 Athena 쿼리 결과(`athena-results/`)가 저장되어 있습니다
@@ -653,23 +657,24 @@ DROP TABLE IF EXISTS processed_transactions;
 14. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 15. 스택 삭제가 완료될 때까지 기다립니다 (3-5분 소요).
 
-
-
 > [!NOTE]
 > **S3 버킷 삭제 정책**:
-> 
+>
 > 이 실습의 CloudFormation 템플릿은 S3 버킷에 **DeletionPolicy: Delete** (기본값)를 사용합니다.
+>
 > - **버킷이 비어있으면**: 스택 삭제 시 버킷도 자동으로 삭제됩니다
 > - **버킷에 객체가 있으면**: 스택 삭제가 실패합니다 (1단계에서 버킷을 비워야 하는 이유)
-> 
+>
 > 만약 템플릿에서 **DeletionPolicy: Retain**을 설정했다면:
+>
 > - 버킷을 비워도 스택 삭제 시 버킷이 삭제되지 않습니다
 > - 수동으로 S3 콘솔에서 버킷을 삭제해야 합니다
-> 
+>
 > **이 실습에서는 DeletionPolicy: Delete를 사용하므로**, 1단계에서 버킷을 비우면 스택 삭제 시 버킷도 함께 삭제됩니다.
 
 > [!NOTE]
 > AWS CloudFormation 스택을 삭제하면 다음 리소스가 자동으로 삭제됩니다:
+>
 > - Amazon S3 버킷 3개 (데이터, 스크립트, 임시) - 버킷이 비어있는 경우
 > - AWS Glue Database 및 테이블
 > - AWS Glue Crawler
@@ -680,10 +685,11 @@ DROP TABLE IF EXISTS processed_transactions;
 
 > [!TROUBLESHOOTING]
 > **문제**: AWS CloudFormation 스택 삭제가 "DELETE_FAILED" 상태로 실패합니다
-> 
+>
 > **원인**: Amazon S3 버킷에 객체가 남아 있거나, AWS Glue Crawler가 실행 중입니다.
-> 
+>
 > **해결**:
+>
 > 1. Amazon S3 콘솔에서 3개 버킷을 모두 확인하고 Empty 버튼으로 비웁니다
 > 2. AWS Glue 콘솔에서 Crawler 상태가 "Ready"인지 확인합니다 (실행 중이면 완료될 때까지 대기)
 > 3. AWS CloudFormation 콘솔에서 스택을 다시 선택하고 Delete 버튼을 클릭합니다
@@ -704,30 +710,35 @@ DROP TABLE IF EXISTS processed_transactions;
 ### AWS 데이터 분석 서비스
 
 **Amazon S3 (Simple Storage Service)**
+
 - 무제한 확장 가능한 객체 스토리지
 - 데이터 레이크의 기반 스토리지
 - 11개의 9(99.999999999%) 내구성
 - 다양한 스토리지 클래스로 비용 최적화
 
 **AWS Glue**
+
 - 완전 관리형 ETL(Extract, Transform, Load) 서비스
 - 서버리스 데이터 통합
 - 자동 스키마 검색 및 카탈로그 관리
 - PySpark 및 Python Shell 작업 지원
 
 **Amazon Athena**
+
 - 서버리스 대화형 쿼리 서비스
 - 표준 SQL로 Amazon S3 데이터 분석
 - Presto 기반 고성능 쿼리 엔진
 - 스캔한 데이터량에 따른 과금 ($5/TB)
 
 **AWS Lambda**
+
 - 서버리스 컴퓨팅 서비스
 - 이벤트 기반 자동 실행
 - 밀리초 단위 과금
 - 자동 스케일링
 
 **Amazon EventBridge**
+
 - 서버리스 이벤트 버스 서비스
 - AWS 서비스 간 이벤트 라우팅
 - 규칙 기반 이벤트 필터링
@@ -736,23 +747,27 @@ DROP TABLE IF EXISTS processed_transactions;
 ### 데이터 파이프라인 모범 사례
 
 **데이터 레이크 계층 구조**
+
 - Bronze (Raw): 원본 데이터 보존
 - Silver (Processed): 정제 및 표준화
 - Gold (Curated): 비즈니스 로직 적용
 
 **성능 최적화**
+
 - 파티셔닝으로 쿼리 범위 축소
 - Parquet 형식으로 압축 및 성능 향상
 - 적절한 파일 크기 유지 (128MB-1GB)
 - 컬럼 기반 저장 형식 활용
 
 **비용 최적화**
+
 - Amazon S3 Intelligent-Tiering 활용
 - Amazon Athena 쿼리 최적화 (필요한 컬럼만 SELECT)
 - AWS Lambda 메모리 및 타임아웃 최적화
 - AWS Glue DPU(Data Processing Unit) 적절히 설정
 
 **자동화 및 모니터링**
+
 - EventBridge로 이벤트 기반 자동화
 - Amazon CloudWatch Logs로 파이프라인 모니터링
 - SNS로 실패 알림 설정
@@ -761,6 +776,7 @@ DROP TABLE IF EXISTS processed_transactions;
 ### AWS Glue ETL Job 스크립트 구조
 
 **기본 구조**:
+
 ```python
 import sys
 from awsglue.transforms import *
@@ -808,6 +824,7 @@ job.commit()
 ```
 
 **주요 구성 요소**:
+
 - **SparkContext**: Apache Spark 실행 환경
 - **GlueContext**: AWS Glue 전용 컨텍스트
 - **DynamicFrame**: AWS Glue의 데이터 구조 (DataFrame과 유사하지만 스키마 유연성 제공)
@@ -816,41 +833,43 @@ job.commit()
 
 > [!IMPORTANT]
 > **날짜 타입 변환 주의사항**:
-> 
+>
 > 위 스크립트 예시에서 `year()`, `month()` 함수는 `DateType` 또는 `TimestampType` 컬럼에만 동작합니다. CSV 파일에서 읽은 `transaction_date`는 `StringType`이므로 먼저 날짜 타입으로 변환해야 합니다.
-> 
+>
 > **올바른 변환 방법**:
+>
 > ```python
 > from pyspark.sql.functions import year, month, col, to_date
-> 
+>
 > # 문자열을 날짜 타입으로 변환
 > df = df.withColumn("transaction_date_parsed", to_date(col("transaction_date"), "yyyy-MM-dd"))
-> 
+>
 > # 날짜 타입에서 연도와 월 추출
 > df = df.withColumn("year", year(col("transaction_date_parsed")))
 > df = df.withColumn("month", month(col("transaction_date_parsed")))
-> 
+>
 > # 임시 컬럼 제거
 > df = df.drop("transaction_date_parsed")
 > ```
-> 
+>
 > 이렇게 하지 않으면 `year()`, `month()` 함수가 NULL을 반환하거나 오류가 발생할 수 있습니다.
 
 > [!IMPORTANT]
 > 위 스크립트 예시에서 `{StudentId}` 부분은 하드코딩되어 있습니다. 실제 프로덕션 환경에서는 **Job 파라미터**를 사용하여 동적으로 값을 전달하는 것이 권장됩니다.
-> 
+>
 > **Job 파라미터 사용 예시**:
+>
 > ```python
 > # Job 파라미터 가져오기
 > args = getResolvedOptions(sys.argv, ['JOB_NAME', 'STUDENT_ID', 'DATA_BUCKET', 'DATABASE_NAME'])
-> 
+>
 > # 파라미터 사용
 > database = args['DATABASE_NAME']
 > output_path = f"s3://{args['DATA_BUCKET']}/processed/"
 > ```
-> 
+>
 > 이렇게 하면 스크립트를 수정하지 않고도 다른 학생이나 환경에서 재사용할 수 있습니다. CloudFormation 템플릿에서 Job 생성 시 `DefaultArguments` 속성으로 파라미터를 전달할 수 있습니다:
-> 
+>
 > ```yaml
 > GlueETLJob:
 >   Type: AWS::Glue::Job
@@ -888,6 +907,7 @@ WHERE region = 'Seoul';
 > 이 실습에서는 `year`와 `month`를 일반 컬럼으로 추가했으므로 파티션 프루닝이 발생하지 않습니다. 파티션 프루닝을 활용하려면 ETL 스크립트를 수정하여 `year=2024/month=1/` 형태의 디렉터리 구조로 저장하고, DDL에서 `PARTITIONED BY` 절을 사용해야 합니다.
 
 **컬럼 선택**:
+
 ```sql
 -- 필요한 컬럼만 선택 (비용 절감)
 SELECT col1, col2 FROM table;  -- 권장
@@ -895,6 +915,7 @@ SELECT * FROM table;            -- 전체 데이터 확인 시에만 사용
 ```
 
 **집계 쿼리**:
+
 ```sql
 -- GROUP BY로 데이터 집계
 SELECT region, COUNT(*), SUM(amount)
@@ -909,10 +930,11 @@ GROUP BY region;
 CTAS(CREATE TABLE AS SELECT)는 쿼리 결과를 새로운 테이블로 저장하는 Athena 기능입니다. 집계 결과나 필터링된 데이터를 별도 테이블로 저장하여 반복 쿼리 성능을 향상시킬 수 있습니다.
 
 **기본 사용 예시**:
+
 ```sql
 -- 지역별 집계 결과를 새 테이블로 저장
 CREATE TABLE region_summary AS
-SELECT 
+SELECT
     region,
     COUNT(*) as transaction_count,
     SUM(amount) as total_sales
@@ -939,7 +961,7 @@ GROUP BY region;
 ```sql
 -- ✅ 파티션 없이 집계 (이 실습의 접근)
 CREATE TABLE transaction_analysis AS
-SELECT 
+SELECT
     region,
     COUNT(*) as count,
     AVG(amount) as avg_amount
@@ -952,7 +974,7 @@ WITH (
     partitioned_by = ARRAY['region']
 )
 AS
-SELECT 
+SELECT
     "year",
     "month",
     COUNT(*) as count,
@@ -966,7 +988,7 @@ WITH (
     partitioned_by = ARRAY['region']
 )
 AS
-SELECT 
+SELECT
     region,  -- 파티션 컬럼이 중간에 있음
     "year",
     "month",
@@ -976,6 +998,7 @@ GROUP BY region, "year", "month";
 ```
 
 **핵심 정리**:
+
 - 소량 데이터에서는 날짜 컬럼을 제거하고 전체 집계하는 것이 분석에 유리합니다
 - CTAS 파티션 사용 시 파티션 컬럼은 반드시 SELECT 절 마지막에 배치해야 합니다
 - 일반 컬럼으로 사용하는 경우 순서는 자유롭지만, 집계 목적에 맞게 선택해야 합니다
