@@ -69,11 +69,15 @@ npm run preview:gh-pages
 base: process.env.NODE_ENV === 'production' ? '/your-repo-name/' : '/',
 ```
 
-### 2. `package.json`
+### 2. `src/App.tsx`
 
-```json
-"preview:gh-pages": "vite preview --base=/your-repo-name/",
+```typescript
+const basename =
+  import.meta.env.MODE === 'production' ? '/your-repo-name' : '/';
 ```
+
+> [!NOTE]
+> `package.json`의 `preview:gh-pages` 스크립트는 자동으로 `vite.config.ts`의 base 설정을 따라가므로 별도 수정이 필요 없습니다.
 
 ---
 

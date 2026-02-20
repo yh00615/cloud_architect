@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "build:gh-pages": "NODE_ENV=production npm run build",
     "preview": "vite preview",
-    "preview:gh-pages": "vite preview --base=/university-lab-guide/",
+    "preview:gh-pages": "NODE_ENV=production vite preview",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "type-check": "tsc --noEmit",

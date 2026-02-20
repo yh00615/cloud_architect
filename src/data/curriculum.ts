@@ -733,7 +733,7 @@ export const curriculum: WeekCurriculum[] = [
 // 세션 타입별 아이콘 및 레이블
 export const sessionTypeConfig = {
   theory: { icon: 'file', label: '이론', color: 'grey', emoji: '📄' },
-  lab: { icon: 'status-positive', label: '실습', color: 'blue', emoji: '🔬' },
+  lab: { icon: 'settings', label: '실습', color: 'blue', emoji: '🔬' },
   demo: { icon: 'video-on', label: '데모', color: 'green', emoji: '🎥' },
   none: { icon: 'edit', label: '시험', color: 'red', emoji: '📝' },
 } as const;
