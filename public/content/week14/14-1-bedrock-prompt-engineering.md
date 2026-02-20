@@ -14,10 +14,17 @@ prerequisites:
   - AWS Management Console 사용 경험.
 ---
 
-> [!NOTE]
-> 이 실습의 예상 비용은 $1 미만입니다.
-> Claude 3 Haiku 모델은 입력 1,000 토큰당 $0.00025, 출력 1,000 토큰당 $0.00125가 부과됩니다 (ap-northeast-2 리전 기준).
-> Amazon Bedrock에는 별도의 무료 티어가 없으므로, 실습 중 소량의 비용이 발생할 수 있습니다.
+> [!COST]
+> **리소스 비용 (us-east-1 기준)**
+>
+> - Claude 3 Haiku: 입력 1,000 토큰당 $0.00025, 출력 1,000 토큰당 $0.00125
+> - Claude 3 Sonnet: 입력 1,000 토큰당 $0.003, 출력 1,000 토큰당 $0.015
+> - 예상 실습 시간: 30분-1시간
+> - **예상 총 비용**: 약 $0.50-1.00 (프롬프트 테스트 20-30회 기준)
+>
+> 💡 **실무 팁**: Amazon Bedrock은 사용한 토큰 수만큼만 비용이 발생합니다. 프롬프트를 간결하게 작성하고 불필요한 반복 테스트를 줄이면 비용을 절감할 수 있습니다.
+>
+> 리전별로 요금이 다를 수 있습니다. 최신 요금은 [AWS 요금 페이지](https://aws.amazon.com/bedrock/pricing/)에서 확인하세요.
 
 > [!IMPORTANT]
 > 이 실습을 시작하기 전에 AWS 리전을 **US East (N. Virginia) us-east-1**로 설정합니다.
@@ -30,8 +37,6 @@ prerequisites:
 > [!NOTE]
 > Amazon Bedrock에서는 모든 Foundation Model에 대한 액세스가 기본적으로 활성화되어 있습니다.
 > AWS Marketplace 권한만 있으면 바로 모델을 사용할 수 있으며, Anthropic 모델의 경우 첫 사용 시 사용 사례 양식만 제출하면 됩니다.
-
-## 태스크 1: Playground에서 기본 프롬프트 테스트
 
 ## 태스크 1: Playground에서 기본 프롬프트 테스트
 
