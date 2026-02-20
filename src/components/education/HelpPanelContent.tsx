@@ -442,7 +442,7 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
               </Box>
             </div>
             <div className="toc-items">
-              {tableOfContents.map((item, index) => (
+              {tableOfContents.map((item) => (
                 <Link
                   key={item.id}
                   variant="secondary"
