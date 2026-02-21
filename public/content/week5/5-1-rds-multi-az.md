@@ -1,5 +1,5 @@
 ---
-title: "Amazon RDS Multi-AZ 고가용성 구성 및 운영"
+title: 'Amazon RDS Multi-AZ 고가용성 구성 및 운영'
 week: 5
 session: 1
 awsServices:
@@ -18,34 +18,68 @@ learningObjectives:
 
 > [!DOWNLOAD]
 > [week5-1-rds-lab.zip](/files/week5/week5-1-rds-lab.zip)
+>
 > - `week5-1-rds-multi-az-lab.yaml` - Amazon VPC 환경 AWS CloudFormation 템플릿 (태스크 0에서 Amazon VPC, 서브넷, 보안 그룹, DB 서브넷 그룹 자동 생성)
 > - `init_database.sql` - 데이터베이스 초기화 스크립트 (선택사항)
 > - `README.md` - 실습 가이드 및 MySQL 클라이언트 연결 방법
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 0: 실습 환경 구축 (AWS CloudFormation 템플릿 배포)
+
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
+>
+> | 리소스명        | 타입/사양   | IaC |        비용 |
+> | --------------- | ----------- | :-: | ----------: |
+> | Amazon VPC      | N/A         | ✅  |        무료 |
+> | 프라이빗 서브넷 | N/A         | ✅  |        무료 |
+> | NAT Gateway     | N/A         | ✅  | $0.059/시간 |
+> | Amazon RDS      | db.t3.small | ❌  | $0.068/시간 |
+> | Amazon RDS      | Multi-AZ    | ❌  | $0.068/시간 |
+> | Read Replica    | db.t3.small | ❌  | $0.068/시간 |
+> | 스토리지 (gp3)  | 20GiB × 3   | ❌  | $0.006/시간 |
+>
+> - **예상 실습 시간**: 1-2시간
+> - **예상 총 비용**: 약 $0.27-0.54/시간 (실무 환경 온디맨드 기준, Multi-AZ + Read Replica 포함)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+> **실무 팁**
+>
+> 💡 RDS Multi-AZ는 Primary와 Standby 인스턴스를 포함하여 Single-AZ 대비 약 2배의 비용이 발생합니다. 개발 환경에서는 사용하지 않을 때 인스턴스를 중지하여 비용을 절감할 수 있습니다. 실습 후 반드시 리소스를 삭제하세요.
+>
+> **참고**
+>
+> ℹ️ 이 실습에서는 RDS db.t3.small 인스턴스를 사용합니다. db.t3.micro는 대부분의 리전에서 Multi-AZ를 지원하지 않습니다. 인스턴스 타입을 변경하면 비용이 크게 증가할 수 있습니다.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [Amazon RDS 요금](https://aws.amazon.com/rds/pricing/) | 📘 [Amazon VPC 요금](https://aws.amazon.com/vpc/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
-> 
+>
 > **예상 비용** (ap-northeast-2 리전 기준):
-> 
-> | 리소스 | 타입 | 시간당 비용 |
-> |--------|------|------------|
-> | Amazon RDS Multi-AZ | db.t3.small | 약 $0.136 |
-> | Read Replica | db.t3.small | 약 $0.068 |
-> | NAT Gateway | - | 약 $0.045 |
-> | 스토리지 (gp3) | 20GiB × 2 | 약 $0.004 |
-> | **총 예상** | - | **약 $0.253** |
+>
+> | 리소스              | 타입        | 시간당 비용   |
+> | ------------------- | ----------- | ------------- |
+> | Amazon RDS Multi-AZ | db.t3.small | 약 $0.136     |
+> | Read Replica        | db.t3.small | 약 $0.068     |
+> | NAT Gateway         | -           | 약 $0.045     |
+> | 스토리지 (gp3)      | 20GiB × 2   | 약 $0.004     |
+> | **총 예상**         | -           | **약 $0.253** |
 
 > [!NOTE]
 > **비용 상세 설명**:
+>
 > - **Multi-AZ 비용**: Primary와 Standby 인스턴스를 포함하여 Single-AZ 대비 약 2배의 비용 ($0.068 × 2 = $0.136)
 > - **스토리지 비용**: Primary(+Standby)와 Read Replica 각각 20GiB (총 40GiB, 시간당 약 $0.004)
 
 > [!TIP]
-> **실습 시간 단축 팁**: 태스크 0 (AWS CloudFormation 스택 생성)과 태스크 1 (Amazon RDS 인스턴스 생성)은 대기 시간이 길어 실습 시간의 대부분을 차지합니다 (약 15-20분). 
+> **실습 시간 단축 팁**: 태스크 0 (AWS CloudFormation 스택 생성)과 태스크 1 (Amazon RDS 인스턴스 생성)은 대기 시간이 길어 실습 시간의 대부분을 차지합니다 (약 15-20분).
 > 실습 시작 전에 태스크 0과 태스크 1을 미리 완료해두면 실제 실습 시간을 크게 단축할 수 있습니다.
 
 ## 태스크 0: 실습 환경 구축
@@ -77,10 +111,10 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 확인합니다.
 13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `5-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `5-1`     |
 | `CreatedBy` | `Student` |
 
 14. [[Next]] 버튼을 클릭합니다.
@@ -136,7 +170,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 1. **DB instance class**에서 `Burstable classes` - `db.t3.small`을 선택합니다.
 
 > [!IMPORTANT]
-> **db.t3.micro는 대부분의 리전에서 Multi-AZ를 지원하지 않습니다.** 
+> **db.t3.micro는 대부분의 리전에서 Multi-AZ를 지원하지 않습니다.**
 > Multi-AZ 배포를 위해서는 `db.t3.small` 이상의 인스턴스 클래스를 선택해야 합니다.
 > db.t3.small은 시간당 약 $0.068이며, Multi-AZ 배포 시 약 $0.136입니다.
 
@@ -160,12 +194,12 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 2. 아래로 스크롤하여 **Monitoring** 섹션을 확인합니다.
 3. **Enable Enhanced monitoring**을 체크 해제합니다 (비용 절감).
 4. **Additional configuration** 섹션을 확장합니다.
-4. **Initial database name**에 `labdb`를 입력합니다.
-5. **Enable automated backups**를 체크합니다.
+5. **Initial database name**에 `labdb`를 입력합니다.
+6. **Enable automated backups**를 체크합니다.
 
 > [!IMPORTANT]
-> **자동 백업은 Read Replica 생성의 필수 조건입니다.** 
-> Read Replica는 자동 백업이 활성화된 경우에만 생성할 수 있습니다. 
+> **자동 백업은 Read Replica 생성의 필수 조건입니다.**
+> Read Replica는 자동 백업이 활성화된 경우에만 생성할 수 있습니다.
 > 이 설정을 체크하지 않으면 태스크 4에서 Read Replica를 생성할 수 없습니다.
 
 6. **Backup retention period**에서 `7` days를 선택합니다.
@@ -174,10 +208,10 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 9. 아래로 스크롤하여 **Tags** 섹션을 확인합니다.
 10. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `5-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `5-1`     |
 | `CreatedBy` | `Student` |
 
 11. [[Create database]] 버튼을 클릭합니다.
@@ -216,8 +250,9 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!CONCEPT] Multi-AZ 페일오버의 핵심 가치
 > Single-AZ 배포에서는 Primary 인스턴스 장애 시 수동 복구에 수십 분이 소요되지만, Multi-AZ는 1-2분 내에 자동으로 Standby를 Primary로 승격합니다.
-> 
+>
 > **핵심 특징:**
+>
 > <ul>
 > <li><strong>엔드포인트 불변</strong>: DNS 엔드포인트가 동일하게 유지되어 애플리케이션 코드 변경 불필요</li>
 > <li><strong>자동 전환</strong>: RDS가 장애를 감지하고 자동으로 페일오버 수행</li>
@@ -254,6 +289,7 @@ Endpoint가 동일하게 유지되며, Availability Zone이 태스크 2에서 �
 이 태스크에서는 읽기 성능 확장을 위한 Read Replica를 생성합니다. Read Replica는 Primary DB의 데이터를 비동기식으로 복제하여 읽기 전용 쿼리를 처리합니다.
 
 > [!CONCEPT] Multi-AZ Standby vs Read Replica
+>
 > <ul>
 > <li><strong>Multi-AZ Standby</strong>는 읽기/쓰기가 불가능한 대기 전용 인스턴스입니다. 오직 페일오버를 위해 존재하며, 평상시에는 사용할 수 없습니다.</li>
 > <li><strong>Read Replica</strong>는 읽기 전용 쿼리를 처리할 수 있어 읽기 부하를 분산할 수 있습니다. 따라서 읽기 성능 확장을 위해서는 Read Replica를 별도로 생성해야 합니다.</li>
@@ -265,24 +301,14 @@ Endpoint가 동일하게 유지되며, Availability Zone이 태스크 2에서 �
 4. **Availability Zone**에서 페일오버 후 변경된 현재 Primary AZ와 다른 AZ를 선택합니다.
 
 > [!NOTE]
-> 태스크 3에서 페일오버를 수행했으므로 Primary AZ가 변경되었습니다. 
+> 태스크 3에서 페일오버를 수행했으므로 Primary AZ가 변경되었습니다.
 > 태스크 2에서 메모한 AZ가 아니라, 페일오버 후 **Connectivity & security** 탭에서 확인한 현재 Primary AZ를 기준으로 다른 AZ를 선택합니다.
-> 예: 현재 Primary가 ap-northeast-2c라면 ap-northeast-2a를 선택합니다.
-5. **DB instance class**에서 `db.t3.small`을 선택합니다.
-5. **Storage**는 기본값을 유지합니다.
-6. **Virtual private cloud (Amazon VPC)**에서 태스크 0에서 생성한 VPC를 선택합니다.
-7. **DB subnet group**에서 태스크 0에서 생성한 서브넷 그룹을 선택합니다.
-8. **Amazon VPC security group**에서 `Choose existing`을 선택합니다.
-9. 기본(default) 보안 그룹의 **X** 버튼을 클릭하여 제거합니다.
-10. 태스크 0에서 생성한 Amazon RDS 보안 그룹을 선택합니다.
-9. **Monitoring** 섹션에서 **Enhanced monitoring**을 체크 해제합니다.
-11. 아래로 스크롤하여 **Tags** 섹션을 확인합니다.
-12. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+> 예: 현재 Primary가 ap-northeast-2c라면 ap-northeast-2a를 선택합니다. 5. **DB instance class**에서 `db.t3.small`을 선택합니다. 5. **Storage**는 기본값을 유지합니다. 6. **Virtual private cloud (Amazon VPC)**에서 태스크 0에서 생성한 VPC를 선택합니다. 7. **DB subnet group**에서 태스크 0에서 생성한 서브넷 그룹을 선택합니다. 8. **Amazon VPC security group**에서 `Choose existing`을 선택합니다. 9. 기본(default) 보안 그룹의 **X** 버튼을 클릭하여 제거합니다. 10. 태스크 0에서 생성한 Amazon RDS 보안 그룹을 선택합니다. 9. **Monitoring** 섹션에서 **Enhanced monitoring**을 체크 해제합니다. 11. 아래로 스크롤하여 **Tags** 섹션을 확인합니다. 12. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `5-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `5-1`     |
 | `CreatedBy` | `Student` |
 
 13. [[Create read replica]] 버튼을 클릭합니다.
@@ -329,7 +355,9 @@ Endpoint가 동일하게 유지되며, Availability Zone이 태스크 2에서 �
 > [!WARNING]
 > 다음 단계를 반드시 수행하여 불필요한 비용을 방지합니다.
 
-### 단계 1: Tag Editor로 생성된 리소스 확인
+---
+
+## 1단계: Tag Editor로 생성된 리소스 확인
 
 1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
@@ -341,13 +369,26 @@ Endpoint가 동일하게 유지되며, Availability Zone이 태스크 2에서 �
 6. [[Search resources]] 버튼을 클릭합니다.
 7. 이 실습에서 생성한 Amazon RDS 인스턴스와 Read Replica가 표시됩니다.
 
-💡 **참고**: Tag Editor는 리소스를 찾는 용도로만 사용됩니다. 실제 삭제는 다음 단계에서 수행합니다.
+> [!TIP]
+> Tag Editor는 리소스를 찾는 용도로만 사용됩니다. 실제 삭제는 다음 단계에서 수행합니다.
 
-### 단계 2: Read Replica 삭제
+---
+
+## 2단계: RDS 인스턴스 삭제
+
+다음 두 가지 방법 중 하나를 선택하여 리소스를 삭제할 수 있습니다.
 
 > [!IMPORTANT]
-> **Read Replica를 먼저 삭제해야 하는 이유**: Read Replica가 존재하는 상태에서 Primary 인스턴스를 삭제하면 Read Replica가 독립 실행형 인스턴스로 자동 승격되어 비용이 계속 발생할 수 있습니다. 
-> 따라서 Read Replica를 먼저 삭제한 후 Primary 인스턴스를 삭제해야 합니다.
+> **삭제 순서 중요**: Read Replica를 먼저 삭제한 후 Primary 인스턴스를 삭제해야 합니다. Read Replica가 존재하는 상태에서 Primary를 삭제하면 Read Replica가 독립 실행형 인스턴스로 자동 승격되어 비용이 계속 발생할 수 있습니다.
+
+### 옵션 1: AWS 콘솔에서 수동 삭제 (권장)
+
+> [!TIP]
+> AWS 관리 콘솔 방식을 선호하거나 각 단계를 확인하면서 삭제하고 싶은 경우 이 방법을 권장합니다.
+>
+> AWS CLI 명령어에 익숙한 경우 아래 [옵션 2](#option-2)를 사용하면 더 빠르게 삭제할 수 있습니다.
+
+**Read Replica 삭제**
 
 1. Amazon RDS 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Databases**를 선택합니다.
@@ -360,10 +401,10 @@ Endpoint가 동일하게 유지되며, Availability Zone이 태스크 2에서 �
 9. Read Replica의 상태가 목록에서 사라질 때까지 기다립니다.
 
 > [!IMPORTANT]
-> Read Replica가 완전히 삭제된 후에 다음 단계로 진행합니다. 
+> Read Replica가 완전히 삭제된 후에 다음 단계로 진행합니다.
 > 목록에서 `mysql-lab-replica`가 사라지거나 상태가 "Deleted"로 표시되면 삭제가 완료된 것입니다.
 
-### 단계 3: Primary 인스턴스 삭제
+**Primary 인스턴스 삭제**
 
 1. `mysql-lab-instance`를 선택합니다.
 2. **Actions** > `Delete`를 선택합니다.
@@ -374,20 +415,83 @@ Endpoint가 동일하게 유지되며, Availability Zone이 태스크 2에서 �
 7. Primary 인스턴스의 상태가 목록에서 사라질 때까지 기다립니다.
 
 > [!IMPORTANT]
-> Primary 인스턴스가 완전히 삭제된 후에 다음 단계로 진행합니다. 
+> Primary 인스턴스가 완전히 삭제된 후에 다음 단계로 진행합니다.
 > 목록에서 `mysql-lab-instance`가 사라지거나 상태가 "Deleted"로 표시되면 삭제가 완료된 것입니다.
 
-### 단계 4: 수동 스냅샷 삭제
+**수동 스냅샷 삭제**
 
 1. 왼쪽 메뉴에서 **Snapshots**를 선택합니다.
 2. `mysql-lab-snapshot-manual`을 선택합니다.
 3. **Actions** > `Delete snapshot`을 선택합니다.
 4. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
-### 단계 5: AWS CloudFormation 스택 삭제
+### 옵션 2: AWS CloudShell 스크립트로 일괄 삭제
+
+> [!TIP]
+> AWS CLI 명령어에 익숙하거나 빠른 삭제를 원하는 경우 이 방법을 사용하세요.
+>
+> 콘솔 방식이 더 편하다면 위 [옵션 1](#option-1)을 참고하세요.
+
+1. AWS Management Console 상단의 CloudShell 아이콘을 클릭합니다.
+2. CloudShell이 열리면 다음 명령어를 실행합니다:
+
+```bash
+# Read Replica 삭제 (먼저 삭제 필수)
+echo "1단계: Read Replica 삭제 중..."
+aws rds delete-db-instance \
+  --region ap-northeast-2 \
+  --db-instance-identifier mysql-lab-replica \
+  --skip-final-snapshot \
+  --no-delete-automated-backups
+
+# Read Replica 삭제 완료 대기
+echo "Read Replica 삭제 대기 중... (약 5-10분 소요)"
+aws rds wait db-instance-deleted \
+  --region ap-northeast-2 \
+  --db-instance-identifier mysql-lab-replica
+
+echo "Read Replica 삭제 완료"
+
+# Primary 인스턴스 삭제
+echo "2단계: Primary 인스턴스 삭제 중..."
+aws rds delete-db-instance \
+  --region ap-northeast-2 \
+  --db-instance-identifier mysql-lab-instance \
+  --skip-final-snapshot \
+  --no-delete-automated-backups
+
+# Primary 인스턴스 삭제 완료 대기
+echo "Primary 인스턴스 삭제 대기 중... (약 5-10분 소요)"
+aws rds wait db-instance-deleted \
+  --region ap-northeast-2 \
+  --db-instance-identifier mysql-lab-instance
+
+echo "Primary 인스턴스 삭제 완료"
+
+# 수동 스냅샷 삭제
+echo "3단계: 수동 스냅샷 삭제 중..."
+aws rds delete-db-snapshot \
+  --region ap-northeast-2 \
+  --db-snapshot-identifier mysql-lab-snapshot-manual
+
+echo "모든 RDS 리소스 삭제 완료"
+```
+
+> [!NOTE]
+> 스크립트는 의존성 순서를 자동으로 처리합니다:
+>
+> 1. Read Replica 삭제 → 완료 대기
+> 2. Primary 인스턴스 삭제 → 완료 대기
+> 3. 수동 스냅샷 삭제
+>
+> 전체 삭제에 10-20분이 소요될 수 있습니다.
+
+---
+
+## 3단계: AWS CloudFormation 스택 삭제
 
 > [!IMPORTANT]
-> Amazon RDS 인스턴스(Primary, Read Replica)가 모두 삭제 완료된 후에 AWS CloudFormation 스택을 삭제합니다. 
+> Amazon RDS 인스턴스(Primary, Read Replica)가 모두 삭제 완료된 후에 AWS CloudFormation 스택을 삭제합니다.
 > RDS 인스턴스가 남아있으면 VPC 관련 리소스 삭제가 실패합니다.
 
 1. AWS CloudFormation 콘솔로 이동합니다.
@@ -413,12 +517,14 @@ Endpoint가 동일하게 유지되며, Availability Zone이 태스크 2에서 �
 Multi-AZ 페일오버는 다음 상황에서 자동으로 발생합니다:
 
 **자동 페일오버 트리거**
+
 - Primary AZ 장애: 가용 영역 전체 장애
 - Primary DB 인스턴스 장애: 하드웨어 또는 소프트웨어 장애
 - 네트워크 연결 끊김: Primary와 Standby 간 연결 문제
 - 수동 페일오버: 유지 관리 목적
 
 **페일오버 프로세스**
+
 1. RDS가 Primary 인스턴스의 장애를 감지합니다.
 2. DNS 레코드가 Standby 인스턴스를 가리키도록 자동 업데이트됩니다.
 3. Standby 인스턴스가 새로운 Primary가 됩니다.
@@ -429,21 +535,25 @@ Multi-AZ 페일오버는 다음 상황에서 자동으로 발생합니다:
 Read Replica는 다음 상황에서 유용합니다:
 
 **읽기 성능 향상**
+
 - 읽기 트래픽을 여러 Replica로 분산
 - Primary 인스턴스의 부하 감소
 - 지리적으로 분산된 사용자에게 낮은 지연 시간 제공
 
 **보고 및 분석**
+
 - 프로덕션 데이터베이스에 영향을 주지 않고 복잡한 쿼리 실행
 - 별도의 Replica에서 분석 워크로드 실행
 
 **재해 복구**
+
 - Read Replica를 독립 실행형 인스턴스로 승격
 - 리전 간 Read Replica로 재해 복구 전략 구현
 
 ### Multi-AZ vs Read Replica
 
 **Multi-AZ**
+
 - 목적: 고가용성 및 자동 페일오버
 - 복제 방식: 동기식 복제
 - 접근: Standby는 읽기/쓰기 불가 (대기 전용)
@@ -451,6 +561,7 @@ Read Replica는 다음 상황에서 유용합니다:
 - 비용: Primary와 동일한 인스턴스 비용
 
 **Read Replica**
+
 - 목적: 읽기 성능 확장 및 분석
 - 복제 방식: 비동기식 복제
 - 접근: 읽기 전용 쿼리 가능
@@ -460,12 +571,14 @@ Read Replica는 다음 상황에서 유용합니다:
 ### 백업 vs 스냅샷
 
 **자동 백업**
+
 - 매일 자동으로 생성
 - 보존 기간: 0-35일 (설정 가능)
 - Point-in-Time Recovery 지원
 - 인스턴스 삭제 시 함께 삭제
 
 **수동 스냅샷**
+
 - 사용자가 수동으로 생성
 - 보존 기간: 무제한 (명시적 삭제 필요)
 - 특정 시점의 전체 백업

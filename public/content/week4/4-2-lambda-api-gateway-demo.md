@@ -33,18 +33,37 @@ prerequisites:
 >
 > - 태스크 0: 실습 환경 구축 (AWS CloudFormation 스택 생성)
 
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
+>
+> | 리소스명           | 타입/사양       | IaC |                비용 |
+> | ------------------ | --------------- | :-: | ------------------: |
+> | Amazon DynamoDB    | 온디맨드 테이블 | ✅  |                무료 |
+> | Amazon DynamoDB    | 읽기 요청       | ✅  |    $0.25/100만 요청 |
+> | Amazon DynamoDB    | 쓰기 요청       | ✅  |    $1.25/100만 요청 |
+> | AWS Lambda         | Python 3.12     | ✅  |    $0.20/100만 요청 |
+> | AWS Lambda         | 컴퓨팅 시간     | ✅  | $0.0000166667/GB-초 |
+> | Amazon API Gateway | REST API        | ✅  |    $3.50/100만 요청 |
+> | Amazon Cognito     | 사용자 풀       | ❌  |                무료 |
+> | Amazon Cognito     | MAU             | ❌  |         $0.0055/MAU |
+>
+> - **예상 실습 시간**: 1-2시간
+> - **예상 총 비용**: 약 $0.01 미만 (실습 규모 10회 API 호출 기준, 실무 환경 온디맨드 기준)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+> **실무 팁**
+>
+> 💡 Lambda 함수의 메모리 설정과 실행 시간을 최적화하면 비용을 크게 절감할 수 있습니다. 불필요한 라이브러리 로딩을 줄이고 코드를 효율적으로 작성하세요.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [AWS Lambda 요금](https://aws.amazon.com/lambda/pricing/) | 📘 [Amazon API Gateway 요금](https://aws.amazon.com/api-gateway/pricing/) | 📘 [Amazon DynamoDB 요금](https://aws.amazon.com/dynamodb/pricing/) | 📘 [Amazon Cognito 요금](https://aws.amazon.com/cognito/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
+
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
->
-> **예상 비용** (ap-northeast-2 리전 기준):
->
-> | 서비스             | 프리 티어        | 실습 사용량  | 비용                       |
-> | ------------------ | ---------------- | ------------ | -------------------------- |
-> | Amazon Cognito     | 월 50,000 MAU    | 1-2명        | 무료                       |
-> | Amazon API Gateway | 월 100만 건      | 약 10회      | 무료                       |
-> | AWS Lambda         | 월 100만 건      | 약 10회      | 무료                       |
-> | Amazon DynamoDB    | 25GB, 25 WCU/RCU | 약 10개 항목 | 무료                       |
-> | **총 예상**        | -                | -            | **$0 (프리 티어 범위 내)** |
 
 ## 태스크 0: 실습 환경 구축
 
@@ -611,7 +630,11 @@ curl -X GET $API_URL/reservations \
 > [!WARNING]
 > 다음 단계를 **반드시 수행**하여 불필요한 비용을 방지하세요.
 
-### 단계 1: Tag Editor로 리소스 확인
+---
+
+## 1단계: Tag Editor로 생성된 리소스 확인
+
+실습에서 생성한 모든 리소스를 Tag Editor로 확인합니다.
 
 1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
@@ -621,76 +644,157 @@ curl -X GET $API_URL/reservations \
    - **Tag key**: `Week`
    - **Tag value**: `4-2`
 6. [[Search resources]] 버튼을 클릭합니다.
-7. 이 실습에서 생성한 모든 리소스가 표시됩니다.
 
 > [!NOTE]
-> Tag Editor는 리소스를 찾는 용도로만 사용됩니다. 실제 삭제는 각 서비스 콘솔에서 수행해야 합니다.
+> 이 실습에서 생성한 Lambda, DynamoDB, API Gateway 등의 리소스가 표시됩니다. Cognito User Pool과 CloudWatch Logs는 태그가 없어 표시되지 않지만, 다음 단계에서 삭제합니다.
 
-### 단계 2: Cognito User Pool 삭제
+> [!TIP]
+> Tag Editor는 리소스 확인 용도로만 사용하며, 실제 삭제는 다음 단계에서 수행합니다.
 
-8. AWS Management Console 상단 검색창에서 `Cognito`를 검색하고 선택합니다.
-9. User Pool 목록에서 `QuickTableUserPool`을 선택합니다.
-10. [[Delete]] 버튼을 클릭합니다.
-11. 확인 창에 `delete`를 입력한 후 [[Delete]] 버튼을 클릭합니다.
+---
+
+## 2단계: 리소스 삭제
+
+다음 두 가지 방법 중 하나를 선택하여 리소스를 삭제할 수 있습니다.
+
+### 옵션 1: AWS 콘솔에서 수동 삭제 (권장)
+
+> [!TIP]
+> AWS 관리 콘솔 방식을 선호하거나 각 단계를 확인하면서 삭제하고 싶은 경우 이 방법을 권장합니다.
+>
+> AWS CLI 명령어에 익숙한 경우 아래 [옵션 2](#option-2)를 사용하면 더 빠르게 삭제할 수 있습니다.
+
+**Cognito User Pool 삭제**
+
+1. Cognito 콘솔로 이동합니다.
+2. User Pool 목록에서 `QuickTableUserPool`을 선택합니다.
+3. [[Delete]] 버튼을 클릭합니다.
+4. 확인 창에 `delete`를 입력하고 [[Delete]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> Cognito 콘솔 UI에 따라 `delete` 또는 User Pool 이름(`QuickTableUserPool`)을 입력하도록 요구할 수 있습니다.
-> 확인 창의 안내에 따라 입력합니다.
+> Cognito User Pool 삭제는 즉시 완료됩니다.
+
+**CloudWatch Log Groups 삭제**
+
+1. CloudWatch 콘솔로 이동합니다.
+2. 왼쪽 메뉴에서 **Logs** > **Log groups**를 선택합니다.
+3. 다음 Log Group들을 선택합니다:
+   - `/aws/lambda/Week4-2-CreateReservation`
+   - `/aws/lambda/Week4-2-GetReservations`
+4. **Actions** > `Delete log group(s)`를 선택합니다.
+5. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> 이 실습에서는 Hosted UI를 사용하지 않으므로 도메인이 없어 바로 삭제할 수 있습니다.
+> CloudWatch Log Groups는 Lambda 함수 실행 시 자동 생성되며, CloudFormation 스택 삭제 시 자동으로 삭제되지 않으므로 수동 삭제가 필요합니다.
 
-> [!TROUBLESHOOTING]
-> **문제**: Cognito User Pool 삭제 시 "Cannot delete user pool with domain" 오류가 발생합니다
->
-> **원인**: User Pool에 도메인이 설정되어 있으면 먼저 도메인을 삭제해야 합니다.
->
-> **해결**:
->
-> 1. Cognito 콘솔에서 `QuickTableUserPool`을 선택합니다.
-> 2. **App integration** 탭을 선택합니다.
-> 3. **Domain** 섹션에서 [[Delete domain]] 버튼을 클릭합니다.
-> 4. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
-> 5. 도메인 삭제가 완료된 후 User Pool을 다시 삭제합니다.
+### 옵션 2: AWS CloudShell 스크립트로 일괄 삭제
 
-### 단계 3: AWS CloudFormation 스택 삭제
+> [!TIP]
+> AWS CLI 명령어에 익숙하거나 빠른 삭제를 원하는 경우 이 방법을 사용하세요.
+>
+> 콘솔 방식이 더 편하다면 위 [옵션 1](#option-1)을 참고하세요.
 
-12. AWS Management Console 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
-13. 스택 목록에서 `week4-2-quicktable-api-lab-stack` 스택을 선택합니다.
-14. [[Delete]] 버튼을 클릭합니다.
-15. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
-16. 스택 삭제가 완료될 때까지 기다립니다.
+1. AWS Management Console 상단의 CloudShell 아이콘을 클릭합니다.
+2. CloudShell이 열리면 다음 명령어를 실행합니다:
+
+```bash
+# Cognito User Pool 삭제
+USER_POOL_ID=$(aws cognito-idp list-user-pools \
+  --region ap-northeast-2 \
+  --max-results 60 \
+  --query 'UserPools[?Name==`QuickTableUserPool`].Id' \
+  --output text)
+
+if [ -n "$USER_POOL_ID" ]; then
+  echo "삭제 중: Cognito User Pool $USER_POOL_ID"
+  aws cognito-idp delete-user-pool \
+    --region ap-northeast-2 \
+    --user-pool-id $USER_POOL_ID
+  echo "Cognito User Pool 삭제 완료"
+else
+  echo "삭제할 Cognito User Pool이 없습니다"
+fi
+
+# CloudWatch Log Groups 삭제
+LOG_GROUPS=$(aws logs describe-log-groups \
+  --region ap-northeast-2 \
+  --log-group-name-prefix "/aws/lambda/Week4-2-" \
+  --query 'logGroups[].logGroupName' \
+  --output text)
+
+if [ -n "$LOG_GROUPS" ]; then
+  for LOG_GROUP in $LOG_GROUPS; do
+    echo "삭제 중: $LOG_GROUP"
+    aws logs delete-log-group \
+      --region ap-northeast-2 \
+      --log-group-name $LOG_GROUP
+  done
+  echo "CloudWatch Log Groups 삭제 완료"
+else
+  echo "삭제할 CloudWatch Log Groups가 없습니다"
+fi
+```
 
 > [!NOTE]
-> AWS CloudFormation 스택을 삭제하면 Amazon DynamoDB 테이블, AWS Lambda 함수, Amazon API Gateway, AWS IAM 역할이 모두 자동으로 삭제됩니다.
+> 스크립트는 Cognito User Pool과 CloudWatch Log Groups를 자동으로 찾아 삭제합니다. 삭제는 즉시 완료됩니다.
 
-> [!TROUBLESHOOTING]
-> **문제**: CloudFormation 스택 삭제 시 "DELETE_FAILED" 상태가 발생합니다
->
-> **원인**: DynamoDB 테이블에 데이터가 있거나 Lambda 함수에 연결된 리소스가 있을 수 있습니다.
->
-> **해결**:
->
-> 1. CloudFormation 콘솔에서 스택을 선택합니다.
-> 2. **Events** 탭을 선택하여 삭제 실패 원인을 확인합니다.
-> 3. DynamoDB 테이블 삭제 실패 시:
->    - DynamoDB 콘솔로 이동합니다.
->    - `Week4-2-Reservations` 테이블을 선택합니다.
->    - [[Delete]] 버튼을 클릭하고 `delete`를 입력한 후 삭제합니다.
-> 4. CloudFormation 콘솔로 돌아가 스택 삭제를 다시 시도합니다.
+---
 
-### 단계 4: CloudWatch Log Groups 삭제
+## 3단계: CloudFormation 스택 삭제
 
-17. AWS Management Console 상단 검색창에서 `CloudWatch`를 검색하고 선택합니다.
-18. 왼쪽 메뉴에서 **Logs** > **Log groups**를 선택합니다.
-19. 다음 Log Group들을 찾아 삭제합니다:
-    - `/aws/lambda/Week4-2-CreateReservation`
-    - `/aws/lambda/Week4-2-GetReservations`
-20. 각 Log Group을 선택한 후 **Actions** > `Delete log group(s)`를 선택합니다.
-21. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
+마지막으로 CloudFormation 스택을 삭제하여 나머지 모든 리소스를 정리합니다.
+
+1. AWS Management Console에 로그인한 후 상단 검색창에서 `CloudFormation`을 검색하고 선택합니다.
+2. 스택 목록에서 `week4-2-quicktable-api-lab-stack` 스택을 검색합니다.
+3. `week4-2-quicktable-api-lab-stack` 스택의 체크박스를 선택합니다.
 
 > [!NOTE]
-> CloudWatch Log Groups는 AWS Lambda 함수가 처음 실행될 때 자동으로 생성되며, CloudFormation 스택 삭제 시 자동으로 삭제되지 않습니다. 수동으로 삭제해야 합니다.
+> 스택이 선택되면 체크박스에 체크 표시가 나타나고, 상단의 [[Delete]] 버튼이 활성화됩니다.
+
+4. [[Delete]] 버튼을 클릭합니다.
+5. 확인 창에서 [[Delete]] 버튼을 다시 클릭하여 삭제를 확인합니다.
+
+> [!NOTE]
+> 확인 후 스택 목록 페이지로 돌아갑니다.
+
+6. `week4-2-quicktable-api-lab-stack` 스택의 **Status** 열을 확인합니다.
+
+> [!NOTE]
+> 스택 삭제가 시작되면 **Status**가 "DELETE_IN_PROGRESS"로 표시됩니다. CloudFormation이 생성한 모든 리소스를 역순으로 삭제합니다.
+
+7. 스택을 클릭하여 상세 페이지로 이동합니다.
+8. **Events** 탭을 선택합니다.
+
+> [!NOTE]
+> **Events** 탭에는 리소스 삭제 과정이 실시간으로 표시됩니다. DynamoDB 테이블, Lambda 함수, API Gateway, IAM 역할 등이 순차적으로 삭제됩니다. 삭제에 3-5분이 소요됩니다.
+
+9. 스택 삭제가 완료될 때까지 기다립니다.
+
+> [!NOTE]
+> 스택이 완전히 삭제되면 스택 목록에서 사라집니다. 만약 "DELETE_FAILED"가 표시되면 **Events** 탭에서 오류 원인을 확인하고, DynamoDB 테이블을 수동으로 삭제한 후 스택 삭제를 다시 시도합니다.
+
+10. 스택 목록 페이지로 돌아가서 `week4-2-quicktable-api-lab-stack` 스택이 목록에서 사라졌는지 확인합니다.
+
+> [!NOTE]
+> 스택이 목록에 표시되지 않으면 성공적으로 삭제된 것입니다.
+
+---
+
+## 4단계: 최종 삭제 확인 (Tag Editor 활용)
+
+모든 리소스가 정상적으로 삭제되었는지 Tag Editor로 최종 확인합니다.
+
+1. AWS Management Console에서 `Resource Groups & Tag Editor`로 이동합니다.
+2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
+3. **Regions**에서 `ap-northeast-2`를 선택합니다.
+4. **Resource types**에서 `All supported resource types`를 선택합니다.
+5. **Tags** 섹션에서 다음을 입력합니다:
+   - **Tag key**: `Week`
+   - **Tag value**: `4-2`
+6. [[Search resources]] 버튼을 클릭합니다.
+
+> [!NOTE]
+> 검색 결과에 리소스가 표시되지 않으면 모든 리소스가 성공적으로 삭제된 것입니다.
 
 ✅ **실습 종료**: 모든 리소스가 정리되었습니다.
 

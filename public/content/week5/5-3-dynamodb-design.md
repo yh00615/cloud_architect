@@ -29,22 +29,28 @@ LSI(Local Secondary Index)와 GSI(Global Secondary Index)를 모두 생성하여
 >
 > - 태스크 3: 항목 추가 (AWS CLI batch-write-item으로 10개 항목 일괄 입력, 콘솔 입력은 첫 1건만 상세 안내)
 
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
+>
+> | 리소스명        | 타입/사양       | IaC |             비용 |
+> | --------------- | --------------- | :-: | ---------------: |
+> | Amazon DynamoDB | 온디맨드 테이블 | ❌  |             무료 |
+> | Amazon DynamoDB | 읽기 요청       | ❌  | $0.25/100만 요청 |
+> | Amazon DynamoDB | 쓰기 요청       | ❌  | $1.25/100만 요청 |
+>
+> - **예상 실습 시간**: 1시간
+> - **예상 총 비용**: 약 $0.01 미만 (실습 규모 10개 항목 + 수십 건 쿼리 기준, 실무 환경 온디맨드 기준)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [Amazon DynamoDB 요금](https://aws.amazon.com/dynamodb/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
+
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 **반드시 삭제해야 합니다**.
->
-> **예상 비용** (ap-northeast-2 리전 기준):
->
-> | 리소스          | 모드      | 실습 사용량                | 비용                       |
-> | --------------- | --------- | -------------------------- | -------------------------- |
-> | DynamoDB 테이블 | On-Demand | 약 10개 항목, 수십 건 쿼리 | **$0 (프리 티어 범위 내)** |
->
-> **DynamoDB 프리 티어 (Always Free)**:
->
-> - **스토리지**: 25 GB (이 실습: 약 1 KB 미만 사용)
-> - **Provisioned 모드**: 25 RCU + 25 WCU (이 실습은 On-Demand 모드 사용)
-> - **On-Demand 모드**: 별도 프리 티어 없음 (요청당 과금)
->
-> 이 실습에서는 10개 항목과 수십 건의 쿼리만 수행하므로 On-Demand 모드에서도 비용이 거의 발생하지 않습니다 (예상: $0.01 미만).
 
 ## 태스크 1: Amazon DynamoDB 테이블 생성 (LSI 포함)
 
@@ -380,9 +386,13 @@ GSI는 다른 파티션 키를 사용하여 더 유연한 쿼리가 가능합니
 ## 리소스 정리
 
 > [!WARNING]
-> 다음 단계를 **반드시 수행**하여 불필요한 비용을 방지합니다.
+> 다음 단계를 **반드시 수행**하여 불필요한 비용을 방지하세요.
 
-### 방법 1: Tag Editor로 리소스 찾기 (권장)
+---
+
+## 1단계: Tag Editor로 생성된 리소스 확인
+
+실습에서 생성한 모든 리소스를 Tag Editor로 확인합니다.
 
 1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
@@ -392,25 +402,78 @@ GSI는 다른 파티션 키를 사용하여 더 유연한 쿼리가 가능합니
    - **Tag key**: `Week`
    - **Tag value**: `5-3`
 6. [[Search resources]] 버튼을 클릭합니다.
-7. 이 실습에서 생성한 Amazon DynamoDB 테이블이 표시됩니다.
 
 > [!NOTE]
-> Tag Editor는 리소스를 찾는 용도로만 사용됩니다. 실제 삭제는 각 서비스 콘솔에서 수행해야 합니다.
+> 이 실습에서 생성한 DynamoDB 테이블이 표시됩니다.
 
-### 방법 2: 수동 삭제
+> [!TIP]
+> Tag Editor는 리소스 확인 용도로만 사용하며, 실제 삭제는 다음 단계에서 수행합니다.
 
-#### Amazon DynamoDB 테이블 삭제
+---
 
-1. Amazon DynamoDB 콘솔에서 **Tables**를 선택합니다.
-2. `QuickTableReservations` 테이블을 선택합니다.
-3. **Actions** 드롭다운에서 `Delete table`을 선택합니다.
-4. 확인 창에서 테이블 이름 `QuickTableReservations`를 입력합니다.
+## 2단계: 리소스 삭제
+
+다음 두 가지 방법 중 하나를 선택하여 리소스를 삭제할 수 있습니다.
+
+### 옵션 1: AWS 콘솔에서 수동 삭제 (권장)
+
+> [!TIP]
+> AWS 관리 콘솔 방식을 선호하거나 각 단계를 확인하면서 삭제하고 싶은 경우 이 방법을 권장합니다.
+>
+> AWS CLI 명령어에 익숙한 경우 아래 [옵션 2](#option-2)를 사용하면 더 빠르게 삭제할 수 있습니다.
+
+**DynamoDB 테이블 삭제**
+
+1. DynamoDB 콘솔로 이동합니다.
+2. 왼쪽 메뉴에서 **Tables**를 선택합니다.
+3. `QuickTableReservations` 테이블을 선택합니다.
+4. **Actions** > `Delete table`을 선택합니다.
+5. 확인 창에서 `QuickTableReservations`를 입력합니다.
+6. [[Delete]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> DynamoDB 테이블 삭제 시 확인 입력값은 테이블 이름입니다. 정확히 입력해야 삭제가 진행됩니다.
-> 테이블을 삭제하면 모든 GSI와 LSI도 함께 삭제됩니다.
+> DynamoDB 테이블 삭제는 즉시 완료됩니다. 모든 GSI와 LSI도 함께 삭제됩니다.
 
-5. [[Delete]] 버튼을 클릭합니다.
+### 옵션 2: AWS CloudShell 스크립트로 일괄 삭제
+
+> [!TIP]
+> AWS CLI 명령어에 익숙하거나 빠른 삭제를 원하는 경우 이 방법을 사용하세요.
+>
+> 콘솔 방식이 더 편하다면 위 [옵션 1](#option-1)을 참고하세요.
+
+1. AWS Management Console 상단의 CloudShell 아이콘을 클릭합니다.
+2. CloudShell이 열리면 다음 명령어를 실행합니다:
+
+```bash
+# DynamoDB 테이블 삭제
+echo "DynamoDB 테이블 삭제 중..."
+aws dynamodb delete-table \
+  --region ap-northeast-2 \
+  --table-name QuickTableReservations
+
+echo "DynamoDB 테이블 삭제 완료"
+```
+
+> [!NOTE]
+> DynamoDB 테이블 삭제는 즉시 완료됩니다. 모든 GSI와 LSI도 함께 삭제됩니다.
+
+---
+
+## 3단계: 최종 삭제 확인 (Tag Editor 활용)
+
+모든 리소스가 정상적으로 삭제되었는지 Tag Editor로 최종 확인합니다.
+
+1. AWS Management Console에서 `Resource Groups & Tag Editor`로 이동합니다.
+2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
+3. **Regions**에서 `ap-northeast-2`를 선택합니다.
+4. **Resource types**에서 `All supported resource types`를 선택합니다.
+5. **Tags** 섹션에서 다음을 입력합니다:
+   - **Tag key**: `Week`
+   - **Tag value**: `5-3`
+6. [[Search resources]] 버튼을 클릭합니다.
+
+> [!NOTE]
+> 검색 결과에 리소스가 표시되지 않으면 모든 리소스가 성공적으로 삭제된 것입니다.
 
 ✅ **실습 종료**: 모든 리소스가 정리되었습니다.
 

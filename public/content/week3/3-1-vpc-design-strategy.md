@@ -1,5 +1,5 @@
 ---
-title: "Amazon VPC Endpoint 생성 및 연결 확인"
+title: 'Amazon VPC Endpoint 생성 및 연결 확인'
 week: 3
 session: 1
 awsServices:
@@ -25,24 +25,48 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 
 > [!DOWNLOAD]
 > [week3-1-vpc-lab.zip](/files/week3/week3-1-vpc-lab.zip)
+>
 > - `week3-1-vpc-lab.yaml` - Amazon VPC 환경 AWS CloudFormation 템플릿 (태스크 0에서 Amazon VPC, 서브넷, NAT Gateway, Amazon EC2 인스턴스 자동 생성)
 > - `README.md` - 아키텍처 설명 및 Amazon VPC Endpoint 설정 가이드
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 0: 실습 환경 구축 (AWS CloudFormation 템플릿 배포 - Amazon VPC Endpoint 제외)
+
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
+>
+> | 리소스명                 | 타입/사양 | IaC |         비용 |
+> | ------------------------ | --------- | :-: | -----------: |
+> | Amazon VPC               | N/A       | ✅  |         무료 |
+> | 퍼블릭 서브넷            | N/A       | ✅  |         무료 |
+> | 프라이빗 서브넷          | N/A       | ✅  |         무료 |
+> | Amazon EC2               | t3.micro  | ✅  | $0.0126/시간 |
+> | NAT Gateway              | N/A       | ✅  |  $0.059/시간 |
+> | VPC Endpoint (Gateway)   | S3        | ❌  |         무료 |
+> | VPC Endpoint (Interface) | SSM (3개) | ❌  |  $0.030/시간 |
+>
+> - **예상 실습 시간**: 1-2시간
+> - **예상 총 비용**: 약 $0.10-0.20/시간 (실무 환경 온디맨드 기준, 데이터 전송 비용 별도 발생 가능)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+> **실무 팁**
+>
+> 💡 NAT Gateway는 비용이 높은 리소스입니다 (시간당 $0.059 + 데이터 처리 GB당 $0.059). 프로덕션 환경에서는 VPC Endpoint를 우선 고려하여 비용을 절감할 수 있습니다.
+>
+> **참고**
+>
+> ℹ️ 이 실습에서는 EC2 t3.micro 인스턴스를 사용합니다. 인스턴스 타입을 t3.small 이상으로 변경하면 비용이 2배 이상 증가할 수 있습니다.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [Amazon EC2 요금](https://aws.amazon.com/ec2/pricing/) | 📘 [Amazon VPC 요금](https://aws.amazon.com/vpc/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
-> 
-> **예상 비용** (ap-northeast-2 리전 기준):
-> 
-> | 리소스 | 타입 | 시간당 비용 |
-> |--------|------|------------|
-> | NAT Gateway | - | 약 $0.045 |
-> | Amazon EC2 인스턴스 | t3.micro | 약 $0.0116 |
-> | Interface Endpoint | SSM (3개 × 1 AZ) | 약 $0.03 |
-> | **총 예상** | - | **약 $0.087** |
 
 ## 태스크 0: 실습 환경 구축
 
@@ -68,10 +92,10 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 13. 페이지를 아래로 스크롤하여 **Tags** 섹션을 찾습니다.
 14. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `3-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `3-1`     |
 | `CreatedBy` | `Student` |
 
 15. 페이지 하단의 [[Next]] 버튼을 클릭합니다.
@@ -105,6 +129,7 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 
 > [!NOTE]
 > **Status** 열은 스택의 현재 상태를 보여줍니다. 스택 생성이 시작되면 다음과 같은 상태 변화가 나타납니다:
+>
 > - **CREATE_IN_PROGRESS** (주황색): CloudFormation이 리소스를 생성하고 있습니다
 > - **CREATE_COMPLETE** (초록색): 모든 리소스가 성공적으로 생성되었습니다
 > - **CREATE_FAILED** (빨간색): 생성 중 오류가 발생했습니다 (Events 탭에서 원인 확인 필요)
@@ -176,10 +201,10 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 18. **Tags - optional** 섹션으로 스크롤합니다.
 19. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `3-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `3-1`     |
 | `CreatedBy` | `Student` |
 
 20. [[Create endpoint]] 버튼을 클릭합니다.
@@ -196,6 +221,7 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 태스크 1.1과 동일한 방법으로 두 번째 Interface Endpoint를 생성합니다.
 
 **달라지는 부분만 확인하세요:**
+
 - **Name tag**: `week3-1-ssmmessages-endpoint`
 - **Services** 검색: `ssmmessages`
 - **Service Name**: `com.amazonaws.ap-northeast-2.ssmmessages` (Type: Interface)
@@ -212,6 +238,7 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 태스크 1.1과 동일한 방법으로 세 번째 Interface Endpoint를 생성합니다.
 
 **달라지는 부분만 확인하세요:**
+
 - **Name tag**: `week3-1-ec2messages-endpoint`
 - **Services** 검색: `ec2messages`
 - **Service Name**: `com.amazonaws.ap-northeast-2.ec2messages` (Type: Interface)
@@ -263,10 +290,10 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 13. **Tags - optional** 섹션으로 스크롤합니다.
 14. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `3-1` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `3-1`     |
 | `CreatedBy` | `Student` |
 
 15. [[Create endpoint]] 버튼을 클릭합니다.
@@ -306,18 +333,18 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 
 7. 두 Endpoint의 **Details** 탭을 비교하여 다음 차이점을 확인합니다:
 
-| 항목 | Interface Endpoint | Gateway Endpoint |
-|------|-------------------|------------------|
-| **Type** | Interface | Gateway |
-| **Network interfaces** | ✅ ENI 생성 (eni-xxx) | ❌ ENI 없음 |
-| **DNS names** | ✅ 프라이빗 DNS 제공 | ❌ DNS 없음 |
-| **Subnets** | ✅ 서브넷 선택 필요 | ❌ 서브넷 선택 불필요 |
-| **Route tables** | ❌ 라우팅 테이블 불필요 | ✅ 라우팅 테이블 연결 |
-| **Security groups** | ✅ 보안 그룹 적용 가능 | ❌ 보안 그룹 불가 |
+| 항목                   | Interface Endpoint      | Gateway Endpoint      |
+| ---------------------- | ----------------------- | --------------------- |
+| **Type**               | Interface               | Gateway               |
+| **Network interfaces** | ✅ ENI 생성 (eni-xxx)   | ❌ ENI 없음           |
+| **DNS names**          | ✅ 프라이빗 DNS 제공    | ❌ DNS 없음           |
+| **Subnets**            | ✅ 서브넷 선택 필요     | ❌ 서브넷 선택 불필요 |
+| **Route tables**       | ❌ 라우팅 테이블 불필요 | ✅ 라우팅 테이블 연결 |
+| **Security groups**    | ✅ 보안 그룹 적용 가능  | ❌ 보안 그룹 불가     |
 
 > [!NOTE]
 > **Interface Endpoint**는 ENI 기반으로 동작하여 프라이빗 IP 주소와 DNS 이름을 제공합니다. 보안 그룹으로 트래픽을 제어할 수 있습니다.
-> 
+>
 > **Gateway Endpoint**는 라우팅 테이블 기반으로 동작하여 Prefix List를 통해 트래픽을 라우팅합니다. 보안 그룹 대신 Endpoint 정책으로 접근을 제어합니다.
 
 ✅ **태스크 3 완료**: Interface Endpoint와 Gateway Endpoint의 차이점을 AWS 콘솔에서 확인했습니다.
@@ -343,6 +370,7 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 
 > [!NOTE]
 > 라우팅 규칙의 의미:
+>
 > - `10.0.0.0/16` → `local`: Amazon VPC 내부 트래픽은 로컬로 라우팅
 > - `0.0.0.0/0` → `nat-xxxxx`: 인터넷 트래픽은 NAT Gateway를 통해 라우팅
 > - `pl-xxxxxxxx` → `vpce-xxxxx`: Amazon S3 트래픽은 Amazon VPC Endpoint를 통해 라우팅
@@ -393,11 +421,12 @@ aws s3 ls
 11. Amazon S3 버킷 목록이 정상적으로 표시되는지 확인합니다.
 
 > [!OUTPUT]
+>
 > ```
 > # 계정에 S3 버킷이 있는 경우 버킷 목록이 표시됩니다
 > 2026-xx-xx xx:xx:xx your-bucket-name-1
 > 2026-xx-xx xx:xx:xx your-bucket-name-2
-> 
+>
 > # 버킷이 없는 경우 빈 출력이 나타나며, 이는 정상입니다
 > # 명령어가 오류 없이 실행되면 S3 접근이 가능한 것입니다
 > ```
@@ -411,6 +440,7 @@ curl -I https://www.google.com
 13. HTTP 응답 헤더가 정상적으로 수신되는지 확인합니다.
 
 > [!OUTPUT]
+>
 > ```
 > HTTP/2 200
 > content-type: text/html; charset=ISO-8859-1
@@ -454,6 +484,7 @@ curl -I --max-time 5 https://www.google.com
 12. 연결 타임아웃 오류가 발생하는지 확인합니다.
 
 > [!OUTPUT]
+>
 > ```
 > curl: (28) Connection timed out after 5001 milliseconds
 > ```
@@ -470,11 +501,12 @@ aws s3 ls
 14. Amazon S3 버킷 목록이 정상적으로 표시되는지 확인합니다.
 
 > [!OUTPUT]
+>
 > ```
 > # 계정에 S3 버킷이 있는 경우 버킷 목록이 표시됩니다
 > 2026-xx-xx xx:xx:xx your-bucket-name-1
 > 2026-xx-xx xx:xx:xx your-bucket-name-2
-> 
+>
 > # 버킷이 없는 경우 빈 출력이 나타나며, 이는 정상입니다
 > # 명령어가 오류 없이 실행되면 S3 접근이 가능한 것입니다
 > ```
@@ -512,6 +544,7 @@ curl -I https://www.google.com
 13. HTTP 응답 헤더가 정상적으로 수신되는지 확인합니다.
 
 > [!OUTPUT]
+>
 > ```
 > HTTP/2 200
 > content-type: text/html; charset=ISO-8859-1
@@ -540,7 +573,13 @@ curl -I https://www.google.com
 > [!WARNING]
 > 다음 단계를 **반드시 수행**하여 불필요한 비용을 방지하세요.
 
-### 단계 1: Tag Editor로 리소스 확인 (권장)
+---
+
+## 1단계: Tag Editor로 생성된 리소스 확인
+
+실습에서 생성한 모든 리소스를 Tag Editor로 확인합니다.
+
+#### 수동으로 생성한 리소스 확인 (Week 태그)
 
 1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
@@ -550,14 +589,37 @@ curl -I https://www.google.com
    - **Tag key**: `Week`
    - **Tag value**: `3-1`
 6. [[Search resources]] 버튼을 클릭합니다.
-7. 이 실습에서 생성한 Amazon VPC Endpoint가 표시됩니다.
 
 > [!NOTE]
-> Tag Editor는 리소스를 찾는 용도로만 사용됩니다. 실제 삭제는 다음 단계에서 수행합니다.
+> 이 실습에서 수동으로 생성한 Amazon VPC Endpoint 4개가 표시됩니다.
 
-### 단계 2: 리소스 삭제
+#### CloudFormation으로 생성한 리소스 확인 (Name 태그)
 
-#### Amazon VPC Endpoint 삭제
+1. **Tags** 섹션을 초기화하고 다음을 입력합니다:
+   - **Tag key**: `Name`
+   - **Optional tag value**에 `week3-1`을 입력합니다.
+2. [[Search resources]] 버튼을 클릭합니다.
+
+> [!NOTE]
+> CloudFormation 스택으로 생성된 Amazon VPC, 서브넷, NAT Gateway, Amazon EC2 인스턴스 등 모든 리소스가 표시됩니다. 리소스 이름이 `week3-1-`로 시작하는 것들이 이 실습에서 생성된 리소스입니다.
+
+> [!TIP]
+> Tag Editor는 리소스 확인 용도로만 사용하며, 실제 삭제는 다음 단계에서 수행합니다. 두 가지 태그 검색을 통해 수동 생성 리소스와 CloudFormation 생성 리소스를 모두 파악할 수 있습니다.
+
+---
+
+## 2단계: 리소스 삭제
+
+다음 두 가지 방법 중 하나를 선택하여 리소스를 삭제할 수 있습니다.
+
+### 옵션 1: AWS 콘솔에서 수동 삭제 (권장)
+
+> [!TIP]
+> AWS 관리 콘솔 방식을 선호하거나 각 단계를 확인하면서 삭제하고 싶은 경우 이 방법을 권장합니다.
+>
+> AWS CLI 명령어에 익숙한 경우 아래 [옵션 2](#option-2)를 사용하면 더 빠르게 삭제할 수 있습니다.
+
+**Amazon VPC Endpoint 삭제**
 
 1. Amazon VPC 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Endpoints**를 선택합니다.
@@ -570,15 +632,52 @@ curl -I https://www.google.com
 > [!NOTE]
 > 4개의 엔드포인트를 모두 선택하려면 각 엔드포인트의 체크박스를 클릭합니다. 모두 선택되면 상단의 **Actions** 버튼이 활성화됩니다.
 
-4. **Actions** > `Delete Amazon VPC endpoints`를 선택합니다.
+4. **Actions** > `Delete VPC endpoints`를 선택합니다.
 5. 확인 창에서 `delete`를 입력하고 [[Delete]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > Amazon VPC Endpoint 삭제는 즉시 완료됩니다. Interface Endpoint 3개와 Gateway Endpoint 1개가 모두 삭제됩니다.
 
-#### AWS CloudFormation 스택 삭제
+### 옵션 2: AWS CloudShell 스크립트로 일괄 삭제
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+> [!TIP]
+> AWS CLI 명령어에 익숙하거나 빠른 삭제를 원하는 경우 이 방법을 사용하세요.
+>
+> 콘솔 방식이 더 편하다면 위 [옵션 1](#option-1)을 참고하세요.
+
+1. AWS Management Console 상단의 CloudShell 아이콘을 클릭합니다.
+2. CloudShell이 열리면 다음 명령어를 실행합니다:
+
+```bash
+# Week 3-1 태그가 있는 VPC Endpoint 찾기
+ENDPOINT_IDS=$(aws ec2 describe-vpc-endpoints \
+  --region ap-northeast-2 \
+  --filters "Name=tag:Week,Values=3-1" \
+  --query 'VpcEndpoints[*].VpcEndpointId' \
+  --output text)
+
+# VPC Endpoint 삭제
+if [ -n "$ENDPOINT_IDS" ]; then
+  echo "삭제할 VPC Endpoints: $ENDPOINT_IDS"
+  aws ec2 delete-vpc-endpoints \
+    --region ap-northeast-2 \
+    --vpc-endpoint-ids $ENDPOINT_IDS
+  echo "VPC Endpoints 삭제 완료"
+else
+  echo "삭제할 VPC Endpoint가 없습니다"
+fi
+```
+
+> [!NOTE]
+> 스크립트는 `Week=3-1` 태그가 있는 모든 Amazon VPC Endpoint를 자동으로 찾아 삭제합니다. 삭제는 즉시 완료됩니다.
+
+---
+
+## 3단계: CloudFormation 스택 삭제
+
+마지막으로 CloudFormation 스택을 삭제하여 나머지 모든 리소스를 정리합니다.
+
+1. AWS Management Console에 로그인한 후 상단 검색창에서 `CloudFormation`을 검색하고 선택합니다.
 2. 스택 목록에서 `week3-1-vpc-stack` 스택을 검색합니다.
 3. `week3-1-vpc-stack` 스택의 체크박스를 선택합니다.
 
@@ -600,23 +699,35 @@ curl -I https://www.google.com
 8. **Events** 탭을 선택합니다.
 
 > [!NOTE]
-> **Events** 탭에는 리소스 삭제 과정이 실시간으로 표시됩니다. Amazon EC2 인스턴스, NAT Gateway, Amazon VPC Endpoint, 서브넷, Amazon VPC 등이 순차적으로 삭제됩니다. 삭제에 5-7분이 소요됩니다.
+> **Events** 탭에는 리소스 삭제 과정이 실시간으로 표시됩니다. Amazon EC2 인스턴스, NAT Gateway, 서브넷, Amazon VPC 등이 순차적으로 삭제됩니다. 삭제에 5-7분이 소요됩니다.
 
 9. 스택 삭제가 완료될 때까지 기다립니다.
 
 > [!NOTE]
 > 스택이 완전히 삭제되면 스택 목록에서 사라집니다. 만약 "DELETE_FAILED"가 표시되면 **Events** 탭에서 오류 원인을 확인하고, 수동으로 리소스를 삭제한 후 스택 삭제를 다시 시도합니다.
 
-10. Amazon VPC 콘솔로 이동하여 Amazon VPC Endpoint가 삭제되었는지 확인합니다.
-11. 왼쪽 메뉴에서 **Endpoints**를 선택합니다.
-12. 다음 4개의 엔드포인트가 목록에 표시되지 않는지 확인합니다:
-    - `week3-1-ssm-endpoint`
-    - `week3-1-ssmmessages-endpoint`
-    - `week3-1-ec2messages-endpoint`
-    - `week3-1-s3-endpoint`
+10. 스택 목록 페이지로 돌아가서 `week3-1-vpc-stack` 스택이 목록에서 사라졌는지 확인합니다.
 
 > [!NOTE]
-> 4개의 Amazon VPC Endpoint가 모두 목록에 없으면 성공적으로 삭제된 것입니다. AWS CloudFormation 스택을 삭제하면 NAT Gateway, Elastic IP, Amazon EC2 인스턴스, Amazon VPC 등 모든 리소스가 자동으로 삭제됩니다.
+> 스택이 목록에 표시되지 않으면 성공적으로 삭제된 것입니다. 삭제 완료까지 5-7분이 소요됩니다.
+
+---
+
+## 4단계: 최종 삭제 확인 (Tag Editor 활용)
+
+모든 리소스가 정상적으로 삭제되었는지 Tag Editor로 최종 확인합니다.
+
+1. AWS Management Console에서 `Resource Groups & Tag Editor`로 이동합니다.
+2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
+3. **Regions**에서 `ap-northeast-2`를 선택합니다.
+4. **Resource types**에서 `All supported resource types`를 선택합니다.
+5. **Tags** 섹션에서 다음을 입력합니다:
+   - **Tag key**: `Week`
+   - **Tag value**: `3-1`
+6. [[Search resources]] 버튼을 클릭합니다.
+
+> [!NOTE]
+> 검색 결과에 리소스가 표시되지 않으면 모든 리소스가 성공적으로 삭제된 것입니다. CloudFormation 스택 삭제로 NAT Gateway, Elastic IP, Amazon EC2 인스턴스, Amazon VPC 등 모든 리소스가 자동으로 정리되었습니다.
 
 ✅ **실습 종료**: 모든 리소스가 정리되었습니다.
 
@@ -630,27 +741,30 @@ curl -I https://www.google.com
 
 ### Gateway Endpoint vs Interface Endpoint
 
-| 구분 | Gateway Endpoint | Interface Endpoint |
-|:-----|:----------------|:------------------|
-| **지원 서비스** | Amazon S3, Amazon DynamoDB | 대부분의 AWS 서비스 |
-| **구현 방식** | 라우팅 테이블 | ENI (Elastic Network Interface) |
-| **비용** | 무료 | 시간당 요금 + 데이터 전송 요금 |
-| **가용 영역** | 리전 전체 | AZ별로 생성 필요 |
-| **보안 그룹** | 지원 안 함 | 지원 |
+| 구분            | Gateway Endpoint           | Interface Endpoint              |
+| :-------------- | :------------------------- | :------------------------------ |
+| **지원 서비스** | Amazon S3, Amazon DynamoDB | 대부분의 AWS 서비스             |
+| **구현 방식**   | 라우팅 테이블              | ENI (Elastic Network Interface) |
+| **비용**        | 무료                       | 시간당 요금 + 데이터 전송 요금  |
+| **가용 영역**   | 리전 전체                  | AZ별로 생성 필요                |
+| **보안 그룹**   | 지원 안 함                 | 지원                            |
 
 ### Amazon VPC Endpoint 사용 이점
 
 **보안 강화**
+
 - 인터넷을 거치지 않고 AWS 서비스에 접근
 - 퍼블릭 IP 주소 불필요
 - 데이터가 AWS 네트워크 내부에서만 이동
 
 **성능 향상**
+
 - 낮은 지연 시간
 - 높은 처리량
 - NAT Gateway 부하 감소
 
 **비용 절감**
+
 - NAT Gateway 데이터 전송 비용 절감
 - Gateway Endpoint는 무료
 
@@ -660,15 +774,14 @@ Amazon VPC Endpoint 정책을 사용하여 접근을 제어할 수 있습니다:
 
 ```json
 {
-  "Statement": [{
-    "Effect": "Allow",
-    "Principal": "*",
-    "Action": [
-      "s3:GetObject",
-      "s3:PutObject"
-    ],
-    "Resource": "arn:aws:s3:::my-bucket/*"
-  }]
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": ["s3:GetObject", "s3:PutObject"],
+      "Resource": "arn:aws:s3:::my-bucket/*"
+    }
+  ]
 }
 ```
 

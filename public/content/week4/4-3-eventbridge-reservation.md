@@ -34,21 +34,37 @@ prerequisites:
 > - 태스크 3: 예약 생성 테스트 (이벤트 기반 워크플로우 확인)
 > - 태스크 4: 예약 불가 시나리오 테스트 (TableUnavailable 이벤트 확인)
 
-> [!WARNING]
-> 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
 >
-> **예상 비용** (ap-northeast-2 리전 기준):
+> | 리소스명           | 타입/사양       | IaC |                비용 |
+> | ------------------ | --------------- | :-: | ------------------: |
+> | Amazon DynamoDB    | 온디맨드 테이블 | ✅  |                무료 |
+> | Amazon DynamoDB    | 읽기 요청       | ✅  |    $0.25/100만 요청 |
+> | Amazon DynamoDB    | 쓰기 요청       | ✅  |    $1.25/100만 요청 |
+> | AWS Lambda         | Python 3.12     | ✅  |    $0.20/100만 요청 |
+> | AWS Lambda         | 컴퓨팅 시간     | ✅  | $0.0000166667/GB-초 |
+> | Amazon EventBridge | 이벤트          | ❌  |  $1.00/100만 이벤트 |
+> | Amazon SNS         | 게시            | ✅  |    $0.50/100만 게시 |
 >
-> | 서비스             | 프리 티어                    | 이 실습 사용량          | 비용                       |
-> | ------------------ | ---------------------------- | ----------------------- | -------------------------- |
-> | AWS Lambda         | 월 100만 건 요청, 40만 GB-초 | 약 10회 실행            | **무료**                   |
-> | Amazon EventBridge | 월 100만 건 이벤트           | 약 10개 이벤트          | **무료**                   |
-> | Amazon DynamoDB    | 월 25GB 스토리지, 25 WCU/RCU | 약 10개 항목 (1KB 미만) | **무료**                   |
-> | Amazon SNS         | 월 100만 건 게시             | 약 5개 알림             | **무료**                   |
-> | **총 예상**        | -                            | -                       | **$0 (프리 티어 범위 내)** |
+> - **예상 실습 시간**: 1-2시간
+> - **예상 총 비용**: 약 $0.01 미만 (실습 규모 10-20회 실행 기준, 실무 환경 온디맨드 기준)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+>
+> **실무 팁**
+>
+> 💡 이벤트 기반 아키텍처는 서버리스 환경에서 비용 효율적입니다. Lambda 함수의 메모리 설정과 실행 시간을 최적화하면 비용을 더욱 절감할 수 있습니다.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [AWS Lambda 요금](https://aws.amazon.com/lambda/pricing/) | 📘 [Amazon EventBridge 요금](https://aws.amazon.com/eventbridge/pricing/) | 📘 [Amazon DynamoDB 요금](https://aws.amazon.com/dynamodb/pricing/) | 📘 [Amazon SNS 요금](https://aws.amazon.com/sns/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
 
-> [!NOTE]
-> 이 실습은 모든 서비스가 AWS 프리 티어 범위 내에서 동작하도록 설계되었습니다. 프리 티어 한도를 초과하지 않는 한 비용이 발생하지 않습니다.
+> [!WARNING]
+> 이 실습에서 생성하는 리소스는 실습 종료 후 **반드시 삭제해야 합니다**.
 
 ## 태스크 0: 실습 환경 구축
 
@@ -646,7 +662,20 @@ Monitoring 탭에서는 규칙의 실행 통계를 확인할 수 있습니다.
 > [!WARNING]
 > 다음 단계를 **반드시 수행**하여 불필요한 비용을 방지합니다.
 
-### 단계 1: EventBridge 규칙 삭제
+---
+
+## 1단계: 리소스 삭제
+
+다음 두 가지 방법 중 하나를 선택하여 리소스를 삭제할 수 있습니다.
+
+### 옵션 1: AWS 콘솔에서 수동 삭제 (권장)
+
+> [!TIP]
+> AWS 관리 콘솔 방식을 선호하거나 각 단계를 확인하면서 삭제하고 싶은 경우 이 방법을 권장합니다.
+>
+> AWS CLI 명령어에 익숙한 경우 아래 [옵션 2](#option-2)를 사용하면 더 빠르게 삭제할 수 있습니다.
+
+**EventBridge 규칙 삭제**
 
 1. EventBridge 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Rules**를 선택합니다.
@@ -662,7 +691,64 @@ Monitoring 탭에서는 규칙의 실행 통계를 확인할 수 있습니다.
 8. [[Delete]] 버튼을 클릭합니다.
 9. 확인 창에 `delete`를 입력한 후 [[Delete]] 버튼을 클릭합니다.
 
-### 단계 2: AWS CloudFormation 스택 삭제
+### 옵션 2: AWS CloudShell 스크립트로 일괄 삭제
+
+> [!TIP]
+> AWS CLI 명령어에 익숙하거나 빠른 삭제를 원하는 경우 이 방법을 사용하세요.
+>
+> 콘솔 방식이 더 편하다면 위 [옵션 1](#option-1)을 참고하세요.
+
+1. AWS Management Console 상단의 CloudShell 아이콘을 클릭합니다.
+2. CloudShell이 열리면 다음 명령어를 실행합니다:
+
+```bash
+# EventBridge 규칙 삭제
+EVENT_BUS_NAME="week4-3-quicktable-events-lab-ReservationEventBus"
+
+RULES=$(aws events list-rules \
+  --region ap-northeast-2 \
+  --event-bus-name $EVENT_BUS_NAME \
+  --query 'Rules[].Name' \
+  --output text)
+
+if [ -n "$RULES" ]; then
+  for RULE in $RULES; do
+    echo "삭제 중: EventBridge Rule $RULE"
+
+    # 타겟 제거
+    TARGETS=$(aws events list-targets-by-rule \
+      --region ap-northeast-2 \
+      --event-bus-name $EVENT_BUS_NAME \
+      --rule $RULE \
+      --query 'Targets[].Id' \
+      --output text)
+
+    if [ -n "$TARGETS" ]; then
+      aws events remove-targets \
+        --region ap-northeast-2 \
+        --event-bus-name $EVENT_BUS_NAME \
+        --rule $RULE \
+        --ids $TARGETS
+    fi
+
+    # 규칙 삭제
+    aws events delete-rule \
+      --region ap-northeast-2 \
+      --event-bus-name $EVENT_BUS_NAME \
+      --name $RULE
+  done
+  echo "EventBridge Rules 삭제 완료"
+else
+  echo "삭제할 EventBridge Rules가 없습니다"
+fi
+```
+
+> [!NOTE]
+> 스크립트는 EventBridge 규칙의 타겟을 먼저 제거한 후 규칙을 삭제합니다. 삭제는 즉시 완료됩니다.
+
+---
+
+## 2단계: AWS CloudFormation 스택 삭제
 
 1. AWS CloudFormation 콘솔로 이동합니다.
 2. `week4-3-quicktable-events-lab-stack` 스택을 선택합니다.
@@ -673,7 +759,26 @@ Monitoring 탭에서는 규칙의 실행 통계를 확인할 수 있습니다.
 > [!NOTE]
 > 스택 삭제에 2-3분이 소요됩니다. AWS CloudFormation 스택을 삭제하면 AWS Lambda 함수 3개, Amazon DynamoDB 테이블, EventBridge Event Bus, AWS Lambda 역할, Amazon SNS Topic 등 모든 리소스가 자동으로 삭제됩니다.
 
-### 단계 3: CloudWatch Log Groups 삭제
+---
+
+## 2단계: AWS CloudFormation 스택 삭제
+
+1. AWS CloudFormation 콘솔로 이동합니다.
+2. `week4-3-quicktable-events-lab-stack` 스택을 선택합니다.
+3. [[Delete]] 버튼을 클릭합니다.
+4. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
+5. 스택 삭제가 완료될 때까지 기다립니다.
+
+> [!NOTE]
+> 스택 삭제에 2-3분이 소요됩니다. AWS CloudFormation 스택을 삭제하면 AWS Lambda 함수 3개, Amazon DynamoDB 테이블, EventBridge Event Bus, AWS Lambda 역할, Amazon SNS Topic 등 모든 리소스가 자동으로 삭제됩니다.
+
+---
+
+## 3단계: CloudWatch Log Groups 삭제
+
+CloudWatch Log Groups는 CloudFormation 스택 삭제 시 자동으로 삭제되지 않으므로 수동으로 삭제해야 합니다.
+
+### 옵션 1: AWS 콘솔에서 수동 삭제
 
 1. CloudWatch 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Log groups**를 선택합니다.
@@ -684,8 +789,34 @@ Monitoring 탭에서는 규칙의 실행 통계를 확인할 수 있습니다.
 4. 각 Log Group을 선택한 후 **Actions** > `Delete log group(s)`를 선택합니다.
 5. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
+### 옵션 2: AWS CloudShell 스크립트로 일괄 삭제
+
+1. AWS Management Console 상단의 CloudShell 아이콘을 클릭합니다.
+2. CloudShell이 열리면 다음 명령어를 실행합니다:
+
+```bash
+# CloudWatch Log Groups 삭제
+LOG_GROUPS=$(aws logs describe-log-groups \
+  --region ap-northeast-2 \
+  --log-group-name-prefix "/aws/lambda/week4-3-quicktable-events-lab-" \
+  --query 'logGroups[].logGroupName' \
+  --output text)
+
+if [ -n "$LOG_GROUPS" ]; then
+  for LOG_GROUP in $LOG_GROUPS; do
+    echo "삭제 중: $LOG_GROUP"
+    aws logs delete-log-group \
+      --region ap-northeast-2 \
+      --log-group-name $LOG_GROUP
+  done
+  echo "CloudWatch Log Groups 삭제 완료"
+else
+  echo "삭제할 CloudWatch Log Groups가 없습니다"
+fi
+```
+
 > [!NOTE]
-> CloudWatch Log Groups는 CloudFormation 스택 삭제 시 자동으로 삭제되지 않으므로 수동으로 삭제해야 합니다. Lambda 함수가 3개이므로 Log Group도 3개 생성됩니다.
+> Lambda 함수가 3개이므로 Log Group도 3개 생성됩니다. 스크립트는 모든 Log Group을 자동으로 찾아 삭제합니다.
 
 ✅ **실습 종료**: 모든 리소스가 정리되었습니다.
 
