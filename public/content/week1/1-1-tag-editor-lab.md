@@ -94,13 +94,19 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ![CloudFormation Create stack 드롭다운에서 With new resources (standard) 선택](/images/week1/1-1-step4-create-stack.png)
 
-5. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 `tag-editor-lab-stack.yaml` 파일을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
+
+![CloudFormation 템플릿 업로드 후 Next 버튼 클릭](/images/week1/1-1-step8-next-button.png)
+
 9. **Stack name**에 `week1-1-tag-editor-lab-stack`을 입력합니다.
 10. **Parameters** 섹션에서 기본값을 확인합니다.
 11. [[Next]] 버튼을 클릭합니다.
+
+![CloudFormation 스택 이름 입력 후 Next 버튼 클릭](/images/week1/1-1-step11-next-button.png)
+
 12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 찾습니다.
 13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
@@ -109,24 +115,21 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 | `Project`   | `AWS-Lab` |
 | `CreatedBy` | `Student` |
 
-> [!IMPORTANT]
-> **스택 레벨 태그 vs 템플릿 내 태그**
+> [!NOTE]
+> **AWS CloudFormation 템플릿 태그**: AWS CloudFormation 템플릿은 모든 리소스에 필수 태그 3개(`Project`, `Week`, `CreatedBy`)와 추가 태그(`Component`)를 자동으로 추가했습니다. 이 태스크에서는 이미 추가된 태그를 확인하고, 실습 목적으로 추가 태그를 수동으로 추가하는 방법을 학습합니다.
 >
-> **스택 레벨 태그** (여기서 추가):
->
-> - AWS CloudFormation 스택 자체와 스택이 생성하는 태그 전파를 지원하는 모든 리소스에 자동 전파됩니다
-> - 일부 리소스 타입은 태그 전파를 지원하지 않을 수 있습니다
->
-> **템플릿 내 태그**:
->
-> - AWS CloudFormation 템플릿에 정의된 태그로, 템플릿이 생성하는 모든 리소스에 직접 추가됩니다
->
-> 이 실습에서는 두 가지 방법을 모두 사용하여 태그 전파 방식을 학습합니다. 템플릿에는 `Week=1-1` 태그만 포함되어 있으므로, 스택 레벨에서 `Project`와 `CreatedBy` 태그를 추가합니다.
+> **스택 레벨 태그 전파**: 태스크 0에서 AWS CloudFormation 스택에 추가한 `Project`와 `CreatedBy` 태그는 태그 전파를 지원하는 일부 리소스에 자동으로 전파될 수 있습니다. 이 실습에서는 템플릿 레벨 태그와 스택 레벨 태그의 차이를 이해하고, 수동 태그 추가 방법을 학습하는 것이 목적입니다.
 
-14. [[Next]] 버튼을 클릭합니다.
-15. **Review** 페이지에서 설정을 확인합니다.
-16. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation may create AWS IAM resources`를 체크합니다.
+14. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation may create AWS IAM resources`를 체크합니다.
+15. [[Next]] 버튼을 클릭합니다.
+
+![CloudFormation Capabilities 체크 후 Next 버튼 클릭](/images/week1/1-1-step15-next-button.png)
+
+16. **Review** 페이지에서 설정을 확인합니다.
 17. [[Submit]] 버튼을 클릭합니다.
+
+![CloudFormation Review 페이지에서 Submit 버튼 클릭](/images/week1/1-1-step17-submit-button.png)
+
 18. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
 
 > [!NOTE]
@@ -136,9 +139,9 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 19. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
 20. **Outputs** 탭을 선택합니다.
 21. 출력값들을 확인하고 메모장에 복사합니다:
-    - `ReservationsBucketName`: QuickTable 예약 데이터 버킷 이름 (예: quicktable-reservations-a1b2c3d4e5f6)
-    - `LogsBucketName`: QuickTable 로그 버킷 이름 (예: quicktable-logs-a1b2c3d4e5f6)
     - `GetReservationFunctionName`: QuickTable 예약 조회 AWS Lambda 함수 이름
+    - `LogsBucketName`: QuickTable 로그 버킷 이름 (예: quicktable-logs-a1b2c3d4e5f6)
+    - `ReservationsBucketName`: QuickTable 예약 데이터 버킷 이름 (예: quicktable-reservations-a1b2c3d4e5f6)
     - `ReservationsTableName`: QuickTable 예약 Amazon DynamoDB 테이블 이름
 
 > [!IMPORTANT]
