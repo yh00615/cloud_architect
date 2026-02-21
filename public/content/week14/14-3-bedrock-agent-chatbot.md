@@ -186,7 +186,7 @@ def lambda_handler(event, context):
 
     Security Note:
         이벤트 로그에 사용자 입력이 포함될 수 있습니다.
-        프로덕션 환경에서는 개인정보(PII)가 CloudWatch Logs에 기록되지 않도록 주의해야 합니다.
+        프로덕션 환경에서는 개인정보(PII)가 Amazon CloudWatch Logs에 기록되지 않도록 주의해야 합니다.
 
     Example:
         >>> event = {
@@ -302,7 +302,7 @@ def get_reservation(params):
     reservation_id = params.get('reservationId')
 
     try:
-        # DynamoDB에서 예약 정보 조회
+        # Amazon DynamoDB에서 예약 정보 조회
         # get_item: Primary Key로 단일 항목 조회 (빠름)
         response = table.get_item(Key={'reservationId': reservation_id})
 
@@ -389,7 +389,7 @@ def create_reservation(params):
     party_size = int(params.get('partySize', 2))  # 기본값: 2명
 
     try:
-        # DynamoDB에 예약 정보 저장
+        # Amazon DynamoDB에 예약 정보 저장
         # put_item: 새 항목 생성 또는 기존 항목 덮어쓰기
         table.put_item(Item={
             'reservationId': reservation_id,  # Primary Key
@@ -543,7 +543,7 @@ def cancel_reservation(params):
     reservation_id = params.get('reservationId')
 
     try:
-        # DynamoDB에서 예약 상태 업데이트
+        # Amazon DynamoDB에서 예약 상태 업데이트
         # update_item: 특정 속성만 업데이트 (효율적)
         table.update_item(
             Key={'reservationId': reservation_id},  # Primary Key
@@ -591,7 +591,7 @@ def cancel_reservation(params):
 > 프로덕션 환경에서는 특정 테이블에만 접근할 수 있는 커스텀 정책을 사용해야 합니다.
 
 8. [[Add permissions]] 버튼을 클릭합니다.
-9. Lambda 콘솔로 이동합니다.
+9. AWS Lambda 콘솔로 이동합니다.
 10. `BedrockAgentReservationHandler` 함수를 선택합니다.
 11. **Configuration** 탭을 선택합니다.
 12. 왼쪽 메뉴에서 **Environment variables**를 선택합니다.
@@ -600,7 +600,7 @@ def cancel_reservation(params):
 
 | 변수명       | 값                       | 설명                 |
 | ------------ | ------------------------ | -------------------- |
-| `TABLE_NAME` | `RestaurantReservations` | DynamoDB 테이블 이름 |
+| `TABLE_NAME` | `RestaurantReservations` | Amazon DynamoDB 테이블 이름 |
 
 15. [[Save]] 버튼을 클릭합니다.
 16. 왼쪽 메뉴에서 **Tags**를 선택합니다.
@@ -688,8 +688,8 @@ def cancel_reservation(params):
 15. **AWS Lambda function**에서 `BedrockAgentReservationHandler`를 선택합니다.
 
 > [!NOTE]
-> Lambda 함수를 선택하면 Bedrock Agent가 Lambda를 호출할 수 있도록 리소스 기반 정책이 자동으로 추가됩니다.
-> 자동 추가가 실패하는 경우, Lambda 콘솔의 Configuration > Permissions > Resource-based policy statements에서 수동으로 추가해야 합니다.
+> AWS Lambda 함수를 선택하면 Amazon Bedrock Agent가 AWS Lambda를 호출할 수 있도록 리소스 기반 정책이 자동으로 추가됩니다.
+> 자동 추가가 실패하는 경우, AWS Lambda 콘솔의 Configuration > Permissions > Resource-based policy statements에서 수동으로 추가해야 합니다.
 > 참고 섹션에서 리소스 기반 정책 예시를 확인할 수 있습니다.
 
 16. **Action group functions** 섹션에서 [[Add function]] 버튼을 클릭합니다.
@@ -857,7 +857,7 @@ def cancel_reservation(params):
 > [!NOTE]
 > 예약 번호는 UUID 기반으로 생성되므로 실제 응답의 예약 번호는 위 예시와 다릅니다.
 > 또한 생성형 AI의 특성상 날짜 해석이 다를 수 있습니다 (예: "2월 15일" → "2026-02-15" 또는 "2024-02-15").
-> 실제 저장된 날짜는 DynamoDB 테이블에서 확인할 수 있습니다.
+> 실제 저장된 날짜는 Amazon DynamoDB 테이블에서 확인할 수 있습니다.
 
 13. **Show trace** 토글을 활성화합니다.
 14. 새로운 메시지를 입력합니다:
@@ -886,7 +886,7 @@ def cancel_reservation(params):
 
 > [!NOTE]
 > `cancel_reservation` 함수는 예약이 존재하지 않아도 성공 응답을 반환합니다.
-> 이는 DynamoDB의 `update_item` 동작 특성 때문입니다.
+> 이는 Amazon DynamoDB의 `update_item` 동작 특성 때문입니다.
 > 프로덕션 환경에서는 예약 존재 여부를 먼저 확인하는 로직을 추가해야 합니다.
 
 19. Knowledge Base 연동을 테스트합니다 (14-2 완료 시):
@@ -967,7 +967,7 @@ import json
 import boto3
 import os
 
-# Bedrock Agent Runtime 클라이언트 초기화 (리전 명시)
+# Amazon Bedrock Agent Runtime 클라이언트 초기화 (리전 명시)
 # 환경 변수에서 리전을 가져오거나 기본값 사용
 bedrock_agent_runtime = boto3.client(
     'bedrock-agent-runtime',
@@ -976,13 +976,13 @@ bedrock_agent_runtime = boto3.client(
 
 def lambda_handler(event, context):
     """
-    Amazon Bedrock Agent를 프로그래밍 방식으로 호출하는 Lambda 함수
+    Amazon Bedrock Agent를 프로그래밍 방식으로 호출하는 AWS Lambda 함수
 
     Args:
         event (dict): 입력 이벤트
             - session_id (str): 세션 ID
             - input (str): 사용자 입력 텍스트
-        context: Lambda 실행 컨텍스트
+        context: AWS Lambda 실행 컨텍스트
 
     Returns:
         dict: HTTP 응답 형식
@@ -998,7 +998,7 @@ def lambda_handler(event, context):
     user_input = event.get('input', '안녕합니다')
 
     try:
-        # Bedrock Agent 호출
+        # Amazon Bedrock Agent 호출
         response = bedrock_agent_runtime.invoke_agent(
             agentId=agent_id,
             agentAliasId=agent_alias_id,
@@ -1056,7 +1056,7 @@ def lambda_handler(event, context):
 | ---------------- | ---------------- | --------------------------------------------------------------------- |
 | `AGENT_ID`       | (Agent ID 입력)  | Amazon Bedrock Agent ID (Agent 상세 페이지의 Agent overview에서 확인) |
 | `AGENT_ALIAS_ID` | (별칭 ID 입력)   | 별칭 ID (별칭 상세 페이지에서 확인, ARN이 아닌 ID만 입력)             |
-| `BEDROCK_REGION` | `ap-northeast-2` | Bedrock Agent가 배포된 리전                                           |
+| `BEDROCK_REGION` | `ap-northeast-2` | Amazon Bedrock Agent가 배포된 리전                                           |
 
 20. [[Save]] 버튼을 클릭합니다.
 
@@ -1076,7 +1076,7 @@ def lambda_handler(event, context):
 > 별칭 상세 페이지에서 "Alias ID" 필드의 값을 복사하여 사용합니다.
 
 > [!TIP]
-> `BEDROCK_REGION` 환경 변수를 명시적으로 설정하면 Lambda 함수가 다른 리전에서 실행되더라도 올바른 리전의 Bedrock Agent를 호출할 수 있습니다.
+> `BEDROCK_REGION` 환경 변수를 명시적으로 설정하면 AWS Lambda 함수가 다른 리전에서 실행되더라도 올바른 리전의 Amazon Bedrock Agent를 호출할 수 있습니다.
 > `AWS_REGION`은 AWS Lambda의 예약 환경 변수이므로 사용하지 않습니다.
 
 20. [[Save]] 버튼을 클릭합니다.
@@ -1206,11 +1206,11 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 
 > [!NOTE]
 > AWS IAM 역할 이름은 `AmazonBedrockExecutionRoleForAgents_` 또는 `BedrockAgentReservationHandler-role-` 형식입니다.
-> 역할을 삭제하기 전에 다른 Agent나 Lambda 함수에서 사용 중인지 확인하세요.
+> 역할을 삭제하기 전에 다른 Agent나 AWS Lambda 함수에서 사용 중인지 확인하세요.
 
-#### 5. CloudWatch Log Group 삭제
+#### 5. Amazon CloudWatch Log Group 삭제
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `CloudWatch`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon CloudWatch`를 검색하고 선택합니다.
 2. 왼쪽 메뉴에서 **Logs** > **Log groups**를 선택합니다.
 3. 검색창에 `/aws/lambda/BedrockAgent`를 입력합니다.
 4. 다음 로그 그룹들을 선택합니다:
@@ -1220,7 +1220,7 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 6. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> CloudWatch Log Group은 자동으로 생성되며, 삭제하지 않으면 로그 저장 비용이 계속 발생합니다.
+> Amazon CloudWatch Log Group은 자동으로 생성되며, 삭제하지 않으면 로그 저장 비용이 계속 발생합니다.
 
 #### 6. Week 14-2 리소스 삭제 (Knowledge Base 연결 시)
 
@@ -1247,8 +1247,8 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 12. [[Delete]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> Knowledge Base를 삭제하면 S3 버킷의 문서는 삭제되지 않습니다.
-> S3 버킷도 삭제하려면 S3 콘솔에서 `quicktable-kb-documents-YOUR-INITIALS` 버킷을 삭제하세요.
+> Knowledge Base를 삭제하면 Amazon S3 버킷의 문서는 삭제되지 않습니다.
+> Amazon S3 버킷도 삭제하려면 Amazon S3 콘솔에서 `quicktable-kb-documents-YOUR-INITIALS` 버킷을 삭제하세요.
 
 ✅ **실습 종료**: 모든 리소스가 정리되었습니다.
 
@@ -1259,7 +1259,7 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 - [Amazon Bedrock Agents Knowledge Bases](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html)
 - [Claude 3 모델 가이드](https://docs.anthropic.com/claude/docs/models-overview)
 - [Amazon Bedrock 요금](https://aws.amazon.com/bedrock/pricing/)
-- [Lambda와 Amazon Bedrock 통합](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html)
+- [AWS Lambda와 Amazon Bedrock 통합](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html)
 
 ## 📚 참고: Amazon Bedrock Agent 핵심 개념
 
@@ -1289,7 +1289,7 @@ Amazon Bedrock Agent는 다음 구성 요소로 이루어져 있습니다:
 
 - Agent가 참조할 수 있는 문서 저장소입니다
 - RAG (Retrieval-Augmented Generation) 방식으로 동작합니다
-- S3에 저장된 문서를 벡터화하여 검색합니다
+- Amazon S3에 저장된 문서를 벡터화하여 검색합니다
 
 ### Action Group vs Knowledge Base
 
@@ -1459,7 +1459,7 @@ except Exception as e:
 
 **3. 캐싱 활용**
 
-- 자주 사용되는 응답은 DynamoDB에 캐싱
+- 자주 사용되는 응답은 Amazon DynamoDB에 캐싱
 - 동일한 질문에 대해 Agent 호출 최소화
 - TTL 설정으로 오래된 캐시 자동 삭제
 
@@ -1474,7 +1474,7 @@ except Exception as e:
 
 - AWS IAM 역할에 최소 권한 원칙 적용
 - AWS Lambda 함수에 Amazon VPC 엔드포인트 사용
-- 민감한 정보는 Secrets Manager에 저장
+- 민감한 정보는 AWS Secrets Manager에 저장
 - API 키와 자격증명은 환경 변수로 관리
 
 **2. 모니터링**
@@ -1487,7 +1487,7 @@ except Exception as e:
 **3. 확장성**
 
 - AWS Lambda 동시 실행 제한 설정
-- Amazon DynamoDB Auto Scaling 활성화
+- Amazon DynamoDB Amazon EC2 Auto Scaling 활성화
 - Agent 별칭으로 버전 관리
 - 트래픽 증가에 대비한 용량 계획
 
@@ -1551,7 +1551,7 @@ def invoke_agent_with_retry(agent_id, alias_id, session_id, input_text, max_retr
 **2. AWS Lambda 타임아웃**
 
 - AWS Lambda 함수 타임아웃을 충분히 설정 (최소 30초)
-- 긴 작업은 Step Functions로 분리
+- 긴 작업은 AWS Step Functions로 분리
 - 비동기 처리 패턴 고려
 
 **3. Agent 응답 오류**
@@ -1605,7 +1605,7 @@ for event in response.get('completion', []):
 
 프로덕션 환경에서는 FullAccess 정책 대신 최소 권한 원칙을 적용한 커스텀 정책을 사용해야 합니다.
 
-**1. Lambda 함수 - DynamoDB 접근 정책**
+**1. AWS Lambda 함수 - Amazon DynamoDB 접근 정책**
 
 ```json
 {
@@ -1625,7 +1625,7 @@ for event in response.get('completion', []):
 }
 ```
 
-**2. Lambda 함수 - Bedrock Agent 호출 정책**
+**2. AWS Lambda 함수 - Amazon Bedrock Agent 호출 정책**
 
 ```json
 {
@@ -1640,7 +1640,7 @@ for event in response.get('completion', []):
 }
 ```
 
-**3. Bedrock Agent - Lambda 호출 정책 (리소스 기반 정책)**
+**3. Amazon Bedrock Agent - AWS Lambda 호출 정책 (리소스 기반 정책)**
 
 ```json
 {
@@ -1776,7 +1776,7 @@ paths:
 1. Agent builder에서 Action Group 생성 시 **Action group type**에서 `Define with API schemas`를 선택합니다.
 2. **Action group schema**에서 `Upload API schema`를 선택합니다.
 3. [[Choose file]] 버튼을 클릭하여 OpenAPI YAML 파일을 업로드합니다.
-4. **Action group invocation**에서 Lambda 함수를 선택합니다.
+4. **Action group invocation**에서 AWS Lambda 함수를 선택합니다.
 
 **OpenAPI 스키마의 장점**
 
@@ -1790,7 +1790,7 @@ paths:
 
 **문제 1: Agent가 함수를 호출하지 않음**
 
-**증상**: Agent가 대화만 하고 Lambda 함수를 호출하지 않습니다.
+**증상**: Agent가 대화만 하고 AWS Lambda 함수를 호출하지 않습니다.
 
 **원인**:
 
@@ -1805,19 +1805,19 @@ paths:
 3. 사용자에게 더 구체적인 정보를 요청하도록 프롬프트를 수정합니다.
 4. Agent 테스트 시 Trace를 활성화하여 Agent의 사고 과정을 확인합니다.
 
-**문제 2: Lambda 함수 응답 파싱 오류**
+**문제 2: AWS Lambda 함수 응답 파싱 오류**
 
-**증상**: Agent가 Lambda 함수 응답을 이해하지 못하고 오류를 반환합니다.
+**증상**: Agent가 AWS Lambda 함수 응답을 이해하지 못하고 오류를 반환합니다.
 
 **원인**:
 
-- Lambda 함수가 잘못된 형식으로 응답을 반환함
+- AWS Lambda 함수가 잘못된 형식으로 응답을 반환함
 - JSON 직렬화 오류
-- 응답 구조가 Bedrock Agent 요구사항과 맞지 않음
+- 응답 구조가 Amazon Bedrock Agent 요구사항과 맞지 않음
 
 **해결**:
 
-1. Lambda 함수 응답이 올바른 형식인지 확인합니다:
+1. AWS Lambda 함수 응답이 올바른 형식인지 확인합니다:
 
 ```python
 return {
@@ -1836,24 +1836,24 @@ return {
 }
 ```
 
-2. CloudWatch Logs에서 Lambda 함수 로그를 확인합니다.
+2. Amazon CloudWatch Logs에서 AWS Lambda 함수 로그를 확인합니다.
 3. 응답 데이터가 JSON 직렬화 가능한지 확인합니다 (datetime 객체는 문자열로 변환).
 
 **문제 3: "Access Denied" 오류**
 
-**증상**: Agent가 Lambda 함수를 호출할 때 권한 오류가 발생합니다.
+**증상**: Agent가 AWS Lambda 함수를 호출할 때 권한 오류가 발생합니다.
 
 **원인**:
 
-- Bedrock Agent에 Lambda 함수 호출 권한이 없음
-- Lambda 함수에 리소스 기반 정책이 설정되지 않음
+- Amazon Bedrock Agent에 AWS Lambda 함수 호출 권한이 없음
+- AWS Lambda 함수에 리소스 기반 정책이 설정되지 않음
 
 **해결**:
 
-1. Lambda 함수 콘솔로 이동합니다.
+1. AWS Lambda 함수 콘솔로 이동합니다.
 2. **Configuration** 탭을 선택합니다.
 3. 왼쪽 메뉴에서 **Permissions**를 선택합니다.
-4. **Resource-based policy statements** 섹션에서 Bedrock Agent 권한을 확인합니다.
+4. **Resource-based policy statements** 섹션에서 Amazon Bedrock Agent 권한을 확인합니다.
 5. 권한이 없으면 다음 명령어로 추가합니다:
 
 ```bash
@@ -1888,15 +1888,15 @@ aws lambda add-permission \
 
 **원인**:
 
-- Lambda 함수 콜드 스타트
-- DynamoDB 쿼리 최적화 부족
+- AWS Lambda 함수 콜드 스타트
+- Amazon DynamoDB 쿼리 최적화 부족
 - Knowledge Base 검색 시간
 - 프롬프트가 너무 길어 토큰 처리 시간 증가
 
 **해결**:
 
-1. Lambda 함수에 Provisioned Concurrency를 설정하여 콜드 스타트 방지합니다.
-2. DynamoDB 테이블에 적절한 인덱스를 생성합니다.
+1. AWS Lambda 함수에 Provisioned Concurrency를 설정하여 콜드 스타트 방지합니다.
+2. Amazon DynamoDB 테이블에 적절한 인덱스를 생성합니다.
 3. Knowledge Base 검색 결과 수를 줄입니다 (기본 5개 → 3개).
 4. 프롬프트를 간결하게 수정하여 토큰 수를 줄입니다.
 5. 더 빠른 모델(Claude 3 Haiku)을 사용합니다.
@@ -1911,7 +1911,7 @@ aws lambda add-permission \
 
 **2. 로깅 및 모니터링**
 
-- 모든 Agent 대화를 CloudWatch Logs에 기록합니다.
+- 모든 Agent 대화를 Amazon CloudWatch Logs에 기록합니다.
 - 사용자 만족도를 추적하기 위한 피드백 메커니즘을 구현합니다.
 - 자주 발생하는 오류를 분석하여 프롬프트를 개선합니다.
 
@@ -1943,6 +1943,6 @@ aws lambda add-permission \
 
 **7. 비용 모니터링**
 
-- AWS Cost Explorer로 Bedrock 사용 비용을 추적합니다.
+- AWS Cost Explorer로 Amazon Bedrock 사용 비용을 추적합니다.
 - 예산 알림을 설정하여 예상치 못한 비용 증가를 감지합니다.
 - 사용량이 많은 시간대를 분석하여 최적화합니다.

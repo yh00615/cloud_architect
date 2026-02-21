@@ -21,12 +21,12 @@ prerequisites:
 이 실습에서는 Amazon EKS(Elastic Kubernetes Service)를 사용하여 관리형 Kubernetes 클러스터를 생성하고, kubectl 명령어를 사용하여 기본적인 Kubernetes 리소스를 관리하는 방법을 학습합니다.
 
 > [!NOTE]
-> **QuickTable 프로젝트 연계**: 이 실습에서 학습하는 EKS와 Kubernetes 개념은 Week 9-2에서 QuickTable 컨테이너 이미지를 빌드하고 Amazon ECR에 푸시하는 데 활용됩니다.
+> **QuickTable 프로젝트 연계**: 이 실습에서 학습하는 Amazon EKS와 Kubernetes 개념은 Week 9-2에서 QuickTable 컨테이너 이미지를 빌드하고 Amazon ECR에 푸시하는 데 활용됩니다.
 > 
 > **학습 흐름**:
-> - Week 7-3: EKS 클러스터 생성 및 kubectl 기본 (현재)
-> - Week 9-2: AWS CodeBuild로 QuickTable 컨테이너 이미지 빌드 및 ECR 푸시
-> - Week 9-3: AWS CodePipeline으로 QuickTable 웹사이트 S3 자동 배포
+> - Week 7-3: Amazon EKS 클러스터 생성 및 kubectl 기본 (현재)
+> - Week 9-2: AWS CodeBuild로 QuickTable 컨테이너 이미지 빌드 및 Amazon ECR 푸시
+> - Week 9-3: AWS CodePipeline으로 QuickTable 웹사이트 Amazon S3 자동 배포
 
 > [!DOWNLOAD]
 > [week7-3-eks-lab.zip](/files/week7/week7-3-eks-lab.zip)
@@ -66,7 +66,7 @@ prerequisites:
 
 ## 태스크 0: 실습 환경 구축
 
-이 태스크에서는 CloudFormation을 사용하여 실습에 필요한 Amazon EKS 클러스터와 워커 노드를 자동으로 생성합니다.
+이 태스크에서는 AWS CloudFormation을 사용하여 실습에 필요한 Amazon EKS 클러스터와 워커 노드를 자동으로 생성합니다.
 
 ### 환경 구성 요소
 
@@ -230,8 +230,8 @@ kubectl get nodes
 > **문제**: `kubectl get nodes` 실행 시 연결 오류가 발생합니다.
 > 
 > **증상 1**: `error: You must be logged in to the server (Unauthorized)`
-> **원인**: AWS CloudShell의 IAM 사용자/역할이 클러스터 생성자와 다릅니다.
-> **해결**: Amazon EKS 클러스터는 생성자에게만 기본 접근 권한을 부여합니다. 동일한 IAM 사용자/역할로 CloudShell을 사용하는지 확인합니다.
+> **원인**: AWS CloudShell의 AWS IAM 사용자/역할이 클러스터 생성자와 다릅니다.
+> **해결**: Amazon EKS 클러스터는 생성자에게만 기본 접근 권한을 부여합니다. 동일한 AWS IAM 사용자/역할로 CloudShell을 사용하는지 확인합니다.
 > 
 > **증상 2**: `Unable to connect to the server`
 > **원인**: 클러스터가 아직 생성 중이거나 엔드포인트 접근 문제입니다.
@@ -861,7 +861,7 @@ kubectl get service nginx-app -o jsonpath='{.status.loadBalancer.ingress[0].host
 10. **Security groups** 섹션에서 보안 그룹 이름을 확인합니다 (예: `eks-cluster-sg-my-eks-cluster-xxxxx`).
 
 > [!NOTE]
-> EKS 워커 노드에 연결된 보안 그룹을 수정해야 LoadBalancer Service가 NodePort를 통해 Pod에 접근할 수 있습니다.
+> Amazon EKS 워커 노드에 연결된 보안 그룹을 수정해야 LoadBalancer Service가 NodePort를 통해 Pod에 접근할 수 있습니다.
 > 워커 노드 인스턴스의 Security 탭에서 확인한 보안 그룹이 수정 대상입니다.
 
 7. 왼쪽 메뉴에서 **Security Groups**를 선택합니다.
@@ -971,7 +971,7 @@ kubectl describe service nginx-app | grep "LoadBalancer Ingress"
 6. 태그에서 `kubernetes.io/service-name: default/nginx-app`이 있는지 확인합니다.
 
 > [!NOTE]
-> EKS가 생성한 Load Balancer는 자동 생성된 이름(예: a1b2c3d4e5f6g7h8i9)을 가지므로,
+> Amazon EKS가 생성한 Load Balancer는 자동 생성된 이름(예: a1b2c3d4e5f6g7h8i9)을 가지므로,
 > 태그를 통해 실습에서 생성한 Load Balancer를 식별할 수 있습니다.
 
 7. Load Balancer 이름을 메모장에 복사합니다.
@@ -1034,7 +1034,7 @@ kubectl delete deployment nginx-app
 > [!TROUBLESHOOTING]
 > **문제**: AWS CloudFormation 스택 삭제 시 "DELETE_FAILED" 상태가 되고 Amazon VPC 삭제가 실패합니다.
 > 
-> **원인**: Load Balancer가 완전히 삭제되지 않아 VPC에 연결된 네트워크 인터페이스(ENI)가 남아있습니다.
+> **원인**: Load Balancer가 완전히 삭제되지 않아 Amazon VPC에 연결된 네트워크 인터페이스(ENI)가 남아있습니다.
 > 
 > **해결 (대부분 1단계로 해결됩니다)**:
 > 
@@ -1088,7 +1088,7 @@ Amazon EKS는 AWS에서 제공하는 관리형 Kubernetes 서비스입니다. Ku
 **주요 특징:**
 - 고가용성: 여러 가용 영역에 걸쳐 컨트롤 플레인 자동 배포
 - 자동 업그레이드: Kubernetes 버전 업그레이드 자동화
-- AWS 통합: IAM, Amazon VPC, ELB 등 AWS 서비스와 네이티브 통합
+- AWS 통합: AWS IAM, Amazon VPC, ELB 등 AWS 서비스와 네이티브 통합
 - 보안: AWS 보안 모범 사례 자동 적용
 
 ### Kubernetes 버전 지원 정책
@@ -1264,7 +1264,7 @@ kubectl delete pod <pod-name>                     # Pod 삭제
 **관리형 노드 그룹:**
 - AWS가 Amazon EC2 인스턴스 수명 주기 관리
 - 자동 업데이트 및 패치 적용
-- Auto Scaling 그룹 자동 생성
+- Amazon EC2 Auto Scaling 그룹 자동 생성
 - 권장 방식
 
 **자체 관리형 노드:**
@@ -1275,14 +1275,14 @@ kubectl delete pod <pod-name>                     # Pod 삭제
 ### AWS IAM 역할 및 권한
 
 **클러스터 역할 (eks-cluster-role):**
-- EKS가 AWS 리소스를 관리하기 위한 권한
+- Amazon EKS가 AWS 리소스를 관리하기 위한 권한
 - AmazonEKSClusterPolicy 필요
 - Amazon VPC, 로드 밸런서, 보안 그룹 관리
 
 **노드 역할 (eks-node-role):**
 - 워커 노드가 AWS 리소스에 접근하기 위한 권한
 - AmazonEKSWorkerNodePolicy: 노드 기본 권한
-- AmazonEC2ContainerRegistryReadOnly: ECR 이미지 pull
+- AmazonEC2ContainerRegistryReadOnly: Amazon ECR 이미지 pull
 - AmazonEKS_CNI_Policy: 네트워크 플러그인 권한
 
 ### 네트워킹
@@ -1368,7 +1368,7 @@ spec:
 | **AWS 권장** | ❌ (레거시) | ✅ | ✅ |
 
 **프로덕션 환경 선택 가이드:**
-- **HTTP/HTTPS 애플리케이션**: ALB 사용 (경로 기반 라우팅, SSL 종료, WAF 통합)
+- **HTTP/HTTPS 애플리케이션**: ALB 사용 (경로 기반 라우팅, SSL 종료, AWS WAF 통합)
 - **고성능 TCP/UDP**: NLB 사용 (낮은 지연 시간, 고정 IP, 초당 수백만 요청)
 - **레거시 마이그레이션**: Classic LB에서 ALB/NLB로 마이그레이션 계획 수립
 
@@ -1418,7 +1418,7 @@ spec:
 
 **Week 9-2에서 활용할 컨테이너 빌드 프로세스:**
 
-이 실습에서 학습한 EKS와 kubectl 개념은 Week 9-2에서 다음과 같이 활용됩니다:
+이 실습에서 학습한 Amazon EKS와 kubectl 개념은 Week 9-2에서 다음과 같이 활용됩니다:
 
 **1. Docker 이미지 빌드 (buildspec.yml)**:
 ```yaml
@@ -1427,8 +1427,8 @@ phases:
   build:
     commands:
       - docker build -t quicktable-api:latest .
-      - docker tag quicktable-api:latest $ECR_REPO:latest
-      - docker push $ECR_REPO:latest
+      - docker tag quicktable-api:latest $Amazon ECR_REPO:latest
+      - docker push $Amazon ECR_REPO:latest
 ```
 
 **2. Amazon ECR에 이미지 푸시**:
@@ -1436,19 +1436,19 @@ phases:
 - Amazon ECR(Elastic Container Registry)에 이미지 저장
 - 버전 태그 관리 (latest, v1.0.0 등)
 
-**3. Week 9-3에서 S3 정적 웹사이트 배포**:
-- QuickTable 프론트엔드를 S3에 배포
+**3. Week 9-3에서 Amazon S3 정적 웹사이트 배포**:
+- QuickTable 프론트엔드를 Amazon S3에 배포
 - CodePipeline으로 자동 배포 파이프라인 구성
-- CloudFront CDN 연동 (Week 10-3)
+- Amazon CloudFront CDN 연동 (Week 10-3)
 
 **학습 연계**:
 - **Week 7-3**: Kubernetes 기본 개념 (Pod, Deployment, Service)
-- **Week 9-2**: 컨테이너 이미지 빌드 및 ECR 푸시 (CI/CD)
-- **Week 9-3**: S3 정적 웹사이트 자동 배포 (CI/CD)
-- **Week 10-3**: CloudFront로 글로벌 배포 (성능 최적화)
+- **Week 9-2**: 컨테이너 이미지 빌드 및 Amazon ECR 푸시 (CI/CD)
+- **Week 9-3**: Amazon S3 정적 웹사이트 자동 배포 (CI/CD)
+- **Week 10-3**: Amazon CloudFront로 글로벌 배포 (성능 최적화)
 
 **실전 프로젝트 흐름**:
-1. EKS 클러스터 이해 (Week 7-3).
+1. Amazon EKS 클러스터 이해 (Week 7-3).
 2. 컨테이너 이미지 빌드 자동화 (Week 9-2).
 3. 웹사이트 배포 자동화 (Week 9-3).
 4. CDN으로 성능 최적화 (Week 10-3).

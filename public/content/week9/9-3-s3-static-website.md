@@ -9,7 +9,7 @@ learningObjectives:
   - DevOps 문화와 CI/CD의 개념을 이해할 수 있습니다
   - AWS Developer Tools의 구성 요소와 역할을 설명할 수 있습니다
   - buildspec.yml을 작성하여 빌드 단계를 정의할 수 있습니다
-  - AWS CodeBuild로 Docker 이미지를 빌드하고 ECR에 푸시할 수 있습니다
+  - AWS CodeBuild로 Docker 이미지를 빌드하고 Amazon ECR에 푸시할 수 있습니다
   - AWS CodePipeline으로 소스-빌드-배포 파이프라인을 구성할 수 있습니다
   - Amazon EKS에 컨테이너 애플리케이션을 자동으로 배포할 수 있습니다
   - 파이프라인 실행 과정을 모니터링하고 문제를 해결할 수 있습니다
@@ -22,7 +22,7 @@ prerequisites:
 
 이 실습에서는 AWS CodePipeline을 사용하여 QuickTable 레스토랑 예약 시스템의 프론트엔드 웹사이트를 Amazon S3에 자동으로 배포하는 CI/CD 파이프라인을 구축하는 방법을 학습합니다.
 
-Week 4-2에서 구축한 QuickTable 예약 API와 연동되는 사용자 인터페이스를 개발하고, 코드 변경 시 자동으로 S3에 배포되는 전체 워크플로우를 구현합니다.
+Week 4-2에서 구축한 QuickTable 예약 API와 연동되는 사용자 인터페이스를 개발하고, 코드 변경 시 자동으로 Amazon S3에 배포되는 전체 워크플로우를 구현합니다.
 
 > [!DOWNLOAD]
 > [week9-3-quicktable-frontend-lab.zip](/files/week9/week9-3-quicktable-frontend-lab.zip)
@@ -31,7 +31,7 @@ Week 4-2에서 구축한 QuickTable 예약 API와 연동되는 사용자 인터�
 > - `reservation.html` - 예약 생성 페이지 (날짜/시간/인원 선택 폼, 태스크 1에서 CodeCommit에 푸시)
 > - `my-reservations.html` - 내 예약 조회 페이지 (예약 목록 표시, 태스크 1에서 CodeCommit에 푸시)
 > - `style.css` - 스타일시트 (태스크 1에서 CodeCommit에 푸시)
-> - `app.js` - JavaScript 파일 (Week 4-2 API 연동, Cognito 인증, 태스크 1에서 CodeCommit에 푸시)
+> - `app.js` - JavaScript 파일 (Week 4-2 API 연동, Amazon Cognito 인증, 태스크 1에서 CodeCommit에 푸시)
 > - `buildspec.yml` - AWS CodeBuild 빌드 스펙 (태스크 1에서 CodeCommit에 푸시)
 > 
 > **관련 태스크:**
@@ -54,7 +54,7 @@ Week 4-2에서 구축한 QuickTable 예약 API와 연동되는 사용자 인터�
 
 ## 태스크 0: 실습 환경 구축
 
-이 태스크에서는 CloudFormation을 사용하여 실습에 필요한 기본 인프라를 자동으로 생성합니다.
+이 태스크에서는 AWS CloudFormation을 사용하여 실습에 필요한 기본 인프라를 자동으로 생성합니다.
 
 ### 환경 구성 요소
 
@@ -120,7 +120,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 이 태스크에서는 QuickTable 레스토랑 예약 시스템의 프론트엔드 파일들을 CodeCommit 리포지토리에 푸시합니다.
 
-이 파일들은 CI/CD 파이프라인에서 자동으로 빌드되고 S3에 배포됩니다. Week 4-2에서 구축한 예약 API와 연동되어 사용자가 레스토랑을 검색하고 예약을 생성할 수 있는 웹 인터페이스를 제공합니다.
+이 파일들은 CI/CD 파이프라인에서 자동으로 빌드되고 Amazon S3에 배포됩니다. Week 4-2에서 구축한 예약 API와 연동되어 사용자가 레스토랑을 검색하고 예약을 생성할 수 있는 웹 인터페이스를 제공합니다.
 
 ### 상세 단계
 
@@ -320,13 +320,13 @@ git push origin main
 22. **Code** 탭에서 6개의 파일이 모두 표시되는지 확인합니다.
 
 > [!TIP]
-> 각 파일을 클릭하여 내용을 확인할 수 있습니다. `app.js` 파일에는 Week 4-2에서 구축한 QuickTable API와 연동하는 코드가 포함되어 있으며, Cognito 인증 로직도 구현되어 있습니다.
+> 각 파일을 클릭하여 내용을 확인할 수 있습니다. `app.js` 파일에는 Week 4-2에서 구축한 QuickTable API와 연동하는 코드가 포함되어 있으며, Amazon Cognito 인증 로직도 구현되어 있습니다.
 
 ✅ **태스크 완료**: QuickTable 프론트엔드 코드가 CodeCommit에 푸시되었습니다.
 
 ## 태스크 2: AWS CodePipeline 확인 및 첫 번째 배포
 
-이 태스크에서는 CloudFormation이 자동으로 생성한 CodePipeline을 확인하고 첫 번째 파이프라인 실행을 시작합니다.
+이 태스크에서는 AWS CloudFormation이 자동으로 생성한 CodePipeline을 확인하고 첫 번째 파이프라인 실행을 시작합니다.
 
 ### 상세 단계
 
@@ -339,10 +339,10 @@ git push origin main
 
 4. 파이프라인 구조를 확인합니다:
    - **Source 단계**: CodeCommit에서 소스 코드 가져오기
-   - **Build 단계**: CodeBuild로 빌드 및 Amazon S3 배포
+   - **Build 단계**: AWS CodeBuild로 빌드 및 Amazon S3 배포
 
 > [!NOTE]
-> Amazon S3 배포는 CodeBuild의 buildspec.yml에서 `aws s3 sync` 명령으로 수행하므로 별도의 Deploy 단계가 없습니다.
+> Amazon S3 배포는 AWS CodeBuild의 buildspec.yml에서 `aws s3 sync` 명령으로 수행하므로 별도의 Deploy 단계가 없습니다.
 
 5. **Pipeline settings** 탭을 선택합니다.
 6. **Service role** 섹션에서 AWS IAM 역할을 확인합니다.
@@ -354,7 +354,7 @@ git push origin main
 8. 파이프라인 실행 이력을 확인합니다.
 
 > [!NOTE]
-> 태스크 1에서 코드를 푸시하면 EventBridge 규칙이 자동으로 파이프라인을 트리거합니다.
+> 태스크 1에서 코드를 푸시하면 Amazon EventBridge 규칙이 자동으로 파이프라인을 트리거합니다.
 > 
 > **파이프라인 상태 확인:**
 > 
@@ -379,7 +379,7 @@ git push origin main
 
 ## 태스크 3: 배포 확인 및 QuickTable 웹사이트 접근
 
-이 태스크에서는 S3에 배포된 QuickTable 프론트엔드 웹사이트가 정상적으로 접근 가능한지 확인합니다.
+이 태스크에서는 Amazon S3에 배포된 QuickTable 프론트엔드 웹사이트가 정상적으로 접근 가능한지 확인합니다.
 
 ### 상세 단계
 
@@ -398,7 +398,7 @@ git push origin main
    - `app.js`
 
 > [!NOTE]
-> buildspec.yml은 빌드 스펙 파일이므로 S3에 배포되지 않습니다.
+> buildspec.yml은 빌드 스펙 파일이므로 Amazon S3에 배포되지 않습니다.
 
 5. 새 브라우저 탭을 엽니다.
 6. 태스크 0에서 복사한 `WebsiteURL` 값을 주소창에 붙여넣고 Enter를 누릅니다.
@@ -419,9 +419,9 @@ git push origin main
 11. `my-reservations.html` 페이지가 정상적으로 표시되는지 확인합니다.
 
 > [!TIP]
-> Week 4-2에서 생성한 Cognito User Pool로 로그인하면 실제 예약 생성 및 조회 기능을 테스트할 수 있습니다.
+> Week 4-2에서 생성한 Amazon Cognito User Pool로 로그인하면 실제 예약 생성 및 조회 기능을 테스트할 수 있습니다.
 
-✅ **태스크 완료**: QuickTable 프론트엔드 웹사이트가 S3에 성공적으로 배포되고 접근 가능합니다.
+✅ **태스크 완료**: QuickTable 프론트엔드 웹사이트가 Amazon S3에 성공적으로 배포되고 접근 가능합니다.
 
 ## 태스크 4: 코드 변경 및 자동 배포 테스트
 
@@ -494,17 +494,17 @@ git push origin main
 14. 웹 브라우저에서 Amazon S3 웹사이트 URL을 새로고침합니다.
 15. 버전이 "QuickTable v2.0"으로 업데이트되었는지 확인합니다.
 
-✅ **태스크 완료**: 코드 변경이 자동으로 빌드되고 S3에 배포되었습니다.
+✅ **태스크 완료**: 코드 변경이 자동으로 빌드되고 Amazon S3에 배포되었습니다.
 
 ## 마무리
 
 다음을 성공적으로 수행했습니다:
 
-- CloudFormation으로 Amazon S3 버킷과 CI/CD 인프라를 자동으로 구축했습니다
+- AWS CloudFormation으로 Amazon S3 버킷과 CI/CD 인프라를 자동으로 구축했습니다
 - CodeCommit에 QuickTable 프론트엔드 코드를 저장했습니다
-- CodeBuild로 웹사이트를 빌드하고 S3에 배포했습니다
+- AWS CodeBuild로 웹사이트를 빌드하고 Amazon S3에 배포했습니다
 - CodePipeline으로 전체 CI/CD 워크플로우를 자동화했습니다
-- 코드 변경 시 자동으로 S3에 배포되는 파이프라인을 테스트했습니다
+- 코드 변경 시 자동으로 Amazon S3에 배포되는 파이프라인을 테스트했습니다
 - Week 4-2에서 구축한 QuickTable API와 연동되는 프론트엔드 UI를 배포했습니다
 
 ## 리소스 정리
@@ -548,14 +548,14 @@ git push origin main
 6. `codepipeline-ap-northeast-2-` 접두사로 시작하는 버킷이 있는지 확인합니다.
 
 > [!NOTE]
-> CodePipeline은 아티팩트를 저장하기 위한 별도의 S3 버킷을 자동으로 생성합니다.
-> CloudFormation 스택 삭제 시 이 버킷이 자동으로 삭제되지 않을 수 있습니다.
+> CodePipeline은 아티팩트를 저장하기 위한 별도의 Amazon S3 버킷을 자동으로 생성합니다.
+> AWS CloudFormation 스택 삭제 시 이 버킷이 자동으로 삭제되지 않을 수 있습니다.
 > 버킷이 비어 있지 않으면 스택 삭제가 실패할 수 있으므로 먼저 비워야 합니다.
 
 7. CodePipeline 아티팩트 버킷이 있으면 선택한 후 [[Empty]] 버튼을 클릭합니다.
 8. 확인 창에서 `permanently delete`를 입력하고 [[Empty]] 버튼을 클릭합니다.
 
-#### CloudFormation 스택 삭제
+#### AWS CloudFormation 스택 삭제
 
 9. AWS CloudFormation 콘솔로 이동합니다.
 10. `week9-3-s3-website-stack` 스택을 선택합니다.
@@ -584,7 +584,7 @@ Amazon S3는 정적 웹사이트를 호스팅할 수 있는 기능을 제공합�
 - 서버 관리 불필요
 - 높은 가용성 및 확장성
 - 저렴한 비용
-- CloudFront와 통합 가능
+- Amazon CloudFront와 통합 가능
 
 ### QuickTable 프론트엔드 아키텍처
 
@@ -592,13 +592,13 @@ Amazon S3는 정적 웹사이트를 호스팅할 수 있는 기능을 제공합�
 - **index.html**: 레스토랑 목록 표시 (Week 4-2 API 호출)
 - **reservation.html**: 예약 생성 폼 (날짜/시간/인원 선택)
 - **my-reservations.html**: 내 예약 조회 페이지
-- **app.js**: API 연동 로직 (Cognito 인증 포함)
+- **app.js**: API 연동 로직 (Amazon Cognito 인증 포함)
 - **style.css**: 반응형 디자인
 
 **API 연동:**
 ```javascript
 // Week 4-2에서 구축한 API 엔드포인트
-// 이 코드는 참고용 예시입니다. 실제 app.js 파일에서는 본인의 API Gateway URL로 대체해야 합니다.
+// 이 코드는 참고용 예시입니다. 실제 app.js 파일에서는 본인의 Amazon API Gateway URL로 대체해야 합니다.
 const API_BASE_URL = 'https://your-api-gateway-url.execute-api.ap-northeast-2.amazonaws.com/prod';
 
 // 레스토랑 목록 조회
@@ -626,7 +626,7 @@ async function createReservation(data) {
 ```
 
 > [!NOTE]
-> Week 4-2 실습을 완료한 경우 app.js 파일에서 `API_BASE_URL`을 본인의 API Gateway URL로 변경해야 합니다.
+> Week 4-2 실습을 완료한 경우 app.js 파일에서 `API_BASE_URL`을 본인의 Amazon API Gateway URL로 변경해야 합니다.
 > Week 4-2 리소스가 없어도 정적 웹사이트는 정상적으로 표시되지만, API 연동 기능은 작동하지 않습니다.
 
 ### buildspec.yml의 Amazon S3 배포 단계
@@ -637,17 +637,17 @@ aws s3 sync . s3://$BUCKET_NAME --delete --exclude "buildspec.yml"
 ```
 
 **옵션 설명:**
-- `--delete`: S3에 있지만 로컬에 없는 파일 삭제
+- `--delete`: Amazon S3에 있지만 로컬에 없는 파일 삭제
 - `--exclude`: 특정 파일 제외 (buildspec.yml은 배포하지 않음)
 
 ### CodePipeline과 Amazon S3 통합
 
 **파이프라인 단계:**
 - **Source**: CodeCommit에서 소스 코드 가져오기
-- **Build**: CodeBuild로 빌드 및 Amazon S3 동기화
+- **Build**: AWS CodeBuild로 빌드 및 Amazon S3 동기화
 
 **자동 트리거:**
-- CodeCommit에 푸시하면 EventBridge 규칙이 파이프라인을 자동으로 시작합니다
+- CodeCommit에 푸시하면 Amazon EventBridge 규칙이 파이프라인을 자동으로 시작합니다
 - 코드 변경 사항이 즉시 웹사이트에 반영됩니다
 
 ### Amazon S3 버킷 정책
@@ -671,7 +671,7 @@ aws s3 sync . s3://$BUCKET_NAME --delete --exclude "buildspec.yml"
 **Week 4-2 (백엔드):**
 - AWS Lambda 함수: CreateReservation, GetReservations
 - Amazon API Gateway: /reservations 엔드포인트
-- Cognito User Pool: 사용자 인증
+- Amazon Cognito User Pool: 사용자 인증
 - Amazon DynamoDB: Reservations 테이블
 
 **Week 9-3 (프론트엔드):**
@@ -681,16 +681,16 @@ aws s3 sync . s3://$BUCKET_NAME --delete --exclude "buildspec.yml"
 
 **데이터 흐름:**
 1. 사용자가 QuickTable 웹사이트 접속 (Amazon S3)
-2. Cognito로 로그인하여 ID 토큰 획득
+2. Amazon Cognito로 로그인하여 ID 토큰 획득
 3. 예약 생성 버튼 클릭
-4. API Gateway로 POST 요청 (Authorization 헤더에 ID 토큰 포함)
-5. AWS Lambda 함수가 DynamoDB에 예약 데이터 저장
+4. Amazon API Gateway로 POST 요청 (Authorization 헤더에 ID 토큰 포함)
+5. AWS Lambda 함수가 Amazon DynamoDB에 예약 데이터 저장
 6. 응답을 프론트엔드에 반환하여 화면 업데이트
 
 ### 모범 사례
 
 **보안:**
-- CloudFront를 사용하여 HTTPS 제공 (Week 10-3에서 학습)
+- Amazon CloudFront를 사용하여 HTTPS 제공 (Week 10-3에서 학습)
 - Amazon S3 버킷 직접 액세스 차단
 - OAC (Origin Access Control) 사용
 

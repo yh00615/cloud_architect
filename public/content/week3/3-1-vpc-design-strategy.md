@@ -10,7 +10,7 @@ learningObjectives:
   - Amazon VPC Endpoints의 유형을 이해하고 적절한 프라이빗 연결을 선택할 수 있습니다
   - 다층 방어 전략의 개념과 네트워크 보안 계층 구성을 이해할 수 있습니다
   - 보안 그룹과 NACL의 차이를 이해하고 활용할 수 있습니다
-  - 멀티 VPC 설계 시나리오를 비교하고 VPC Peering으로 연결할 수 있습니다
+  - 멀티 Amazon VPC 설계 시나리오를 비교하고 Amazon VPC Peering으로 연결할 수 있습니다
   - AWS Transit Gateway로 허브-스포크 네트워크를 설계할 수 있습니다
 prerequisites:
   - Amazon VPC 기본 개념 이해
@@ -19,9 +19,9 @@ prerequisites:
 
 이 실습에서는 Amazon VPC Endpoint의 두 가지 타입인 Interface Endpoint와 Gateway Endpoint를 직접 생성하고 동작 원리를 학습합니다.
 
-먼저 AWS Systems Manager용 Interface Endpoint 3개(ssm, ssmmessages, ec2messages)를 생성하여 프라이빗 서브넷에서 Session Manager로 Amazon EC2 인스턴스에 접속합니다. 그 다음 Amazon S3 Gateway Endpoint를 생성하여 인터넷 게이트웨이를 거치지 않고 S3에 안전하게 접근하는 방법을 확인합니다.
+먼저 AWS Systems Manager용 Interface Endpoint 3개(ssm, ssmmessages, ec2messages)를 생성하여 프라이빗 서브넷에서 Session Manager로 Amazon EC2 인스턴스에 접속합니다. 그 다음 Amazon S3 Gateway Endpoint를 생성하여 인터넷 게이트웨이를 거치지 않고 Amazon S3에 안전하게 접근하는 방법을 확인합니다.
 
-Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공하여 인터넷을 통하지 않고도 AWS 서비스에 접근할 수 있게 합니다. Interface Endpoint(ENI 기반)와 Gateway Endpoint(라우팅 테이블 기반)의 차이를 AWS 콘솔에서 직접 확인하고, 각각의 동작 방식을 실제로 검증합니다.
+Amazon VPC Endpoint는 Amazon VPC와 AWS 서비스 간의 프라이빗 연결을 제공하여 인터넷을 통하지 않고도 AWS 서비스에 접근할 수 있게 합니다. Interface Endpoint(ENI 기반)와 Gateway Endpoint(라우팅 테이블 기반)의 차이를 AWS 콘솔에서 직접 확인하고, 각각의 동작 방식을 실제로 검증합니다.
 
 > [!DOWNLOAD]
 > [week3-1-vpc-lab.zip](/files/week3/week3-1-vpc-lab.zip)
@@ -33,47 +33,15 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 >
 > - 태스크 0: 실습 환경 구축 (AWS CloudFormation 템플릿 배포 - Amazon VPC Endpoint 제외)
 
-> [!COST]
-> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
->
-> | 리소스명                 | 타입/사양 | IaC |         비용 |
-> | ------------------------ | --------- | :-: | -----------: |
-> | Amazon VPC               | N/A       | ✅  |         무료 |
-> | 퍼블릭 서브넷            | N/A       | ✅  |         무료 |
-> | 프라이빗 서브넷          | N/A       | ✅  |         무료 |
-> | Amazon EC2               | t3.micro  | ✅  | $0.0126/시간 |
-> | NAT Gateway              | N/A       | ✅  |  $0.059/시간 |
-> | VPC Endpoint (Gateway)   | S3        | ❌  |         무료 |
-> | VPC Endpoint (Interface) | SSM (3개) | ❌  |  $0.030/시간 |
->
-> - **예상 실습 시간**: 1-2시간
-> - **예상 총 비용**: 약 $0.10-0.20/시간 (실무 환경 온디맨드 기준, 데이터 전송 비용 별도 발생 가능)
->
-> **무료 플랜**
->
-> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
->
-> **실무 팁**
->
-> 💡 NAT Gateway는 비용이 높은 리소스입니다 (시간당 $0.059 + 데이터 처리 GB당 $0.059). 프로덕션 환경에서는 VPC Endpoint를 우선 고려하여 비용을 절감할 수 있습니다.
->
-> **참고**
->
-> ℹ️ 이 실습에서는 EC2 t3.micro 인스턴스를 사용합니다. 인스턴스 타입을 t3.small 이상으로 변경하면 비용이 2배 이상 증가할 수 있습니다.
->
-> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
->
-> 📘 [Amazon EC2 요금](https://aws.amazon.com/ec2/pricing/) | 📘 [Amazon VPC 요금](https://aws.amazon.com/vpc/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
-
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
 
 ## 태스크 0: 실습 환경 구축
 
-이 태스크에서는 CloudFormation을 사용하여 실습에 필요한 기본 인프라를 자동으로 생성합니다.
+이 태스크에서는 AWS CloudFormation을 사용하여 실습에 필요한 기본 인프라를 자동으로 생성합니다.
 
 > [!NOTE]
-> CloudFormation 스택은 Amazon VPC, 서브넷, NAT Gateway, Amazon EC2 인스턴스를 생성합니다. Amazon VPC Endpoint(Interface Endpoint, Gateway Endpoint)는 태스크 1-2에서 직접 생성합니다.
+> AWS CloudFormation 스택은 Amazon VPC, 서브넷, NAT Gateway, Amazon EC2 인스턴스를 생성합니다. Amazon VPC Endpoint(Interface Endpoint, Gateway Endpoint)는 태스크 1-2에서 직접 생성합니다.
 
 ### 상세 단계
 
@@ -117,7 +85,7 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 21. 체크박스를 클릭하여 선택합니다.
 
 > [!NOTE]
-> 이 체크박스는 CloudFormation이 AWS IAM 역할을 생성할 수 있는 권한을 부여하는 것입니다. 체크하지 않으면 스택 생성이 실패합니다.
+> 이 체크박스는 AWS CloudFormation이 AWS IAM 역할을 생성할 수 있는 권한을 부여하는 것입니다. 체크하지 않으면 스택 생성이 실패합니다.
 
 22. [[Submit]] 버튼을 클릭합니다.
 
@@ -130,7 +98,7 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 > [!NOTE]
 > **Status** 열은 스택의 현재 상태를 보여줍니다. 스택 생성이 시작되면 다음과 같은 상태 변화가 나타납니다:
 >
-> - **CREATE_IN_PROGRESS** (주황색): CloudFormation이 리소스를 생성하고 있습니다
+> - **CREATE_IN_PROGRESS** (주황색): AWS CloudFormation이 리소스를 생성하고 있습니다
 > - **CREATE_COMPLETE** (초록색): 모든 리소스가 성공적으로 생성되었습니다
 > - **CREATE_FAILED** (빨간색): 생성 중 오류가 발생했습니다 (Events 탭에서 원인 확인 필요)
 
@@ -194,7 +162,7 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 15. `week3-1-endpoint-sg`를 선택합니다.
 
 > [!NOTE]
-> CloudFormation이 생성한 보안 그룹은 HTTPS(443 포트) 인바운드 트래픽을 허용합니다. Interface Endpoint는 HTTPS를 통해 통신합니다.
+> AWS CloudFormation이 생성한 보안 그룹은 HTTPS(443 포트) 인바운드 트래픽을 허용합니다. Interface Endpoint는 HTTPS를 통해 통신합니다.
 
 16. **Policy** 섹션으로 스크롤합니다.
 17. **Full access**를 선택한 상태로 유지합니다.
@@ -229,11 +197,11 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 > [!NOTE]
 > SSM Messages Interface Endpoint는 Session Manager의 메시지 전송을 위한 엔드포인트입니다.
 
-나머지 설정(VPC, 서브넷, 보안 그룹, 태그)은 태스크 1.1과 동일합니다.
+나머지 설정(Amazon VPC, 서브넷, 보안 그룹, 태그)은 태스크 1.1과 동일합니다.
 
 ✅ **태스크 1.2 완료**: SSM Messages Interface Endpoint가 생성되었습니다.
 
-### 태스크 1.3: EC2 Messages Interface Endpoint 생성
+### 태스크 1.3: Amazon EC2 Messages Interface Endpoint 생성
 
 태스크 1.1과 동일한 방법으로 세 번째 Interface Endpoint를 생성합니다.
 
@@ -244,17 +212,17 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 - **Service Name**: `com.amazonaws.ap-northeast-2.ec2messages` (Type: Interface)
 
 > [!NOTE]
-> EC2 Messages Interface Endpoint는 Amazon EC2 인스턴스와 Systems Manager 간의 통신을 위한 엔드포인트입니다. 3개의 Interface Endpoint가 모두 "Available" 상태가 되면 Session Manager를 사용할 수 있습니다.
+> Amazon EC2 Messages Interface Endpoint는 Amazon EC2 인스턴스와 AWS Systems Manager 간의 통신을 위한 엔드포인트입니다. 3개의 Interface Endpoint가 모두 "Available" 상태가 되면 Session Manager를 사용할 수 있습니다.
 
-나머지 설정(VPC, 서브넷, 보안 그룹, 태그)은 태스크 1.1과 동일합니다.
+나머지 설정(Amazon VPC, 서브넷, 보안 그룹, 태그)은 태스크 1.1과 동일합니다.
 
-✅ **태스크 1.3 완료**: EC2 Messages Interface Endpoint가 생성되었습니다.
+✅ **태스크 1.3 완료**: Amazon EC2 Messages Interface Endpoint가 생성되었습니다.
 
 ✅ **태스크 1 완료**: AWS Systems Manager용 Interface Endpoint 3개가 생성되었습니다.
 
 ## 태스크 2: Amazon S3 Gateway Endpoint 생성
 
-이 태스크에서는 Amazon S3 Gateway Endpoint를 생성하여 프라이빗 서브넷에서 S3에 안전하게 접근할 수 있도록 설정합니다.
+이 태스크에서는 Amazon S3 Gateway Endpoint를 생성하여 프라이빗 서브넷에서 Amazon S3에 안전하게 접근할 수 있도록 설정합니다.
 
 > [!NOTE]
 > Gateway Endpoint는 무료이며, 라우팅 테이블을 통해 트래픽을 라우팅합니다. Interface Endpoint와 달리 시간당 요금이 부과되지 않습니다.
@@ -268,7 +236,7 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 7. 검색 결과에서 **Service Name**이 `com.amazonaws.ap-northeast-2.s3`이고 **Type**이 `Gateway`인 항목을 선택합니다.
 
 > [!NOTE]
-> S3는 Gateway Endpoint와 Interface Endpoint를 모두 지원합니다. Gateway Endpoint는 무료이므로 비용 효율적입니다.
+> Amazon S3는 Gateway Endpoint와 Interface Endpoint를 모두 지원합니다. Gateway Endpoint는 무료이므로 비용 효율적입니다.
 
 8. **Amazon VPC**에서 메모장에 저장한 VpcId를 선택합니다.
 
@@ -379,7 +347,7 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 
 ## 태스크 5: Amazon VPC Endpoint 동작 검증
 
-이 태스크에서는 Amazon VPC Endpoint만으로 S3에 접근할 수 있는지 실제로 검증합니다. NAT Gateway 경로를 일시적으로 제거하여 Amazon VPC Endpoint를 통한 Amazon S3 접근을 증명합니다.
+이 태스크에서는 Amazon VPC Endpoint만으로 Amazon S3에 접근할 수 있는지 실제로 검증합니다. NAT Gateway 경로를 일시적으로 제거하여 Amazon VPC Endpoint를 통한 Amazon S3 접근을 증명합니다.
 
 ### 태스크 5.1: 현재 상태 확인 (NAT Gateway + Amazon VPC Endpoint)
 
@@ -399,7 +367,7 @@ Amazon VPC Endpoint는 VPC와 AWS 서비스 간의 프라이빗 연결을 제공
 6. **Instance state**가 "Running"이고 **Status check**가 "2/2 checks passed"인지 확인합니다.
 
 > [!NOTE]
-> **Status check**는 인스턴스의 시스템 상태와 인스턴스 상태를 확인합니다. CloudFormation 스택이 "CREATE_COMPLETE"로 완료되어도 인스턴스의 Status check가 아직 진행 중일 수 있습니다. "2/2 checks passed"가 표시될 때까지 기다립니다. 일반적으로 1-2분이 소요됩니다.
+> **Status check**는 인스턴스의 시스템 상태와 인스턴스 상태를 확인합니다. AWS CloudFormation 스택이 "CREATE_COMPLETE"로 완료되어도 인스턴스의 Status check가 아직 진행 중일 수 있습니다. "2/2 checks passed"가 표시될 때까지 기다립니다. 일반적으로 1-2분이 소요됩니다.
 
 7. [[Connect]] 버튼을 클릭합니다.
 8. **Session Manager** 탭을 선택합니다.
@@ -423,12 +391,12 @@ aws s3 ls
 > [!OUTPUT]
 >
 > ```
-> # 계정에 S3 버킷이 있는 경우 버킷 목록이 표시됩니다
+> # 계정에 Amazon S3 버킷이 있는 경우 버킷 목록이 표시됩니다
 > 2026-xx-xx xx:xx:xx your-bucket-name-1
 > 2026-xx-xx xx:xx:xx your-bucket-name-2
 >
 > # 버킷이 없는 경우 빈 출력이 나타나며, 이는 정상입니다
-> # 명령어가 오류 없이 실행되면 S3 접근이 가능한 것입니다
+> # 명령어가 오류 없이 실행되면 Amazon S3 접근이 가능한 것입니다
 > ```
 
 12. 다음 명령어를 실행하여 인터넷 연결을 확인합니다:
@@ -448,18 +416,18 @@ curl -I https://www.google.com
 > ```
 
 > [!NOTE]
-> 현재 상태에서는 NAT Gateway를 통해 인터넷에 접근할 수 있고, S3에도 접근할 수 있습니다. 하지만 Amazon S3 접근이 Amazon VPC Endpoint를 통하는지 NAT Gateway를 통하는지 명확하지 않습니다.
+> 현재 상태에서는 NAT Gateway를 통해 인터넷에 접근할 수 있고, Amazon S3에도 접근할 수 있습니다. 하지만 Amazon S3 접근이 Amazon VPC Endpoint를 통하는지 NAT Gateway를 통하는지 명확하지 않습니다.
 
 14. Session Manager 창은 닫지 말고 그대로 유지합니다.
 
-✅ **태스크 5.1 완료**: 현재 상태에서 S3와 인터넷 접근이 모두 가능함을 확인했습니다.
+✅ **태스크 5.1 완료**: 현재 상태에서 Amazon S3와 인터넷 접근이 모두 가능함을 확인했습니다.
 
 ### 태스크 5.2: NAT Gateway 경로 제거 후 Amazon VPC Endpoint 검증
 
-NAT Gateway 경로를 제거하여 Amazon VPC Endpoint만으로 S3에 접근할 수 있는지 검증합니다.
+NAT Gateway 경로를 제거하여 Amazon VPC Endpoint만으로 Amazon S3에 접근할 수 있는지 검증합니다.
 
 > [!NOTE]
-> **Session Manager 세션 유지**: SSM Interface Endpoints가 미리 생성되어 있으므로 NAT Gateway 경로를 제거해도 Session Manager 세션은 유지됩니다. 만약 세션이 끊긴 경우, EC2 콘솔에서 다시 Connect > Session Manager로 접속합니다. SSM Interface Endpoints가 있으므로 NAT Gateway 없이도 새 세션을 시작할 수 있습니다.
+> **Session Manager 세션 유지**: SSM Interface Endpoints가 미리 생성되어 있으므로 NAT Gateway 경로를 제거해도 Session Manager 세션은 유지됩니다. 만약 세션이 끊긴 경우, Amazon EC2 콘솔에서 다시 Connect > Session Manager로 접속합니다. SSM Interface Endpoints가 있으므로 NAT Gateway 없이도 새 세션을 시작할 수 있습니다.
 
 1. Amazon VPC 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Route tables**를 선택합니다.
@@ -490,7 +458,7 @@ curl -I --max-time 5 https://www.google.com
 > ```
 
 > [!NOTE]
-> NAT Gateway 경로가 제거되었으므로 인터넷 접근이 차단되었습니다. 이제 Amazon VPC Endpoint만으로 S3에 접근할 수 있는지 확인합니다.
+> NAT Gateway 경로가 제거되었으므로 인터넷 접근이 차단되었습니다. 이제 Amazon VPC Endpoint만으로 Amazon S3에 접근할 수 있는지 확인합니다.
 
 13. 다음 명령어를 실행하여 Amazon S3 버킷 목록을 확인합니다:
 
@@ -503,16 +471,16 @@ aws s3 ls
 > [!OUTPUT]
 >
 > ```
-> # 계정에 S3 버킷이 있는 경우 버킷 목록이 표시됩니다
+> # 계정에 Amazon S3 버킷이 있는 경우 버킷 목록이 표시됩니다
 > 2026-xx-xx xx:xx:xx your-bucket-name-1
 > 2026-xx-xx xx:xx:xx your-bucket-name-2
 >
 > # 버킷이 없는 경우 빈 출력이 나타나며, 이는 정상입니다
-> # 명령어가 오류 없이 실행되면 S3 접근이 가능한 것입니다
+> # 명령어가 오류 없이 실행되면 Amazon S3 접근이 가능한 것입니다
 > ```
 
 > [!SUCCESS]
-> **Amazon VPC Endpoint 검증 성공**: 인터넷 접근이 차단된 상태에서도 S3에 접근할 수 있습니다. 이는 Amazon VPC Endpoint를 통해 S3에 접근하고 있음을 증명합니다.
+> **Amazon VPC Endpoint 검증 성공**: 인터넷 접근이 차단된 상태에서도 Amazon S3에 접근할 수 있습니다. 이는 Amazon VPC Endpoint를 통해 Amazon S3에 접근하고 있음을 증명합니다.
 
 ✅ **태스크 5.2 완료**: Amazon VPC Endpoint만으로 Amazon S3 접근이 가능함을 검증했습니다.
 
@@ -561,9 +529,9 @@ curl -I https://www.google.com
 
 다음을 성공적으로 수행했습니다:
 
-- CloudFormation으로 Amazon VPC 환경을 자동으로 구축했습니다
+- AWS CloudFormation으로 Amazon VPC 환경을 자동으로 구축했습니다
 - AWS Systems Manager용 Interface Endpoint 3개를 생성하여 Session Manager 접속을 구성했습니다
-- Amazon S3 Gateway Endpoint를 생성하여 프라이빗 서브넷에서 S3에 안전하게 접근했습니다
+- Amazon S3 Gateway Endpoint를 생성하여 프라이빗 서브넷에서 Amazon S3에 안전하게 접근했습니다
 - Interface Endpoint와 Gateway Endpoint의 차이점을 이해했습니다
 - 라우팅 테이블을 통한 트래픽 제어 방식을 확인했습니다
 - Amazon VPC Endpoint의 동작 원리를 실제로 검증했습니다
@@ -593,7 +561,7 @@ curl -I https://www.google.com
 > [!NOTE]
 > 이 실습에서 수동으로 생성한 Amazon VPC Endpoint 4개가 표시됩니다.
 
-#### CloudFormation으로 생성한 리소스 확인 (Name 태그)
+#### AWS CloudFormation으로 생성한 리소스 확인 (Name 태그)
 
 1. **Tags** 섹션을 초기화하고 다음을 입력합니다:
    - **Tag key**: `Name`
@@ -601,10 +569,10 @@ curl -I https://www.google.com
 2. [[Search resources]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> CloudFormation 스택으로 생성된 Amazon VPC, 서브넷, NAT Gateway, Amazon EC2 인스턴스 등 모든 리소스가 표시됩니다. 리소스 이름이 `week3-1-`로 시작하는 것들이 이 실습에서 생성된 리소스입니다.
+> AWS CloudFormation 스택으로 생성된 Amazon VPC, 서브넷, NAT Gateway, Amazon EC2 인스턴스 등 모든 리소스가 표시됩니다. 리소스 이름이 `week3-1-`로 시작하는 것들이 이 실습에서 생성된 리소스입니다.
 
 > [!TIP]
-> Tag Editor는 리소스 확인 용도로만 사용하며, 실제 삭제는 다음 단계에서 수행합니다. 두 가지 태그 검색을 통해 수동 생성 리소스와 CloudFormation 생성 리소스를 모두 파악할 수 있습니다.
+> Tag Editor는 리소스 확인 용도로만 사용하며, 실제 삭제는 다음 단계에서 수행합니다. 두 가지 태그 검색을 통해 수동 생성 리소스와 AWS CloudFormation 생성 리소스를 모두 파악할 수 있습니다.
 
 ---
 
@@ -632,7 +600,7 @@ curl -I https://www.google.com
 > [!NOTE]
 > 4개의 엔드포인트를 모두 선택하려면 각 엔드포인트의 체크박스를 클릭합니다. 모두 선택되면 상단의 **Actions** 버튼이 활성화됩니다.
 
-4. **Actions** > `Delete VPC endpoints`를 선택합니다.
+4. **Actions** > `Delete Amazon VPC endpoints`를 선택합니다.
 5. 확인 창에서 `delete`를 입력하고 [[Delete]] 버튼을 클릭합니다.
 
 > [!NOTE]
@@ -649,22 +617,22 @@ curl -I https://www.google.com
 2. CloudShell이 열리면 다음 명령어를 실행합니다:
 
 ```bash
-# Week 3-1 태그가 있는 VPC Endpoint 찾기
+# Week 3-1 태그가 있는 Amazon VPC Endpoint 찾기
 ENDPOINT_IDS=$(aws ec2 describe-vpc-endpoints \
   --region ap-northeast-2 \
   --filters "Name=tag:Week,Values=3-1" \
   --query 'VpcEndpoints[*].VpcEndpointId' \
   --output text)
 
-# VPC Endpoint 삭제
+# Amazon VPC Endpoint 삭제
 if [ -n "$ENDPOINT_IDS" ]; then
-  echo "삭제할 VPC Endpoints: $ENDPOINT_IDS"
+  echo "삭제할 Amazon VPC Endpoints: $ENDPOINT_IDS"
   aws ec2 delete-vpc-endpoints \
     --region ap-northeast-2 \
     --vpc-endpoint-ids $ENDPOINT_IDS
-  echo "VPC Endpoints 삭제 완료"
+  echo "Amazon VPC Endpoints 삭제 완료"
 else
-  echo "삭제할 VPC Endpoint가 없습니다"
+  echo "삭제할 Amazon VPC Endpoint가 없습니다"
 fi
 ```
 
@@ -673,11 +641,11 @@ fi
 
 ---
 
-## 3단계: CloudFormation 스택 삭제
+## 3단계: AWS CloudFormation 스택 삭제
 
-마지막으로 CloudFormation 스택을 삭제하여 나머지 모든 리소스를 정리합니다.
+마지막으로 AWS CloudFormation 스택을 삭제하여 나머지 모든 리소스를 정리합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `CloudFormation`을 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
 2. 스택 목록에서 `week3-1-vpc-stack` 스택을 검색합니다.
 3. `week3-1-vpc-stack` 스택의 체크박스를 선택합니다.
 
@@ -693,7 +661,7 @@ fi
 6. `week3-1-vpc-stack` 스택의 **Status** 열을 확인합니다.
 
 > [!NOTE]
-> 스택 삭제가 시작되면 **Status**가 "DELETE_IN_PROGRESS"로 표시됩니다. CloudFormation이 생성한 모든 리소스를 역순으로 삭제합니다.
+> 스택 삭제가 시작되면 **Status**가 "DELETE_IN_PROGRESS"로 표시됩니다. AWS CloudFormation이 생성한 모든 리소스를 역순으로 삭제합니다.
 
 7. 스택을 클릭하여 상세 페이지로 이동합니다.
 8. **Events** 탭을 선택합니다.
@@ -727,7 +695,7 @@ fi
 6. [[Search resources]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> 검색 결과에 리소스가 표시되지 않으면 모든 리소스가 성공적으로 삭제된 것입니다. CloudFormation 스택 삭제로 NAT Gateway, Elastic IP, Amazon EC2 인스턴스, Amazon VPC 등 모든 리소스가 자동으로 정리되었습니다.
+> 검색 결과에 리소스가 표시되지 않으면 모든 리소스가 성공적으로 삭제된 것입니다. AWS CloudFormation 스택 삭제로 NAT Gateway, Elastic IP, Amazon EC2 인스턴스, Amazon VPC 등 모든 리소스가 자동으로 정리되었습니다.
 
 ✅ **실습 종료**: 모든 리소스가 정리되었습니다.
 

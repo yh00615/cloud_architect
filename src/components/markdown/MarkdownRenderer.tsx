@@ -614,8 +614,138 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
         const titleMatch = content.match(/\[!CONCEPT\]\s+(.+?)(?:\n|$)/);
         const conceptTitle = titleMatch ? titleMatch[1].trim() : '개념 설명';
 
-        // formatAlertContent()를 사용하여 내용 렌더링
-        const formattedContent = formatAlertContent();
+        // CONCEPT Alert 전용 내용 포맷팅 함수 - 첫 번째 줄(제목) 제거
+        const formatConceptContent = () => {
+          const result: JSX.Element[] = [];
+          let key = 0;
+          let isFirstLine = true;
+
+          const processNode = (node: any): void => {
+            if (!node) return;
+
+            if (Array.isArray(node)) {
+              node.forEach(processNode);
+              return;
+            }
+
+            // p 태그 처리
+            if (node?.type === 'p' || node?.props?.node?.tagName === 'p') {
+              const children = node.props?.children;
+
+              // 첫 번째 p 태그에서 제목 줄 제거
+              if (isFirstLine && Array.isArray(children)) {
+                isFirstLine = false;
+                // 첫 번째 문자열에서 [!CONCEPT] 제목 부분 제거
+                const processedChildren = children
+                  .map((child: any, index: number) => {
+                    if (typeof child === 'string' && index === 0) {
+                      // [!CONCEPT] 제목 전체 줄 제거
+                      return child
+                        .replace(/\[!CONCEPT\]\s+.+?(?:\n|$)/, '')
+                        .trim();
+                    }
+                    return child;
+                  })
+                  .filter((child: any) => child !== '');
+
+                if (processedChildren.length > 0) {
+                  result.push(
+                    <div key={`text-${key++}`} className="alert-content-text">
+                      {processedChildren}
+                    </div>,
+                  );
+                }
+                return;
+              } else if (isFirstLine && typeof children === 'string') {
+                isFirstLine = false;
+                // 문자열에서 [!CONCEPT] 제목 부분 제거
+                const cleaned = children
+                  .replace(/\[!CONCEPT\]\s+.+?(?:\n|$)/, '')
+                  .trim();
+                if (cleaned) {
+                  result.push(
+                    <div key={`text-${key++}`} className="alert-content-text">
+                      {cleaned}
+                    </div>,
+                  );
+                }
+                return;
+              }
+
+              // 이후 p 태그는 일반 처리
+              if (children) {
+                result.push(
+                  <div key={`text-${key++}`} className="alert-content-text">
+                    {children}
+                  </div>,
+                );
+              }
+              return;
+            }
+
+            // ul/ol 리스트 처리
+            if (
+              node?.type === 'ul' ||
+              node?.type === 'ol' ||
+              node?.props?.node?.tagName === 'ul' ||
+              node?.props?.node?.tagName === 'ol'
+            ) {
+              const items = Array.isArray(node.props?.children)
+                ? node.props.children
+                : [node.props?.children];
+              const listItems: JSX.Element[] = [];
+
+              items.forEach((item: any, idx: number) => {
+                if (
+                  item?.type === 'li' ||
+                  item?.props?.node?.tagName === 'li'
+                ) {
+                  const text =
+                    typeof item.props?.children === 'string'
+                      ? item.props.children
+                      : extractText(item.props?.children);
+                  listItems.push(
+                    <li key={`li-${idx}`} className="alert-content-list-item">
+                      {text}
+                    </li>,
+                  );
+                }
+              });
+
+              result.push(
+                <ul key={`list-${key++}`} className="alert-content-list">
+                  {listItems}
+                </ul>,
+              );
+              return;
+            }
+
+            // strong 태그 처리
+            if (
+              node?.type === 'strong' ||
+              node?.props?.node?.tagName === 'strong'
+            ) {
+              const text = extractText(node.props?.children);
+              result.push(
+                <div key={`strong-${key++}`} className="alert-content-strong">
+                  {text}
+                </div>,
+              );
+              return;
+            }
+          };
+
+          if (Array.isArray(children)) {
+            children.forEach(processNode);
+          } else {
+            processNode(children);
+          }
+
+          return result.length > 0 ? result : null;
+        };
+
+        // CONCEPT 전용 포맷팅 함수 사용
+        const formattedContent = formatConceptContent();
 
         return (
           <Box margin={{ vertical: 'm' }}>

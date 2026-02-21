@@ -19,7 +19,7 @@ prerequisites:
 
 이 데모에서는 Amazon GuardDuty를 활성화하고, QuickTable 레스토랑 예약 시스템에 대한 보안 위협이 탐지되었을 때 AWS Lambda 함수를 통해 자동으로 대응하는 시스템을 구축합니다.
 
-Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근하는 퍼블릭 서비스이므로, 봇 공격, 과도한 예약 시도, 비정상적인 API 호출 패턴 등 다양한 보안 위협에 노출될 수 있습니다. 이 데모에서는 GuardDuty를 사용하여 QuickTable 인프라(Amazon API Gateway, AWS Lambda, Amazon DynamoDB)에 대한 위협을 실시간으로 탐지하고, EventBridge를 통해 AWS Lambda 함수로 자동 대응하는 보안 모니터링 시스템을 구현합니다.
+Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근하는 퍼블릭 서비스이므로, 봇 공격, 과도한 예약 시도, 비정상적인 API 호출 패턴 등 다양한 보안 위협에 노출될 수 있습니다. 이 데모에서는 Amazon GuardDuty를 사용하여 QuickTable 인프라(Amazon API Gateway, AWS Lambda, Amazon DynamoDB)에 대한 위협을 실시간으로 탐지하고, Amazon EventBridge를 통해 AWS Lambda 함수로 자동 대응하는 보안 모니터링 시스템을 구현합니다.
 
 위협 수준에 따라 자동으로 Amazon EC2 인스턴스를 격리하고, Amazon SNS 알림을 전송하는 실제 보안 자동화 시나리오를 시연합니다.
 
@@ -33,19 +33,19 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 > - 태스크 4: AWS Lambda 자동 대응 함수 생성 (lambda_function.py를 참고하여 QuickTable API 보안 위협 탐지 및 자동 대응 로직 구현)
 
 > [!WARNING]
-> GuardDuty는 30일 무료 평가판을 제공합니다. 평가판 이후에는 분석된 이벤트 수에 따라 비용이 발생합니다. 데모 완료 후 반드시 GuardDuty를 비활성화합니다.
+> Amazon GuardDuty는 30일 무료 평가판을 제공합니다. 평가판 이후에는 분석된 이벤트 수에 따라 비용이 발생합니다. 데모 완료 후 반드시 Amazon GuardDuty를 비활성화합니다.
 
 ## 태스크 1: Amazon GuardDuty 활성화
 
-이 태스크에서는 GuardDuty를 활성화하고 위협 탐지를 시작합니다.
+이 태스크에서는 Amazon GuardDuty를 활성화하고 위협 탐지를 시작합니다.
 
 1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon GuardDuty`를 검색하고 선택합니다.
 2. [[Get Started]] 버튼을 클릭합니다.
 3. [[Enable Amazon GuardDuty]] 버튼을 클릭합니다.
-4. GuardDuty가 활성화되면 대시보드가 표시됩니다.
+4. Amazon GuardDuty가 활성화되면 대시보드가 표시됩니다.
 
 > [!CONCEPT] Amazon GuardDuty 작동 원리
-> GuardDuty는 다음 데이터 소스를 지속적으로 분석합니다:
+> Amazon GuardDuty는 다음 데이터 소스를 지속적으로 분석합니다:
 >
 > **데이터 소스**:
 >
@@ -70,14 +70,14 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 >
 > **자동 대응 임계값**:
 >
-> - 이 데모의 Lambda 함수는 **7.0 이상** (High와 Critical 모두)에서 동일한 자동 대응(인스턴스 격리)을 수행합니다
+> - 이 데모의 AWS Lambda 함수는 **7.0 이상** (High와 Critical 모두)에서 동일한 자동 대응(인스턴스 격리)을 수행합니다
 > - High(7.0-8.9)와 Critical(9.0-10.0)은 심각도 레이블은 다르지만, 대응 조치는 동일합니다
 
 5. 왼쪽 메뉴에서 **Settings**를 선택합니다.
 6. **Finding export options**에서 Amazon S3 버킷 설정을 확인합니다 (선택사항).
 7. **Sample findings** 옵션이 활성화되어 있는지 확인합니다.
 
-✅ **태스크 완료**: GuardDuty가 활성화되었습니다.
+✅ **태스크 완료**: Amazon GuardDuty가 활성화되었습니다.
 
 ## 태스크 2: Amazon SNS 토픽 생성 및 구독
 
@@ -87,8 +87,8 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 2. 왼쪽 메뉴에서 **Topics**를 선택합니다.
 3. [[Create topic]] 버튼을 클릭합니다.
 4. **Type**에서 `Standard`를 선택합니다.
-5. **Name**에 `GuardDuty-Security-Alerts`를 입력합니다.
-6. **Display name**에 `GuardDuty Alerts`를 입력합니다.
+5. **Name**에 `Amazon GuardDuty-Security-Alerts`를 입력합니다.
+6. **Display name**에 `Amazon GuardDuty Alerts`를 입력합니다.
 7. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
 | Key         | Value     |
@@ -110,7 +110,7 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 
 > [!NOTE]
 > Amazon SNS 토픽 ARN은 다음과 같은 형식입니다:
-> `arn:aws:sns:ap-northeast-2:123456789012:GuardDuty-Security-Alerts`
+> `arn:aws:sns:ap-northeast-2:123456789012:Amazon GuardDuty-Security-Alerts`
 
 ✅ **태스크 완료**: Amazon SNS 토픽이 생성되고 이메일 구독이 확인되었습니다.
 
@@ -126,7 +126,7 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 6. [[Next]] 버튼을 클릭합니다.
 7. 검색창에 `AWSLambdaBasicExecutionRole`을 입력하고 체크합니다.
 8. [[Next]] 버튼을 클릭합니다.
-9. **Role name**에 `GuardDuty-Lambda-AutoResponse-Role`을 입력합니다.
+9. **Role name**에 `Amazon GuardDuty-AWS Lambda-AutoResponse-Role`을 입력합니다.
 10. **Description**에 `AWS Lambda function role for Amazon GuardDuty auto-response`를 입력합니다.
 11. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
@@ -163,7 +163,7 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
     {
       "Effect": "Allow",
       "Action": ["sns:Publish"],
-      "Resource": "arn:aws:sns:ap-northeast-2:{본인의 계정 ID}:GuardDuty-Security-Alerts"
+      "Resource": "arn:aws:sns:ap-northeast-2:{본인의 계정 ID}:Amazon GuardDuty-Security-Alerts"
     },
     {
       "Effect": "Allow",
@@ -175,10 +175,10 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 ```
 
 > [!WARNING]
-> **Amazon SNS ARN 수정 필수**: `{본인의 계정 ID}` 부분을 태스크 2에서 복사한 실제 Amazon SNS 토픽 ARN의 계정 ID로 교체해야 합니다. 예: `arn:aws:sns:ap-northeast-2:123456789012:GuardDuty-Security-Alerts`
+> **Amazon SNS ARN 수정 필수**: `{본인의 계정 ID}` 부분을 태스크 2에서 복사한 실제 Amazon SNS 토픽 ARN의 계정 ID로 교체해야 합니다. 예: `arn:aws:sns:ap-northeast-2:123456789012:Amazon GuardDuty-Security-Alerts`
 
 17. [[Next]] 버튼을 클릭합니다.
-18. **Policy name**에 `GuardDuty-AutoResponse-Policy`를 입력합니다.
+18. **Policy name**에 `Amazon GuardDuty-AutoResponse-Policy`를 입력합니다.
 19. [[Create policy]] 버튼을 클릭합니다.
 
 > [!CONCEPT] 최소 권한 원칙
@@ -204,7 +204,7 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 >
 > **프로덕션 환경 개선사항**:
 >
-> - Amazon EC2 Resource를 특정 VPC나 태그로 제한
+> - Amazon EC2 Resource를 특정 Amazon VPC나 태그로 제한
 > - Amazon SNS Resource ARN을 정확히 지정
 > - Condition을 사용하여 특정 조건에서만 권한 허용
 > - `ec2:ModifyInstanceAttribute`는 Condition으로 보안 그룹 변경만 허용하도록 제한
@@ -217,12 +217,12 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 
 1. 상단 검색창에 `AWS Lambda`를 입력한 후 선택합니다.
 2. [[Create function]] 버튼을 클릭합니다.
-3. **Function name**에 `GuardDuty-AutoResponse`를 입력합니다.
+3. **Function name**에 `Amazon GuardDuty-AutoResponse`를 입력합니다.
 4. **Runtime**에서 `Python 3.13`을 선택합니다.
 5. **Architecture**에서 `x86_64`를 선택합니다.
 6. **Permissions** 섹션을 확장합니다.
 7. **Execution role**에서 `Use an existing role`을 선택합니다.
-8. **Existing role**에서 `GuardDuty-Lambda-AutoResponse-Role`을 선택합니다.
+8. **Existing role**에서 `Amazon GuardDuty-AWS Lambda-AutoResponse-Role`을 선택합니다.
 9. **Advanced settings** 섹션을 확장합니다.
 10. **Tags** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
@@ -249,13 +249,13 @@ AWS Lambda 함수: QuickTable 보안 자동 대응 시스템
     1. Amazon GuardDuty Finding 정보 추출 및 분석 (QuickTable API 위협 패턴 감지).
     2. 심각도 기반 자동 대응 (High: 인스턴스 격리).
     3. 격리 보안 그룹 자동 생성 및 관리.
-    4. SNS를 통한 보안 알림 전송 (QuickTable 운영팀).
+    4. Amazon SNS를 통한 보안 알림 전송 (QuickTable 운영팀).
 
 환경 변수:
-    SNS_TOPIC_ARN (str): Amazon SNS 토픽 ARN (보안 알림 전송용)
+    Amazon SNS_TOPIC_ARN (str): Amazon SNS 토픽 ARN (보안 알림 전송용)
 
 트리거:
-    EventBridge 규칙 (Amazon GuardDuty Finding 이벤트)
+    Amazon EventBridge 규칙 (Amazon GuardDuty Finding 이벤트)
 
 QuickTable 보안 시나리오:
     - 봇 공격 탐지 → 로그 분석 및 알림
@@ -274,15 +274,15 @@ ec2 = boto3.client('ec2')  # Amazon EC2 인스턴스 및 보안 그룹 관리
 sns = boto3.client('sns')  # Amazon SNS 알림 전송
 
 # 환경 변수
-SNS_TOPIC_ARN = os.environ.get('SNS_TOPIC_ARN')  # Amazon SNS 토픽 ARN
-ISOLATION_SG_NAME = 'GuardDuty-Isolation-SG'  # 격리 보안 그룹 이름
+Amazon SNS_TOPIC_ARN = os.environ.get('Amazon SNS_TOPIC_ARN')  # Amazon SNS 토픽 ARN
+ISOLATION_SG_NAME = 'Amazon GuardDuty-Isolation-SG'  # 격리 보안 그룹 이름
 
 
 def lambda_handler(event, context):
     """
     Amazon GuardDuty Finding을 처리하고 자동 대응을 수행하는 AWS Lambda 함수
 
-    EventBridge에서 전달된 Amazon GuardDuty Finding 이벤트를 분석하고,
+    Amazon EventBridge에서 전달된 Amazon GuardDuty Finding 이벤트를 분석하고,
     심각도에 따라 자동으로 대응 조치를 수행합니다.
 
     대응 로직:
@@ -291,7 +291,7 @@ def lambda_handler(event, context):
         - Low (0.1-3.9): 로그 기록만 수행
 
     Args:
-        event (dict): EventBridge에서 전달된 Amazon GuardDuty Finding 이벤트
+        event (dict): Amazon EventBridge에서 전달된 Amazon GuardDuty Finding 이벤트
         context (LambdaContext): AWS Lambda 실행 컨텍스트
 
     Returns:
@@ -299,9 +299,9 @@ def lambda_handler(event, context):
             - statusCode (int): 200 (성공)
             - body (str): JSON 형식의 처리 결과
     """
-    # 환경 변수 검증 (SNS_TOPIC_ARN 필수)
-    if not SNS_TOPIC_ARN:
-        error_msg = "SNS_TOPIC_ARN environment variable is not set"
+    # 환경 변수 검증 (Amazon SNS_TOPIC_ARN 필수)
+    if not Amazon SNS_TOPIC_ARN:
+        error_msg = "Amazon SNS_TOPIC_ARN environment variable is not set"
         print(f"ERROR: {error_msg}")
         raise ValueError(error_msg)
 
@@ -310,7 +310,7 @@ def lambda_handler(event, context):
 
     try:
         # Amazon GuardDuty Finding 정보 추출
-        detail = event['detail']  # EventBridge 이벤트의 detail 섹션
+        detail = event['detail']  # Amazon EventBridge 이벤트의 detail 섹션
         finding_id = detail['id']  # Finding 고유 ID
         finding_type = detail['type']  # Finding 타입
         severity = detail['severity']  # 심각도 점수 (0.1-10.0)
@@ -359,7 +359,7 @@ def lambda_handler(event, context):
                 response_action=response_action
             )
         else:  # Low
-            # 낮은 수준 위협: 로그 기록만 (SNS 알림 없음)
+            # 낮은 수준 위협: 로그 기록만 (Amazon SNS 알림 없음)
             response_action = "Logged for monitoring"
 
         # 성공 응답 반환
@@ -422,7 +422,7 @@ def get_or_create_isolation_sg(vpc_id):
     """
     격리 보안 그룹을 조회하거나 생성
 
-    VPC별로 격리 보안 그룹을 생성하고 재사용합니다.
+    Amazon VPC별로 격리 보안 그룹을 생성하고 재사용합니다.
     격리 보안 그룹은 모든 인바운드/아웃바운드 트래픽을 차단합니다.
 
     Args:
@@ -468,9 +468,9 @@ def get_or_create_isolation_sg(vpc_id):
             )
         except Exception as e:
             # IPv4 규칙이 없는 경우 무시
-            print(f"IPv4 egress rule not found (VPC may not have default IPv4 egress rule): {str(e)}")
+            print(f"IPv4 egress rule not found (Amazon VPC may not have default IPv4 egress rule): {str(e)}")
 
-        # IPv6 규칙 제거 (IPv6가 활성화된 VPC에서 완전한 격리를 위해 필요)
+        # IPv6 규칙 제거 (IPv6가 활성화된 Amazon VPC에서 완전한 격리를 위해 필요)
         try:
             ec2.revoke_security_group_egress(
                 GroupId=sg_id,
@@ -483,7 +483,7 @@ def get_or_create_isolation_sg(vpc_id):
             )
         except Exception as e:
             # IPv6 규칙이 없는 경우 무시
-            print(f"IPv6 egress rule not found (VPC may not have IPv6 enabled): {str(e)}")
+            print(f"IPv6 egress rule not found (Amazon VPC may not have IPv6 enabled): {str(e)}")
 
         # 생성된 보안 그룹 ID 반환
         return sg_id
@@ -496,7 +496,7 @@ def get_or_create_isolation_sg(vpc_id):
 
 def send_notification(finding_type, severity, title, description, instance_id, response_action):
     """
-    SNS를 통해 보안 알림 전송
+    Amazon SNS를 통해 보안 알림 전송
 
     Amazon GuardDuty Finding 정보와 수행된 대응 조치를 포함한
     구조화된 알림 메시지를 Amazon SNS 토픽으로 전송합니다.
@@ -543,13 +543,13 @@ Please review this finding in the Amazon GuardDuty console.
 
         # Amazon SNS 토픽으로 메시지 발행
         sns.publish(
-            TopicArn=SNS_TOPIC_ARN,
+            TopicArn=Amazon SNS_TOPIC_ARN,
             Subject=subject,
             Message=message
         )
 
         # 알림 전송 성공 로그
-        print(f"Notification sent to Amazon SNS topic: {SNS_TOPIC_ARN}")
+        print(f"Notification sent to Amazon SNS topic: {Amazon SNS_TOPIC_ARN}")
 
     except Exception as e:
         # 알림 전송 실패 시 로그 출력
@@ -578,14 +578,14 @@ def get_severity_label(severity):
 
 11. [[Deploy]] 버튼을 클릭하여 코드를 저장합니다.
 
-이 Lambda 함수는 `print(f"Received event: {json.dumps(event)}")`로 GuardDuty Finding 이벤트 전체를 CloudWatch Logs에 출력합니다. 이는 디버깅에 유용하지만, 민감한 보안 정보(IP 주소, 인스턴스 ID 등)가 로그에 기록됩니다. 프로덕션 환경에서는 필요한 정보만 선택적으로 로깅하는 것을 권장합니다.
+이 AWS Lambda 함수는 `print(f"Received event: {json.dumps(event)}")`로 Amazon GuardDuty Finding 이벤트 전체를 Amazon CloudWatch Logs에 출력합니다. 이는 디버깅에 유용하지만, 민감한 보안 정보(IP 주소, 인스턴스 ID 등)가 로그에 기록됩니다. 프로덕션 환경에서는 필요한 정보만 선택적으로 로깅하는 것을 권장합니다.
 
 > [!CONCEPT] AWS Lambda 함수 로직 설명
 > **주요 기능**:
 >
 > **Finding 정보 추출:**
 >
-> - EventBridge에서 전달된 Amazon GuardDuty Finding 이벤트 파싱
+> - Amazon EventBridge에서 전달된 Amazon GuardDuty Finding 이벤트 파싱
 > - 심각도, 타입, 영향받는 리소스 정보 추출
 >
 > **심각도 기반 자동 대응:**
@@ -596,7 +596,7 @@ def get_severity_label(severity):
 >
 > **격리 보안 그룹 관리:**
 >
-> - VPC별로 격리 보안 그룹 자동 생성
+> - Amazon VPC별로 격리 보안 그룹 자동 생성
 > - 모든 인바운드/아웃바운드 트래픽 차단
 > - 재사용 가능한 격리 인프라
 >
@@ -616,25 +616,25 @@ def get_severity_label(severity):
 13. 왼쪽 메뉴에서 **Environment variables**를 선택합니다.
 14. [[Edit]] 버튼을 클릭합니다.
 15. [[Add environment variable]] 버튼을 클릭합니다.
-16. **Key**에 `SNS_TOPIC_ARN`을 입력합니다.
+16. **Key**에 `Amazon SNS_TOPIC_ARN`을 입력합니다.
 17. **Value**에 Task 2에서 복사한 Amazon SNS 토픽 ARN을 붙여넣습니다.
 18. [[Save]] 버튼을 클릭합니다.
 
 ✅ **태스크 완료**: AWS Lambda 자동 대응 함수가 생성되었습니다.
 
-## 태스크 5: EventBridge 규칙 생성
+## 태스크 5: Amazon EventBridge 규칙 생성
 
-이 태스크에서는 Amazon GuardDuty Finding을 AWS Lambda 함수로 전달하는 EventBridge 규칙을 생성합니다.
+이 태스크에서는 Amazon GuardDuty Finding을 AWS Lambda 함수로 전달하는 Amazon EventBridge 규칙을 생성합니다.
 
-1. 상단 검색창에 `EventBridge`를 입력한 후 선택합니다.
+1. 상단 검색창에 `Amazon EventBridge`를 입력한 후 선택합니다.
 2. 왼쪽 메뉴에서 **Rules**를 선택합니다.
 3. [[Create rule]] 버튼을 클릭합니다.
-4. **Name**에 `GuardDuty-AutoResponse-Rule`을 입력합니다.
+4. **Name**에 `Amazon GuardDuty-AutoResponse-Rule`을 입력합니다.
 5. **Description**에 `Route Amazon GuardDuty findings to AWS Lambda for auto-response`를 입력합니다.
 6. **Event bus**는 `default`로 유지합니다.
 7. **Rule type**에서 `Rule with an event pattern`을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
-9. **Event source**에서 `AWS events or EventBridge partner events`를 선택합니다.
+9. **Event source**에서 `AWS events or Amazon EventBridge partner events`를 선택합니다.
 10. **Event pattern** 섹션에서 **Event pattern form**을 선택합니다.
 11. **Event source**에서 `AWS services`를 선택합니다.
 12. **AWS service**에서 `Amazon GuardDuty`를 선택합니다.
@@ -642,7 +642,7 @@ def get_severity_label(severity):
 14. [[Next]] 버튼을 클릭합니다.
 15. **Target types**에서 `AWS service`를 선택합니다.
 16. **Select a target**에서 `AWS Lambda function`을 선택합니다.
-17. **Function**에서 `GuardDuty-AutoResponse`를 선택합니다.
+17. **Function**에서 `Amazon GuardDuty-AutoResponse`를 선택합니다.
 18. [[Next]] 버튼을 클릭합니다.
 19. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
@@ -656,14 +656,14 @@ def get_severity_label(severity):
 21. 설정을 검토합니다.
 22. [[Create rule]] 버튼을 클릭합니다.
 
-✅ **태스크 완료**: EventBridge 규칙이 생성되었습니다.
+✅ **태스크 완료**: Amazon EventBridge 규칙이 생성되었습니다.
 
-## 태스크 6: GuardDuty 콘솔에서 샘플 Finding 확인
+## 태스크 6: Amazon GuardDuty 콘솔에서 샘플 Finding 확인
 
 > [!IMPORTANT]
-> **이 태스크의 목적**: 이 태스크는 Amazon GuardDuty Finding의 구조와 콘솔 UI를 익히기 위한 것입니다. 샘플 Finding은 EventBridge로 이벤트를 전송하지 않으므로, Lambda 자동 대응 테스트는 다음 태스크(태스크 7)에서 수행합니다.
+> **이 태스크의 목적**: 이 태스크는 Amazon GuardDuty Finding의 구조와 콘솔 UI를 익히기 위한 것입니다. 샘플 Finding은 Amazon EventBridge로 이벤트를 전송하지 않으므로, AWS Lambda 자동 대응 테스트는 다음 태스크(태스크 7)에서 수행합니다.
 >
-> **Amazon GuardDuty 샘플 Finding의 제한사항**: GuardDuty의 "Generate sample findings" 기능으로 생성된 샘플 Finding은 Amazon GuardDuty 콘솔에만 표시되며, **EventBridge로 이벤트를 전송하지 않습니다**.
+> **Amazon GuardDuty 샘플 Finding의 제한사항**: Amazon GuardDuty의 "Generate sample findings" 기능으로 생성된 샘플 Finding은 Amazon GuardDuty 콘솔에만 표시되며, **Amazon EventBridge로 이벤트를 전송하지 않습니다**.
 >
 > 따라서 샘플 Finding만으로는 AWS Lambda 함수가 자동으로 실행되지 않습니다. 다음 태스크에서는 AWS Lambda 콘솔에서 직접 테스트 이벤트를 사용하여 자동 대응 시스템을 테스트합니다.
 
@@ -678,20 +678,20 @@ def get_severity_label(severity):
 7. 여러 개의 샘플 Finding이 표시됩니다.
 
 > [!NOTE]
-> 샘플 Finding은 실제 위협이 아니며, GuardDuty 콘솔에서 Finding 형식을 확인하는 용도로만 사용됩니다. 각 Finding은 다양한 심각도와 타입을 가지고 있습니다.
+> 샘플 Finding은 실제 위협이 아니며, Amazon GuardDuty 콘솔에서 Finding 형식을 확인하는 용도로만 사용됩니다. 각 Finding은 다양한 심각도와 타입을 가지고 있습니다.
 
 8. Finding 목록에서 심각도가 "High" 또는 "Medium"인 Finding을 찾습니다.
 9. Finding을 클릭하여 상세 정보를 확인합니다.
 10. **Resource affected** 섹션에서 리소스 타입을 확인합니다.
 
-✅ **태스크 완료**: 샘플 Finding을 생성하고 GuardDuty 콘솔에서 확인했습니다.
+✅ **태스크 완료**: 샘플 Finding을 생성하고 Amazon GuardDuty 콘솔에서 확인했습니다.
 
 ## 태스크 7: AWS Lambda 함수 테스트
 
 이 태스크에서는 AWS Lambda 콘솔에서 테스트 이벤트를 사용하여 자동 대응 함수를 직접 실행하고 테스트합니다.
 
 1. AWS Lambda 콘솔로 이동합니다.
-2. `GuardDuty-AutoResponse` 함수를 선택합니다.
+2. `Amazon GuardDuty-AutoResponse` 함수를 선택합니다.
 3. **Test** 탭을 선택합니다.
 4. **Test event action**에서 `Create new event`를 선택합니다.
 5. **Event name**에 `GuardDutyFindingTest`를 입력합니다.
@@ -714,7 +714,7 @@ def get_severity_label(severity):
     "partition": "aws",
     "id": "test-finding-id-12345",
     "arn": "arn:aws:guardduty:ap-northeast-2:{본인의 계정 ID}:detector/test/finding/test-finding-id-12345",
-    "type": "Recon:EC2/PortProbeUnprotectedPort",
+    "type": "Recon:Amazon EC2/PortProbeUnprotectedPort",
     "resource": {
       "resourceType": "Instance",
       "instanceDetails": {
@@ -779,18 +779,18 @@ def get_severity_label(severity):
     "severity": 5.0,
     "createdAt": "2026-02-16T09:00:00.000Z",
     "updatedAt": "2026-02-16T10:00:00.000Z",
-    "title": "Unprotected port on EC2 instance is being probed",
-    "description": "EC2 instance has an unprotected port which is being probed by a known malicious host. This is a test finding for QuickTable security demo."
+    "title": "Unprotected port on Amazon EC2 instance is being probed",
+    "description": "Amazon EC2 instance has an unprotected port which is being probed by a known malicious host. This is a test finding for QuickTable security demo."
   }
 }
 ```
 
 > [!NOTE]
-> 이 테스트 이벤트는 실제 GuardDuty Finding의 구조를 모방한 것입니다.
+> 이 테스트 이벤트는 실제 Amazon GuardDuty Finding의 구조를 모방한 것입니다.
 >
-> - **계정 ID**: `{본인의 계정 ID}` 부분을 본인의 실제 AWS 계정 ID로 직접 교체하여 입력합니다. 이 테스트에서는 Lambda 함수가 해당 필드를 사용하지 않으므로 기능 동작에는 영향이 없지만, 실제 이벤트 구조와 동일하게 맞추는 것을 권장합니다.
-> - **severity: 5.0** (Medium) → Lambda 함수는 인스턴스 격리 없이 "Manual review recommended" 메시지를 반환합니다. instanceId가 null이지만, Medium 심각도에서는 인스턴스 격리를 시도하지 않으므로 instanceId 값과 무관합니다.
-> - **type: Recon:EC2/PortProbeUnprotectedPort** → 포트 스캔 공격 시뮬레이션
+> - **계정 ID**: `{본인의 계정 ID}` 부분을 본인의 실제 AWS 계정 ID로 직접 교체하여 입력합니다. 이 테스트에서는 AWS Lambda 함수가 해당 필드를 사용하지 않으므로 기능 동작에는 영향이 없지만, 실제 이벤트 구조와 동일하게 맞추는 것을 권장합니다.
+> - **severity: 5.0** (Medium) → AWS Lambda 함수는 인스턴스 격리 없이 "Manual review recommended" 메시지를 반환합니다. instanceId가 null이지만, Medium 심각도에서는 인스턴스 격리를 시도하지 않으므로 instanceId 값과 무관합니다.
+> - **type: Recon:Amazon EC2/PortProbeUnprotectedPort** → 포트 스캔 공격 시뮬레이션
 
 7. [[Save]] 버튼을 클릭합니다.
 8. [[Test]] 버튼을 클릭하여 함수를 실행합니다.
@@ -812,11 +812,11 @@ def get_severity_label(severity):
 > ```
 > START RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx Version: $LATEST
 > Received event: {"version":"0","id":"test-event-12345",...}
-> Processing Finding: Recon:EC2/PortProbeUnprotectedPort
+> Processing Finding: Recon:Amazon EC2/PortProbeUnprotectedPort
 > Severity: 5.0
 > Instance ID: None
 > Manual review recommended
-> Notification sent to Amazon SNS topic: arn:aws:sns:ap-northeast-2:123456789012:GuardDuty-Security-Alerts
+> Notification sent to Amazon SNS topic: arn:aws:sns:ap-northeast-2:123456789012:Amazon GuardDuty-Security-Alerts
 > END RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 > REPORT RequestId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx Duration: 1234.56 ms Billed Duration: 1235 ms Memory Size: 128 MB Max Memory Used: 67 MB
 > ```
@@ -831,14 +831,14 @@ def get_severity_label(severity):
 > 이메일 알림이 정상적으로 수신되었다면, AWS Lambda 함수가 올바르게 작동하고 있는 것입니다.
 
 13. 이메일을 열고 다음 정보를 확인합니다:
-    - **Subject**: `[MEDIUM] Amazon GuardDuty Alert: Recon:EC2/PortProbeUnprotectedPort`
-    - **Finding Type**: `Recon:EC2/PortProbeUnprotectedPort`
+    - **Subject**: `[MEDIUM] Amazon GuardDuty Alert: Recon:Amazon EC2/PortProbeUnprotectedPort`
+    - **Finding Type**: `Recon:Amazon EC2/PortProbeUnprotectedPort`
     - **Severity**: `MEDIUM (5.0)`
-    - **Title**: `Unprotected port on EC2 instance is being probed`
+    - **Title**: `Unprotected port on Amazon EC2 instance is being probed`
     - **Auto-Response Action**: `Manual review recommended`
 
 > [!TIP]
-> **High Finding 테스트**: 심각도가 높은 Finding을 테스트하려면 테스트 이벤트의 `severity` 값을 `8.0`으로 변경하고 다시 실행하세요. Lambda 함수는 EC2 인스턴스 격리를 시도하지만, `instanceId`가 `null`이므로 "No instance to isolate (non-Amazon EC2 resource)" 메시지를 반환합니다.
+> **High Finding 테스트**: 심각도가 높은 Finding을 테스트하려면 테스트 이벤트의 `severity` 값을 `8.0`으로 변경하고 다시 실행하세요. AWS Lambda 함수는 Amazon EC2 인스턴스 격리를 시도하지만, `instanceId`가 `null`이므로 "No instance to isolate (non-Amazon EC2 resource)" 메시지를 반환합니다.
 
 ✅ **태스크 완료**: AWS Lambda 함수가 정상적으로 실행되고 Amazon SNS 알림이 전송되었습니다.
 
@@ -849,11 +849,11 @@ def get_severity_label(severity):
 - Amazon GuardDuty를 활성화하고 QuickTable 인프라에 대한 위협 탐지를 시작했습니다
 - Amazon SNS 토픽을 생성하고 보안 알림 이메일 구독을 설정했습니다
 - AWS Lambda 실행 역할을 생성하고 필요한 권한을 부여했습니다
-- GuardDuty Finding을 처리하는 Lambda 자동 대응 함수를 구현했습니다
-- EventBridge 규칙을 생성하여 Finding을 Lambda로 전달했습니다
+- Amazon GuardDuty Finding을 처리하는 AWS Lambda 자동 대응 함수를 구현했습니다
+- Amazon EventBridge 규칙을 생성하여 Finding을 AWS Lambda로 전달했습니다
 - 샘플 Finding을 생성하고 자동 대응 시스템을 테스트했습니다
 
-Week 4-3에서 구축한 QuickTable API와 Week 10-2의 ElastiCache 인프라를 보호하기 위한 보안 모니터링 및 자동 대응 시스템을 성공적으로 구현했습니다.
+Week 4-3에서 구축한 QuickTable API와 Week 10-2의 Amazon ElastiCache 인프라를 보호하기 위한 보안 모니터링 및 자동 대응 시스템을 성공적으로 구현했습니다.
 
 ## 리소스 정리
 
@@ -884,28 +884,28 @@ Week 4-3에서 구축한 QuickTable API와 Week 10-2의 ElastiCache 인프라를
 
 ## 2단계: 리소스 삭제
 
-### EventBridge 규칙 삭제
+### Amazon EventBridge 규칙 삭제
 
-1. EventBridge 콘솔로 이동합니다.
+1. Amazon EventBridge 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Rules**를 선택합니다.
-3. `GuardDuty-AutoResponse-Rule`을 선택합니다.
+3. `Amazon GuardDuty-AutoResponse-Rule`을 선택합니다.
 4. [[Delete]] 버튼을 클릭합니다.
 5. 확인 창에서 `delete`를 입력합니다.
 6. [[Delete]] 버튼을 클릭합니다.
 
-### Lambda 함수 삭제
+### AWS Lambda 함수 삭제
 
 1. AWS Lambda 콘솔로 이동합니다.
-2. `GuardDuty-AutoResponse` 함수를 선택합니다.
+2. `Amazon GuardDuty-AutoResponse` 함수를 선택합니다.
 3. **Actions** → `Delete`를 선택합니다.
 4. 확인 창에서 `delete`를 입력합니다.
 5. [[Delete]] 버튼을 클릭합니다.
 
-### CloudWatch Logs 삭제
+### Amazon CloudWatch Logs 삭제
 
 1. Amazon CloudWatch 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Log groups**를 선택합니다.
-3. `/aws/lambda/GuardDuty-AutoResponse` 로그 그룹을 선택합니다.
+3. `/aws/lambda/Amazon GuardDuty-AutoResponse` 로그 그룹을 선택합니다.
 4. **Actions** → `Delete log group(s)`를 선택합니다.
 5. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
@@ -913,33 +913,33 @@ Week 4-3에서 구축한 QuickTable API와 Week 10-2의 ElastiCache 인프라를
 
 1. Amazon EC2 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Security Groups**를 선택합니다.
-3. 검색창에 `GuardDuty-Isolation-SG`를 입력합니다.
+3. 검색창에 `Amazon GuardDuty-Isolation-SG`를 입력합니다.
 4. 격리 보안 그룹이 있으면 선택합니다.
 5. **Actions** → `Delete security groups`를 선택합니다.
 6. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> 격리 보안 그룹은 Lambda 함수가 실행되어 EC2 인스턴스를 격리한 경우에만 생성됩니다. 테스트에서 `instanceId`가 `null`이었다면 보안 그룹이 생성되지 않았을 수 있습니다.
+> 격리 보안 그룹은 AWS Lambda 함수가 실행되어 Amazon EC2 인스턴스를 격리한 경우에만 생성됩니다. 테스트에서 `instanceId`가 `null`이었다면 보안 그룹이 생성되지 않았을 수 있습니다.
 
-### IAM 역할 삭제
+### AWS IAM 역할 삭제
 
 1. AWS IAM 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Roles**를 선택합니다.
-3. `GuardDuty-Lambda-AutoResponse-Role`을 선택합니다.
+3. `Amazon GuardDuty-AWS Lambda-AutoResponse-Role`을 선택합니다.
 4. [[Delete]] 버튼을 클릭합니다.
 5. 확인 창에서 역할 이름을 입력합니다.
 6. [[Delete]] 버튼을 클릭합니다.
 
-### SNS 토픽 삭제
+### Amazon SNS 토픽 삭제
 
 1. Amazon SNS 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Topics**를 선택합니다.
-3. `GuardDuty-Security-Alerts` 토픽을 선택합니다.
+3. `Amazon GuardDuty-Security-Alerts` 토픽을 선택합니다.
 4. [[Delete]] 버튼을 클릭합니다.
 5. 확인 창에서 `delete me`를 입력합니다.
 6. [[Delete]] 버튼을 클릭합니다.
 
-### GuardDuty 비활성화
+### Amazon GuardDuty 비활성화
 
 1. Amazon GuardDuty 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Settings**를 선택합니다.
@@ -964,17 +964,17 @@ Week 4-3에서 구축한 QuickTable API와 Week 10-2의 ElastiCache 인프라를
 
 - [Amazon GuardDuty 사용 설명서](https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html)
 - [Amazon GuardDuty Finding 타입](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-types-active.html)
-- [EventBridge를 사용한 자동 대응](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings_cloudwatch.html)
+- [Amazon EventBridge를 사용한 자동 대응](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings_cloudwatch.html)
 - [AWS Lambda 보안 모범 사례](https://docs.aws.amazon.com/lambda/latest/dg/lambda-security.html)
 
 ### QuickTable 시리즈 연결
 
-- **Week 4-3**: Lambda + API Gateway로 QuickTable 예약 API 구축
-- **Week 10-2**: ElastiCache로 API 성능 최적화 (데모)
-- **Week 12-3**: GuardDuty + Lambda로 보안 모니터링 ← 현재
-- **Week 13-2**: X-Ray로 성능 추적
-- **Week 14-2**: Bedrock Knowledge Base로 레스토랑 메뉴 RAG
-- **Week 14-3**: Bedrock Agent로 예약 챗봇 완성
+- **Week 4-3**: AWS Lambda + Amazon API Gateway로 QuickTable 예약 API 구축
+- **Week 10-2**: Amazon ElastiCache로 API 성능 최적화 (데모)
+- **Week 12-3**: Amazon GuardDuty + AWS Lambda로 보안 모니터링 ← 현재
+- **Week 13-2**: AWS X-Ray로 성능 추적
+- **Week 14-2**: Amazon Bedrock Knowledge Base로 레스토랑 메뉴 RAG
+- **Week 14-3**: Amazon Bedrock Agent로 예약 챗봇 완성
 
 ## 📚 참고: Amazon GuardDuty 자동 대응 아키텍처
 
@@ -984,7 +984,7 @@ Week 4-3에서 구축한 QuickTable API와 Week 10-2의 ElastiCache 인프라를
 
 ```
 1. Amazon GuardDuty → 위협 탐지 (Finding 생성).
-2. EventBridge → Finding 이벤트 감지.
+2. Amazon EventBridge → Finding 이벤트 감지.
 3. AWS Lambda → 자동 대응 로직 실행.
    - 위협 수준 분석
    - 보안 그룹 격리 (High/Critical)
@@ -1017,7 +1017,7 @@ Week 4-3에서 구축한 QuickTable API와 Week 10-2의 ElastiCache 인프라를
 
 **특징**:
 
-- VPC별로 자동 생성
+- Amazon VPC별로 자동 생성
 - 모든 인바운드 규칙 없음 (기본값)
 - 모든 아웃바운드 규칙 제거 (완전 격리)
 - 재사용 가능한 인프라
@@ -1033,13 +1033,13 @@ Week 4-3에서 구축한 QuickTable API와 Week 10-2의 ElastiCache 인프라를
 
 **1. 다단계 대응 워크플로우**:
 
-- Step Functions로 복잡한 대응 프로세스 구현
+- AWS Step Functions로 복잡한 대응 프로세스 구현
 - 승인 단계 추가 (오탐 방지)
 - 자동 롤백 메커니즘
 
 **2. 대응 이력 관리**:
 
-- DynamoDB에 모든 대응 조치 기록
+- Amazon DynamoDB에 모든 대응 조치 기록
 - 감사 추적 (Audit Trail) 유지
 - 대응 효과 분석
 
@@ -1051,9 +1051,9 @@ Week 4-3에서 구축한 QuickTable API와 Week 10-2의 ElastiCache 인프라를
 
 **4. 통합 보안 도구**:
 
-- Security Hub로 중앙 집중식 관리
-- Systems Manager로 자동 패치
-- Inspector로 취약점 스캔
+- AWS Security Hub로 중앙 집중식 관리
+- AWS Systems Manager로 자동 패치
+- Amazon Inspector로 취약점 스캔
 
 **5. 알림 채널 다양화**:
 
@@ -1071,7 +1071,7 @@ Week 4-3에서 구축한 QuickTable API와 Week 10-2의 ElastiCache 인프라를
 
 **암호화**:
 
-- 환경 변수 암호화 (KMS)
+- 환경 변수 암호화 (AWS KMS)
 - Amazon SNS 메시지 암호화
 - Amazon CloudWatch Logs 암호화
 
