@@ -1,7 +1,27 @@
 ---
 inclusion: auto
 description: CloudFormation 템플릿 표준화 가이드 - AWS 인프라 코드 작성 규칙
-keywords: ['CloudFormation', '템플릿', '스택', '리소스', 'VPC', 'EC2', 'RDS', 'IAM', 'Lambda', '작성', '만들', '생성', '수정', '배포', 'YAML', 'Parameters', 'Outputs', '인프라']
+keywords:
+  [
+    'CloudFormation',
+    '템플릿',
+    '스택',
+    '리소스',
+    'VPC',
+    'EC2',
+    'RDS',
+    'IAM',
+    'Lambda',
+    '작성',
+    '만들',
+    '생성',
+    '수정',
+    '배포',
+    'YAML',
+    'Parameters',
+    'Outputs',
+    '인프라',
+  ]
 ---
 
 # CloudFormation 템플릿 표준화 가이드
@@ -26,6 +46,7 @@ keywords: ['CloudFormation', '템플릿', '스택', '리소스', 'VPC', 'EC2', '
 - 확장자: `.yaml` (일관성 유지)
 
 **예시**:
+
 ```
 week3-1-vpc-lab.yaml
 week3-2-security-group-lab.yaml
@@ -42,6 +63,7 @@ week7-3-eks-cluster-lab.yaml
 - 마지막에 `-stack` 접미사 추가
 
 **예시**:
+
 ```
 week3-1-vpc-stack
 week3-2-security-group-stack
@@ -49,6 +71,7 @@ week4-3-serverless-api-stack
 ```
 
 **Parameters를 통한 동적 스택 이름**:
+
 ```yaml
 Parameters:
   EnvironmentName:
@@ -67,6 +90,7 @@ Parameters:
 **형식 2** (환경 기반): `{EnvironmentName}-{Service}{Purpose}Role`
 
 **예시**:
+
 ```yaml
 # 형식 1
 LambdaExecutionRole:
@@ -82,6 +106,7 @@ EC2Role:
 ```
 
 **일반적인 Service-Purpose 조합**:
+
 - `Lambda-ExecutionRole`: Lambda 함수 실행 역할
 - `EC2-InstanceRole`: EC2 인스턴스 프로파일 역할
 - `RDS-MonitoringRole`: RDS 모니터링 역할
@@ -95,6 +120,7 @@ EC2Role:
 **형식 2** (환경 기반): `{EnvironmentName}-{Purpose}-SG`
 
 **예시**:
+
 ```yaml
 # 형식 1
 ALBSecurityGroup:
@@ -112,6 +138,7 @@ WebSecurityGroup:
 ```
 
 **일반적인 Purpose 값**:
+
 - `ALB-SG`: Application Load Balancer
 - `Web-SG`: 웹 계층
 - `App-SG`: 애플리케이션 계층
@@ -127,6 +154,7 @@ WebSecurityGroup:
 **형식 2** (환경 기반): `{EnvironmentName}-{Tier}-Subnet-{AZ}`
 
 **예시**:
+
 ```yaml
 # 형식 1
 PublicSubnet1:
@@ -146,6 +174,7 @@ PrivateSubnet1:
 ```
 
 **일반적인 Tier 값**:
+
 - `Public`: 퍼블릭 서브넷
 - `Private`: 프라이빗 서브넷
 - `Web`: 웹 계층 서브넷
@@ -153,12 +182,14 @@ PrivateSubnet1:
 - `DB`: 데이터베이스 계층 서브넷
 
 **가용 영역 표기**:
+
 - `A`: ap-northeast-2a
 - `C`: ap-northeast-2c
 
 ### 2.4 기타 리소스
 
 **VPC**:
+
 ```yaml
 VPC:
   Type: AWS::EC2::VPC
@@ -169,6 +200,7 @@ VPC:
 ```
 
 **인터넷 게이트웨이**:
+
 ```yaml
 InternetGateway:
   Type: AWS::EC2::InternetGateway
@@ -179,6 +211,7 @@ InternetGateway:
 ```
 
 **NAT 게이트웨이**:
+
 ```yaml
 NATGateway1:
   Type: AWS::EC2::NatGateway
@@ -189,6 +222,7 @@ NATGateway1:
 ```
 
 **라우트 테이블**:
+
 ```yaml
 PublicRouteTable:
   Type: AWS::EC2::RouteTable
@@ -205,6 +239,7 @@ PublicRouteTable:
 ### 3.1 EC2 인스턴스
 
 **AMI**: SSM Parameter를 사용하여 최신 Amazon Linux 2023 AMI 자동 선택
+
 ```yaml
 Parameters:
   LatestAmiId:
@@ -217,15 +252,17 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref LatestAmiId
-      InstanceType: t3.micro  # 또는 t3.medium
+      InstanceType: t3.micro # 또는 t3.medium
 ```
 
 **인스턴스 타입**:
+
 - 기본: `t3.micro` (1 vCPU, 1 GiB RAM)
 - 중간: `t3.medium` (2 vCPU, 4 GiB RAM)
 - 선택 기준: 실습 요구사항에 따라 결정
 
 **필수 태그**:
+
 ```yaml
 Tags:
   - Key: Name
@@ -239,23 +276,27 @@ Tags:
 ### 3.2 RDS 인스턴스
 
 **엔진 버전**:
+
 - MySQL: `8.0.35` (최신 안정 버전)
 - PostgreSQL: `15.4` (최신 안정 버전)
 
 **인스턴스 클래스**:
+
 - 기본: `db.t3.micro` (2 vCPU, 1 GiB RAM)
 
 **백업 설정**:
+
 ```yaml
 DBInstance:
   Type: AWS::RDS::DBInstance
   Properties:
-    BackupRetentionPeriod: 7  # 7일 백업 보관
-    PreferredBackupWindow: '03:00-04:00'  # UTC 기준
+    BackupRetentionPeriod: 7 # 7일 백업 보관
+    PreferredBackupWindow: '03:00-04:00' # UTC 기준
     PreferredMaintenanceWindow: 'sun:04:00-sun:05:00'
 ```
 
 **Multi-AZ 설정**:
+
 ```yaml
 MultiAZ: true  # Multi-AZ 실습의 경우
 MultiAZ: false  # Single-AZ 실습의 경우
@@ -264,36 +305,40 @@ MultiAZ: false  # Single-AZ 실습의 경우
 ### 3.3 Lambda 함수
 
 **런타임**:
+
 - Python: `python3.11` (최신 안정 버전)
 - Node.js: `nodejs20.x` (필요시)
 
 **메모리 및 타임아웃**:
+
 ```yaml
 LambdaFunction:
   Type: AWS::Lambda::Function
   Properties:
     Runtime: python3.11
-    MemorySize: 128  # 기본값, 필요시 256, 512 등으로 조정
-    Timeout: 30  # 기본 30초, API 호출 시 최대 300초
+    MemorySize: 128 # 기본값, 필요시 256, 512 등으로 조정
+    Timeout: 30 # 기본 30초, API 호출 시 최대 300초
 ```
 
 ### 3.4 EKS 클러스터
 
 **Kubernetes 버전**:
+
 ```yaml
 EKSCluster:
   Type: AWS::EKS::Cluster
   Properties:
-    Version: '1.28'  # 최신 안정 버전
+    Version: '1.28' # 최신 안정 버전
 ```
 
 **노드 그룹 인스턴스 타입**:
+
 ```yaml
 NodeGroup:
   Type: AWS::EKS::Nodegroup
   Properties:
     InstanceTypes:
-      - t3.medium  # 기본값
+      - t3.medium # 기본값
     ScalingConfig:
       MinSize: 2
       MaxSize: 4
@@ -303,14 +348,16 @@ NodeGroup:
 ### 3.5 ElastiCache
 
 **엔진 버전**:
+
 - Redis: `7.0` (최신 안정 버전)
 
 **노드 타입**:
+
 ```yaml
 CacheCluster:
   Type: AWS::ElastiCache::CacheCluster
   Properties:
-    CacheNodeType: cache.t3.micro  # 기본값
+    CacheNodeType: cache.t3.micro # 기본값
     Engine: redis
     EngineVersion: '7.0'
 ```
@@ -324,6 +371,7 @@ CacheCluster:
 **사용 사례**: VPC Endpoint 실습 (Week 3-1)
 
 **구조**:
+
 - VPC: 1개 (10.0.0.0/16)
 - 퍼블릭 서브넷: 2개 (10.0.1.0/24, 10.0.2.0/24)
 - 프라이빗 서브넷: 2개 (10.0.11.0/24, 10.0.12.0/24)
@@ -331,6 +379,7 @@ CacheCluster:
 - NAT 게이트웨이: 없음 (VPC Endpoint 사용)
 
 **특징**:
+
 - 프라이빗 서브넷에서 인터넷 접근 불가
 - VPC Endpoint를 통한 AWS 서비스 접근
 
@@ -339,6 +388,7 @@ CacheCluster:
 **사용 사례**: 보안 그룹 실습 (Week 3-2), RDS Multi-AZ (Week 5-1)
 
 **구조**:
+
 - VPC: 1개 (10.0.0.0/16)
 - 퍼블릭 서브넷: 2개 (10.0.1.0/24, 10.0.2.0/24)
 - 웹 계층 서브넷: 2개 (10.0.11.0/24, 10.0.12.0/24)
@@ -348,6 +398,7 @@ CacheCluster:
 - NAT 게이트웨이: 2개 (각 AZ에 1개)
 
 **특징**:
+
 - 계층별 서브넷 분리
 - 프라이빗 서브넷에서 NAT Gateway를 통한 인터넷 접근
 
@@ -356,6 +407,7 @@ CacheCluster:
 **사용 사례**: EKS 클러스터 실습 (Week 7-3, Week 9-3)
 
 **구조**:
+
 - VPC: 1개 (10.0.0.0/16)
 - 퍼블릭 서브넷: 2개 (10.0.1.0/24, 10.0.2.0/24)
 - 프라이빗 서브넷: 2개 (10.0.11.0/24, 10.0.12.0/24)
@@ -363,6 +415,7 @@ CacheCluster:
 - NAT 게이트웨이: 2개
 
 **특징**:
+
 - EKS 클러스터용 서브넷 태그 필수
 - 퍼블릭 서브넷: `kubernetes.io/role/elb: 1`
 - 프라이빗 서브넷: `kubernetes.io/role/internal-elb: 1`
@@ -398,6 +451,7 @@ PrivateSubnet1:
 ### 5.1 필수 Parameters
 
 **EnvironmentName**: 모든 템플릿에 포함
+
 ```yaml
 Parameters:
   EnvironmentName:
@@ -409,6 +463,7 @@ Parameters:
 ```
 
 **StudentId**: 학생별 리소스 구분 (선택적)
+
 ```yaml
 Parameters:
   StudentId:
@@ -418,9 +473,39 @@ Parameters:
     ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
 ```
 
-### 5.2 일반적인 Parameters
+### 5.2 Parameters 제약사항
+
+**중요**: Parameters의 `Default` 값에는 CloudFormation 내장 함수(`!Sub`, `!Ref`, `!GetAtt` 등)를 사용할 수 없습니다. 문자열 리터럴만 허용됩니다.
+
+**❌ 잘못된 예시**:
+
+```yaml
+Parameters:
+  BucketName:
+    Type: String
+    Default: !Sub 'my-bucket-${AWS::AccountId}' # 오류 발생!
+```
+
+**✅ 올바른 예시**:
+
+```yaml
+Parameters:
+  BucketPrefix:
+    Type: String
+    Default: 'my-bucket'
+    Description: S3 버킷 이름 접두사
+
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${BucketPrefix}-${AWS::AccountId}' # Resources에서 사용
+```
+
+### 5.3 일반적인 Parameters
 
 **VPC CIDR**:
+
 ```yaml
 VPCCIDR:
   Type: String
@@ -430,6 +515,7 @@ VPCCIDR:
 ```
 
 **서브넷 CIDR**:
+
 ```yaml
 PublicSubnet1CIDR:
   Type: String
@@ -438,6 +524,7 @@ PublicSubnet1CIDR:
 ```
 
 **인스턴스 타입**:
+
 ```yaml
 InstanceType:
   Type: String
@@ -450,6 +537,7 @@ InstanceType:
 ```
 
 **데이터베이스 자격증명** (Secrets Manager 사용 권장):
+
 ```yaml
 DBUsername:
   Type: String
@@ -492,6 +580,7 @@ Outputs:
 ### 6.2 일반적인 Outputs
 
 **VPC 관련**:
+
 ```yaml
 Outputs:
   VPCId:
@@ -506,6 +595,7 @@ Outputs:
 ```
 
 **서브넷 관련**:
+
 ```yaml
 PublicSubnet1Id:
   Description: 퍼블릭 서브넷 1 ID (ap-northeast-2a)
@@ -515,6 +605,7 @@ PublicSubnet1Id:
 ```
 
 **보안 그룹 관련**:
+
 ```yaml
 ALBSecurityGroupId:
   Description: ALB 보안 그룹 ID
@@ -524,6 +615,7 @@ ALBSecurityGroupId:
 ```
 
 **IAM 역할 관련**:
+
 ```yaml
 LambdaExecutionRoleArn:
   Description: Lambda 실행 역할 ARN
@@ -533,6 +625,7 @@ LambdaExecutionRoleArn:
 ```
 
 **엔드포인트 관련**:
+
 ```yaml
 APIEndpoint:
   Description: API Gateway 엔드포인트 URL
@@ -556,7 +649,7 @@ Tags:
   - Key: Lab
     Value: !Sub 'Week${WeekNumber}-${SessionNumber}'
   - Key: Purpose
-    Value: {실습 목적}
+    Value: { 실습 목적 }
 ```
 
 ### 7.2 선택적 태그
@@ -564,7 +657,7 @@ Tags:
 ```yaml
 Tags:
   - Key: StudentId
-    Value: !Ref StudentId  # 학생별 리소스 구분
+    Value: !Ref StudentId # 학생별 리소스 구분
   - Key: ManagedBy
     Value: CloudFormation
   - Key: CostCenter
@@ -590,6 +683,68 @@ EC2Instance:
         Value: 'Web'
 ```
 
+### 7.4 태그 파라미터화 패턴
+
+반복되는 태그 값을 Parameters로 정의하여 일관성을 유지하고 유지보수를 용이하게 할 수 있습니다.
+
+**패턴**:
+
+```yaml
+Parameters:
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project tag value for all resources
+
+  WeekTag:
+    Type: String
+    Default: '3-2'
+    Description: Week tag value for all resources
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy tag value for all resources
+
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
+        - Key: Component
+          Value: Storage # 리소스별 고유 태그
+
+  MyTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
+        - Key: Component
+          Value: Database # 리소스별 고유 태그
+```
+
+**장점**:
+
+- 모든 리소스에 일관된 태그 적용
+- 태그 값 변경 시 Parameters만 수정
+- 스택 생성 시 태그 값 커스터마이징 가능
+
+**주의사항**:
+
+- 리소스별 고유 태그(예: Component)는 하드코딩 유지
+- Parameters Default 값에는 내장 함수 사용 불가
+
 ---
 
 ## 8. 리소스 삭제 표준
@@ -599,10 +754,12 @@ EC2Instance:
 **기본 원칙**: CloudFormation 스택을 삭제하면 스택이 생성한 모든 리소스가 자동으로 삭제됩니다.
 
 **삭제 순서**:
+
 1. 종속 스택 먼저 삭제 (예: 애플리케이션 스택)
 2. 기반 인프라 스택 나중에 삭제 (예: VPC 스택)
 
 **AWS CLI 명령어**:
+
 ```bash
 # 스택 삭제
 aws cloudformation delete-stack --stack-name week3-1-vpc-stack
@@ -615,6 +772,7 @@ aws cloudformation wait stack-delete-complete --stack-name week3-1-vpc-stack
 ```
 
 **AWS Console**:
+
 1. CloudFormation 콘솔 접속
 2. 삭제할 스택 선택
 3. "삭제" 버튼 클릭
@@ -623,15 +781,17 @@ aws cloudformation wait stack-delete-complete --stack-name week3-1-vpc-stack
 ### 8.2 삭제 보호 설정
 
 **중요 리소스 보호**:
+
 ```yaml
 DBInstance:
   Type: AWS::RDS::DBInstance
-  DeletionPolicy: Snapshot  # 삭제 시 스냅샷 생성
+  DeletionPolicy: Snapshot # 삭제 시 스냅샷 생성
   Properties:
-    DeletionProtection: true  # 삭제 보호 활성화
+    DeletionProtection: true # 삭제 보호 활성화
 ```
 
 **DeletionPolicy 옵션**:
+
 - `Delete`: 스택 삭제 시 리소스도 삭제 (기본값)
 - `Retain`: 스택 삭제 시 리소스 유지
 - `Snapshot`: 삭제 전 스냅샷 생성 (RDS, EBS 등)
@@ -639,10 +799,12 @@ DBInstance:
 ### 8.3 삭제 시 주의사항
 
 **수동 생성 리소스**:
+
 - CloudFormation이 생성하지 않은 리소스는 자동 삭제되지 않음
 - 예: 수동으로 생성한 EC2 인스턴스, S3 객체 등
 
 **S3 버킷**:
+
 - 버킷에 객체가 있으면 삭제 실패
 - 삭제 전 버킷 비우기 필요
 
@@ -655,6 +817,7 @@ S3Bucket:
 ```
 
 **ENI (Elastic Network Interface)**:
+
 - Lambda, RDS 등이 생성한 ENI는 자동 삭제
 - 수동 생성 ENI는 별도 삭제 필요
 
@@ -665,12 +828,14 @@ S3Bucket:
 ### 9.1 템플릿 검증
 
 **AWS CLI 검증**:
+
 ```bash
 aws cloudformation validate-template \
   --template-body file://week3-1-vpc-lab.yaml
 ```
 
 **cfn-lint 사용** (권장):
+
 ```bash
 # 설치
 pip install cfn-lint
@@ -682,6 +847,7 @@ cfn-lint week3-1-vpc-lab.yaml
 ### 9.2 스택 생성 테스트
 
 **테스트 스택 생성**:
+
 ```bash
 aws cloudformation create-stack \
   --stack-name test-week3-1-vpc-stack \
@@ -691,6 +857,7 @@ aws cloudformation create-stack \
 ```
 
 **스택 생성 상태 확인**:
+
 ```bash
 aws cloudformation describe-stacks \
   --stack-name test-week3-1-vpc-stack \
@@ -700,6 +867,7 @@ aws cloudformation describe-stacks \
 ### 9.3 리소스 동작 확인
 
 **생성된 리소스 확인**:
+
 ```bash
 # VPC 확인
 aws ec2 describe-vpcs --filters "Name=tag:Name,Values=test-week3-1-vpc-VPC"
@@ -755,6 +923,7 @@ aws ec2 describe-security-groups --filters "Name=tag:Environment,Values=test-wee
 **중요**: 마크다운 가이드는 CloudFormation 템플릿을 문서화하는 것입니다. 템플릿이 진실의 원천이므로, 가이드가 템플릿에 맞춰져야 합니다.
 
 **검증 순서**:
+
 1. CloudFormation 템플릿 작성 및 테스트
 2. 템플릿이 정상 동작하는지 확인
 3. 템플릿 기반으로 마크다운 가이드 작성
@@ -763,6 +932,7 @@ aws ec2 describe-security-groups --filters "Name=tag:Environment,Values=test-wee
 ### 11.2 태스크 0: 실습 환경 구축
 
 **표준 구조**:
+
 ```markdown
 ## 태스크 0: 실습 환경 구축
 
@@ -817,6 +987,7 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 ### 11.3 리소스 정리 섹션
 
 **표준 구조**:
+
 ```markdown
 ## 리소스 정리
 
@@ -848,6 +1019,7 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 ### 11.4 기술적 세부사항 검증
 
 **필수 검증 항목**:
+
 - [ ] CIDR 블록이 템플릿과 일치하는가?
 - [ ] 포트 번호가 템플릿과 일치하는가?
 - [ ] 리소스 이름이 템플릿과 일치하는가?
@@ -857,6 +1029,7 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 - [ ] Outputs 값이 템플릿과 일치하는가?
 
 **검증 방법**:
+
 1. 템플릿에서 모든 기술적 값 추출
 2. 가이드에서 동일한 항목 찾기
 3. 값이 정확히 일치하는지 확인
@@ -872,6 +1045,7 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 **스택명**: `week3-1-vpc-stack`
 
 **주요 리소스**:
+
 - VPC: 10.0.0.0/16
 - 퍼블릭 서브넷: 10.0.1.0/24, 10.0.2.0/24
 - 프라이빗 서브넷: 10.0.11.0/24, 10.0.12.0/24
@@ -879,6 +1053,7 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 - EC2 인스턴스: t3.micro, Amazon Linux 2023
 
 **특징**:
+
 - VPC Endpoint를 통한 S3 접근 실습
 - NAT Gateway 없이 프라이빗 서브넷 구성
 
@@ -888,12 +1063,14 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 **스택명**: `week3-2-security-group-stack`
 
 **주요 리소스**:
+
 - VPC: 10.0.0.0/16
 - 3-Tier 서브넷 구조 (퍼블릭, 웹, 앱, DB)
 - NAT Gateway: 2개 (각 AZ)
 - 보안 그룹: ALB-SG, Web-SG, App-SG, DB-SG
 
 **특징**:
+
 - 계층별 보안 그룹 분리
 - 보안 그룹 간 참조를 통한 트래픽 제어
 
@@ -903,12 +1080,14 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 **스택명**: `week5-1-rds-stack`
 
 **주요 리소스**:
+
 - VPC: 10.0.0.0/16
 - DB 서브넷 그룹: 2개 AZ
 - RDS MySQL: db.t3.micro, Multi-AZ 활성화
 - 보안 그룹: DB-SG (포트 3306)
 
 **특징**:
+
 - Multi-AZ 고가용성 구성
 - 자동 백업 및 유지보수 윈도우 설정
 
@@ -918,12 +1097,14 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 **스택명**: `week7-3-eks-stack`
 
 **주요 리소스**:
+
 - VPC: 10.0.0.0/16
 - EKS 클러스터: Kubernetes 1.28
 - 노드 그룹: t3.medium, 2-4개 노드
 - IAM 역할: EKS-ClusterRole, EKS-NodeRole
 
 **특징**:
+
 - EKS 전용 서브넷 태그 설정
 - 클러스터 및 노드 그룹 IAM 역할 분리
 
@@ -933,12 +1114,14 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 **스택명**: `week10-2-elasticache-stack`
 
 **주요 리소스**:
+
 - VPC: 10.0.0.0/16
 - ElastiCache Redis: cache.t3.micro, 엔진 7.0
 - 서브넷 그룹: 2개 AZ
 - 보안 그룹: Cache-SG (포트 6379)
 
 **특징**:
+
 - Redis 클러스터 구성
 - 프라이빗 서브넷에 배치
 
@@ -948,12 +1131,14 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 **스택명**: `week11-2-datalake-stack`
 
 **주요 리소스**:
+
 - S3 버킷: 데이터 레이크 스토리지
 - Glue 데이터베이스 및 크롤러
 - IAM 역할: Glue-ServiceRole
 - Athena 워크그룹
 
 **특징**:
+
 - 서버리스 데이터 분석 인프라
 - Glue 크롤러를 통한 자동 스키마 검색
 
@@ -963,12 +1148,14 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 **스택명**: `week11-3-data-pipeline-stack`
 
 **주요 리소스**:
+
 - S3 버킷: 원본 및 처리된 데이터
 - Lambda 함수: 데이터 처리 (Python 3.11)
 - Glue 크롤러 및 데이터베이스
 - EventBridge 규칙: S3 이벤트 트리거
 
 **특징**:
+
 - 이벤트 기반 데이터 파이프라인
 - Lambda를 통한 자동 데이터 처리
 
@@ -979,31 +1166,37 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 ### 13.1 스택 생성 실패
 
 **문제**: IAM 권한 부족
+
 ```
 User is not authorized to perform: iam:CreateRole
 ```
 
 **해결**:
+
 - `--capabilities CAPABILITY_NAMED_IAM` 플래그 추가
 - IAM 역할 생성 권한 확인
 
 **문제**: 리소스 이름 중복
+
 ```
 Resource with name already exists
 ```
 
 **해결**:
+
 - `EnvironmentName` Parameter에 고유한 값 사용
 - 기존 리소스 삭제 또는 이름 변경
 
 ### 13.2 스택 삭제 실패
 
 **문제**: S3 버킷이 비어있지 않음
+
 ```
 The bucket you tried to delete is not empty
 ```
 
 **해결**:
+
 ```bash
 # 버킷 비우기
 aws s3 rm s3://bucket-name --recursive
@@ -1013,32 +1206,38 @@ aws cloudformation delete-stack --stack-name stack-name
 ```
 
 **문제**: ENI가 사용 중
+
 ```
 Network interface is currently in use
 ```
 
 **해결**:
+
 - Lambda, RDS 등의 리소스가 완전히 삭제될 때까지 대기
 - 수동으로 ENI 삭제 (필요시)
 
 ### 13.3 리소스 접근 불가
 
 **문제**: 보안 그룹 규칙 오류
+
 ```
 Connection timed out
 ```
 
 **해결**:
+
 - 보안 그룹 인바운드 규칙 확인
 - 소스 IP 또는 보안 그룹 ID 확인
 - 포트 번호 확인
 
 **문제**: VPC Endpoint 연결 실패
+
 ```
 Could not connect to the endpoint URL
 ```
 
 **해결**:
+
 - 라우팅 테이블에 VPC Endpoint 경로 확인
 - 서브넷과 라우팅 테이블 연결 확인
 - VPC Endpoint 정책 확인
