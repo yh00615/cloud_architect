@@ -1288,6 +1288,28 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
       );
     },
 
+    // 이미지 - base path 자동 처리
+    img: ({ src, alt, ...props }: any) => {
+      // base path 가져오기 (vite.config.ts에서 설정한 값)
+      const base = import.meta.env.BASE_URL || '/';
+
+      // 이미 base path가 포함되어 있으면 그대로 사용
+      const imageSrc = src?.startsWith(base)
+        ? src
+        : `${base}${src?.replace(/^\//, '')}`;
+
+      return (
+        <Box margin={{ vertical: 's' }}>
+          <img
+            src={imageSrc}
+            alt={alt || ''}
+            className="markdown-image"
+            {...props}
+          />
+        </Box>
+      );
+    },
+
     // 테이블 컴포넌트
     table: ({ children }: any) => <table>{children}</table>,
     thead: ({ children }: any) => <thead>{children}</thead>,
