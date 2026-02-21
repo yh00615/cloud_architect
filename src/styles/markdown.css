@@ -2,169 +2,188 @@
 
 /* 전체 문서에서 연속된 번호 매기기 */
 .markdown-content {
-    counter-reset: step-counter;
+  counter-reset: step-counter;
 }
 
 .markdown-content .markdown-ordered-list {
-    list-style: none;
-    counter-reset: none;
-    padding-left: 0;
+  list-style: none;
+  counter-reset: none;
+  padding-left: 0;
 }
 
-.markdown-content .markdown-ordered-list>li {
-    counter-increment: step-counter;
-    position: relative;
-    padding-left: 3rem;
-    margin-bottom: 1.25rem;
-    line-height: 1.75;
-    font-size: 1.0625rem;
+.markdown-content .markdown-ordered-list > li {
+  counter-increment: step-counter;
+  position: relative;
+  padding-left: 3rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.75;
+  font-size: 1.0625rem;
 }
 
-.markdown-content .markdown-ordered-list>li::before {
-    content: counter(step-counter) ". ";
-    font-weight: 700;
-    color: var(--color-text-body-default);
-    position: absolute;
-    left: 0;
-    top: 0;
-    min-width: 2.5rem;
-    text-align: left;
-    font-size: 1.0625rem;
+.markdown-content .markdown-ordered-list > li::before {
+  content: counter(step-counter) '. ';
+  font-weight: 700;
+  color: var(--color-text-body-default);
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-width: 2.5rem;
+  text-align: left;
+  font-size: 1.0625rem;
 }
 
 /* 리스트 아이템 내부의 코드 블록 들여쓰기 제거 (이미 li의 padding으로 들여쓰기됨) */
-.markdown-content .markdown-ordered-list>li .markdown-code-block {
-    margin-left: 0 !important;
-    margin-top: 0.25rem !important;
-    margin-bottom: 0.5rem !important;
+.markdown-content .markdown-ordered-list > li .markdown-code-block {
+  margin-left: 0 !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.5rem !important;
 }
 
 /* pre 태그로 감싸진 코드 블록도 들여쓰기 제거 */
-.markdown-content .markdown-ordered-list>li pre {
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    margin-top: 0.25rem !important;
+.markdown-content .markdown-ordered-list > li pre {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  margin-top: 0.25rem !important;
 }
 
 /* info-box는 왼쪽 정렬 (독립적인 블록) */
-.markdown-content .markdown-ordered-list>li .info-box {
-    margin-left: -3rem !important;
-    /* padding-left 값과 동일하게 조정 */
-    margin-top: 1rem !important;
-    margin-bottom: 1rem !important;
+.markdown-content .markdown-ordered-list > li .info-box {
+  margin-left: -3rem !important;
+  /* padding-left 값과 동일하게 조정 */
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
 }
 
 /* 코드 블록 자체도 들여쓰기 제거 */
-.markdown-content .markdown-ordered-list>li .markdown-code-block .awsui-code-view {
-    margin-left: 0 !important;
+.markdown-content
+  .markdown-ordered-list
+  > li
+  .markdown-code-block
+  .awsui-code-view {
+  margin-left: 0 !important;
 }
 
 /* pre 태그도 들여쓰기 */
-.markdown-content .markdown-ordered-list>li .markdown-code-block pre {
-    margin-left: 0 !important;
+.markdown-content .markdown-ordered-list > li .markdown-code-block pre {
+  margin-left: 0 !important;
 }
 
 /* 다크모드 지원 */
-[data-awsui-theme="dark"] .markdown-content .markdown-ordered-list>li::before {
-    color: var(--color-text-body-default);
+[data-awsui-theme='dark']
+  .markdown-content
+  .markdown-ordered-list
+  > li::before {
+  color: var(--color-text-body-default);
 }
 
 /* ============================================
    테이블 스타일 (코드 블록 제외)
    ============================================ */
 /* 테이블만 선택 (코드 블록 내부 제외) */
-.markdown-content>table,
-.markdown-content>div>table,
-.markdown-content>p>table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0 0 1.5rem 0;
-    font-size: 1rem;
-    line-height: 1.6;
-    background-color: #ffffff;
-    border: 1px solid #d5dbdb;
+.markdown-content > table,
+.markdown-content > div > table,
+.markdown-content > p > table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 1.5rem 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: #ffffff;
+  border: 1px solid #d5dbdb;
 }
 
-.markdown-content>table thead,
-.markdown-content>div>table thead,
-.markdown-content>p>table thead {
-    background-color: #f2f3f3;
+.markdown-content > table thead,
+.markdown-content > div > table thead,
+.markdown-content > p > table thead {
+  background-color: #f2f3f3;
 }
 
-.markdown-content>table th,
-.markdown-content>div>table th,
-.markdown-content>p>table th {
-    padding: 12px 16px;
-    text-align: left;
-    font-weight: 700;
-    font-size: 1rem;
-    color: #16191f;
-    border: 1px solid #d5dbdb;
-    background-color: #f2f3f3;
+.markdown-content > table th,
+.markdown-content > div > table th,
+.markdown-content > p > table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #16191f;
+  border: 1px solid #d5dbdb;
+  background-color: #f2f3f3;
 }
 
-.markdown-content>table td,
-.markdown-content>div>table td,
-.markdown-content>p>table td {
-    padding: 12px 16px;
-    font-size: 1rem;
-    color: #16191f;
-    border: 1px solid #d5dbdb;
-    background-color: #ffffff;
+.markdown-content > table td,
+.markdown-content > div > table td,
+.markdown-content > p > table td {
+  padding: 12px 16px;
+  font-size: 1rem;
+  color: #16191f;
+  border: 1px solid #d5dbdb;
+  background-color: #ffffff;
 }
 
-.markdown-content>table tbody tr:nth-child(even) td,
-.markdown-content>div>table tbody tr:nth-child(even) td,
-.markdown-content>p>table tbody tr:nth-child(even) td {
-    background-color: #fafbfc;
+.markdown-content > table tbody tr:nth-child(even) td,
+.markdown-content > div > table tbody tr:nth-child(even) td,
+.markdown-content > p > table tbody tr:nth-child(even) td {
+  background-color: #fafbfc;
 }
 
-.markdown-content>table tbody tr:hover td,
-.markdown-content>div>table tbody tr:hover td,
-.markdown-content>p>table tbody tr:hover td {
-    background-color: #f2f3f3;
+.markdown-content > table tbody tr:hover td,
+.markdown-content > div > table tbody tr:hover td,
+.markdown-content > p > table tbody tr:hover td {
+  background-color: #f2f3f3;
 }
 
 /* 다크모드 테이블 */
-[data-awsui-theme="dark"] .markdown-content>table,
-[data-awsui-theme="dark"] .markdown-content>div>table,
-[data-awsui-theme="dark"] .markdown-content>p>table {
-    background-color: #0f1b2a;
-    border-color: #414d5c;
+[data-awsui-theme='dark'] .markdown-content > table,
+[data-awsui-theme='dark'] .markdown-content > div > table,
+[data-awsui-theme='dark'] .markdown-content > p > table {
+  background-color: #0f1b2a;
+  border-color: #414d5c;
 }
 
-[data-awsui-theme="dark"] .markdown-content>table thead,
-[data-awsui-theme="dark"] .markdown-content>div>table thead,
-[data-awsui-theme="dark"] .markdown-content>p>table thead {
-    background-color: #192534;
+[data-awsui-theme='dark'] .markdown-content > table thead,
+[data-awsui-theme='dark'] .markdown-content > div > table thead,
+[data-awsui-theme='dark'] .markdown-content > p > table thead {
+  background-color: #192534;
 }
 
-[data-awsui-theme="dark"] .markdown-content>table th,
-[data-awsui-theme="dark"] .markdown-content>div>table th,
-[data-awsui-theme="dark"] .markdown-content>p>table th {
-    background-color: #192534;
-    color: #d1d5db;
-    border-color: #414d5c;
+[data-awsui-theme='dark'] .markdown-content > table th,
+[data-awsui-theme='dark'] .markdown-content > div > table th,
+[data-awsui-theme='dark'] .markdown-content > p > table th {
+  background-color: #192534;
+  color: #d1d5db;
+  border-color: #414d5c;
 }
 
-[data-awsui-theme="dark"] .markdown-content>table td,
-[data-awsui-theme="dark"] .markdown-content>div>table td,
-[data-awsui-theme="dark"] .markdown-content>p>table td {
-    background-color: #0f1b2a;
-    color: #d1d5db;
-    border-color: #414d5c;
+[data-awsui-theme='dark'] .markdown-content > table td,
+[data-awsui-theme='dark'] .markdown-content > div > table td,
+[data-awsui-theme='dark'] .markdown-content > p > table td {
+  background-color: #0f1b2a;
+  color: #d1d5db;
+  border-color: #414d5c;
 }
 
-[data-awsui-theme="dark"] .markdown-content>table tbody tr:nth-child(even) td,
-[data-awsui-theme="dark"] .markdown-content>div>table tbody tr:nth-child(even) td,
-[data-awsui-theme="dark"] .markdown-content>p>table tbody tr:nth-child(even) td {
-    background-color: #16202e;
+[data-awsui-theme='dark'] .markdown-content > table tbody tr:nth-child(even) td,
+[data-awsui-theme='dark']
+  .markdown-content
+  > div
+  > table
+  tbody
+  tr:nth-child(even)
+  td,
+[data-awsui-theme='dark']
+  .markdown-content
+  > p
+  > table
+  tbody
+  tr:nth-child(even)
+  td {
+  background-color: #16202e;
 }
 
-[data-awsui-theme="dark"] .markdown-content>table tbody tr:hover td,
-[data-awsui-theme="dark"] .markdown-content>div>table tbody tr:hover td,
-[data-awsui-theme="dark"] .markdown-content>p>table tbody tr:hover td {
-    background-color: #192534;
+[data-awsui-theme='dark'] .markdown-content > table tbody tr:hover td,
+[data-awsui-theme='dark'] .markdown-content > div > table tbody tr:hover td,
+[data-awsui-theme='dark'] .markdown-content > p > table tbody tr:hover td {
+  background-color: #192534;
 }
 
 /* 정의 목록 스타일 - 일반 텍스트처럼 표시 */
@@ -186,5 +205,38 @@
 }
 
 .markdown-definition-desc::before {
-  content: ": ";
+  content: ': ';
+}
+
+/* 마크다운 콘텐츠 내 모든 링크 스타일 - 앵커 링크와 동일 */
+.markdown-content a {
+  color: #0972d3;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  padding-bottom: 2px;
+}
+
+.markdown-content a:hover {
+  color: #0862c2;
+  border-bottom-color: #0972d3;
+}
+
+.markdown-content a:active {
+  color: #0651a8;
+}
+
+/* 다크모드 지원 */
+[data-awsui-theme='dark'] .markdown-content a {
+  color: #539fe5;
+}
+
+[data-awsui-theme='dark'] .markdown-content a:hover {
+  color: #7bb7ed;
+  border-bottom-color: #539fe5;
+}
+
+[data-awsui-theme='dark'] .markdown-content a:active {
+  color: #3d8fd9;
 }
