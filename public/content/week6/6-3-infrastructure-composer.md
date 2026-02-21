@@ -9,7 +9,7 @@ learningObjectives:
   - Infrastructure as Code의 개념과 이점을 이해할 수 있습니다
   - AWS CloudFormation의 동작 원리와 주요 구성 요소를 설명할 수 있습니다
   - 템플릿의 주요 섹션(Resources, Parameters, Outputs)과 역할을 이해할 수 있습니다
-  - YAML 문법을 사용하여 CloudFormation 템플릿을 작성할 수 있습니다
+  - YAML 문법을 사용하여 AWS CloudFormation 템플릿을 작성할 수 있습니다
   - Intrinsic Functions를 활용하여 동적 템플릿을 구성할 수 있습니다
   - 변경 세트를 사용하여 변경 사항을 미리 확인할 수 있습니다
   - 드리프트 탐지로 실제 리소스와 템플릿 간 차이를 파악할 수 있습니다
@@ -30,7 +30,7 @@ prerequisites:
 > 
 > **이 실습의 변경사항:**
 > 
-> - Week 6-2에서 작성했던 VPC + EC2 웹 서버 대신 **서버리스 REST API**를 구축합니다.
+> - Week 6-2에서 작성했던 Amazon VPC + Amazon EC2 웹 서버 대신 **서버리스 REST API**를 구축합니다.
 > - AWS Lambda 함수, Amazon API Gateway, Amazon DynamoDB 테이블을 드래그 앤 드롭으로 설계합니다.
 > - Infrastructure Composer의 강점인 서버리스 아키텍처 설계에 집중합니다.
 
@@ -72,14 +72,14 @@ prerequisites:
 
 ## 태스크 2: Amazon DynamoDB 테이블 추가
 
-이 태스크에서는 드래그 앤 드롭으로 DynamoDB 테이블을 캔버스에 추가하여 데이터를 저장할 데이터베이스를 생성합니다.
+이 태스크에서는 드래그 앤 드롭으로 Amazon DynamoDB 테이블을 캔버스에 추가하여 데이터를 저장할 데이터베이스를 생성합니다.
 
 1. 왼쪽 리소스 팔레트에서 **Database** 카테고리를 확장합니다.
 2. **Amazon DynamoDB Table**을 찾아서 중앙 캔버스로 드래그합니다.
-3. 캔버스에 배치된 DynamoDB Table 리소스를 클릭합니다.
+3. 캔버스에 배치된 Amazon DynamoDB Table 리소스를 클릭합니다.
 
 > [!TIP]
-> 리소스 팔레트의 카테고리 이름이 변경된 경우 검색 기능을 사용하여 "DynamoDB"를 직접 검색합니다.
+> 리소스 팔레트의 카테고리 이름이 변경된 경우 검색 기능을 사용하여 "Amazon DynamoDB"를 직접 검색합니다.
 4. 오른쪽 속성 패널에서 **Logical ID**를 `ItemsTable`로 변경합니다.
 5. **Properties** 섹션을 확장합니다.
 6. **AttributeDefinitions** 섹션을 확장합니다.
@@ -98,21 +98,21 @@ prerequisites:
 > 속성을 변경하면 오른쪽 YAML 코드가 실시간으로 업데이트됩니다.
 > `PAY_PER_REQUEST` 모드는 프로비저닝된 용량 없이 사용한 만큼만 비용을 지불합니다.
 
-✅ **태스크 완료**: DynamoDB 테이블이 추가되었습니다.
+✅ **태스크 완료**: Amazon DynamoDB 테이블이 추가되었습니다.
 
 ## 태스크 3: AWS Lambda 함수 추가
 
-이 태스크에서는 DynamoDB 테이블에 데이터를 저장하고 조회하는 Lambda 함수를 추가합니다.
+이 태스크에서는 Amazon DynamoDB 테이블에 데이터를 저장하고 조회하는 AWS Lambda 함수를 추가합니다.
 
 > [!NOTE] Template 탭 코드 편집
 > 
 > 이 태스크부터는 **Template 탭에서 YAML 코드를 직접 편집**합니다.
 > Infrastructure Composer는 비주얼 디자인과 코드 편집을 결합하여 사용하는 도구입니다.
-> Lambda 함수 코드와 같은 세부 설정은 Template 탭에서 작성하는 것이 더 효율적입니다.
+> AWS Lambda 함수 코드와 같은 세부 설정은 Template 탭에서 작성하는 것이 더 효율적입니다.
 
 1. 왼쪽 리소스 팔레트에서 **Compute** 카테고리를 확장합니다.
 2. **AWS Lambda Function**을 찾아서 캔버스로 드래그합니다.
-3. Lambda Function 리소스를 클릭합니다.
+3. AWS Lambda Function 리소스를 클릭합니다.
 4. 오른쪽 속성 패널에서 **Logical ID**를 `ItemsFunction`로 변경합니다.
 5. **Properties** 섹션을 확장합니다.
 6. **Runtime**에서 `python3.12`를 선택합니다.
@@ -170,14 +170,14 @@ Environment:
     TABLE_NAME: !Ref ItemsTable
 ```
 
-> [!NOTE] Lambda 함수 코드 편집 및 Infrastructure Composer 한계
+> [!NOTE] AWS Lambda 함수 코드 편집 및 Infrastructure Composer 한계
 > 
-> **Lambda 함수 코드**: DynamoDB 테이블에서 데이터를 조회(GET)하고 생성(POST)하는 간단한 REST API를 구현합니다.
+> **AWS Lambda 함수 코드**: Amazon DynamoDB 테이블에서 데이터를 조회(GET)하고 생성(POST)하는 간단한 REST API를 구현합니다.
 > 
-> **Infrastructure Composer 한계**: Infrastructure Composer에서 Lambda 함수 코드는 비주얼로 설정할 수 없어 Template 탭에서 직접 코드 편집이 필요합니다. 이는 현실적 한계이며, 복잡한 설정은 Template 탭에서 직접 편집해야 합니다.
+> **Infrastructure Composer 한계**: Infrastructure Composer에서 AWS Lambda 함수 코드는 비주얼로 설정할 수 없어 Template 탭에서 직접 코드 편집이 필요합니다. 이는 현실적 한계이며, 복잡한 설정은 Template 탭에서 직접 편집해야 합니다.
 
 11. **Canvas** 탭을 선택합니다.
-12. Lambda Function과 DynamoDB Table 사이에 연결선이 표시되는지 확인합니다.
+12. AWS Lambda Function과 Amazon DynamoDB Table 사이에 연결선이 표시되는지 확인합니다.
 
 > [!WARNING] Template 탭 코드 편집 주의사항
 > 
@@ -186,22 +186,22 @@ Environment:
 > Canvas 탭으로 전환하기 전에 YAML 문법이 올바른지 확인합니다.
 
 > [!NOTE]
-> `!Ref ItemsTable`을 사용하면 Infrastructure Composer가 자동으로 Lambda 함수와 DynamoDB 테이블 간의 관계를 시각화합니다.
+> `!Ref ItemsTable`을 사용하면 Infrastructure Composer가 자동으로 AWS Lambda 함수와 Amazon DynamoDB 테이블 간의 관계를 시각화합니다.
 
-✅ **태스크 완료**: Lambda 함수가 추가되었습니다.
+✅ **태스크 완료**: AWS Lambda 함수가 추가되었습니다.
 
-## 태스크 4: IAM 역할 추가 및 Lambda 함수 권한 설정
+## 태스크 4: AWS IAM 역할 추가 및 AWS Lambda 함수 권한 설정
 
-이 태스크에서는 Lambda 함수가 DynamoDB 테이블에 접근할 수 있도록 IAM 역할을 추가하고 권한을 설정합니다.
+이 태스크에서는 AWS Lambda 함수가 Amazon DynamoDB 테이블에 접근할 수 있도록 AWS IAM 역할을 추가하고 권한을 설정합니다.
 
 > [!NOTE] Template 탭 코드 편집
 > 
 > 이 태스크에서도 **Template 탭에서 YAML 코드를 직접 편집**합니다.
-> IAM 역할의 정책 문서는 비주얼로 설정할 수 없어 Template 탭에서 직접 작성해야 합니다.
+> AWS IAM 역할의 정책 문서는 비주얼로 설정할 수 없어 Template 탭에서 직접 작성해야 합니다.
 
 1. 왼쪽 리소스 팔레트에서 **Security, Identity, & Compliance** 카테고리를 확장합니다.
 2. **AWS IAM Role**을 찾아서 캔버스로 드래그합니다.
-3. IAM Role 리소스를 클릭합니다.
+3. AWS IAM Role 리소스를 클릭합니다.
 4. 오른쪽 속성 패널에서 **Logical ID**를 `ItemsFunctionRole`로 변경합니다.
 5. 오른쪽 패널에서 **Template** 탭을 선택합니다.
 6. `ItemsFunctionRole` 리소스를 찾습니다.
@@ -209,7 +209,7 @@ Environment:
 
 ```yaml
 ItemsFunctionRole:
-  Type: AWS::IAM::Role
+  Type: AWS::AWS IAM::Role
   Properties:
     AssumeRolePolicyDocument:
       Version: '2012-10-17'
@@ -246,25 +246,25 @@ ItemsFunctionRole:
 Role: !GetAtt ItemsFunctionRole.Arn
 ```
 
-> [!NOTE] IAM 역할 편집 및 Infrastructure Composer 한계
+> [!NOTE] AWS IAM 역할 편집 및 Infrastructure Composer 한계
 > 
-> **IAM 역할**: Lambda 함수가 DynamoDB 테이블에 접근하고 CloudWatch Logs에 로그를 기록할 수 있도록 권한을 부여합니다.
+> **AWS IAM 역할**: AWS Lambda 함수가 Amazon DynamoDB 테이블에 접근하고 Amazon CloudWatch Logs에 로그를 기록할 수 있도록 권한을 부여합니다.
 > 
-> **Infrastructure Composer 한계**: IAM 역할의 정책 문서는 비주얼로 설정할 수 없어 Template 탭에서 직접 코드 편집이 필요합니다.
+> **Infrastructure Composer 한계**: AWS IAM 역할의 정책 문서는 비주얼로 설정할 수 없어 Template 탭에서 직접 코드 편집이 필요합니다.
 
 10. **Canvas** 탭을 선택합니다.
-11. Lambda Function과 IAM Role 사이에 연결선이 표시되는지 확인합니다.
+11. AWS Lambda Function과 AWS IAM Role 사이에 연결선이 표시되는지 확인합니다.
 
-✅ **태스크 완료**: IAM 역할이 추가되고 Lambda 함수 권한이 설정되었습니다.
+✅ **태스크 완료**: AWS IAM 역할이 추가되고 AWS Lambda 함수 권한이 설정되었습니다.
 
-## 태스크 5: Amazon API Gateway 추가 및 Lambda 함수 연결
+## 태스크 5: Amazon API Gateway 추가 및 AWS Lambda 함수 연결
 
-이 태스크에서는 REST API를 생성하고 Lambda 함수와 연결하여 HTTP 요청을 처리할 수 있도록 구성합니다.
+이 태스크에서는 REST API를 생성하고 AWS Lambda 함수와 연결하여 HTTP 요청을 처리할 수 있도록 구성합니다.
 
 > [!NOTE] Template 탭 코드 편집
 > 
 > 이 태스크에서도 **Template 탭에서 YAML 코드를 직접 편집**합니다.
-> API Gateway의 리소스, 메서드, 배포, Lambda 권한은 비주얼로 설정할 수 없어 Template 탭에서 직접 작성해야 합니다.
+> Amazon API Gateway의 리소스, 메서드, 배포, AWS Lambda 권한은 비주얼로 설정할 수 없어 Template 탭에서 직접 작성해야 합니다.
 
 1. 왼쪽 리소스 팔레트에서 **Networking & Content Delivery** 카테고리를 확장합니다.
 2. **Amazon API Gateway REST API**를 찾아서 캔버스로 드래그합니다.
@@ -303,7 +303,7 @@ ItemsApiDeployment:
     StageName: prod
 
 LambdaApiPermission:
-  Type: AWS::Lambda::Permission
+  Type: AWS::AWS Lambda::Permission
   Properties:
     FunctionName: !Ref ItemsFunction
     Action: lambda:InvokeFunction
@@ -311,28 +311,28 @@ LambdaApiPermission:
     SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ItemsApi}/*/*/items
 ```
 
-> [!NOTE] Lambda 권한 SourceArn 패턴 설명
+> [!NOTE] AWS Lambda 권한 SourceArn 패턴 설명
 > 
 > **SourceArn 패턴**: `arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ItemsApi}/*/*/items`
 > - 첫 번째 `*`: 스테이지 이름 (prod, dev 등 모든 스테이지 허용)
 > - 두 번째 `*`: HTTP 메서드 (GET, POST 등 모든 메서드 허용)
 > - `/items`: API 경로
 > 
-> 이 패턴은 보안상 문제가 없으며, 모든 스테이지와 메서드에서 `/items` 경로로 Lambda 함수를 호출할 수 있도록 허용합니다.
+> 이 패턴은 보안상 문제가 없으며, 모든 스테이지와 메서드에서 `/items` 경로로 AWS Lambda 함수를 호출할 수 있도록 허용합니다.
 
-> [!NOTE] API Gateway 설정 및 Infrastructure Composer 한계
+> [!NOTE] Amazon API Gateway 설정 및 Infrastructure Composer 한계
 > 
-> **API Gateway 설정**: `/items` 경로에 ANY 메서드를 생성하여 모든 HTTP 메서드(GET, POST 등)를 Lambda 함수로 프록시합니다.
+> **Amazon API Gateway 설정**: `/items` 경로에 ANY 메서드를 생성하여 모든 HTTP 메서드(GET, POST 등)를 AWS Lambda 함수로 프록시합니다.
 > 
-> **Infrastructure Composer 한계**: API Gateway의 리소스, 메서드, 배포, Lambda 권한은 비주얼로 설정할 수 없어 Template 탭에서 직접 코드 편집이 필요합니다. 이는 Infrastructure Composer가 주로 간단한 서버리스 아키텍처에 최적화되어 있기 때문입니다.
+> **Infrastructure Composer 한계**: Amazon API Gateway의 리소스, 메서드, 배포, AWS Lambda 권한은 비주얼로 설정할 수 없어 Template 탭에서 직접 코드 편집이 필요합니다. 이는 Infrastructure Composer가 주로 간단한 서버리스 아키텍처에 최적화되어 있기 때문입니다.
 
 9. **Canvas** 탭을 선택합니다.
-10. API Gateway와 Lambda Function 사이에 연결선이 표시되는지 확인합니다.
+10. Amazon API Gateway와 AWS Lambda Function 사이에 연결선이 표시되는지 확인합니다.
 
 > [!NOTE]
 > Infrastructure Composer는 `!Ref`와 `!Sub` 함수를 분석하여 리소스 간 관계를 시각화합니다.
 
-✅ **태스크 완료**: API Gateway가 추가되고 Lambda 함수와 연결되었습니다.
+✅ **태스크 완료**: Amazon API Gateway가 추가되고 AWS Lambda 함수와 연결되었습니다.
 
 ## 태스크 6: 템플릿 검토 및 AWS CloudFormation 배포
 
@@ -341,12 +341,12 @@ LambdaApiPermission:
 1. 오른쪽 패널에서 **Template** 탭을 선택합니다.
 2. 생성된 YAML 템플릿을 검토합니다.
 3. 모든 리소스가 올바르게 정의되었는지 확인합니다:
-   - `ItemsTable` (DynamoDB 테이블)
-   - `ItemsFunction` (Lambda 함수)
-   - `ItemsFunctionRole` (IAM 역할)
-   - `ItemsApi` (API Gateway REST API)
-   - `ItemsApiResource`, `ItemsApiMethod`, `ItemsApiDeployment` (API Gateway 설정)
-   - `LambdaApiPermission` (Lambda 권한)
+   - `ItemsTable` (Amazon DynamoDB 테이블)
+   - `ItemsFunction` (AWS Lambda 함수)
+   - `ItemsFunctionRole` (AWS IAM 역할)
+   - `ItemsApi` (Amazon API Gateway REST API)
+   - `ItemsApiResource`, `ItemsApiMethod`, `ItemsApiDeployment` (Amazon API Gateway 설정)
+   - `LambdaApiPermission` (AWS Lambda 권한)
 
 > [!NOTE]
 > AWS Infrastructure Composer가 자동으로 생성한 템플릿은 서버리스 REST API를 구현하는 표준 패턴을 따릅니다.
@@ -357,7 +357,7 @@ LambdaApiPermission:
 ```yaml
 Outputs:
   ApiUrl:
-    Description: API Gateway endpoint URL
+    Description: Amazon API Gateway endpoint URL
     Value: !Sub https://${ItemsApi}.execute-api.${AWS::Region}.amazonaws.com/prod/items
 ```
 
@@ -369,10 +369,10 @@ Outputs:
 > ```yaml
 > Resources:
 >   ItemsTable:
->     Type: AWS::DynamoDB::Table
+>     Type: AWS::Amazon DynamoDB::Table
 >     ...
 >   ItemsFunction:
->     Type: AWS::Lambda::Function
+>     Type: AWS::AWS Lambda::Function
 >     ...
 > 
 > Outputs:  # Resources와 동일한 들여쓰기 레벨
@@ -382,7 +382,7 @@ Outputs:
 
 5. **Template** 탭에서 전체 YAML 코드를 복사합니다.
 6. 새 브라우저 탭을 엽니다.
-7. AWS Management Console에 로그인한 후 상단 검색창에서 `CloudFormation`을 검색하고 선택합니다.
+7. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
 8. [[Create stack]] 버튼을 클릭합니다.
 9. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
 10. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -402,7 +402,7 @@ Outputs:
 
 18. [[Next]] 버튼을 클릭합니다.
 19. **Review and create** 페이지에서 아래로 스크롤하여 **Capabilities** 섹션을 찾습니다.
-20. `I acknowledge that AWS CloudFormation might create IAM resources`를 체크합니다.
+20. `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
 21. [[Submit]] 버튼을 클릭합니다.
 
 > [!NOTE]
@@ -414,10 +414,10 @@ Outputs:
 
 > [!NOTE]
 > **Events** 탭에는 리소스 생성 과정이 실시간으로 표시됩니다.
-> DynamoDB 테이블, IAM 역할, Lambda 함수, API Gateway가 순차적으로 생성됩니다.
-> 스택 생성에 2-3분이 소요됩니다. 대기하는 동안 Infrastructure Composer 탭을 선택하여 생성한 아키텍처 다이어그램을 다시 확인하거나, Week 6-1과 6-2에서 학습한 CloudFormation 개념을 복습할 수 있습니다.
+> Amazon DynamoDB 테이블, AWS IAM 역할, AWS Lambda 함수, Amazon API Gateway가 순차적으로 생성됩니다.
+> 스택 생성에 2-3분이 소요됩니다. 대기하는 동안 Infrastructure Composer 탭을 선택하여 생성한 아키텍처 다이어그램을 다시 확인하거나, Week 6-1과 6-2에서 학습한 AWS CloudFormation 개념을 복습할 수 있습니다.
 > 
-> **스택 태그 자동 전파**: 스택에 추가한 태그(`Project`, `Week`, `CreatedBy`)는 스택이 생성하는 모든 리소스(DynamoDB, Lambda, API Gateway 등)에 자동으로 전파됩니다.
+> **스택 태그 자동 전파**: 스택에 추가한 태그(`Project`, `Week`, `CreatedBy`)는 스택이 생성하는 모든 리소스(Amazon DynamoDB, AWS Lambda, Amazon API Gateway 등)에 자동으로 전파됩니다.
 
 24. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
 
@@ -425,7 +425,7 @@ Outputs:
 
 ## 태스크 7: REST API 테스트
 
-이 태스크에서는 생성된 API Gateway 엔드포인트로 HTTP 요청을 보내 REST API가 정상적으로 작동하는지 확인합니다.
+이 태스크에서는 생성된 Amazon API Gateway 엔드포인트로 HTTP 요청을 보내 REST API가 정상적으로 작동하는지 확인합니다.
 
 1. AWS CloudFormation 콘솔에서 `infrastructure-composer-serverless-api` 스택을 선택합니다.
 2. **Outputs** 탭을 선택합니다.
@@ -501,7 +501,7 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
    - **Tag key**: `Week`
    - **Tag value**: `6-3`
 6. [[Search resources]] 버튼을 클릭합니다.
-7. 이 실습에서 생성한 모든 리소스(AWS CloudFormation 스택, DynamoDB 테이블, Lambda 함수, API Gateway 등)가 표시됩니다.
+7. 이 실습에서 생성한 모든 리소스(AWS CloudFormation 스택, Amazon DynamoDB 테이블, AWS Lambda 함수, Amazon API Gateway 등)가 표시됩니다.
 
 > [!NOTE]
 > Tag Editor는 리소스를 찾는 용도로만 사용됩니다. 실제 삭제는 각 서비스 콘솔에서 수행해야 합니다.
@@ -515,7 +515,7 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 5. 스택 삭제가 완료될 때까지 기다립니다 (2-3분 소요).
 
 > [!NOTE]
-> AWS CloudFormation 스택을 삭제하면 Lambda 함수, API Gateway, IAM 역할, DynamoDB 테이블 등 모든 리소스가 자동으로 삭제됩니다.
+> AWS CloudFormation 스택을 삭제하면 AWS Lambda 함수, Amazon API Gateway, AWS IAM 역할, Amazon DynamoDB 테이블 등 모든 리소스가 자동으로 삭제됩니다.
 
 ✅ **실습 종료**: 모든 리소스가 정리되었습니다.
 
@@ -550,15 +550,15 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 **구성 요소**:
 - **Amazon DynamoDB**: NoSQL 데이터베이스로 아이템 데이터를 저장합니다
 - **AWS Lambda**: Python 함수로 비즈니스 로직을 실행합니다 (GET, POST 요청 처리)
-- **Amazon API Gateway**: REST API 엔드포인트를 제공하고 Lambda 함수를 호출합니다
-- **AWS IAM**: Lambda 함수가 DynamoDB에 접근할 수 있도록 권한을 부여합니다
+- **Amazon API Gateway**: REST API 엔드포인트를 제공하고 AWS Lambda 함수를 호출합니다
+- **AWS IAM**: AWS Lambda 함수가 Amazon DynamoDB에 접근할 수 있도록 권한을 부여합니다
 
 **데이터 흐름**:
-1. 클라이언트가 API Gateway 엔드포인트로 HTTP 요청을 보냅니다
-2. API Gateway가 Lambda 함수를 호출합니다
-3. Lambda 함수가 DynamoDB 테이블에서 데이터를 조회하거나 생성합니다
-4. Lambda 함수가 결과를 API Gateway로 반환합니다
-5. API Gateway가 HTTP 응답을 클라이언트에게 전달합니다
+1. 클라이언트가 Amazon API Gateway 엔드포인트로 HTTP 요청을 보냅니다
+2. Amazon API Gateway가 AWS Lambda 함수를 호출합니다
+3. AWS Lambda 함수가 Amazon DynamoDB 테이블에서 데이터를 조회하거나 생성합니다
+4. AWS Lambda 함수가 결과를 Amazon API Gateway로 반환합니다
+5. Amazon API Gateway가 HTTP 응답을 클라이언트에게 전달합니다
 
 ### Infrastructure Composer의 장점
 
@@ -588,13 +588,13 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 ### Infrastructure Composer의 한계
 
 **복잡한 설정은 코드 편집 필요**
-- Lambda 함수 코드는 Template 탭에서 직접 편집해야 합니다
-- IAM 정책 문서는 비주얼로 설정할 수 없습니다
-- API Gateway의 세부 설정(리소스, 메서드, 배포)은 코드로 작성해야 합니다
+- AWS Lambda 함수 코드는 Template 탭에서 직접 편집해야 합니다
+- AWS IAM 정책 문서는 비주얼로 설정할 수 없습니다
+- Amazon API Gateway의 세부 설정(리소스, 메서드, 배포)은 코드로 작성해야 합니다
 
 **서버리스 리소스 중심**
-- VPC, EC2, 네트워킹 리소스는 드래그 앤 드롭이 제한적입니다
-- 주로 Lambda, API Gateway, DynamoDB, S3, Step Functions 등 서버리스 리소스에 최적화되어 있습니다
+- Amazon VPC, Amazon EC2, 네트워킹 리소스는 드래그 앤 드롭이 제한적입니다
+- 주로 AWS Lambda, Amazon API Gateway, Amazon DynamoDB, Amazon S3, AWS Step Functions 등 서버리스 리소스에 최적화되어 있습니다
 
 **학습 곡선**
 - 비주얼 디자이너와 Template 탭을 함께 사용해야 합니다
@@ -627,7 +627,7 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 
 **AWS CloudFormation 템플릿 작성 권장**:
 - 프로덕션 환경 배포
-- 복잡한 인프라 구성 (VPC, 네트워킹)
+- 복잡한 인프라 구성 (Amazon VPC, 네트워킹)
 - CI/CD 파이프라인 통합
 - 대규모 인프라 관리
 
@@ -636,7 +636,7 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 **최적의 워크플로우**:
 1. Infrastructure Composer로 초기 서버리스 아키텍처 설계.
 2. 자동 생성된 템플릿을 다운로드.
-3. 코드 에디터에서 세밀한 조정 (Lambda 코드, IAM 정책 등).
+3. 코드 에디터에서 세밀한 조정 (AWS Lambda 코드, AWS IAM 정책 등).
 4. Git에 저장하고 버전 관리.
 5. CI/CD 파이프라인으로 배포.
 

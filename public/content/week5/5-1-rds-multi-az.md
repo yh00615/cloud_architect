@@ -27,38 +27,6 @@ learningObjectives:
 >
 > - 태스크 0: 실습 환경 구축 (AWS CloudFormation 템플릿 배포)
 
-> [!COST]
-> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
->
-> | 리소스명        | 타입/사양   | IaC |        비용 |
-> | --------------- | ----------- | :-: | ----------: |
-> | Amazon VPC      | N/A         | ✅  |        무료 |
-> | 프라이빗 서브넷 | N/A         | ✅  |        무료 |
-> | NAT Gateway     | N/A         | ✅  | $0.059/시간 |
-> | Amazon RDS      | db.t3.small | ❌  | $0.068/시간 |
-> | Amazon RDS      | Multi-AZ    | ❌  | $0.068/시간 |
-> | Read Replica    | db.t3.small | ❌  | $0.068/시간 |
-> | 스토리지 (gp3)  | 20GiB × 3   | ❌  | $0.006/시간 |
->
-> - **예상 실습 시간**: 1-2시간
-> - **예상 총 비용**: 약 $0.27-0.54/시간 (실무 환경 온디맨드 기준, Multi-AZ + Read Replica 포함)
->
-> **무료 플랜**
->
-> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
->
-> **실무 팁**
->
-> 💡 RDS Multi-AZ는 Primary와 Standby 인스턴스를 포함하여 Single-AZ 대비 약 2배의 비용이 발생합니다. 개발 환경에서는 사용하지 않을 때 인스턴스를 중지하여 비용을 절감할 수 있습니다. 실습 후 반드시 리소스를 삭제하세요.
->
-> **참고**
->
-> ℹ️ 이 실습에서는 RDS db.t3.small 인스턴스를 사용합니다. db.t3.micro는 대부분의 리전에서 Multi-AZ를 지원하지 않습니다. 인스턴스 타입을 변경하면 비용이 크게 증가할 수 있습니다.
->
-> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
->
-> 📘 [Amazon RDS 요금](https://aws.amazon.com/rds/pricing/) | 📘 [Amazon VPC 요금](https://aws.amazon.com/vpc/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
-
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
 >
@@ -84,7 +52,7 @@ learningObjectives:
 
 ## 태스크 0: 실습 환경 구축
 
-이 태스크에서는 CloudFormation을 사용하여 Amazon RDS 실습에 필요한 기본 네트워크 인프라를 자동으로 생성합니다.
+이 태스크에서는 AWS CloudFormation을 사용하여 Amazon RDS 실습에 필요한 기본 네트워크 인프라를 자동으로 생성합니다.
 
 ### 환경 구성 요소
 
@@ -178,7 +146,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 3. **Storage type**에서 `General Purpose SSD (gp3)`를 선택합니다.
 4. **Allocated storage**에 `20` GiB를 입력합니다.
 5. **Enable storage autoscaling**을 체크 해제합니다.
-6. **Virtual private cloud (Amazon VPC)**에서 태스크 0에서 생성한 VPC를 선택합니다.
+6. **Virtual private cloud (Amazon VPC)**에서 태스크 0에서 생성한 Amazon VPC를 선택합니다.
 7. **DB subnet group**에서 태스크 0에서 생성한 서브넷 그룹을 선택합니다.
 8. **Public access**에서 `No`를 선택합니다.
 9. **Amazon VPC security group**에서 `Choose existing`을 선택합니다.
@@ -186,7 +154,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 11. 태스크 0에서 생성한 Amazon RDS 보안 그룹을 선택합니다.
 12. **Availability Zone**에서 `No preference`를 선택합니다.
 
-💡 **참고**: VPC를 선택하면 기본(default) 보안 그룹이 자동으로 추가되므로 반드시 제거해야 합니다.
+💡 **참고**: Amazon VPC를 선택하면 기본(default) 보안 그룹이 자동으로 추가되므로 반드시 제거해야 합니다.
 
 ### 추가 설정 및 생성
 
@@ -255,7 +223,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 >
 > <ul>
 > <li><strong>엔드포인트 불변</strong>: DNS 엔드포인트가 동일하게 유지되어 애플리케이션 코드 변경 불필요</li>
-> <li><strong>자동 전환</strong>: RDS가 장애를 감지하고 자동으로 페일오버 수행</li>
+> <li><strong>자동 전환</strong>: Amazon RDS가 장애를 감지하고 자동으로 페일오버 수행</li>
 > <li><strong>데이터 무손실</strong>: 동기식 복제로 데이터 손실 없이 전환</li>
 > </ul>
 
@@ -303,7 +271,7 @@ Endpoint가 동일하게 유지되며, Availability Zone이 태스크 2에서 �
 > [!NOTE]
 > 태스크 3에서 페일오버를 수행했으므로 Primary AZ가 변경되었습니다.
 > 태스크 2에서 메모한 AZ가 아니라, 페일오버 후 **Connectivity & security** 탭에서 확인한 현재 Primary AZ를 기준으로 다른 AZ를 선택합니다.
-> 예: 현재 Primary가 ap-northeast-2c라면 ap-northeast-2a를 선택합니다. 5. **DB instance class**에서 `db.t3.small`을 선택합니다. 5. **Storage**는 기본값을 유지합니다. 6. **Virtual private cloud (Amazon VPC)**에서 태스크 0에서 생성한 VPC를 선택합니다. 7. **DB subnet group**에서 태스크 0에서 생성한 서브넷 그룹을 선택합니다. 8. **Amazon VPC security group**에서 `Choose existing`을 선택합니다. 9. 기본(default) 보안 그룹의 **X** 버튼을 클릭하여 제거합니다. 10. 태스크 0에서 생성한 Amazon RDS 보안 그룹을 선택합니다. 9. **Monitoring** 섹션에서 **Enhanced monitoring**을 체크 해제합니다. 11. 아래로 스크롤하여 **Tags** 섹션을 확인합니다. 12. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+> 예: 현재 Primary가 ap-northeast-2c라면 ap-northeast-2a를 선택합니다. 5. **DB instance class**에서 `db.t3.small`을 선택합니다. 5. **Storage**는 기본값을 유지합니다. 6. **Virtual private cloud (Amazon VPC)**에서 태스크 0에서 생성한 Amazon VPC를 선택합니다. 7. **DB subnet group**에서 태스크 0에서 생성한 서브넷 그룹을 선택합니다. 8. **Amazon VPC security group**에서 `Choose existing`을 선택합니다. 9. 기본(default) 보안 그룹의 **X** 버튼을 클릭하여 제거합니다. 10. 태스크 0에서 생성한 Amazon RDS 보안 그룹을 선택합니다. 9. **Monitoring** 섹션에서 **Enhanced monitoring**을 체크 해제합니다. 11. 아래로 스크롤하여 **Tags** 섹션을 확인합니다. 12. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
 | Key         | Value     |
 | ----------- | --------- |
@@ -329,7 +297,7 @@ Endpoint가 동일하게 유지되며, Availability Zone이 태스크 2에서 �
 
 ## 태스크 6: 자동 백업 확인
 
-이 태스크에서는 RDS의 자동 백업 설정을 확인합니다. 자동 백업은 지정된 보관 기간 동안 매일 자동으로 생성되며, 특정 시점으로 복구(Point-in-Time Recovery)를 지원합니다.
+이 태스크에서는 Amazon RDS의 자동 백업 설정을 확인합니다. 자동 백업은 지정된 보관 기간 동안 매일 자동으로 생성되며, 특정 시점으로 복구(Point-in-Time Recovery)를 지원합니다.
 
 1. `mysql-lab-instance`를 선택합니다.
 2. **Maintenance & backups** 탭을 선택합니다.
@@ -374,7 +342,7 @@ Endpoint가 동일하게 유지되며, Availability Zone이 태스크 2에서 �
 
 ---
 
-## 2단계: RDS 인스턴스 삭제
+## 2단계: Amazon RDS 인스턴스 삭제
 
 다음 두 가지 방법 중 하나를 선택하여 리소스를 삭제할 수 있습니다.
 
@@ -474,7 +442,7 @@ aws rds delete-db-snapshot \
   --region ap-northeast-2 \
   --db-snapshot-identifier mysql-lab-snapshot-manual
 
-echo "모든 RDS 리소스 삭제 완료"
+echo "모든 Amazon RDS 리소스 삭제 완료"
 ```
 
 > [!NOTE]
@@ -492,7 +460,7 @@ echo "모든 RDS 리소스 삭제 완료"
 
 > [!IMPORTANT]
 > Amazon RDS 인스턴스(Primary, Read Replica)가 모두 삭제 완료된 후에 AWS CloudFormation 스택을 삭제합니다.
-> RDS 인스턴스가 남아있으면 VPC 관련 리소스 삭제가 실패합니다.
+> Amazon RDS 인스턴스가 남아있으면 Amazon VPC 관련 리소스 삭제가 실패합니다.
 
 1. AWS CloudFormation 콘솔로 이동합니다.
 2. `week5-1-rds-stack` 스택을 선택합니다.
@@ -525,7 +493,7 @@ Multi-AZ 페일오버는 다음 상황에서 자동으로 발생합니다:
 
 **페일오버 프로세스**
 
-1. RDS가 Primary 인스턴스의 장애를 감지합니다.
+1. Amazon RDS가 Primary 인스턴스의 장애를 감지합니다.
 2. DNS 레코드가 Standby 인스턴스를 가리키도록 자동 업데이트됩니다.
 3. Standby 인스턴스가 새로운 Primary가 됩니다.
 4. 애플리케이션은 동일한 Endpoint를 사용하여 자동으로 재연결됩니다.

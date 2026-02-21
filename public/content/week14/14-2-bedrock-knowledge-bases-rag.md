@@ -281,7 +281,7 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 12. [[Choose]] 버튼을 클릭합니다.
 
 > [!TIP]
-> S3 URI를 직접 입력할 수도 있습니다: `s3://quicktable-kb-documents-YOUR-INITIALS/documents/`
+> Amazon S3 URI를 직접 입력할 수도 있습니다: `s3://quicktable-kb-documents-YOUR-INITIALS/documents/`
 
 13. [[Next]] 버튼을 클릭합니다.
 
@@ -517,14 +517,14 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 8. 버킷 이름을 입력합니다.
 9. [[Delete bucket]] 버튼을 클릭합니다.
 
-#### CloudWatch Log Group 삭제
+#### Amazon CloudWatch Log Group 삭제
 
-1. 상단 검색창에서 `CloudWatch`를 검색하고 선택합니다.
+1. 상단 검색창에서 `Amazon CloudWatch`를 검색하고 선택합니다.
 2. 왼쪽 메뉴에서 **Logs** > **Log groups**를 선택합니다.
 3. 검색창에 `bedrock`을 입력합니다.
 
 > [!NOTE]
-> Knowledge Base 사용량에 따라 CloudWatch Log Group이 생성되지 않을 수 있습니다.
+> Knowledge Base 사용량에 따라 Amazon CloudWatch Log Group이 생성되지 않을 수 있습니다.
 > 검색 결과가 없으면 이 단계를 건너뜁니다.
 
 4. Knowledge Base 관련 로그 그룹을 선택합니다.
@@ -588,7 +588,7 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 - **동기화 방식**:
   - 수동: Sync 버튼 클릭
   - 자동(스케줄): 콘솔에서 Sync schedule 설정 (시간별/일별/주별)
-  - 자동(이벤트): EventBridge + Lambda로 S3 업로드 시 즉시 동기화
+  - 자동(이벤트): Amazon EventBridge + AWS Lambda로 Amazon S3 업로드 시 즉시 동기화
 
 **Embedding Model (임베딩 모델):**
 

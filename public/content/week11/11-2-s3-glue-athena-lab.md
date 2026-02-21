@@ -1,5 +1,5 @@
 ---
-title: "AWS Glue Crawler 설정 및 Data Catalog 확인"
+title: 'AWS Glue Crawler 설정 및 Data Catalog 확인'
 week: 11
 session: 2
 awsServices:
@@ -19,7 +19,7 @@ prerequisites:
 
 이번 실습에서는 QuickTable 레스토랑 예약 시스템의 샘플 데이터를 Amazon S3 데이터 레이크에 저장하고, AWS Glue로 메타데이터를 수집한 후, Amazon Athena로 서버리스 SQL 쿼리를 실행하여 비즈니스 인사이트를 도출합니다.
 
-CloudFormation이 자동으로 QuickTable 예약 샘플 데이터(CSV, JSON)를 S3에 업로드하고, AWS Glue Crawler로 스키마를 자동 검색한 후, Athena로 인기 레스토랑, 피크 예약 시간대, 취소율, 평균 파티 규모 등을 분석합니다.
+AWS CloudFormation이 자동으로 QuickTable 예약 샘플 데이터(CSV, JSON)를 Amazon S3에 업로드하고, AWS Glue Crawler로 스키마를 자동 검색한 후, Athena로 인기 레스토랑, 피크 예약 시간대, 취소율, 평균 파티 규모 등을 분석합니다.
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
@@ -27,7 +27,7 @@ CloudFormation이 자동으로 QuickTable 예약 샘플 데이터(CSV, JSON)를 
 
 ## 태스크 0: QuickTable 데이터 레이크 환경 구축
 
-이 태스크에서는 CloudFormation을 사용하여 QuickTable 예약 데이터 분석에 필요한 데이터 레이크 인프라를 자동으로 생성합니다.
+이 태스크에서는 AWS CloudFormation을 사용하여 QuickTable 예약 데이터 분석에 필요한 데이터 레이크 인프라를 자동으로 생성합니다.
 
 ### 환경 구성 요소
 
@@ -55,15 +55,12 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
     - **StudentId**: 학번 또는 고유 식별자 (예: `20240001` 또는 `student01`, 영문 소문자·숫자·하이픈만 사용, 5-20자)
     - **EnvironmentName**: `quicktable` (기본값 유지)
 
-StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이름에 접미사로 추가되어 리소스 충돌을 방지합니다. EnvironmentName은 S3 버킷명의 접두사로 사용됩니다 (예: `quicktable-raw-{StudentId}-ap-northeast-2`).
-11. [[Next]] 버튼을 클릭합니다.
-12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 확인합니다.
-13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+StudentId는 Amazon S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이름에 접미사로 추가되어 리소스 충돌을 방지합니다. EnvironmentName은 Amazon S3 버킷명의 접두사로 사용됩니다 (예: `quicktable-raw-{StudentId}-ap-northeast-2`). 11. [[Next]] 버튼을 클릭합니다. 12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 확인합니다. 13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `11-2` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `11-2`    |
 | `CreatedBy` | `Student` |
 
 이 태그들은 AWS CloudFormation 스택이 생성하는 모든 리소스(Amazon S3 버킷 3개, AWS Glue Database, AWS Glue Crawler, Amazon Athena Workgroup, AWS IAM 역할)에 자동으로 전파됩니다.
@@ -76,7 +73,7 @@ StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이
 
 > [!NOTE]
 > 스택 생성에 3-5분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
-> AWS Lambda 함수가 QuickTable 예약 샘플 데이터를 S3에 자동으로 업로드합니다.
+> AWS Lambda 함수가 QuickTable 예약 샘플 데이터를 Amazon S3에 자동으로 업로드합니다.
 > 대기하는 동안 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽어보세요.
 
 19. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
@@ -98,7 +95,7 @@ StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이
 
 ## 태스크 1: QuickTable 예약 데이터 및 Amazon S3 버킷 확인
 
-이 태스크에서는 CloudFormation이 자동으로 생성한 Amazon S3 버킷과 QuickTable 예약 샘플 데이터를 확인합니다.
+이 태스크에서는 AWS CloudFormation이 자동으로 생성한 Amazon S3 버킷과 QuickTable 예약 샘플 데이터를 확인합니다.
 
 1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon S3`를 검색하고 선택합니다.
 2. 버킷 목록에서 태스크 0에서 생성된 3개의 버킷을 확인합니다:
@@ -114,6 +111,7 @@ StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이
 7. 파일을 선택하고 [[Download]] 버튼을 클릭하여 내용을 확인합니다.
 
 > [!OUTPUT]
+>
 > ```csv
 > reservationId,userId,restaurantId,restaurantName,date,time,partySize,status,totalAmount,createdAt
 > RES001,user123,REST001,강남 맛집,2024-01-15,18:30,4,confirmed,120000,2024-01-10T10:30:00.123456
@@ -128,6 +126,7 @@ StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이
 10. 파일을 선택하고 [[Download]] 버튼을 클릭하여 내용을 확인합니다.
 
 > [!OUTPUT]
+>
 > ```json
 > {"restaurantId": "REST001", "name": "강남 맛집", "cuisine": "Korean", "location": "Gangnam", "rating": 4.5}
 > {"restaurantId": "REST002", "name": "서울 한식당", "cuisine": "Korean", "location": "Seoul", "rating": 4.2}
@@ -136,58 +135,65 @@ StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이
 
 > [!NOTE]
 > **JSON Lines 형식 주의사항**:
-> 
+>
 > 이 실습의 `restaurants.json`은 JSON Lines 형식입니다:
+>
 > - 각 줄이 독립적인 JSON 객체
 > - 배열(`[]`) 없이 줄바꿈으로 구분
 > - AWS Glue Crawler가 자동으로 인식
-> 
+>
 > **표준 JSON 배열 형식과의 차이**:
+>
 > ```json
 > // JSON Lines (이 실습에서 사용)
 > {"restaurantId": "REST001", ...}
 > {"restaurantId": "REST002", ...}
-> 
+>
 > // 표준 JSON 배열 (Crawler가 잘못 인식할 수 있음)
 > [
 >   {"restaurantId": "REST001", ...},
 >   {"restaurantId": "REST002", ...}
 > ]
 > ```
-> 
+>
 > Crawler가 스키마를 잘못 추론한 경우 Edit schema에서 수동으로 컬럼 타입을 수정할 수 있습니다.
 
 > [!TIP]
 > **샘플 데이터 확장 권장**:
-> 
+>
 > 최소 50-100건의 데이터가 있어야 의미있는 분석 결과를 확인할 수 있습니다.
-> 
+>
 > 현재 5건으로도 실습은 가능하지만, 집계 결과가 원본 데이터와 거의 동일하게 보일 수 있습니다.
-> 
+>
 > **추가 데이터 생성 방법** (선택사항):
+>
 > - Athena에서 데이터 생성 확인: `SELECT COUNT(*) FROM reservation_data;`
 > - 5건이면 추가 데이터를 수동으로 추가하는 것을 권장합니다
-> - CSV 파일에 데이터 추가 후 S3에 재업로드합니다
+> - CSV 파일에 데이터 추가 후 Amazon S3에 재업로드합니다
 
-> [!CONCEPT] 데이터 레이크 구조
+> [!CONCEPT] 데이터 레이크 구조 (Data Lake Structure)
 > **폴더 구조 설계**
+>
 > - `reservation-data/`: QuickTable 예약 원본 데이터 (CSV)
 > - `restaurant-data/`: QuickTable 레스토랑 정보 (JSON)
 > - `processed/`: 처리된 데이터 (Parquet)
 > - `athena-results/`: 쿼리 결과 저장
 >
 > **파티셔닝 전략**
+>
 > - 날짜별: `year=2024/month=01/day=15/`
 > - 리전별: `region=Seoul/`
 > - 조합: `year=2024/month=01/region=Seoul/`
 >
 > **파일 형식**
+>
 > - CSV: 간단, 사람이 읽기 쉬움
 > - JSON: 중첩 구조 지원
 > - Parquet: 컬럼형, 압축 효율적 (권장)
 > - ORC: 컬럼형, Hive 최적화
 >
 > **Amazon S3 스토리지 클래스**
+>
 > - Standard: 자주 접근하는 데이터
 > - Intelligent-Tiering: 자동 최적화
 > - Glacier: 아카이브 (저렴)
@@ -196,7 +202,7 @@ StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이
 
 ## 태스크 2: 자동 생성된 AWS Glue Crawler 실행 및 확인
 
-이 태스크에서는 CloudFormation이 자동으로 생성한 AWS Glue Database와 Crawler를 확인하고 실행합니다.
+이 태스크에서는 AWS CloudFormation이 자동으로 생성한 AWS Glue Database와 Crawler를 확인하고 실행합니다.
 
 ### 태스크 2.1: AWS Glue Database 확인
 
@@ -210,7 +216,7 @@ StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이
 
 > [!NOTE]
 > AWS Glue 데이터베이스는 테이블 메타데이터를 논리적으로 그룹화하는 컨테이너입니다.
-> CloudFormation이 자동으로 생성했으므로 별도로 생성할 필요가 없습니다.
+> AWS CloudFormation이 자동으로 생성했으므로 별도로 생성할 필요가 없습니다.
 
 ### 태스크 2.2: AWS Glue Crawler 확인 및 실행
 
@@ -220,23 +226,26 @@ StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이
    - **Crawler name**: `quicktable-crawler-{StudentId}`
    - **Database**: `quicktable_db_{StudentId}`
    - **Data source**: `s3://quicktable-raw-{StudentId}-ap-northeast-2/reservation-data/`
-   - **AWS IAM role**: CloudFormation이 자동 생성한 역할 (예: `week11-2-quicktable-datalake-stack-GlueCrawlerRole-XXXXXX`)
+   - **AWS IAM role**: AWS CloudFormation이 자동 생성한 역할 (예: `week11-2-quicktable-datalake-stack-GlueCrawlerRole-XXXXXX`)
 
 > [!NOTE]
-> IAM 역할명은 CloudFormation 스택명 + 리소스 논리 ID + 랜덤 접미사 형태로 자동 생성됩니다.
-> 정확한 역할명은 CloudFormation 스택의 **Resources** 탭에서 `GlueCrawlerRole`을 검색하여 확인할 수 있습니다.
+> AWS IAM 역할명은 AWS CloudFormation 스택명 + 리소스 논리 ID + 랜덤 접미사 형태로 자동 생성됩니다.
+> 정확한 역할명은 AWS CloudFormation 스택의 **Resources** 탭에서 `GlueCrawlerRole`을 검색하여 확인할 수 있습니다.
 
 > [!NOTE]
 > **Crawler 데이터 소스 범위 분리 이유**:
-> 
+>
 > 이 실습에서는 의도적으로 두 개의 Crawler를 사용합니다:
-> - **Crawler 1** (자동 생성): `reservation-data/` 폴더만 스캔 → CloudFormation으로 자동 생성되는 과정 학습
+>
+> - **Crawler 1** (자동 생성): `reservation-data/` 폴더만 스캔 → AWS CloudFormation으로 자동 생성되는 과정 학습
 > - **Crawler 2** (수동 생성): `restaurant-data/` 폴더 스캔 → Crawler를 직접 생성하는 방법 학습 (태스크 5)
-> 
+>
 > 실제 운영 환경에서는 하나의 Crawler로 여러 폴더를 스캔하도록 구성할 수 있습니다:
-> - Data sources에 여러 S3 경로를 추가하거나
+>
+> - Data sources에 여러 Amazon S3 경로를 추가하거나
 > - 상위 경로(`s3://bucket/`)를 지정합니다
-4. [[Run]] 버튼을 클릭하여 Crawler를 실행합니다.
+>
+> 4. [[Run]] 버튼을 클릭하여 Crawler를 실행합니다.
 
 > [!NOTE]
 > Crawler 실행에 1-2분이 소요됩니다. 페이지를 새로고침하여 상태를 확인합니다.
@@ -248,6 +257,7 @@ StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이
 7. **Tables affected** 정보를 확인합니다.
 
 > [!OUTPUT]
+>
 > ```
 > Crawler completed successfully
 > Tables added: 1
@@ -267,31 +277,37 @@ StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이
 
 > [!NOTE]
 > **Crawler 실행 후 테이블명 확인 방법**:
-> 
-> Crawler가 생성하는 테이블명은 S3 폴더명 기반이지만 예상과 다를 수 있습니다:
-> - 하이픈(-)은 언더스코어(_)로 변환
+>
+> Crawler가 생성하는 테이블명은 Amazon S3 폴더명 기반이지만 예상과 다를 수 있습니다:
+>
+> - 하이픈(-)은 언더스코어(\_)로 변환
 > - 경로 깊이에 따라 이름이 달라질 수 있음
-> 
+>
 > **테이블명 확인**:
+>
 > 1. AWS Glue 콘솔 → Tables
 > 2. Database: `quicktable_db_{StudentId}` 선택
 > 3. 생성된 테이블 목록 확인
-> 
+>
 > **Athena에서 확인**:
+>
 > ```sql
 > SHOW TABLES IN quicktable_db_{StudentId};
 > ```
-4. **Schema** 탭에서 컬럼 정보를 확인합니다:
-   - reservationid: string
-   - userid: string
-   - restaurantid: string
-   - restaurantname: string
-   - date: string
-   - time: string
-   - partysize: bigint
-   - status: string
-   - totalamount: double
-   - createdat: string
+>
+> 4. **Schema** 탭에서 컬럼 정보를 확인합니다:
+
+- reservationid: string
+- userid: string
+- restaurantid: string
+- restaurantname: string
+- date: string
+- time: string
+- partysize: bigint
+- status: string
+- totalamount: double
+- createdat: string
+
 5. **Table properties**에서 다음을 확인합니다:
    - **Location**: `s3://quicktable-raw-{StudentId}-ap-northeast-2/reservation-data/`
    - **Input format**: org.apache.hadoop.mapred.TextInputFormat
@@ -318,26 +334,28 @@ StudentId는 S3 버킷명, Glue Database명, Crawler명 등 모든 리소스 이
 
 > [!WARNING]
 > **Workgroup 변경 전 주의사항**:
-> 
+>
 > Workgroup을 변경하면 현재 쿼리 에디터의 내용이 초기화될 수 있습니다.
-> 
+>
 > **권장 순서**:
+>
 > 1. Athena 콘솔 접속 즉시 Workgroup 먼저 선택
 > 2. 그 다음 Database 선택
 > 3. 마지막으로 쿼리 작성 및 실행
-> 
+>
 > **이미 쿼리를 작성한 경우**:
+>
 > - 쿼리를 로컬에 복사한 후 Workgroup 변경
 > - Database 재선택 후 쿼리 붙여넣기
 
 2. 상단의 **Workgroup** 드롭다운에서 `quicktable-workgroup-{StudentId}`를 선택합니다.
 
 > [!IMPORTANT]
-> CloudFormation이 자동으로 생성한 Workgroup을 반드시 선택해야 합니다.
+> AWS CloudFormation이 자동으로 생성한 Workgroup을 반드시 선택해야 합니다.
 > 기본 Workgroup(primary)을 사용하면 쿼리 결과 위치 미설정 오류가 발생할 수 있습니다.
 
 > [!NOTE]
-> CloudFormation이 자동으로 Amazon Athena Workgroup을 생성하고 쿼리 결과 위치를 설정했습니다.
+> AWS CloudFormation이 자동으로 Amazon Athena Workgroup을 생성하고 쿼리 결과 위치를 설정했습니다.
 > 쿼리 결과는 `s3://quicktable-query-{StudentId}-ap-northeast-2/athena-results/`에 저장됩니다.
 > Workgroup 선택 후 페이지가 새로고침되면서 해당 Workgroup의 설정이 적용됩니다.
 
@@ -364,7 +382,7 @@ LIMIT 10;
 
 ```sql
 -- 레스토랑별 예약 수 및 평균 금액
-SELECT 
+SELECT
     restaurantname,
     COUNT(*) as reservation_count,
     AVG(totalamount) as avg_amount,
@@ -379,7 +397,7 @@ ORDER BY reservation_count DESC;
 
 ```sql
 -- 예약 상태별 분석
-SELECT 
+SELECT
     status,
     COUNT(*) as count,
     AVG(partysize) as avg_party_size,
@@ -392,7 +410,7 @@ GROUP BY status;
 
 ```sql
 -- 시간대별 예약 패턴
-SELECT 
+SELECT
     "time",
     COUNT(*) as reservation_count,
     AVG(partysize) as avg_party_size
@@ -403,21 +421,23 @@ ORDER BY reservation_count DESC;
 
 > [!NOTE]
 > **Athena 예약어 처리**:
-> 
+>
 > `time`과 `date`는 Athena(Presto 기반)의 예약어입니다. 큰따옴표로 감싸야 쿼리 오류를 방지할 수 있습니다.
-> 
+>
 > **주요 예약어 목록** (컬럼명으로 사용 시 큰따옴표 필요):
+>
 > - `date`, `time`, `year`, `month`, `day`
 > - `timestamp`, `interval`
 > - `current_date`, `current_time`
 > - `table`, `column`, `schema`
 
 > [!OUTPUT]
+>
 > ```
 > Run time: 2.1 seconds
 > Data scanned: 1.5 KB
 > Rows returned: 5
-> 
+>
 > time         | reservation_count | avg_party_size
 > -------------|-------------------|----------------
 > 19:00        | 1                 | 2.0
@@ -445,24 +465,24 @@ ORDER BY reservation_count DESC;
 
 5. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `11-2` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `11-2`    |
 | `CreatedBy` | `Student` |
 
 6. [[Next]] 버튼을 클릭합니다.
 7. **Data source configuration**에서 다음을 입력합니다:
    - **Data source**: `Amazon S3`를 선택합니다.
    - **Amazon S3 path**: `s3://quicktable-raw-{StudentId}-ap-northeast-2/restaurant-data/`를 입력합니다.
-8. [[Add an S3 data source]] 버튼을 클릭합니다.
+8. [[Add an Amazon S3 data source]] 버튼을 클릭합니다.
 9. [[Next]] 버튼을 클릭합니다.
 10. **AWS IAM role**에서 `Choose an existing AWS IAM role`을 선택합니다.
 11. 기존 역할을 선택합니다 (예: `week11-2-quicktable-datalake-stack-GlueCrawlerRole-XXXXXXXXXXXX`).
 
 > [!NOTE]
-> IAM 역할명은 CloudFormation 스택명 + 리소스 논리 ID + 랜덤 접미사 형태로 자동 생성됩니다.
-> 정확한 역할명은 CloudFormation 스택의 **Resources** 탭에서 `GlueCrawlerRole`을 검색하여 확인할 수 있습니다.
+> AWS IAM 역할명은 AWS CloudFormation 스택명 + 리소스 논리 ID + 랜덤 접미사 형태로 자동 생성됩니다.
+> 정확한 역할명은 AWS CloudFormation 스택의 **Resources** 탭에서 `GlueCrawlerRole`을 검색하여 확인할 수 있습니다.
 
 12. [[Next]] 버튼을 클릭합니다.
 13. **Target database**에서 `quicktable_db_{StudentId}`를 선택합니다.
@@ -484,17 +504,20 @@ ORDER BY reservation_count DESC;
 
 > [!NOTE]
 > **Crawler 실행 후 테이블명 확인 방법**:
-> 
-> Crawler가 생성하는 테이블명은 S3 폴더명 기반이지만 예상과 다를 수 있습니다:
-> - 하이픈(-)은 언더스코어(_)로 변환
+>
+> Crawler가 생성하는 테이블명은 Amazon S3 폴더명 기반이지만 예상과 다를 수 있습니다:
+>
+> - 하이픈(-)은 언더스코어(\_)로 변환
 > - 경로 깊이에 따라 이름이 달라질 수 있음
-> 
+>
 > **테이블명 확인**:
+>
 > 1. AWS Glue 콘솔 → Tables
 > 2. Database: `quicktable_db_{StudentId}` 선택
 > 3. 생성된 테이블 목록 확인
-> 
+>
 > **Athena에서 확인**:
+>
 > ```sql
 > SHOW TABLES IN quicktable_db_{StudentId};
 > ```
@@ -526,7 +549,7 @@ ORDER BY rating DESC;
 
 ```sql
 -- 지역별 레스토랑 수
-SELECT 
+SELECT
     location,
     COUNT(*) as restaurant_count,
     AVG(rating) as avg_rating
@@ -539,7 +562,7 @@ ORDER BY restaurant_count DESC;
 
 ```sql
 -- 요리 종류별 평균 평점
-SELECT 
+SELECT
     cuisine,
     COUNT(*) as restaurant_count,
     AVG(rating) as avg_rating,
@@ -550,8 +573,8 @@ ORDER BY avg_rating DESC;
 ```
 
 > [!NOTE]
-> 테이블명이 `restaurant_data`인 이유는 S3 폴더명(`restaurant-data/`)을 기반으로 Crawler가 자동 생성했기 때문입니다.
-> 하이픈(-)은 언더스코어(_)로 변환되며, 컬럼명도 모두 소문자로 변환됩니다.
+> 테이블명이 `restaurant_data`인 이유는 Amazon S3 폴더명(`restaurant-data/`)을 기반으로 Crawler가 자동 생성했기 때문입니다.
+> 하이픈(-)은 언더스코어(\_)로 변환되며, 컬럼명도 모두 소문자로 변환됩니다.
 
 ✅ **태스크 완료**: JSON 형식 레스토랑 데이터를 위한 Crawler를 생성하고 쿼리를 실행했습니다.
 
@@ -572,7 +595,7 @@ WITH (
     external_location = 's3://quicktable-processed-{StudentId}-ap-northeast-2/reservation-analysis-{StudentId}/',
     partitioned_by = ARRAY['status']
 ) AS
-SELECT 
+SELECT
     restaurantname,
     COUNT(*) as reservation_count,
     AVG(partysize) as avg_party_size,
@@ -584,20 +607,22 @@ GROUP BY restaurantname, status;
 
 > [!IMPORTANT]
 > CTAS 쿼리에서 `{StudentId}` 부분을 실제 학번으로 교체하세요.
-> 테이블명과 S3 경로 모두에 StudentId를 포함해야 합니다.
+> 테이블명과 Amazon S3 경로 모두에 StudentId를 포함해야 합니다.
 > 예: `CREATE TABLE reservation_analysis_20240001` 및 `s3://quicktable-processed-20240001-ap-northeast-2/reservation-analysis-20240001/`
-> 
+>
 > **StudentId 접미사가 필요한 이유**: 같은 AWS Glue Database를 공유하는 환경에서 여러 학생이 동일한 테이블명(`reservation_analysis`)을 사용하면 충돌이 발생합니다. StudentId 접미사를 추가하면 각 학생의 테이블이 고유하게 유지됩니다.
 
 > [!WARNING]
 > **CTAS 재실행 시 주의사항**: 동일한 `external_location`으로 CTAS를 재실행하면 "Location already exists" 오류가 발생합니다.
-> 
+>
 > **재실행이 필요한 경우**:
+>
 > 1. 기존 테이블 메타데이터를 삭제합니다: `DROP TABLE reservation_analysis_{StudentId};`
 > 2. Amazon S3 콘솔에서 `s3://quicktable-processed-{StudentId}-ap-northeast-2/reservation-analysis-{StudentId}/` 폴더의 모든 파일을 삭제합니다.
 > 3. CTAS 쿼리를 다시 실행합니다.
-> 
-> **S3 파티션 폴더 구조**:
+>
+> **Amazon S3 파티션 폴더 구조**:
+>
 > ```
 > s3://quicktable-processed-{StudentId}-ap-northeast-2/reservation-analysis-{StudentId}/
 > ├── status=confirmed/
@@ -605,12 +630,13 @@ GROUP BY restaurantname, status;
 > └── status=cancelled/
 >     └── 20240218_123456_00001_abcde.parquet
 > ```
-> 
-> **왜 테이블 메타데이터와 S3 파일을 모두 삭제해야 하는가?**:
+>
+> **왜 테이블 메타데이터와 Amazon S3 파일을 모두 삭제해야 하는가?**:
+>
 > - `DROP TABLE`은 AWS Glue Data Catalog의 메타데이터만 삭제합니다
-> - S3에 저장된 실제 Parquet 파일은 그대로 남아있습니다
-> - CTAS 재실행 시 S3 경로가 이미 존재하면 오류가 발생합니다
-> - 따라서 메타데이터 삭제 + S3 파일 삭제를 모두 수행해야 합니다
+> - Amazon S3에 저장된 실제 Parquet 파일은 그대로 남아있습니다
+> - CTAS 재실행 시 Amazon S3 경로가 이미 존재하면 오류가 발생합니다
+> - 따라서 메타데이터 삭제 + Amazon S3 파일 삭제를 모두 수행해야 합니다
 
 2. [[Run]] 버튼을 클릭합니다.
 
@@ -622,7 +648,7 @@ GROUP BY restaurantname, status;
 
 ```sql
 -- 주의: {StudentId}를 실제 학번으로 교체하세요 (예: 20240001)
-SELECT * 
+SELECT *
 FROM reservation_analysis_{StudentId}
 WHERE status = 'confirmed'
 ORDER BY reservation_count DESC;
@@ -630,17 +656,20 @@ ORDER BY reservation_count DESC;
 
 > [!NOTE]
 > **Parquet 형식의 장점**:
+>
 > - CSV 대비 70-90% 압축률 제공
 > - 쿼리 속도 2-10배 향상
 > - 컬럼형 저장으로 필요한 컬럼만 스캔
-> 
+>
 > **CTAS 파티셔닝 규칙**:
+>
 > - `partitioned_by`는 데이터를 물리적으로 분리하여 저장하는 컬럼을 지정합니다
 > - 파티셔닝 컬럼은 SELECT 목록 마지막에 위치해야 합니다
 > - 파티셔닝 컬럼은 집계 없이 그대로 포함되어야 합니다
 > - 파티션 디렉터리로 데이터가 저장됩니다 (예: `status=confirmed/`, `status=cancelled/`)
-> 
+>
 > **이 쿼리에서 `date` 컬럼을 제거한 이유**:
+>
 > - `date`는 Athena 예약어이므로 큰따옴표(`"date"`)로 감싸야 합니다
 > - 파티셔닝 컬럼(`status`)은 SELECT 목록 마지막에 위치해야 하는데, `date`가 중간에 있으면 규칙 위반
 > - 집계 쿼리에서 `date`를 GROUP BY에 포함하면 날짜별로 분리되어 집계 의미가 감소
@@ -666,7 +695,7 @@ ORDER BY reservation_count DESC;
 
 다음을 성공적으로 수행했습니다:
 
-- CloudFormation을 통한 QuickTable 데이터 레이크 인프라 자동 구축
+- AWS CloudFormation을 통한 QuickTable 데이터 레이크 인프라 자동 구축
 - QuickTable 예약 샘플 데이터 및 레스토랑 정보 Amazon S3 버킷 확인
 - AWS Glue Crawler 실행 및 예약 데이터 메타데이터 자동 수집
 - AWS Glue 데이터 카탈로그 테이블 스키마 확인
@@ -674,13 +703,13 @@ ORDER BY reservation_count DESC;
 - JSON 형식 레스토랑 데이터를 위한 추가 Crawler 생성 및 실행
 - CTAS를 사용하여 CSV를 Parquet 형식으로 변환 및 파티셔닝 적용
 
-CloudFormation이 자동으로 QuickTable 예약 샘플 데이터를 S3에 업로드하고, Glue와 Athena를 사용하여 비즈니스 인사이트를 도출하는 방법을 학습했습니다.
+AWS CloudFormation이 자동으로 QuickTable 예약 샘플 데이터를 Amazon S3에 업로드하고, Glue와 Athena를 사용하여 비즈니스 인사이트를 도출하는 방법을 학습했습니다.
 
 ## 리소스 정리
 
 > [!WARNING]
 > 다음 단계를 **반드시 수행**하여 불필요한 비용을 방지하세요.
-> Amazon S3 버킷에 객체가 있으면 CloudFormation 스택 삭제가 실패하므로 먼저 버킷을 비워야 합니다.
+> Amazon S3 버킷에 객체가 있으면 AWS CloudFormation 스택 삭제가 실패하므로 먼저 버킷을 비워야 합니다.
 
 ### 방법 1: Tag Editor로 리소스 찾기 (권장)
 
@@ -701,7 +730,7 @@ CloudFormation이 자동으로 QuickTable 예약 샘플 데이터를 S3에 업�
 
 #### 1단계: Amazon S3 버킷 비우기 (필수)
 
-CloudFormation 스택 삭제 전에 반드시 수행해야 합니다:
+AWS CloudFormation 스택 삭제 전에 반드시 수행해야 합니다:
 
 1. Amazon S3 콘솔로 이동합니다.
 2. `quicktable-raw-{StudentId}-ap-northeast-2` 버킷을 선택합니다.
@@ -712,11 +741,12 @@ CloudFormation 스택 삭제 전에 반드시 수행해야 합니다:
 
 > [!NOTE]
 > 태스크 6에서 CTAS로 Processed Data 버킷에 Parquet 파일을 생성했고, Athena 쿼리 결과가 Query Results 버킷에 저장되었습니다.
-> 3개 버킷 모두 비워야 CloudFormation 스택 삭제가 성공합니다.
-> 
+> 3개 버킷 모두 비워야 AWS CloudFormation 스택 삭제가 성공합니다.
+>
 > **버킷 비우기와 삭제의 관계**:
-> - 1단계에서 버킷을 비우면 CloudFormation 스택 삭제 시 버킷도 함께 삭제됩니다
-> - 하지만 CloudFormation 템플릿에서 `DeletionPolicy: Retain`을 설정한 경우, 버킷이 남아있을 수 있습니다
+>
+> - 1단계에서 버킷을 비우면 AWS CloudFormation 스택 삭제 시 버킷도 함께 삭제됩니다
+> - 하지만 AWS CloudFormation 템플릿에서 `DeletionPolicy: Retain`을 설정한 경우, 버킷이 남아있을 수 있습니다
 > - 이 경우 4단계에서 수동으로 버킷을 삭제해야 합니다
 
 #### 2단계: 수동 생성 리소스 삭제
@@ -739,7 +769,7 @@ CloudFormation 스택 삭제 전에 반드시 수행해야 합니다:
 
 > [!NOTE]
 > 태스크 5에서 Crawler가 생성한 `restaurant_data` 테이블과 태스크 6에서 Athena CTAS로 생성한 `reservation_analysis_{StudentId}` 테이블은 AWS Glue Data Catalog의 메타데이터입니다.
-> CloudFormation은 배포 시점에 생성한 리소스만 관리하므로, 실습 중 동적으로 생성된 이 테이블들은 수동으로 삭제해야 합니다.
+> AWS CloudFormation은 배포 시점에 생성한 리소스만 관리하므로, 실습 중 동적으로 생성된 이 테이블들은 수동으로 삭제해야 합니다.
 
 #### 3단계: AWS CloudFormation 스택 삭제
 
@@ -755,7 +785,7 @@ CloudFormation 스택 삭제 전에 반드시 수행해야 합니다:
 
 #### 4단계: Amazon S3 버킷 삭제
 
-CloudFormation 스택 삭제 후 Amazon S3 버킷이 남아있습니다. 완전히 삭제하려면:
+AWS CloudFormation 스택 삭제 후 Amazon S3 버킷이 남아있습니다. 완전히 삭제하려면:
 
 1. Amazon S3 콘솔로 이동합니다.
 2. `quicktable-raw-{StudentId}-ap-northeast-2` 버킷을 선택합니다.
@@ -769,14 +799,15 @@ CloudFormation 스택 삭제 후 Amazon S3 버킷이 남아있습니다. 완전�
 > 버킷을 유지하면 향후 실습에서 재사용할 수 있지만, 스토리지 비용이 발생할 수 있습니다.
 
 > [!TROUBLESHOOTING]
-> **문제**: CloudFormation 스택 삭제가 실패합니다
-> 
+> **문제**: AWS CloudFormation 스택 삭제가 실패합니다
+>
 > **원인**: Amazon S3 버킷에 객체가 남아있습니다
-> 
+>
 > **해결**:
+>
 > 1. 스택 삭제 실패 메시지에서 어떤 버킷이 문제인지 확인합니다
 > 2. 해당 버킷으로 이동하여 Empty 버튼을 클릭합니다
-> 3. CloudFormation 콘솔로 돌아가서 스택 삭제를 다시 시도합니다
+> 3. AWS CloudFormation 콘솔로 돌아가서 스택 삭제를 다시 시도합니다
 
 ✅ **실습 종료**: 모든 리소스가 정리되었습니다.
 
@@ -792,28 +823,33 @@ CloudFormation 스택 삭제 후 Amazon S3 버킷이 남아있습니다. 완전�
 ### 데이터 레이크 아키텍처
 
 **계층 구조**
+
 - **Raw (Bronze)**: 원본 데이터, 변경 불가
 - **Processed (Silver)**: 정제된 데이터, 스키마 적용
 - **Curated (Gold)**: 비즈니스 로직 적용, 집계
 
 **데이터 레이크 vs 데이터 웨어하우스**
+
 - 데이터 레이크: 모든 형식, 스키마 온 리드
 - 데이터 웨어하우스: 구조화된 데이터, 스키마 온 라이트
 
 ### AWS Glue
 
 **AWS Glue 크롤러**
+
 - 메타데이터 자동 수집
 - 스키마 추론
 - 파티션 인식
 - 테이블 생성/업데이트
 
 **AWS Glue 데이터 카탈로그**
+
 - 중앙 메타데이터 저장소
-- Amazon Athena, EMR, Redshift Spectrum 공유
+- Amazon Athena, Amazon EMR, Amazon Redshift Spectrum 공유
 - Hive 메타스토어 호환
 
 **AWS Glue ETL**
+
 - 서버리스 ETL 작업
 - PySpark, Scala 지원
 - 자동 스케일링
@@ -821,17 +857,20 @@ CloudFormation 스택 삭제 후 Amazon S3 버킷이 남아있습니다. 완전�
 ### Amazon Athena
 
 **쿼리 엔진**
+
 - Presto 기반
 - 표준 SQL 지원
 - 서버리스
 
 **과금 모델**
+
 - 스캔된 데이터량 기준
 - $5 per TB (서울 리전 기준)
 - 첫 1TB/월 무료 (AWS 프리 티어)
 - 압축 및 파티셔닝으로 절감
 
 **제한사항**
+
 - 쿼리 타임아웃: DML 쿼리는 최대 30분 (서비스 한도)
 - 결과 크기: 제한 없음 (Amazon S3 저장)
 - 동시 쿼리 한도:
@@ -841,6 +880,7 @@ CloudFormation 스택 삭제 후 Amazon S3 버킷이 남아있습니다. 완전�
 
 > [!NOTE]
 > **CTAS (CREATE TABLE AS SELECT) 분류**:
+>
 > - CTAS는 DML 쿼리로 분류됩니다 (AWS 공식 문서 기준)
 > - 따라서 DML 쿼리 한도(25개)에 포함됩니다
 > - DDL 쿼리는 CREATE TABLE, ALTER TABLE, DROP TABLE 등 메타데이터만 변경하는 작업입니다
@@ -848,23 +888,27 @@ CloudFormation 스택 삭제 후 Amazon S3 버킷이 남아있습니다. 완전�
 ### 최적화 전략
 
 **파일 형식**
+
 - Parquet: 컬럼형, 압축 효율적 (권장), 70-90% 압축률, 쿼리 속도 2-10배 향상
 - ORC: Hive 최적화
 - Avro: 스키마 진화 지원
 - 파일 크기: 128MB ~ 1GB 권장
 
 **파티셔닝**
+
 - 날짜별 파티션 (가장 일반적)
 - 계층적 파티션 (year/month/day)
 - 자주 필터링하는 컬럼 선택 (날짜, 리전 등)
 - 적절한 파티션 수 유지 (수천 개 이하)
 
 **압축**
+
 - Snappy: 빠른 압축/해제
 - Gzip: 높은 압축률
 - Zstandard: 균형잡힌 성능
 
 **비용 절감**
+
 - 필요한 컬럼만 SELECT하여 스캔량 감소
 - WHERE 절로 파티션 프루닝 활용
 - Amazon S3 수명 주기 정책으로 오래된 데이터 Glacier 이동

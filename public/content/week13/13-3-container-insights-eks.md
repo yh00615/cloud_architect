@@ -16,7 +16,7 @@ prerequisites:
   - Amazon CloudWatch 기본 개념 이해
 ---
 
-이 실습에서는 Amazon EKS 클러스터에 Amazon CloudWatch Container Insights를 활성화하고, CloudWatch를 통해 컨테이너 수준의 성능 메트릭과 로그를 수집 및 분석합니다. Amazon CloudWatch Logs Insights를 사용하여 로그를 쿼리하고, 커스텀 대시보드를 생성하며, 성능 이상을 감지하는 알람을 설정합니다. Horizontal Pod Autoscaler를 통해 자동 스케일링을 구현하여 트래픽 변화에 대응합니다.
+이 실습에서는 Amazon EKS 클러스터에 Amazon CloudWatch Container Insights를 활성화하고, Amazon CloudWatch를 통해 컨테이너 수준의 성능 메트릭과 로그를 수집 및 분석합니다. Amazon CloudWatch Logs Insights를 사용하여 로그를 쿼리하고, 커스텀 대시보드를 생성하며, 성능 이상을 감지하는 알람을 설정합니다. Horizontal Pod Autoscaler를 통해 자동 스케일링을 구현하여 트래픽 변화에 대응합니다.
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
@@ -137,7 +137,7 @@ tail -f cluster-creation.log
 ```
 
 > [!NOTE]
-> "EKS cluster "container-insights-cluster" in "ap-northeast-2" region is ready" 메시지가 표시되면 Ctrl+C를 눌러 로그 확인을 종료합니다.
+> "Amazon EKS cluster "container-insights-cluster" in "ap-northeast-2" region is ready" 메시지가 표시되면 Ctrl+C를 눌러 로그 확인을 종료합니다.
 
 8. 클러스터 상태를 확인합니다:
 
@@ -514,7 +514,7 @@ fields @timestamp, @message
 1. Amazon CloudWatch 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Dashboards**를 선택합니다.
 3. [[Create dashboard]] 버튼을 클릭합니다.
-4. **Dashboard name**에 `EKS-Container-Insights-Dashboard`를 입력합니다.
+4. **Dashboard name**에 `Amazon EKS-Container-Insights-Dashboard`를 입력합니다.
 
 > [!NOTE]
 > 대시보드 이름에 공백을 사용하지 않는 것이 권장됩니다. URL 인코딩 문제를 방지할 수 있습니다.
@@ -608,11 +608,11 @@ fields @timestamp, kubernetes.pod_name, @message
 12. **Notification** 섹션에서 다음을 설정합니다:
     - **Alarm state trigger**: `In alarm`
     - **Select an Amazon SNS topic**: `Create new topic`
-    - **Create a new topic...**: `EKS-High-CPU-Alert`
+    - **Create a new topic...**: `Amazon EKS-High-CPU-Alert`
     - **Email endpoints that will receive the notification**: 본인의 이메일 주소 입력
 
 > [!NOTE]
-> SNS 토픽 이름에 공백을 사용하지 않는 것이 권장됩니다. ARN 참조 시 문제를 방지할 수 있습니다.
+> Amazon SNS 토픽 이름에 공백을 사용하지 않는 것이 권장됩니다. ARN 참조 시 문제를 방지할 수 있습니다.
 
 12. [[Create topic]] 버튼을 클릭합니다.
 
@@ -620,8 +620,8 @@ fields @timestamp, kubernetes.pod_name, @message
 > 입력한 이메일 주소로 확인 메일이 발송됩니다. 이메일을 열고 **Confirm subscription** 링크를 클릭하여 구독을 확인합니다.
 
 13. [[Next]] 버튼을 클릭합니다.
-14. **Alarm name**에 `EKS-Cluster-High-CPU`를 입력합니다.
-15. **Alarm description**에 `Alert when EKS cluster CPU utilization exceeds 70%`를 입력합니다.
+14. **Alarm name**에 `Amazon EKS-Cluster-High-CPU`를 입력합니다.
+15. **Alarm description**에 `Alert when Amazon EKS cluster CPU utilization exceeds 70%`를 입력합니다.
 16. [[Next]] 버튼을 클릭합니다.
 17. 설정을 검토합니다.
 18. [[Create alarm]] 버튼을 클릭합니다.
@@ -637,10 +637,10 @@ fields @timestamp, kubernetes.pod_name, @message
     - **than...**: `80`
 
 25. [[Next]] 버튼을 클릭합니다.
-26. **Select an Amazon SNS topic**에서 `EKS-High-CPU-Alert`를 선택합니다.
+26. **Select an Amazon SNS topic**에서 `Amazon EKS-High-CPU-Alert`를 선택합니다.
 27. [[Next]] 버튼을 클릭합니다.
-28. **Alarm name**에 `EKS-Cluster-High-Memory`를 입력합니다.
-29. **Alarm description**에 `Alert when EKS cluster memory utilization exceeds 80%`를 입력합니다.
+28. **Alarm name**에 `Amazon EKS-Cluster-High-Memory`를 입력합니다.
+29. **Alarm description**에 `Alert when Amazon EKS cluster memory utilization exceeds 80%`를 입력합니다.
 30. [[Next]] 버튼을 클릭합니다.
 31. [[Create alarm]] 버튼을 클릭합니다.
 
@@ -655,9 +655,9 @@ fields @timestamp, kubernetes.pod_name, @message
     - **than...**: `0`
 
 38. [[Next]] 버튼을 클릭합니다.
-39. **Select an Amazon SNS topic**에서 `EKS-High-CPU-Alert`를 선택합니다.
+39. **Select an Amazon SNS topic**에서 `Amazon EKS-High-CPU-Alert`를 선택합니다.
 40. [[Next]] 버튼을 클릭합니다.
-41. **Alarm name**에 `EKS-Cluster-Failed-Nodes`를 입력합니다.
+41. **Alarm name**에 `Amazon EKS-Cluster-Failed-Nodes`를 입력합니다.
 42. **Alarm description**에 `Alert when any node in the cluster fails`를 입력합니다.
 43. [[Next]] 버튼을 클릭합니다.
 44. [[Create alarm]] 버튼을 클릭합니다.
@@ -820,7 +820,7 @@ kubectl get hpa
 7. 이 실습에서 생성한 모든 리소스가 표시됩니다.
 
 > [!NOTE]
-> Tag Editor는 리소스를 찾는 용도로만 사용됩니다. EKS 클러스터는 eksctl로 삭제하는 것이 권장됩니다.
+> Tag Editor는 리소스를 찾는 용도로만 사용됩니다. Amazon EKS 클러스터는 eksctl로 삭제하는 것이 권장됩니다.
 
 ### 방법 2: eksctl로 클러스터 삭제 (권장)
 
@@ -855,10 +855,10 @@ eksctl delete cluster --name container-insights-cluster --region ap-northeast-2
 > **eksctl delete cluster 명령어는 다음을 자동으로 삭제합니다**:
 >
 > - Amazon EKS 클러스터 (컨트롤 플레인)
-> - 관리형 노드 그룹 (EC2 인스턴스)
-> - VPC 및 네트워크 리소스 (서브넷, 라우팅 테이블, 인터넷 게이트웨이, NAT Gateway)
+> - 관리형 노드 그룹 (Amazon EC2 인스턴스)
+> - Amazon VPC 및 네트워크 리소스 (서브넷, 라우팅 테이블, 인터넷 게이트웨이, NAT Gateway)
 > - 보안 그룹
-> - CloudFormation 스택
+> - AWS CloudFormation 스택
 >
 > 삭제가 완료되지 않은 상태에서 CloudShell을 종료하면 리소스가 남아 비용이 계속 발생할 수 있습니다.
 
@@ -901,7 +901,7 @@ eksctl 삭제가 실패한 경우 다음 순서로 수동 삭제합니다:
 18. **Actions** > `Release Elastic IP addresses`를 선택합니다.
 19. 확인 창에서 [[Release]] 버튼을 클릭합니다.
 
-20. Amazon CloudFormation 콘솔로 이동합니다.
+20. Amazon AWS CloudFormation 콘솔로 이동합니다.
 21. `eksctl-container-insights-cluster-cluster` 스택을 선택합니다.
 22. [[Delete]] 버튼을 클릭합니다.
 23. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
@@ -911,20 +911,20 @@ eksctl 삭제가 실패한 경우 다음 순서로 수동 삭제합니다:
 1. Amazon CloudWatch 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Alarms** > **All alarms**를 선택합니다.
 3. 생성한 3개의 알람을 선택합니다:
-   - `EKS-Cluster-High-CPU`
-   - `EKS-Cluster-High-Memory`
-   - `EKS-Cluster-Failed-Nodes`
+   - `Amazon EKS-Cluster-High-CPU`
+   - `Amazon EKS-Cluster-High-Memory`
+   - `Amazon EKS-Cluster-Failed-Nodes`
 4. **Actions** > `Delete`를 선택합니다.
 5. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
 6. 왼쪽 메뉴에서 **Dashboards**를 선택합니다.
-7. `EKS-Container-Insights-Dashboard`를 선택합니다.
+7. `Amazon EKS-Container-Insights-Dashboard`를 선택합니다.
 8. [[Delete]] 버튼을 클릭합니다.
 9. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
 10. AWS Management Console 상단 검색창에서 `Amazon SNS`를 검색하고 선택합니다.
 11. 왼쪽 메뉴에서 **Topics**를 선택합니다.
-12. `EKS-High-CPU-Alert` 토픽을 선택합니다.
+12. `Amazon EKS-High-CPU-Alert` 토픽을 선택합니다.
 13. [[Delete]] 버튼을 클릭합니다.
 14. 확인 창에서 `delete me`를 입력합니다.
 15. [[Delete]] 버튼을 클릭합니다.
@@ -952,7 +952,7 @@ eksctl 삭제가 실패한 경우 다음 순서로 수동 삭제합니다:
 ## 추가 학습 리소스
 
 - [Container Insights 사용 설명서](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContainerInsights.html)
-- [EKS에서 Container Insights 설정](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-EKS-quickstart.html)
+- [Amazon EKS에서 Container Insights 설정](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-Amazon EKS-quickstart.html)
 - [Amazon CloudWatch Logs Insights 쿼리 문법](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html)
 - [Kubernetes 메트릭 서버](https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/)
 - [Amazon EKS Add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html)
@@ -1171,7 +1171,7 @@ kubectl autoscale deployment my-app \
 
 - IRSA (AWS IAM Roles for Service Accounts) 사용
 - 네트워크 정책으로 Pod 간 통신 제한
-- Secrets Manager로 민감 정보 관리
+- AWS Secrets Manager로 민감 정보 관리
 
 **모니터링**:
 

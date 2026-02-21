@@ -6,7 +6,7 @@ awsServices:
   - AWS IAM
   - AWS STS
 learningObjectives:
-  - AWS 인증과 권한의 차이를 이해하고, IAM을 통한 사용자 접근 관리 방법을 설명할 수 있습니다
+  - AWS 인증과 권한의 차이를 이해하고, AWS IAM을 통한 사용자 접근 관리 방법을 설명할 수 있습니다
   - AWS IAM 정책 구조와 평가 로직을 설명할 수 있습니다
   - Condition과 권한 경계를 활용한 고급 권한 제어 기법을 이해할 수 있습니다
   - AWS IAM 역할과 임시 자격증명의 보안 이점을 설명할 수 있습니다
@@ -14,7 +14,7 @@ learningObjectives:
   - AWS STS AssumeRole로 역할을 전환할 수 있습니다
   - AWS Organizations의 멀티 계정 관리 전략을 이해할 수 있습니다
 prerequisites:
-  - AWS 계정 및 IAM 사용자.
+  - AWS 계정 및 AWS IAM 사용자.
   - AWS CloudShell 접근 가능한 환경 (또는 AWS CLI 설치 및 구성).
   - AWS IAM 기본 개념 이해.
 ---
@@ -35,21 +35,21 @@ prerequisites:
 
 ## 태스크 0: 실습 환경 구축
 
-이 태스크에서는 CloudFormation을 사용하여 실습에 필요한 IAM 사용자, Access Key, 테스트용 S3 버킷을 자동으로 생성합니다.
+이 태스크에서는 AWS CloudFormation을 사용하여 실습에 필요한 AWS IAM 사용자, Access Key, 테스트용 Amazon S3 버킷을 자동으로 생성합니다.
 
 ### 환경 구성 요소
 
-CloudFormation 스택은 다음 리소스를 생성합니다:
+AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
-- **IAM 사용자**: `lab-user` (AssumeRole 테스트용)
+- **AWS IAM 사용자**: `lab-user` (AssumeRole 테스트용)
 - **Access Key**: AWS CLI 및 API 테스트용
-- **S3 버킷**: 역할 권한 테스트용
+- **Amazon S3 버킷**: 역할 권한 테스트용
 
 ### 상세 단계
 
 1. 다운로드한 `week2-2-iam-role-assumerole.zip` 파일의 압축을 해제합니다.
 2. `week2-2-iam-role-assumerole.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
 4. [[Create stack]] 버튼을 클릭합니다.
 5. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -60,12 +60,12 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 11. [[Next]] 버튼을 클릭합니다.
 12. **Configure stack options** 페이지에서 기본값을 유지하고 [[Next]] 버튼을 클릭합니다.
 13. **Review** 페이지에서 설정을 확인합니다.
-14. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create IAM resources`를 체크합니다.
+14. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
 15. [[Submit]] 버튼을 클릭합니다.
 16. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
 
 > [!NOTE]
-> 스택 생성에 1-2분이 소요됩니다. **Events** 탭에서 IAM 사용자, Access Key, S3 버킷이 생성되는 과정을 확인할 수 있습니다.
+> 스택 생성에 1-2분이 소요됩니다. **Events** 탭에서 AWS IAM 사용자, Access Key, Amazon S3 버킷이 생성되는 과정을 확인할 수 있습니다.
 > 대기하는 동안 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽어보세요.
 
 17. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
@@ -196,7 +196,7 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 8. 메모장에 "S3ReadOnlyRole ARN:"이라는 레이블을 추가하여 저장합니다.
 
 > [!NOTE]
-> ARN 형식은 `arn:aws:iam::123456789012:role/S3ReadOnlyRole`입니다. IAM은 글로벌 서비스이므로 리전 필드가 비어있어 콜론이 연속으로 두 개(`::`)가 나타나는 것이 정상입니다. ARN은 AWS 리소스를 고유하게 식별하는 값으로, AssumeRole 시 필요합니다. 다음 태스크에서 이 ARN을 사용합니다.
+> ARN 형식은 `arn:aws:iam::123456789012:role/S3ReadOnlyRole`입니다. AWS IAM은 글로벌 서비스이므로 리전 필드가 비어있어 콜론이 연속으로 두 개(`::`)가 나타나는 것이 정상입니다. ARN은 AWS 리소스를 고유하게 식별하는 값으로, AssumeRole 시 필요합니다. 다음 태스크에서 이 ARN을 사용합니다.
 
 ✅ **태스크 완료**: 역할 ARN이 확인되었습니다.
 
@@ -212,11 +212,11 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 > 현재 로그인한 사용자 이름은 AWS 콘솔 우측 상단에 표시됩니다. "사용자이름 @ 계정ID" 형식으로 표시되며, @ 앞부분이 사용자 이름입니다. 또는 CloudShell에서 `aws sts get-caller-identity` 명령으로 확인할 수 있습니다.
 
 > [!NOTE]
-> 만약 현재 로그인한 사용자가 IAM Users 목록에 없는 경우, 페더레이션 또는 SSO 사용자일 수 있습니다. 이 경우 새로운 IAM 사용자를 생성하여 실습을 진행합니다:
+> 만약 현재 로그인한 사용자가 AWS IAM Users 목록에 없는 경우, 페더레이션 또는 SSO 사용자일 수 있습니다. 이 경우 새로운 AWS IAM 사용자를 생성하여 실습을 진행합니다:
 > 1. [[Create user]] 버튼을 클릭합니다
 > 2. **User name**에 `lab-user`를 입력합니다
 > 3. **Provide user access to the AWS Management Console**을 체크합니다
-> 4. **I want to create an IAM user**를 선택합니다
+> 4. **I want to create an AWS IAM user**를 선택합니다
 > 5. [[Next]] 버튼을 클릭합니다
 > 6. **Attach policies directly**를 선택하고 `IAMReadOnlyAccess` 정책을 연결합니다 (최소 권한)
 > 7. [[Next]] → [[Create user]] 버튼을 클릭합니다
@@ -492,7 +492,7 @@ aws s3 ls
 > ```
 
 > [!NOTE]
-> 계정에 S3 버킷이 없는 경우 빈 출력이 표시됩니다. 이는 정상이며, 읽기 권한이 작동하고 있음을 의미합니다.
+> 계정에 Amazon S3 버킷이 없는 경우 빈 출력이 표시됩니다. 이는 정상이며, 읽기 권한이 작동하고 있음을 의미합니다.
 
 2. Amazon S3 버킷 생성을 시도합니다 (쓰기 권한 - 실패):
 
@@ -532,7 +532,7 @@ aws s3 mb s3://test-bucket-assumerole-YOUR-INITIALS-12345
 > **참고**: 일반 AWS CLI 환경에서는 추가로 다음 우선순위가 있습니다:
 > - AWS CLI 설정 파일 (~/.aws/config)
 > - 컨테이너 자격증명 (Amazon ECS 태스크 역할)
-> - Amazon EC2 인스턴스 메타데이터 (EC2 인스턴스 역할)
+> - Amazon EC2 인스턴스 메타데이터 (Amazon EC2 인스턴스 역할)
 > 
 > 이 실습에서는 CloudShell 환경을 사용하므로 위의 3가지 우선순위만 관련됩니다.
 
@@ -583,7 +583,7 @@ aws sts get-caller-identity
 3. **Regions**에서 `All regions`를 선택합니다.
 
 > [!NOTE]
-> IAM은 글로벌 서비스이므로 특정 리전이 아닌 All regions를 선택해야 AWS IAM 역할이 검색됩니다. Week 1-1 실습에서는 리전별 리소스(S3, Lambda 등)를 검색했으므로 ap-northeast-2를 선택했지만, IAM 리소스는 All regions를 선택해야 합니다.
+> AWS IAM은 글로벌 서비스이므로 특정 리전이 아닌 All regions를 선택해야 AWS IAM 역할이 검색됩니다. Week 1-1 실습에서는 리전별 리소스(Amazon S3, AWS Lambda 등)를 검색했으므로 ap-northeast-2를 선택했지만, AWS IAM 리소스는 All regions를 선택해야 합니다.
 
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
 5. **Tags** 섹션에서 다음을 입력합니다:
@@ -662,9 +662,9 @@ aws sts get-caller-identity
 
 ## 추가 학습 리소스
 
-- [IAM 역할](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
+- [AWS IAM 역할](https://docs.aws.amazon.com/AWS IAM/latest/UserGuide/id_roles.html)
 - [AssumeRole API](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html)
-- [임시 보안 자격 증명](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html)
+- [임시 보안 자격 증명](https://docs.aws.amazon.com/AWS IAM/latest/UserGuide/id_credentials_temp.html)
 
 ## 📚 참고: AWS IAM 역할 및 AssumeRole 개념
 
@@ -687,7 +687,7 @@ aws sts get-caller-identity
 - Principal 요소로 신뢰할 주체를 지정합니다
 
 > [!NOTE]
-> **root Principal 보안 모범 사례**: 실습에서는 편의상 `"AWS": "arn:aws:iam::123456789012:root"`를 사용했지만, 이는 해당 계정의 모든 IAM 엔티티가 역할을 맡을 수 있음을 의미합니다 (적절한 권한이 있는 경우). 프로덕션 환경에서는 특정 사용자나 역할의 ARN을 지정하는 것이 보안 모범 사례입니다.
+> **root Principal 보안 모범 사례**: 실습에서는 편의상 `"AWS": "arn:aws:iam::123456789012:root"`를 사용했지만, 이는 해당 계정의 모든 AWS IAM 엔티티가 역할을 맡을 수 있음을 의미합니다 (적절한 권한이 있는 경우). 프로덕션 환경에서는 특정 사용자나 역할의 ARN을 지정하는 것이 보안 모범 사례입니다.
 > 
 > 예: `"AWS": "arn:aws:iam::123456789012:user/specific-user"`
 
@@ -733,7 +733,7 @@ aws sts assume-role \
 - Expiration (기본 1시간, 최대 12시간)
 
 > [!NOTE]
-> **ASIA vs AKIA 차이**: 임시 자격증명의 Access Key는 `ASIA`로 시작하고, 장기 자격증명(IAM 사용자)은 `AKIA`로 시작합니다. 이를 통해 자격증명 유형을 쉽게 구분할 수 있습니다.
+> **ASIA vs AKIA 차이**: 임시 자격증명의 Access Key는 `ASIA`로 시작하고, 장기 자격증명(AWS IAM 사용자)은 `AKIA`로 시작합니다. 이를 통해 자격증명 유형을 쉽게 구분할 수 있습니다.
 
 **3단계: 임시 자격증명 사용**
 - 환경 변수로 설정하거나
@@ -777,4 +777,4 @@ aws sts assume-role \
 - Confused Deputy 문제를 방지합니다
 
 > [!NOTE]
-> **Confused Deputy 문제**: 제3자 서비스가 고객의 역할을 맡을 때, 악의적인 사용자가 다른 고객의 리소스에 접근하도록 속일 수 있는 보안 문제입니다. External ID를 사용하면 이를 방지할 수 있습니다. 자세한 내용은 [AWS 문서](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html)를 참조합니다.
+> **Confused Deputy 문제**: 제3자 서비스가 고객의 역할을 맡을 때, 악의적인 사용자가 다른 고객의 리소스에 접근하도록 속일 수 있는 보안 문제입니다. External ID를 사용하면 이를 방지할 수 있습니다. 자세한 내용은 [AWS 문서](https://docs.aws.amazon.com/AWS IAM/latest/UserGuide/id_roles_create_for-user_externalid.html)를 참조합니다.

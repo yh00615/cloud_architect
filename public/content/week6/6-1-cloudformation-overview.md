@@ -8,7 +8,7 @@ learningObjectives:
   - Infrastructure as Code의 개념과 이점을 이해할 수 있습니다
   - AWS CloudFormation의 동작 원리와 주요 구성 요소를 설명할 수 있습니다
   - 템플릿의 주요 섹션(Resources, Parameters, Outputs)과 역할을 이해할 수 있습니다
-  - YAML 문법을 사용하여 CloudFormation 템플릿을 작성할 수 있습니다
+  - YAML 문법을 사용하여 AWS CloudFormation 템플릿을 작성할 수 있습니다
   - Intrinsic Functions를 활용하여 동적 템플릿을 구성할 수 있습니다
   - 변경 세트를 사용하여 변경 사항을 미리 확인할 수 있습니다
   - 드리프트 탐지로 실제 리소스와 템플릿 간 차이를 파악할 수 있습니다
@@ -17,7 +17,7 @@ prerequisites:
   - YAML 또는 JSON 기본 문법 이해
 ---
 
-이 데모에서는 AWS CloudFormation 스택의 전체 생명주기를 시연합니다. 간단한 Amazon S3 버킷 스택을 생성(CREATE)하고, 변경 세트를 통해 안전하게 업데이트(UPDATE)하며, 드리프트 탐지로 수동 변경을 감지한 후 스택을 삭제(DELETE)하는 전체 프로세스를 경험합니다. 각 단계에서 스택 상태 변화를 관찰하고 CloudFormation이 리소스를 어떻게 관리하는지 이해합니다.
+이 데모에서는 AWS CloudFormation 스택의 전체 생명주기를 시연합니다. 간단한 Amazon S3 버킷 스택을 생성(CREATE)하고, 변경 세트를 통해 안전하게 업데이트(UPDATE)하며, 드리프트 탐지로 수동 변경을 감지한 후 스택을 삭제(DELETE)하는 전체 프로세스를 경험합니다. 각 단계에서 스택 상태 변화를 관찰하고 AWS CloudFormation이 리소스를 어떻게 관리하는지 이해합니다.
 
 **주요 태스크:**
 - 태스크 1: 스택 생성 (CREATE) - Amazon S3 버킷 스택
@@ -45,9 +45,9 @@ prerequisites:
 이 태스크에서는 간단한 Amazon S3 버킷 템플릿을 사용하여 AWS CloudFormation 스택을 생성합니다. 스택 생성 과정에서 상태 변화(CREATE_IN_PROGRESS → CREATE_COMPLETE)를 관찰하고, 생성된 리소스를 확인합니다.
 
 > [!CONCEPT] 스택 생성 프로세스
-> CloudFormation 스택 생성은 다음 단계로 진행됩니다:
+> AWS CloudFormation 스택 생성은 다음 단계로 진행됩니다:
 > 
-> - **템플릿 검증**: CloudFormation이 템플릿 문법을 확인합니다
+> - **템플릿 검증**: AWS CloudFormation이 템플릿 문법을 확인합니다
 > - **리소스 생성**: AWS API를 호출하여 Amazon S3 버킷을 생성합니다
 > - **상태 추적**: 각 리소스의 생성 상태를 모니터링합니다
 > - **출력값 생성**: Outputs 섹션에 정의된 값을 표시합니다
@@ -82,7 +82,7 @@ Parameters:
 
 Resources:
   DemoBucket:
-    Type: AWS::S3::Bucket
+    Type: AWS::Amazon S3::Bucket
     Properties:
       BucketName: !Sub '${BucketPrefix}-${AWS::AccountId}'
       Tags:
@@ -120,7 +120,7 @@ Outputs:
 
 > [!NOTE]
 > 스택 생성에 1-2분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
-> CloudFormation이 Amazon S3 버킷을 생성하는 과정을 실시간으로 관찰합니다.
+> AWS CloudFormation이 Amazon S3 버킷을 생성하는 과정을 실시간으로 관찰합니다.
 > 
 > **스택 태그 자동 전파**: 스택에 추가한 태그(`Project`, `Week`, `CreatedBy`)는 스택이 생성하는 모든 리소스(Amazon S3 버킷)에 자동으로 전파됩니다.
 
@@ -138,7 +138,7 @@ Outputs:
 이 태스크에서는 스택 업데이트 생명주기를 시연합니다. 태그가 추가된 템플릿으로 업데이트하면서 상태 변화(UPDATE_IN_PROGRESS → UPDATE_COMPLETE)를 관찰하고, Change set preview로 변경 사항을 미리 확인합니다.
 
 > [!CONCEPT] 스택 업데이트 프로세스
-> CloudFormation 스택 업데이트는 다음 단계로 진행됩니다:
+> AWS CloudFormation 스택 업데이트는 다음 단계로 진행됩니다:
 > 
 > - **변경 사항 분석**: 새 템플릿과 기존 템플릿을 비교합니다
 > - **Change set preview**: 어떤 리소스가 어떻게 변경되는지 미리 보여줍니다
@@ -177,7 +177,7 @@ Parameters:
 
 Resources:
   DemoBucket:
-    Type: AWS::S3::Bucket
+    Type: AWS::Amazon S3::Bucket
     Properties:
       BucketName: !Sub '${BucketPrefix}-${AWS::AccountId}'
       Tags:
@@ -217,7 +217,7 @@ Outputs:
     - **Action**: `Modify` (기존 리소스 수정)
     - **Logical ID**: `DemoBucket`
     - **Physical ID**: 실제 버킷 이름
-    - **Resource type**: `AWS::S3::Bucket`
+    - **Resource type**: `AWS::Amazon S3::Bucket`
     - **Replacement**: `False` (리소스 교체 없음, 데이터 안전)
     - **Scope**: `Tags` (태그만 변경)
 
@@ -267,7 +267,7 @@ Outputs:
 이 태스크에서는 드리프트 탐지 기능을 사용하여 AWS CloudFormation 외부에서 수동으로 변경된 리소스를 찾아냅니다. Amazon S3 콘솔에서 수동으로 태그를 추가한 후 드리프트를 감지합니다.
 
 > [!CONCEPT] 드리프트 (Drift) 탐지
-> 드리프트는 CloudFormation 템플릿과 실제 리소스 상태의 불일치를 의미합니다.
+> 드리프트는 AWS CloudFormation 템플릿과 실제 리소스 상태의 불일치를 의미합니다.
 > AWS 콘솔, CLI, API를 통한 수동 변경으로 발생하며, 인프라 일관성을 해칩니다.
 > 
 > **드리프트 발생 원인:**
@@ -275,12 +275,12 @@ Outputs:
 > - 개발자가 AWS 콘솔에서 직접 태그를 추가합니다
 > - 운영팀이 보안 그룹 규칙을 수동으로 수정합니다
 > - 자동화 스크립트가 리소스 속성을 변경합니다
-> - 다른 CloudFormation 스택이 동일한 리소스를 수정합니다
+> - 다른 AWS CloudFormation 스택이 동일한 리소스를 수정합니다
 >
 > 
 > **드리프트 탐지 프로세스:**
 >
-> - **템플릿 비교**: CloudFormation이 템플릿과 실제 리소스를 비교합니다
+> - **템플릿 비교**: AWS CloudFormation이 템플릿과 실제 리소스를 비교합니다
 > - **차이점 식별**: 각 리소스의 속성을 하나씩 확인하여 차이점을 찾습니다
 > - **상태 업데이트**: 드리프트가 발견되면 스택 상태를 DRIFTED로 변경합니다
 > - **상세 정보 제공**: Expected vs Actual 값을 비교하여 정확한 차이점을 표시합니다
@@ -303,7 +303,7 @@ Outputs:
 
 > [!NOTE]
 > 이 태그는 AWS CloudFormation 템플릿에 정의되지 않았으므로 드리프트가 발생합니다.
-> CloudFormation은 이 변경을 인식하지 못하고 있습니다.
+> AWS CloudFormation은 이 변경을 인식하지 못하고 있습니다.
 
 #### 2단계: 드리프트 감지 실행
 
@@ -314,7 +314,7 @@ Outputs:
 5. 확인 창에서 [[Detect drift]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> 드리프트 감지에 1-2분이 소요됩니다. CloudFormation이 템플릿과 실제 리소스를 비교합니다.
+> 드리프트 감지에 1-2분이 소요됩니다. AWS CloudFormation이 템플릿과 실제 리소스를 비교합니다.
 
 6. 페이지를 새로고침합니다.
 7. **Stack info** 탭에서 **Drift status**를 확인합니다.
@@ -334,7 +334,7 @@ Outputs:
    - **Difference Type**: `NOT_EQUAL` (값이 다름)
 
 > [!NOTE]
-> 드리프트 탐지는 CloudFormation 템플릿에 명시적으로 정의된 속성만 비교하며, 스택 수준 태그(`Project`, `Week`, `CreatedBy`)는 비교 대상에 포함되지 않습니다.
+> 드리프트 탐지는 AWS CloudFormation 템플릿에 명시적으로 정의된 속성만 비교하며, 스택 수준 태그(`Project`, `Week`, `CreatedBy`)는 비교 대상에 포함되지 않습니다.
 > 따라서 Expected는 템플릿의 3개 태그, Actual은 템플릿 3개 + 수동 추가 1개로 표시됩니다.
 
 > [!NOTE]
@@ -350,10 +350,10 @@ Outputs:
 
 ## 태스크 4: 스택 삭제 (DELETE) - 생명주기 완료
 
-이 태스크에서는 스택 삭제 생명주기를 시연합니다. CloudFormation 스택을 삭제하면서 상태 변화(DELETE_IN_PROGRESS → DELETE_COMPLETE)를 관찰하고, 스택이 생성한 모든 리소스가 자동으로 삭제되는 과정을 확인합니다.
+이 태스크에서는 스택 삭제 생명주기를 시연합니다. AWS CloudFormation 스택을 삭제하면서 상태 변화(DELETE_IN_PROGRESS → DELETE_COMPLETE)를 관찰하고, 스택이 생성한 모든 리소스가 자동으로 삭제되는 과정을 확인합니다.
 
 > [!CONCEPT] 스택 삭제 프로세스
-> CloudFormation 스택 삭제는 다음 단계로 진행됩니다:
+> AWS CloudFormation 스택 삭제는 다음 단계로 진행됩니다:
 >
 > - **삭제 순서 결정**: 리소스 간 의존성을 분석하여 역순으로 삭제합니다
 > - **리소스 삭제**: AWS API를 호출하여 각 리소스를 삭제합니다
@@ -383,7 +383,7 @@ Outputs:
 > [!NOTE]
 > 이 데모에서는 버킷에 파일을 업로드하지 않았으므로 이 단계는 건너뛸 수 있습니다.
 > 
-> Amazon S3 버킷에 파일이 있으면 CloudFormation 스택 삭제가 실패합니다.
+> Amazon S3 버킷에 파일이 있으면 AWS CloudFormation 스택 삭제가 실패합니다.
 > 버킷에 파일을 업로드한 경우에만 다음 단계를 수행합니다.
 
 1. Amazon S3 콘솔로 이동합니다.
@@ -392,7 +392,7 @@ Outputs:
 4. 확인 창에서 `permanently delete`를 입력합니다.
 5. [[Empty]] 버튼을 클릭합니다.
 
-#### 2단계: CloudFormation 스택 삭제
+#### 2단계: AWS CloudFormation 스택 삭제
 
 1. AWS CloudFormation 콘솔로 이동합니다.
 2. `demo-s3-stack`을 선택합니다.
@@ -402,7 +402,7 @@ Outputs:
 
 > [!NOTE]
 > 스택 삭제에 1-2분이 소요됩니다. **Events** 탭에서 삭제 과정을 확인할 수 있습니다.
-> CloudFormation이 Amazon S3 버킷을 삭제하는 과정을 실시간으로 관찰합니다.
+> AWS CloudFormation이 Amazon S3 버킷을 삭제하는 과정을 실시간으로 관찰합니다.
 
 6. 상태가 "DELETE_COMPLETE"로 변경될 때까지 기다립니다.
 7. 스택이 목록에서 사라지는 것을 확인합니다.
@@ -417,7 +417,7 @@ Outputs:
 2. `cfn-demo-bucket-`로 시작하는 버킷이 목록에서 사라졌는지 확인합니다.
 
 > [!SUCCESS]
-> CloudFormation 스택을 삭제하면 스택이 생성한 모든 리소스(Amazon S3 버킷)가 자동으로 삭제됩니다.
+> AWS CloudFormation 스택을 삭제하면 스택이 생성한 모든 리소스(Amazon S3 버킷)가 자동으로 삭제됩니다.
 > 수동으로 각 리소스를 삭제할 필요가 없습니다.
 
 ✅ **태스크 완료**: 스택 삭제(DELETE) 생명주기를 시연하고 전체 생명주기를 완료했습니다.
@@ -431,7 +431,7 @@ Outputs:
 - **드리프트 탐지**: 수동으로 변경된 리소스를 감지하고 템플릿과의 차이점을 확인했습니다
 - **스택 삭제 (DELETE)**: 스택과 모든 리소스를 자동으로 삭제하고 생명주기를 완료했습니다
 
-다음 세션에서는 실제로 CloudFormation 템플릿을 작성하여 Amazon VPC 환경을 구축하는 실습을 진행합니다.
+다음 세션에서는 실제로 AWS CloudFormation 템플릿을 작성하여 Amazon VPC 환경을 구축하는 실습을 진행합니다.
 
 ## 추가 학습 리소스
 
@@ -469,7 +469,7 @@ Outputs:
 - **협업**: 팀원 간 인프라 코드 공유 및 리뷰
 - **자동화**: CI/CD 파이프라인에 통합 가능
 
-### CloudFormation 템플릿 구조
+### AWS CloudFormation 템플릿 구조
 
 **주요 섹션**
 
@@ -482,12 +482,12 @@ Parameters:
   BucketPrefix:
     Type: String
     Default: my-bucket
-    Description: S3 버킷 이름 접두사
+    Description: Amazon S3 버킷 이름 접두사
 
 Resources:
   # 생성할 AWS 리소스 정의
   MyBucket:
-    Type: AWS::S3::Bucket
+    Type: AWS::Amazon S3::Bucket
     Properties:
       BucketName: !Sub '${BucketPrefix}-${AWS::AccountId}'
 
@@ -508,7 +508,7 @@ Outputs:
 | `Resources` | **필수** | 생성할 AWS 리소스 정의 |
 | `Outputs` | 선택 | 스택 생성 후 출력할 값 (다른 스택에서 참조 가능) |
 
-### CloudFormation 내장 함수
+### AWS CloudFormation 내장 함수
 
 **주요 내장 함수**
 
@@ -525,7 +525,7 @@ Outputs:
 ```yaml
 Resources:
   MyBucket:
-    Type: AWS::S3::Bucket
+    Type: AWS::Amazon S3::Bucket
     Properties:
       BucketName: my-demo-bucket
 
@@ -544,7 +544,7 @@ Parameters:
 
 Resources:
   MyBucket:
-    Type: AWS::S3::Bucket
+    Type: AWS::Amazon S3::Bucket
     Properties:
       BucketName: !Sub 'app-${Environment}-${AWS::AccountId}'
       # 결과: app-dev-123456789012
@@ -555,7 +555,7 @@ Resources:
 ```yaml
 Resources:
   MyBucket:
-    Type: AWS::S3::Bucket
+    Type: AWS::Amazon S3::Bucket
 
 Outputs:
   BucketArn:
@@ -574,14 +574,14 @@ Outputs:
 
 **AWS CDK (Cloud Development Kit)**
 - 프로그래밍 언어로 인프라 정의 (TypeScript, Python, Java 등)
-- CloudFormation으로 변환되어 배포
+- AWS CloudFormation으로 변환되어 배포
 - 재사용 가능한 컴포넌트 (Constructs)
 - 타입 안전성 및 IDE 지원
 - 복잡한 로직 구현 가능
 
 **AWS SAM (Serverless Application Model)**
 - 서버리스 애플리케이션 전용
-- CloudFormation의 확장
+- AWS CloudFormation의 확장
 - 간소화된 문법
 - 로컬 테스트 지원
 - AWS Lambda, Amazon API Gateway 등에 최적화
@@ -610,7 +610,7 @@ Outputs:
       "Resource": "*",
       "Condition": {
         "StringEquals": {
-          "ResourceType": ["AWS::RDS::DBInstance"]
+          "ResourceType": ["AWS::Amazon RDS::DBInstance"]
         }
       }
     },
@@ -643,13 +643,13 @@ Outputs:
 ```yaml
 Resources:
   MyDatabase:
-    Type: AWS::RDS::DBInstance
+    Type: AWS::Amazon RDS::DBInstance
     DeletionPolicy: Snapshot
     Properties:
       # ...
 
   MyBucket:
-    Type: AWS::S3::Bucket
+    Type: AWS::Amazon S3::Bucket
     DeletionPolicy: Retain
     Properties:
       # ...
@@ -665,8 +665,8 @@ Resources:
 ```yaml
 Outputs:
   VPCId:
-    Description: VPC ID
-    Value: !Ref VPC
+    Description: Amazon VPC ID
+    Value: !Ref Amazon VPC
     Export:
       Name: MyVPC-ID
 ```
@@ -675,7 +675,7 @@ Outputs:
 ```yaml
 Resources:
   MySubnet:
-    Type: AWS::EC2::Subnet
+    Type: AWS::Amazon EC2::Subnet
     Properties:
       VpcId: !ImportValue MyVPC-ID
 ```
@@ -695,7 +695,7 @@ Resources:
 ```yaml
 Resources:
   NetworkStack:
-    Type: AWS::CloudFormation::Stack
+    Type: AWS::AWS CloudFormation::Stack
     Properties:
       TemplateURL: https://s3.amazonaws.com/bucket/network-template.yaml
       Parameters:
@@ -723,7 +723,7 @@ Resources:
 
 **보안**:
 - AWS IAM 역할을 사용하여 최소 권한 원칙을 적용합니다.
-- Secrets Manager나 Parameter Store를 사용하여 민감한 정보를 관리합니다.
+- AWS Secrets Manager나 Parameter Store를 사용하여 민감한 정보를 관리합니다.
 - 퍼블릭 액세스가 필요 없는 리소스는 프라이빗으로 유지합니다.
 
 **비용 최적화**:

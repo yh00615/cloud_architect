@@ -8,13 +8,13 @@ learningObjectives:
   - 캐싱의 개념과 다양한 캐싱 전략을 이해할 수 있습니다
   - Redis와 Memcached의 차이점과 사용 사례를 비교할 수 있습니다
   - Amazon ElastiCache를 활용하여 API 응답을 캐싱할 수 있습니다
-  - 세션 스토어를 ElastiCache로 구현할 수 있습니다
+  - 세션 스토어를 Amazon ElastiCache로 구현할 수 있습니다
   - 캐시 무효화 패턴과 TTL 설정 전략을 이해할 수 있습니다
   - Amazon CloudFront의 동작 원리와 캐시 정책을 설명할 수 있습니다
-  - CloudFront Functions로 엣지 로케이션에서 요청을 처리할 수 있습니다
+  - Amazon CloudFront Functions로 엣지 로케이션에서 요청을 처리할 수 있습니다
 prerequisites:
-  - Week 5-1 RDS Multi-AZ 실습 완료 (MySQL 기본 지식)
-  - Week 4-3 QuickTable 예약 API 실습 완료 (DynamoDB 기본 지식)
+  - Week 5-1 Amazon RDS Multi-AZ 실습 완료 (MySQL 기본 지식)
+  - Week 4-3 QuickTable 예약 API 실습 완료 (Amazon DynamoDB 기본 지식)
   - Python 기본 문법 이해
 ---
 
@@ -32,7 +32,7 @@ Cache-Aside 패턴을 구현하여 데이터베이스 조회 속도를 10-50배 
 > 
 > **관련 태스크:**
 > 
-> - 태스크 5: 실전 애플리케이션으로 Cache-Aside 패턴 테스트 (app.py를 EC2에서 실행하여 캐시 성능 측정)
+> - 태스크 5: 실전 애플리케이션으로 Cache-Aside 패턴 테스트 (app.py를 Amazon EC2에서 실행하여 캐시 성능 측정)
 > - 태스크 6: Cache-Aside 패턴 코드 분석 (app.py 코드를 단계별로 분석하여 캐싱 로직 이해)
 
 > [!WARNING]
@@ -42,28 +42,28 @@ Cache-Aside 패턴을 구현하여 데이터베이스 조회 속도를 10-50배 
 > 
 > | 리소스 | 타입 | 시간당 비용 |
 > |--------|------|------------|
-> | ElastiCache 클러스터 | cache.t3.micro | 약 $0.017 |
-> | EC2 인스턴스 | t2.micro | 약 $0.0116 |
+> | Amazon ElastiCache 클러스터 | cache.t3.micro | 약 $0.017 |
+> | Amazon EC2 인스턴스 | t2.micro | 약 $0.0116 |
 > | NAT Gateway | - | 약 $0.045 |
 > | **총 예상** | - | **약 $0.074** |
 
 
 ## 태스크 0: 실습 환경 구축
 
-이 태스크에서는 CloudFormation을 사용하여 실습에 필요한 기본 인프라를 자동으로 생성합니다.
+이 태스크에서는 AWS CloudFormation을 사용하여 실습에 필요한 기본 인프라를 자동으로 생성합니다.
 
 ### 환경 구성 요소
 
-CloudFormation 스택은 다음 리소스를 생성합니다:
+AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
-- **VPC 및 네트워크**: VPC, 퍼블릭/프라이빗 서브넷, 인터넷 게이트웨이, NAT Gateway
-- **보안 그룹**: ElastiCache 보안 그룹, EC2 보안 그룹
-- **ElastiCache Subnet Group**: Redis 클러스터 배치를 위한 서브넷 그룹
-- **DynamoDB 테이블**: QuickTable 예약 데이터 저장용 테이블
+- **Amazon VPC 및 네트워크**: Amazon VPC, 퍼블릭/프라이빗 서브넷, 인터넷 게이트웨이, NAT Gateway
+- **보안 그룹**: Amazon ElastiCache 보안 그룹, Amazon EC2 보안 그룹
+- **Amazon ElastiCache Subnet Group**: Redis 클러스터 배치를 위한 서브넷 그룹
+- **Amazon DynamoDB 테이블**: QuickTable 예약 데이터 저장용 테이블
 
 ### 상세 단계
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `CloudFormation`을 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
 2. [[Create stack]] 버튼을 클릭합니다.
 3. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
 4. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -82,25 +82,25 @@ CloudFormation 스택은 다음 리소스를 생성합니다:
 10. [[Next]] 버튼을 클릭합니다.
 11. **Configure stack options** 페이지에서 기본값을 유지하고 [[Next]] 버튼을 클릭합니다.
 12. **Review and create** 페이지에서 설정을 확인합니다.
-13. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create IAM resources`를 체크합니다.
+13. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
 14. [[Submit]] 버튼을 클릭합니다.
 15. 스택 생성이 시작됩니다.
 16. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
 
 > [!NOTE]
 > **Events** 탭에는 리소스 생성 과정이 실시간으로 표시됩니다.
-> VPC, 서브넷, NAT Gateway, 보안 그룹, ElastiCache Subnet Group, DynamoDB 테이블이 순차적으로 생성됩니다.
+> Amazon VPC, 서브넷, NAT Gateway, 보안 그룹, Amazon ElastiCache Subnet Group, Amazon DynamoDB 테이블이 순차적으로 생성됩니다.
 > 스택 생성에 5-7분이 소요됩니다. 대기하는 동안 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽어보세요.
 
 17. **Outputs** 탭을 선택합니다.
 18. 출력값들을 확인하고 메모장에 복사합니다:
-    - `VpcId`: VPC ID (예: vpc-0123456789abcdef0)
+    - `VpcId`: Amazon VPC ID (예: vpc-0123456789abcdef0)
     - `PrivateSubnetAId`: 프라이빗 서브넷 A ID (예: subnet-0a1b2c3d4e5f6g7h8)
     - `PrivateSubnetCId`: 프라이빗 서브넷 C ID (예: subnet-9i8h7g6f5e4d3c2b1)
-    - `ElastiCacheSecurityGroupId`: ElastiCache 보안 그룹 ID (예: sg-0123456789abcdef0)
-    - `EC2SecurityGroupId`: EC2 보안 그룹 ID (예: sg-9876543210fedcba0)
-    - `ElastiCacheSubnetGroupName`: ElastiCache 서브넷 그룹 이름
-    - `DynamoDBTableName`: DynamoDB 테이블 이름
+    - `ElastiCacheSecurityGroupId`: Amazon ElastiCache 보안 그룹 ID (예: sg-0123456789abcdef0)
+    - `EC2SecurityGroupId`: Amazon EC2 보안 그룹 ID (예: sg-9876543210fedcba0)
+    - `ElastiCacheSubnetGroupName`: Amazon ElastiCache 서브넷 그룹 이름
+    - `DynamoDBTableName`: Amazon DynamoDB 테이블 이름
 
 > [!IMPORTANT]
 > 이 출력값들은 다음 태스크에서 사용됩니다. 반드시 메모장에 저장하세요.
@@ -117,7 +117,7 @@ Redis는 인메모리 데이터 저장소로, 데이터베이스 조회 결과�
 
 ### 상세 단계
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `ElastiCache`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon ElastiCache`를 검색하고 선택합니다.
 2. 왼쪽 메뉴에서 **Redis OSS caches**를 선택합니다.
 3. [[Create Redis OSS cache]] 버튼을 클릭합니다.
 4. **Deployment option**에서 `Design your own cache`를 선택합니다.
@@ -134,7 +134,7 @@ Redis는 인메모리 데이터 저장소로, 데이터베이스 조회 결과�
    - **Number of replicas**: `0`
 9. **Connectivity** 섹션에서 다음을 설정합니다:
    - **Network type**: `IPv4`
-   - **VPC**: 태스크 0에서 생성한 VPC 선택
+   - **Amazon VPC**: 태스크 0에서 생성한 Amazon VPC 선택
    - **Subnet group**: 태스크 0에서 생성한 서브넷 그룹 선택
    - **Selected subnets**: 프라이빗 서브넷 2개가 자동 선택됨
 10. **Availability zone placements**에서 `No preference`를 선택합니다.
@@ -170,7 +170,7 @@ Redis는 인메모리 데이터 저장소로, 데이터베이스 조회 결과�
 > - **Automatic backups**: 활성화 (데이터 복구)
 > - **Multi-AZ**: 활성화 (장애 대응)
 
-✅ **태스크 완료**: ElastiCache Redis 클러스터가 생성되었습니다.
+✅ **태스크 완료**: Amazon ElastiCache Redis 클러스터가 생성되었습니다.
 
 
 ## 태스크 2: Redis 엔드포인트 확인
@@ -182,7 +182,7 @@ Redis는 인메모리 데이터 저장소로, 데이터베이스 조회 결과�
 
 ### 상세 단계
 
-1. ElastiCache 콘솔에서 `quicktable-cache` 클러스터를 선택합니다.
+1. Amazon ElastiCache 콘솔에서 `quicktable-cache` 클러스터를 선택합니다.
 2. **Cluster details** 섹션에서 **Primary endpoint**를 확인합니다.
 3. Primary endpoint 값을 복사하여 메모장에 저장합니다.
 
@@ -200,12 +200,12 @@ Redis는 인메모리 데이터 저장소로, 데이터베이스 조회 결과�
 
 ### 태스크 설명
 
-이 태스크에서는 Redis CLI를 설치할 EC2 인스턴스를 생성하고, Session Manager를 통해 접속합니다.
+이 태스크에서는 Redis CLI를 설치할 Amazon EC2 인스턴스를 생성하고, Session Manager를 통해 접속합니다.
 Redis CLI를 사용하여 기본 명령어를 실습하고 캐싱 동작을 이해합니다.
 
 ### 상세 단계
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `EC2`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon EC2`를 검색하고 선택합니다.
 2. 왼쪽 메뉴에서 **Instances**를 선택합니다.
 3. [[Launch instances]] 버튼을 클릭합니다.
 4. **Name**에 `quicktable-cache-client`를 입력합니다.
@@ -213,13 +213,13 @@ Redis CLI를 사용하여 기본 명령어를 실습하고 캐싱 동작을 이�
 6. **Instance type**에서 `t2.micro`를 선택합니다.
 7. **Key pair**에서 `Proceed without a key pair`를 선택합니다.
 8. **Network settings**에서 Edit 버튼을 클릭한 후 다음을 설정합니다:
-   - **VPC**: 태스크 0에서 생성한 VPC 선택
+   - **Amazon VPC**: 태스크 0에서 생성한 Amazon VPC 선택
    - **Subnet**: 프라이빗 서브넷 중 하나 선택
    - **Auto-assign public IP**: Disable
    - **Firewall (security groups)**: Select existing security group
    - **Security groups**: 태스크 0에서 생성한 `week10-2-ec2-sg` 보안 그룹 선택
 9. **Advanced details** 섹션을 확장합니다.
-10. **IAM instance profile**에서 `SSMInstanceProfile`을 선택합니다.
+10. **AWS IAM instance profile**에서 `SSMInstanceProfile`을 선택합니다.
 11. **Tags** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
 | Key | Value |
@@ -236,8 +236,8 @@ Redis CLI를 사용하여 기본 명령어를 실습하고 캐싱 동작을 이�
 17. [[Connect]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> Session Manager는 SSH 키 없이 안전하게 EC2 인스턴스에 접속할 수 있는 AWS Systems Manager 기능입니다.
-> IAM 역할을 통해 인증되므로 별도의 키 관리가 필요 없습니다.
+> Session Manager는 SSH 키 없이 안전하게 Amazon EC2 인스턴스에 접속할 수 있는 AWS Systems Manager 기능입니다.
+> AWS IAM 역할을 통해 인증되므로 별도의 키 관리가 필요 없습니다.
 
 18. Session Manager 터미널이 열리면 다음 명령어를 실행하여 Redis CLI를 설치합니다:
 
@@ -290,7 +290,7 @@ PING
 > PONG
 > ```
 
-✅ **태스크 완료**: EC2 인스턴스를 생성하고 Redis CLI를 설치했습니다.
+✅ **태스크 완료**: Amazon EC2 인스턴스를 생성하고 Redis CLI를 설치했습니다.
 
 
 ## 태스크 4: 기본 Redis 명령어 실습
@@ -434,7 +434,7 @@ exit
 ### 태스크 설명
 
 이 태스크에서는 FastAPI 애플리케이션을 실행하여 Cache-Aside 패턴을 실전에서 테스트합니다.
-DynamoDB 테이블을 초기화하고, API를 호출하여 캐시 성능을 측정합니다.
+Amazon DynamoDB 테이블을 초기화하고, API를 호출하여 캐시 성능을 측정합니다.
 
 ### 상세 단계
 
@@ -448,7 +448,7 @@ cd elasticache-lab
 ```
 
 > [!NOTE]
-> 실제 환경에서는 S3 버킷 URL을 사용하거나, CloudShell을 통해 파일을 전송할 수 있습니다.
+> 실제 환경에서는 Amazon S3 버킷 URL을 사용하거나, CloudShell을 통해 파일을 전송할 수 있습니다.
 
 2. Python 3와 pip를 설치합니다:
 
@@ -473,7 +473,7 @@ export AWS_DEFAULT_REGION=ap-northeast-2
 > [!NOTE]
 > `<Primary-Endpoint>`를 태스크 2에서 복사한 엔드포인트로 대체합니다.
 
-5. DynamoDB 테이블을 초기화합니다:
+5. Amazon DynamoDB 테이블을 초기화합니다:
 
 ```bash
 python3 init_dynamodb.py
@@ -481,7 +481,7 @@ python3 init_dynamodb.py
 
 > [!OUTPUT]
 > ```
-> DynamoDB 테이블 초기화 중...
+> Amazon DynamoDB 테이블 초기화 중...
 > 10개의 예약 데이터가 추가되었습니다.
 > ```
 
@@ -493,8 +493,8 @@ nohup uvicorn app:app --host 0.0.0.0 --port 5000 > app.log 2>&1 &
 
 > [!NOTE]
 > FastAPI는 자동으로 API 문서를 생성합니다:
-> - Swagger UI: `http://<EC2-IP>:5000/docs`
-> - ReDoc: `http://<EC2-IP>:5000/redoc`
+> - Swagger UI: `http://<Amazon EC2-IP>:5000/docs`
+> - ReDoc: `http://<Amazon EC2-IP>:5000/redoc`
 
 7. 애플리케이션이 정상적으로 실행되는지 확인합니다:
 

@@ -16,7 +16,7 @@ prerequisites:
 
 먼저 **Draw.io**의 **AWS 아이콘 라이브러리**를 활용하여 **3-Tier 아키텍처**의 기본 구조를 그립니다. **프레젠테이션 레이어**(Application Load Balancer, Web Server), **애플리케이션 레이어**(App Server), **데이터 레이어**(Amazon RDS MySQL)를 명확히 구분하고, 각 계층의 역할과 통신 흐름을 시각화합니다.
 
-**Multi-AZ 설계 원칙**을 적용하여 **Amazon EC2 인스턴스**, **Amazon RDS Multi-AZ**, **Auto Scaling**의 고가용성 구성을 다이어그램에 표현하고, **보안 그룹** 설정을 통한 계층화된 보안을 구현합니다. 이를 통해 실제 프로덕션 환경에서 사용되는 **AWS Well-Architected Framework**의 **6가지 원칙**을 이해하게 됩니다.
+**Multi-AZ 설계 원칙**을 적용하여 **Amazon EC2 인스턴스**, **Amazon RDS Multi-AZ**, **Amazon EC2 Auto Scaling**의 고가용성 구성을 다이어그램에 표현하고, **보안 그룹** 설정을 통한 계층화된 보안을 구현합니다. 이를 통해 실제 프로덕션 환경에서 사용되는 **AWS Well-Architected Framework**의 **6가지 원칙**을 이해하게 됩니다.
 
 > [!DOWNLOAD]
 > [week1-3-architecture-lab.zip](/files/week1/week1-3-architecture-lab.zip)
@@ -26,7 +26,7 @@ prerequisites:
 > **관련 태스크:**
 > 
 > - 태스크 1: Draw.io 환경 설정 - template-info.md를 참고하여 AWS 아이콘 라이브러리를 자동으로 로드하는 URL 파라미터 사용법을 확인하고 작업 환경을 설정합니다
-> - 태스크 2-8: QuickTable 아키텍처 다이어그램 작성 - README.md를 참고하여 Multi-AZ 고가용성 설계 원칙, 3-Tier 아키텍처 구성 요소, 보안 그룹 설계 모범 사례, Auto Scaling 전략 등을 학습하고 다이어그램에 적용합니다
+> - 태스크 2-8: QuickTable 아키텍처 다이어그램 작성 - README.md를 참고하여 Multi-AZ 고가용성 설계 원칙, 3-Tier 아키텍처 구성 요소, 보안 그룹 설계 모범 사례, Amazon EC2 Auto Scaling 전략 등을 학습하고 다이어그램에 적용합니다
 
 > [!NOTE]
 > 이 실습은 Draw.io를 사용한 다이어그램 작성 실습으로, AWS 리소스를 생성하지 않습니다.
@@ -84,7 +84,7 @@ prerequisites:
 > [!NOTE]
 > Multi-AZ 구성은 하나의 가용 영역에 장애가 발생해도 다른 가용 영역에서 서비스를 계속 제공할 수 있도록 합니다. QuickTable은 2개의 AZ를 사용하여 고가용성을 보장합니다.
 
-✅ **태스크 완료**: QuickTable VPC와 2개의 가용 영역이 생성되었습니다.
+✅ **태스크 완료**: QuickTable Amazon VPC와 2개의 가용 영역이 생성되었습니다.
 
 ## 태스크 3: 3-Tier 서브넷 구성
 
@@ -114,7 +114,7 @@ prerequisites:
 1. 왼쪽 패널에서 **Internet Gateway** 아이콘을 검색합니다.
 2. **Internet Gateway** 아이콘을 Amazon VPC 상단 외부에 배치합니다.
 3. 레이블을 `QuickTable IGW`로 설정합니다.
-4. Internet Gateway에서 VPC로 화살표를 연결합니다.
+4. Internet Gateway에서 Amazon VPC로 화살표를 연결합니다.
 5. 왼쪽 패널에서 **NAT Gateway** 아이콘을 검색합니다.
 6. **NAT Gateway** 아이콘을 **Public Subnet A** 내부에 배치합니다.
 7. 레이블을 `NAT Gateway A`로 설정합니다.
@@ -144,17 +144,17 @@ prerequisites:
 
 ✅ **태스크 완료**: Application Load Balancer가 추가되었습니다.
 
-## 태스크 6: Amazon EC2 인스턴스 및 Auto Scaling 그룹
+## 태스크 6: Amazon EC2 인스턴스 및 Amazon EC2 Auto Scaling 그룹
 
-이 태스크에서는 **Web Tier**와 **App Tier**의 **Amazon EC2 인스턴스**와 **Auto Scaling 그룹**을 추가합니다.
+이 태스크에서는 **Web Tier**와 **App Tier**의 **Amazon EC2 인스턴스**와 **Amazon EC2 Auto Scaling 그룹**을 추가합니다.
 
 1. 왼쪽 패널에서 **Amazon EC2** 아이콘을 검색합니다.
 2. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 내부에 배치합니다.
 3. 레이블을 `Web Server A`로 설정합니다.
 4. **Amazon EC2 Instance** 아이콘을 **Private App Subnet C** 내부에 배치합니다.
 5. 레이블을 `Web Server C`로 설정합니다.
-6. 왼쪽 패널에서 **Auto Scaling** 아이콘을 검색합니다.
-7. **Auto Scaling** 아이콘을 Web Server 영역 주변에 배치합니다.
+6. 왼쪽 패널에서 **Amazon EC2 Auto Scaling** 아이콘을 검색합니다.
+7. **Amazon EC2 Auto Scaling** 아이콘을 Web Server 영역 주변에 배치합니다.
 8. 레이블을 `QuickTable Web ASG`로 설정합니다.
 9. ALB에서 각 Web Server로 화살표를 연결합니다.
 10. 화살표 레이블을 `HTTP (80)`로 설정합니다.
@@ -162,16 +162,16 @@ prerequisites:
 12. 레이블을 `App Server A`로 설정합니다.
 13. **Amazon EC2 Instance** 아이콘을 **Private App Subnet C** 하단에 추가로 배치합니다.
 14. 레이블을 `App Server C`로 설정합니다.
-15. **Auto Scaling** 아이콘을 App Server 영역 주변에 배치합니다.
+15. **Amazon EC2 Auto Scaling** 아이콘을 App Server 영역 주변에 배치합니다.
 16. 레이블을 `QuickTable App ASG`로 설정합니다.
 17. 각 Web Server에서 해당 AZ의 App Server로 화살표를 연결합니다.
 
 > [!NOTE]
 > - **Web Tier**: Nginx 또는 Apache를 실행하며, 정적 콘텐츠를 제공하고 요청을 App Tier로 전달합니다.
 > - **App Tier**: Node.js 또는 Python 애플리케이션을 실행하며, 비즈니스 로직을 처리합니다.
-> - **Auto Scaling**: 트래픽에 따라 Amazon EC2 인스턴스 수를 자동으로 조정하여 비용을 최적화하고 가용성을 보장합니다.
+> - **Amazon EC2 Auto Scaling**: 트래픽에 따라 Amazon EC2 인스턴스 수를 자동으로 조정하여 비용을 최적화하고 가용성을 보장합니다.
 
-✅ **태스크 완료**: Amazon EC2 인스턴스 및 Auto Scaling 그룹이 추가되었습니다.
+✅ **태스크 완료**: Amazon EC2 인스턴스 및 Amazon EC2 Auto Scaling 그룹이 추가되었습니다.
 
 ## 태스크 7: Amazon RDS Multi-AZ 데이터베이스
 
@@ -259,7 +259,7 @@ prerequisites:
 - Draw.io를 사용하여 QuickTable 3-Tier 아키텍처 다이어그램을 작성했습니다
 - Multi-AZ 고가용성 아키텍처를 설계했습니다
 - Amazon VPC, 서브넷, 인터넷 게이트웨이, NAT Gateway를 구성했습니다
-- Application Load Balancer, Amazon EC2 인스턴스, Auto Scaling 그룹을 배치했습니다
+- Application Load Balancer, Amazon EC2 인스턴스, Amazon EC2 Auto Scaling 그룹을 배치했습니다
 - Amazon RDS Multi-AZ 데이터베이스를 추가했습니다
 - 계층화된 보안 그룹 구조를 시각화했습니다
 - Week 5-1에서 구축할 전체 시스템의 청사진을 완성했습니다
@@ -309,7 +309,7 @@ prerequisites:
    - 3-Tier 서브넷 구성 (퍼블릭, 프라이빗 앱, 프라이빗 DB)
    - 인터넷 게이트웨이 및 NAT Gateway
    - Application Load Balancer
-   - Amazon EC2 인스턴스 및 Auto Scaling 그룹
+   - Amazon EC2 인스턴스 및 Amazon EC2 Auto Scaling 그룹
    - Amazon RDS Multi-AZ 데이터베이스
    - 보안 그룹 표시
 
@@ -324,7 +324,7 @@ prerequisites:
 - [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
 - [3-Tier 아키텍처 모범 사례](https://docs.aws.amazon.com/whitepapers/latest/web-application-hosting-best-practices/an-aws-cloud-architecture-for-web-hosting.html)
 - [Amazon RDS Multi-AZ 배포](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html)
-- [Auto Scaling 모범 사례](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-best-practices.html)
+- [Amazon EC2 Auto Scaling 모범 사례](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-best-practices.html)
 
 ## 📚 참고: QuickTable 3-Tier 아키텍처 설계 원칙
 
@@ -384,14 +384,14 @@ prerequisites:
 - 불필요한 포트는 모두 차단합니다.
 - 데이터베이스는 외부 인터넷 접근이 완전히 차단됩니다.
 
-### Auto Scaling 전략
+### Amazon EC2 Auto Scaling 전략
 
-**Web Tier Auto Scaling**
+**Web Tier Amazon EC2 Auto Scaling**
 - 최소 인스턴스: 2개 (각 AZ에 1개씩)
 - 최대 인스턴스: 10개
 - 스케일링 정책: CPU 사용률 70% 이상 시 스케일 아웃
 
-**App Tier Auto Scaling**
+**App Tier Amazon EC2 Auto Scaling**
 - 최소 인스턴스: 2개 (각 AZ에 1개씩)
 - 최대 인스턴스: 20개
 - 스케일링 정책: CPU 사용률 60% 이상 시 스케일 아웃
@@ -440,7 +440,7 @@ prerequisites:
 - Amazon RDS: CPU 사용률, 연결 수, 읽기/쓰기 IOPS
 
 **Amazon CloudWatch Logs**
-- ALB 액세스 로그: S3에 저장
+- ALB 액세스 로그: Amazon S3에 저장
 - Amazon EC2 애플리케이션 로그: Amazon CloudWatch Logs Agent로 수집
 - Amazon RDS 슬로우 쿼리 로그: 성능 최적화에 활용
 
@@ -464,17 +464,17 @@ prerequisites:
 ### 확장 가능성
 
 **수평 확장**
-- Auto Scaling으로 Amazon EC2 인스턴스 수 자동 조정
+- Amazon EC2 Auto Scaling으로 Amazon EC2 인스턴스 수 자동 조정
 - Read Replica 추가로 읽기 성능 향상
 - ALB가 자동으로 트래픽 분산
 
 **수직 확장**
 - Amazon EC2 인스턴스 타입 변경 (t3.small → t3.medium → t3.large)
 - Amazon RDS 인스턴스 타입 변경 (db.t3.micro → db.t3.small → db.t3.medium)
-- 다운타임 최소화 (RDS는 Multi-AZ 페일오버 활용)
+- 다운타임 최소화 (Amazon RDS는 Multi-AZ 페일오버 활용)
 
 **서버리스 전환 경로**
-- Week 4-3: AWS Lambda + API Gateway로 애플리케이션 계층 전환
-- Week 5-3: DynamoDB로 데이터 계층 전환
-- Week 10-2: ElastiCache로 캐싱 계층 추가
+- Week 4-3: AWS Lambda + Amazon API Gateway로 애플리케이션 계층 전환
+- Week 5-3: Amazon DynamoDB로 데이터 계층 전환
+- Week 10-2: Amazon ElastiCache로 캐싱 계층 추가
 - Week 14-2: Amazon Bedrock Knowledge Bases 기반 RAG 구현

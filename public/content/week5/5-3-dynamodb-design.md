@@ -29,26 +29,6 @@ LSI(Local Secondary Index)와 GSI(Global Secondary Index)를 모두 생성하여
 >
 > - 태스크 3: 항목 추가 (AWS CLI batch-write-item으로 10개 항목 일괄 입력, 콘솔 입력은 첫 1건만 상세 안내)
 
-> [!COST]
-> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
->
-> | 리소스명        | 타입/사양       | IaC |             비용 |
-> | --------------- | --------------- | :-: | ---------------: |
-> | Amazon DynamoDB | 온디맨드 테이블 | ❌  |             무료 |
-> | Amazon DynamoDB | 읽기 요청       | ❌  | $0.25/100만 요청 |
-> | Amazon DynamoDB | 쓰기 요청       | ❌  | $1.25/100만 요청 |
->
-> - **예상 실습 시간**: 1시간
-> - **예상 총 비용**: 약 $0.01 미만 (실습 규모 10개 항목 + 수십 건 쿼리 기준, 실무 환경 온디맨드 기준)
->
-> **무료 플랜**
->
-> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
->
-> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
->
-> 📘 [Amazon DynamoDB 요금](https://aws.amazon.com/dynamodb/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
-
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 **반드시 삭제해야 합니다**.
 
@@ -64,7 +44,7 @@ LSI(Local Secondary Index)와 GSI(Global Secondary Index)를 모두 생성하여
 6. **Sort key**에 `reservationId`를 입력한 후 타입에서 `String`을 선택합니다.
 
 > [!NOTE]
-> 2025년 기준 DynamoDB 콘솔에서는 Sort key 입력 필드가 기본적으로 표시됩니다.
+> 2025년 기준 Amazon DynamoDB 콘솔에서는 Sort key 입력 필드가 기본적으로 표시됩니다.
 > 이전 버전의 콘솔에서는 "Sort key" 체크박스를 선택해야 입력 필드가 나타날 수 있습니다. 7. 아래로 스크롤하여 **Secondary indexes** 섹션을 확인합니다. 8. **Secondary indexes** 섹션을 확장합니다. 9. [[Create local index]] 버튼을 클릭합니다.
 
 > [!NOTE]
@@ -404,7 +384,7 @@ GSI는 다른 파티션 키를 사용하여 더 유연한 쿼리가 가능합니
 6. [[Search resources]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> 이 실습에서 생성한 DynamoDB 테이블이 표시됩니다.
+> 이 실습에서 생성한 Amazon DynamoDB 테이블이 표시됩니다.
 
 > [!TIP]
 > Tag Editor는 리소스 확인 용도로만 사용하며, 실제 삭제는 다음 단계에서 수행합니다.
@@ -422,9 +402,9 @@ GSI는 다른 파티션 키를 사용하여 더 유연한 쿼리가 가능합니
 >
 > AWS CLI 명령어에 익숙한 경우 아래 [옵션 2](#option-2)를 사용하면 더 빠르게 삭제할 수 있습니다.
 
-**DynamoDB 테이블 삭제**
+**Amazon DynamoDB 테이블 삭제**
 
-1. DynamoDB 콘솔로 이동합니다.
+1. Amazon DynamoDB 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Tables**를 선택합니다.
 3. `QuickTableReservations` 테이블을 선택합니다.
 4. **Actions** > `Delete table`을 선택합니다.
@@ -432,7 +412,7 @@ GSI는 다른 파티션 키를 사용하여 더 유연한 쿼리가 가능합니
 6. [[Delete]] 버튼을 클릭합니다.
 
 > [!NOTE]
-> DynamoDB 테이블 삭제는 즉시 완료됩니다. 모든 GSI와 LSI도 함께 삭제됩니다.
+> Amazon DynamoDB 테이블 삭제는 즉시 완료됩니다. 모든 GSI와 LSI도 함께 삭제됩니다.
 
 ### 옵션 2: AWS CloudShell 스크립트로 일괄 삭제
 
@@ -445,17 +425,17 @@ GSI는 다른 파티션 키를 사용하여 더 유연한 쿼리가 가능합니
 2. CloudShell이 열리면 다음 명령어를 실행합니다:
 
 ```bash
-# DynamoDB 테이블 삭제
-echo "DynamoDB 테이블 삭제 중..."
+# Amazon DynamoDB 테이블 삭제
+echo "Amazon DynamoDB 테이블 삭제 중..."
 aws dynamodb delete-table \
   --region ap-northeast-2 \
   --table-name QuickTableReservations
 
-echo "DynamoDB 테이블 삭제 완료"
+echo "Amazon DynamoDB 테이블 삭제 완료"
 ```
 
 > [!NOTE]
-> DynamoDB 테이블 삭제는 즉시 완료됩니다. 모든 GSI와 LSI도 함께 삭제됩니다.
+> Amazon DynamoDB 테이블 삭제는 즉시 완료됩니다. 모든 GSI와 LSI도 함께 삭제됩니다.
 
 ---
 
@@ -487,7 +467,7 @@ echo "DynamoDB 테이블 삭제 완료"
 
 ### 지원해야 할 쿼리 패턴
 
-QuickTable 레스토랑 예약 시스템을 위한 Amazon DynamoDB 테이블을 설계합니다. NoSQL 데이터베이스인 DynamoDB는 관계형 데이터베이스와 달리 쿼리 패턴을 먼저 분석하고 이에 맞춰 테이블을 설계해야 합니다.
+QuickTable 레스토랑 예약 시스템을 위한 Amazon DynamoDB 테이블을 설계합니다. NoSQL 데이터베이스인 Amazon DynamoDB는 관계형 데이터베이스와 달리 쿼리 패턴을 먼저 분석하고 이에 맞춰 테이블을 설계해야 합니다.
 
 **주요 쿼리 패턴**
 
@@ -649,7 +629,7 @@ QuickTable 레스토랑 예약 시스템을 위한 Amazon DynamoDB 테이블을 
 **장점**
 
 - 예측 가능한 비용
-- Auto Scaling 설정 가능
+- Amazon EC2 Auto Scaling 설정 가능
 - 일정한 트래픽에 비용 효율적
 
 **적합한 경우**
