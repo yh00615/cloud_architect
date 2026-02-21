@@ -44,6 +44,29 @@ prerequisites:
 > - **모든 태스크: README.md 참고**
 >   README.md 파일에서 AWS IAM Policy Condition 키 레퍼런스와 각 조건 연산자의 사용법을 참고합니다
 
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
+>
+> | 리소스명       | 타입/사양 | IaC |              비용 |
+> | -------------- | --------- | :-: | ----------------: |
+> | AWS IAM        | 사용자    | ✅  |              무료 |
+> | AWS IAM        | 정책      | ❌  |              무료 |
+> | Amazon S3      | 버킷      | ❌  |              무료 |
+> | Amazon S3      | PUT 요청  | ❌  |  $0.005/1,000요청 |
+> | Amazon S3      | GET 요청  | ❌  | $0.0004/1,000요청 |
+> | AWS CloudShell | N/A       | N/A |              무료 |
+>
+> - **예상 실습 시간**: 1-2시간
+> - **예상 총 비용**: 약 $0.01 미만 (실습 규모 10-20회 API 호출 기준, 실무 환경 온디맨드 기준)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [AWS IAM 요금](https://aws.amazon.com/iam/pricing/) | 📘 [Amazon S3 요금](https://aws.amazon.com/s3/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
+
 > [!WARNING]
 > 이 실습에서 생성하는 정책은 실습 종료 후 **반드시 삭제해야 합니다**.
 

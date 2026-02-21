@@ -1,5 +1,5 @@
 ---
-title: "AWS CodePipeline으로 Amazon S3 정적 웹사이트 배포 자동화"
+title: 'AWS CodePipeline으로 Amazon S3 정적 웹사이트 배포 자동화'
 week: 9
 session: 3
 awsServices:
@@ -26,6 +26,7 @@ Week 4-2에서 구축한 QuickTable 예약 API와 연동되는 사용자 인터�
 
 > [!DOWNLOAD]
 > [week9-3-quicktable-frontend-lab.zip](/files/week9/week9-3-quicktable-frontend-lab.zip)
+>
 > - `cloudformation-template.yaml` - AWS CloudFormation 템플릿 (태스크 0에서 Amazon S3 버킷, CodeCommit, AWS CodeBuild, AWS CodePipeline 자동 생성)
 > - `index.html` - QuickTable 메인 페이지 (레스토랑 목록 표시, 태스크 1에서 CodeCommit에 푸시)
 > - `reservation.html` - 예약 생성 페이지 (날짜/시간/인원 선택 폼, 태스크 1에서 CodeCommit에 푸시)
@@ -33,24 +34,45 @@ Week 4-2에서 구축한 QuickTable 예약 API와 연동되는 사용자 인터�
 > - `style.css` - 스타일시트 (태스크 1에서 CodeCommit에 푸시)
 > - `app.js` - JavaScript 파일 (Week 4-2 API 연동, Cognito 인증, 태스크 1에서 CodeCommit에 푸시)
 > - `buildspec.yml` - AWS CodeBuild 빌드 스펙 (태스크 1에서 CodeCommit에 푸시)
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 0: 실습 환경 구축 (cloudformation-template.yaml을 사용하여 Amazon S3 버킷, CodeCommit 리포지토리, AWS CodeBuild 프로젝트, AWS CodePipeline 자동 생성)
 > - 태스크 1: QuickTable 프론트엔드 코드 준비 및 CodeCommit에 푸시 (index.html, reservation.html, my-reservations.html, style.css, app.js, buildspec.yml을 CodeCommit에 업로드하여 예약 시스템 UI 구축)
 > - 태스크 2: AWS CodePipeline 확인 및 첫 번째 배포
 
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
+>
+> | 리소스명               | 타입/사양            | IaC |            비용 |
+> | ---------------------- | -------------------- | :-: | --------------: |
+> | AWS CodeBuild          | build.general1.small | ✅  |       $0.005/분 |
+> | AWS CodePipeline       | 파이프라인           | ✅  |        $1.00/월 |
+> | Amazon S3              | 스토리지             | ✅  |    $0.025/GB/월 |
+> | Amazon S3              | PUT 요청             | ✅  |  $0.005/1,000건 |
+> | Amazon S3              | GET 요청             | ✅  | $0.0004/1,000건 |
+> | Amazon CloudWatch Logs | 로그 저장            | ✅  |     $0.50/GB/월 |
+> | AWS CodeCommit         | 리포지토리           | ✅  |            무료 |
+>
+> - **예상 실습 시간**: 1-2시간
+> - **예상 총 비용**: 약 $0.01-0.02 (실습 규모 기준, 실무 환경 온디맨드 기준)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+> 
+>
+> **실무 팁**
+>
+> 💡 AWS CodePipeline은 파이프라인당 월 $1의 고정 비용이 발생합니다. 개발 환경에서는 여러 프로젝트를 하나의 파이프라인으로 통합하거나, 사용하지 않을 때 파이프라인을 삭제하여 비용을 절감할 수 있습니다.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [AWS CodeBuild 요금](https://aws.amazon.com/codebuild/pricing/) | 📘 [AWS CodePipeline 요금](https://aws.amazon.com/codepipeline/pricing/) | 📘 [Amazon S3 요금](https://aws.amazon.com/s3/pricing/) | 📘 [Amazon CloudWatch 요금](https://aws.amazon.com/cloudwatch/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
+
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
-> 
-> **예상 비용** (ap-northeast-2 리전 기준):
-> 
-> | 리소스 | 타입 | 시간당 비용 |
-> |--------|------|------------|
-> | AWS CodeBuild | build.general1.small | 월 100분 무료, 초과 시 분당 약 $0.005 |
-> | AWS CodePipeline | 파이프라인 | 월 1개 무료, 초과 시 파이프라인당 $1/월 |
-> | Amazon S3 | 스토리지 + 요청 | 월 5GB 무료, GET 요청 2,000건 무료 |
-> | Amazon CloudWatch Logs | 로그 저장 | 월 5GB 무료, 초과 시 GB당 $0.50 |
 
 ## 태스크 0: 실습 환경 구축
 
@@ -82,10 +104,10 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 확인합니다.
 13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `9-3` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `9-3`     |
 | `CreatedBy` | `Student` |
 
 > [!NOTE]
@@ -136,6 +158,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!NOTE]
 > 실습 파일의 디렉토리 구조:
+>
 > ```
 > week9-3-quicktable-frontend-lab/
 > ├── cloudformation-template.yaml
@@ -180,7 +203,7 @@ git clone codecommit::ap-northeast-2://<repository-name>
 > [!NOTE]
 > `<repository-name>`은 태스크 0에서 생성된 CodeCommit 리포지토리 이름으로 대체합니다.
 > 예: `git clone codecommit::ap-northeast-2://week9-3-s3-website-repo`
-> 
+>
 > HTTPS URL 대신 `codecommit::` 프로토콜을 사용하면 git-remote-codecommit 헬퍼가 자동으로 인증을 처리합니다.
 
 8. 복제된 디렉토리로 이동합니다:
@@ -238,6 +261,7 @@ ls -la
 ```
 
 > [!OUTPUT]
+>
 > ```
 > drwxr-xr-x 3 cloudshell-user cloudshell-user   96 Feb  7 10:00 .git
 > -rw-r--r-- 1 cloudshell-user cloudshell-user 2048 Feb  7 10:00 index.html
@@ -249,7 +273,7 @@ ls -la
 > ```
 
 17. 6개의 파일과 .git 디렉토리가 모두 표시되는지 확인합니다.
-14. 모든 파일을 Git에 추가합니다:
+18. 모든 파일을 Git에 추가합니다:
 
 ```bash
 git add .
@@ -262,6 +286,7 @@ git status
 ```
 
 > [!OUTPUT]
+>
 > ```
 > On branch main
 > Changes to be committed:
@@ -282,6 +307,7 @@ git commit -m "Initial commit: QuickTable frontend files"
 ```
 
 > [!OUTPUT]
+>
 > ```
 > [main abc1234] Initial commit: QuickTable frontend files
 >  6 files changed, 250 insertions(+)
@@ -303,6 +329,7 @@ git push origin main
 > 브랜치 이름이 `master`인 경우 `git push origin master`를 사용합니다.
 
 > [!OUTPUT]
+>
 > ```
 > Enumerating objects: 7, done.
 > Counting objects: 100% (7/7), done.
@@ -355,9 +382,9 @@ git push origin main
 
 > [!NOTE]
 > 태스크 1에서 코드를 푸시하면 EventBridge 규칙이 자동으로 파이프라인을 트리거합니다.
-> 
+>
 > **파이프라인 상태 확인:**
-> 
+>
 > - 스택 생성 직후 CodeCommit이 비어 있어 파이프라인이 자동 실행되었다가 실패했을 수 있습니다
 > - 태스크 1 푸시 후 자동 트리거되어 이미 실행 중이거나 완료된 상태일 수 있습니다
 > - 파이프라인이 실패 상태이거나 자동 시작되지 않은 경우 [[Release change]]를 클릭하여 다시 실행합니다
@@ -406,9 +433,9 @@ git push origin main
 
 > [!NOTE]
 > QuickTable 메인 페이지에는 레스토랑 목록이 표시됩니다. Week 4-2에서 구축한 API와 연동되어 실제 레스토랑 데이터를 가져옵니다.
-> 
+>
 > **Week 4-2 의존성:**
-> 
+>
 > - Week 4-2 API가 없어도 정적 페이지 자체는 정상적으로 표시됩니다
 > - API 연동 기능은 Week 4-2 리소스가 활성화된 경우에만 작동합니다
 > - 브라우저 개발자 도구(F12)에서 API 호출 관련 에러가 표시될 수 있으나, 이는 Week 4-2 리소스가 없기 때문이며 정상입니다
@@ -442,6 +469,7 @@ grep "QuickTable v1.0" index.html
 ```
 
 > [!OUTPUT]
+>
 > ```
 >         <h1>QuickTable v1.0</h1>
 > ```
@@ -459,6 +487,7 @@ cat index.html | grep -i "QuickTable v"
 ```
 
 > [!OUTPUT]
+>
 > ```
 >         <h1>QuickTable v2.0</h1>
 > ```
@@ -581,6 +610,7 @@ git push origin main
 Amazon S3는 정적 웹사이트를 호스팅할 수 있는 기능을 제공합니다. HTML, CSS, JavaScript 파일을 Amazon S3 버킷에 업로드하면 웹사이트로 제공할 수 있습니다.
 
 **주요 특징:**
+
 - 서버 관리 불필요
 - 높은 가용성 및 확장성
 - 저렴한 비용
@@ -589,6 +619,7 @@ Amazon S3는 정적 웹사이트를 호스팅할 수 있는 기능을 제공합�
 ### QuickTable 프론트엔드 아키텍처
 
 **구성 요소:**
+
 - **index.html**: 레스토랑 목록 표시 (Week 4-2 API 호출)
 - **reservation.html**: 예약 생성 폼 (날짜/시간/인원 선택)
 - **my-reservations.html**: 내 예약 조회 페이지
@@ -596,17 +627,19 @@ Amazon S3는 정적 웹사이트를 호스팅할 수 있는 기능을 제공합�
 - **style.css**: 반응형 디자인
 
 **API 연동:**
+
 ```javascript
 // Week 4-2에서 구축한 API 엔드포인트
 // 이 코드는 참고용 예시입니다. 실제 app.js 파일에서는 본인의 API Gateway URL로 대체해야 합니다.
-const API_BASE_URL = 'https://your-api-gateway-url.execute-api.ap-northeast-2.amazonaws.com/prod';
+const API_BASE_URL =
+  'https://your-api-gateway-url.execute-api.ap-northeast-2.amazonaws.com/prod';
 
 // 레스토랑 목록 조회
 async function getRestaurants() {
   const response = await fetch(`${API_BASE_URL}/restaurants`, {
     headers: {
-      'Authorization': `Bearer ${idToken}`
-    }
+      Authorization: `Bearer ${idToken}`,
+    },
   });
   return await response.json();
 }
@@ -617,9 +650,9 @@ async function createReservation(data) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`
+      Authorization: `Bearer ${idToken}`,
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
   return await response.json();
 }
@@ -632,54 +665,64 @@ async function createReservation(data) {
 ### buildspec.yml의 Amazon S3 배포 단계
 
 **Amazon S3 동기화:**
+
 ```bash
 aws s3 sync . s3://$BUCKET_NAME --delete --exclude "buildspec.yml"
 ```
 
 **옵션 설명:**
+
 - `--delete`: S3에 있지만 로컬에 없는 파일 삭제
 - `--exclude`: 특정 파일 제외 (buildspec.yml은 배포하지 않음)
 
 ### CodePipeline과 Amazon S3 통합
 
 **파이프라인 단계:**
+
 - **Source**: CodeCommit에서 소스 코드 가져오기
 - **Build**: CodeBuild로 빌드 및 Amazon S3 동기화
 
 **자동 트리거:**
+
 - CodeCommit에 푸시하면 EventBridge 규칙이 파이프라인을 자동으로 시작합니다
 - 코드 변경 사항이 즉시 웹사이트에 반영됩니다
 
 ### Amazon S3 버킷 정책
 
 **퍼블릭 액세스 허용:**
+
 ```json
 {
   "Version": "2012-10-17",
-  "Statement": [{
-    "Sid": "PublicReadGetObject",
-    "Effect": "Allow",
-    "Principal": "*",
-    "Action": "s3:GetObject",
-    "Resource": "arn:aws:s3:::bucket-name/*"
-  }]
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::bucket-name/*"
+    }
+  ]
 }
 ```
 
 ### QuickTable 전체 아키텍처 연결
 
 **Week 4-2 (백엔드):**
+
 - AWS Lambda 함수: CreateReservation, GetReservations
 - Amazon API Gateway: /reservations 엔드포인트
 - Cognito User Pool: 사용자 인증
 - Amazon DynamoDB: Reservations 테이블
 
 **Week 9-3 (프론트엔드):**
+
 - Amazon S3: 정적 웹사이트 호스팅
 - AWS CodePipeline: CI/CD 자동화
 - 사용자 UI: 예약 생성/조회 인터페이스
 
 **데이터 흐름:**
+
 1. 사용자가 QuickTable 웹사이트 접속 (Amazon S3)
 2. Cognito로 로그인하여 ID 토큰 획득
 3. 예약 생성 버튼 클릭
@@ -690,16 +733,19 @@ aws s3 sync . s3://$BUCKET_NAME --delete --exclude "buildspec.yml"
 ### 모범 사례
 
 **보안:**
+
 - CloudFront를 사용하여 HTTPS 제공 (Week 10-3에서 학습)
 - Amazon S3 버킷 직접 액세스 차단
 - OAC (Origin Access Control) 사용
 
 **성능:**
+
 - Amazon CloudFront CDN 활용 (Week 10-3에서 학습)
 - 파일 압축 (gzip)
 - 캐시 헤더 설정
 
 **비용 최적화:**
+
 - Amazon S3 Intelligent-Tiering 사용
 - Amazon CloudFront 캐싱으로 Amazon S3 요청 감소
 - 불필요한 파일 정리

@@ -215,9 +215,10 @@
   color: #0972d3;
   text-decoration: none;
   font-weight: 600;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
   transition: all 0.2s ease;
   cursor: pointer;
+  padding-bottom: 2px;
 }
 
 .markdown-anchor-link:hover {
@@ -250,4 +251,74 @@
 
 .alert-content-text .markdown-anchor-link {
   font-weight: 600;
+}
+
+/* COST alert 내부 링크 스타일 - 일반 앵커 링크와 동일 */
+.info-box--cost .info-box-content a,
+.info-box--cost a {
+  color: #0972d3 !important;
+  text-decoration: none !important;
+  border-bottom: 2px solid transparent !important;
+  transition: all 0.2s ease !important;
+  padding-bottom: 2px !important;
+}
+
+.info-box--cost .info-box-content a:hover,
+.info-box--cost a:hover {
+  color: #0862c2 !important;
+  border-bottom-color: #0972d3 !important;
+}
+
+.info-box--cost .info-box-content a:active,
+.info-box--cost a:active {
+  color: #0651a8 !important;
+}
+
+/* 다크모드 COST alert 링크 */
+[data-awsui-theme='dark'] .info-box--cost .info-box-content a,
+[data-awsui-theme='dark'] .info-box--cost a {
+  color: #539fe5 !important;
+}
+
+[data-awsui-theme='dark'] .info-box--cost .info-box-content a:hover,
+[data-awsui-theme='dark'] .info-box--cost a:hover {
+  color: #7bb7ed !important;
+  border-bottom-color: #539fe5 !important;
+}
+
+[data-awsui-theme='dark'] .info-box--cost .info-box-content a:active,
+[data-awsui-theme='dark'] .info-box--cost a:active {
+  color: #3d8fd9 !important;
+}
+
+/* 모든 마크다운 콘텐츠 내부 링크에 동일한 스타일 적용 */
+.markdown-content a {
+  color: #0972d3;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  padding-bottom: 2px;
+}
+
+.markdown-content a:hover {
+  color: #0862c2;
+  border-bottom-color: #0972d3;
+}
+
+.markdown-content a:active {
+  color: #0651a8;
+}
+
+/* 다크모드 */
+[data-awsui-theme='dark'] .markdown-content a {
+  color: #539fe5;
+}
+
+[data-awsui-theme='dark'] .markdown-content a:hover {
+  color: #7bb7ed;
+  border-bottom-color: #539fe5;
+}
+
+[data-awsui-theme='dark'] .markdown-content a:active {
+  color: #3d8fd9;
 }

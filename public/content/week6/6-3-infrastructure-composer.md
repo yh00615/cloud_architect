@@ -1,5 +1,5 @@
 ---
-title: "AWS Infrastructure Composer를 활용한 서버리스 템플릿 설계"
+title: 'AWS Infrastructure Composer를 활용한 서버리스 템플릿 설계'
 week: 6
 session: 3
 awsServices:
@@ -22,33 +22,56 @@ prerequisites:
 이 실습에서는 AWS Infrastructure Composer를 사용하여 비주얼 디자이너와 Template 탭 코드 편집을 결합하여 서버리스 애플리케이션을 구축합니다. AWS Lambda, Amazon API Gateway, Amazon DynamoDB를 드래그 앤 드롭으로 추가하고, Template 탭에서 세부 설정을 코드로 작성하여 간단한 REST API를 구현합니다.
 
 > [!IMPORTANT] AWS Infrastructure Composer 지원 리소스
-> 
+>
 > **AWS Infrastructure Composer는 주로 서버리스 리소스를 지원합니다:**
-> 
+>
 > - ✅ **지원**: AWS Lambda, Amazon API Gateway, Amazon DynamoDB, Amazon S3, AWS Step Functions, Amazon SNS, Amazon SQS 등
 > - ❌ **제한적 지원**: Amazon VPC, Amazon EC2, 네트워킹 리소스 (드래그 앤 드롭 불가, Template 탭에서 직접 코드 편집 필요)
-> 
+>
 > **이 실습의 변경사항:**
-> 
+>
 > - Week 6-2에서 작성했던 VPC + EC2 웹 서버 대신 **서버리스 REST API**를 구축합니다.
 > - AWS Lambda 함수, Amazon API Gateway, Amazon DynamoDB 테이블을 드래그 앤 드롭으로 설계합니다.
 > - Infrastructure Composer의 강점인 서버리스 아키텍처 설계에 집중합니다.
 
 > [!NOTE] AWS Infrastructure Composer UI 변경 안내
-> 
+>
 > AWS Infrastructure Composer는 AWS가 지속적으로 개선하고 있는 서비스로, UI가 변경될 수 있습니다.
 > 이 가이드는 2025년 2월 기준으로 작성되었으며, 실제 화면과 다를 수 있습니다.
-> 
+>
 > **UI가 변경된 경우**:
+>
 > - 기본 개념(리소스 팔레트, 캔버스, 속성 패널)은 동일하게 유지됩니다.
 > - 버튼 이름이나 위치가 다를 수 있지만 유사한 기능을 찾아 진행합니다.
 > - 예: "Create project" → "New project", "Template format" → "Format" 등
 > - 리소스 팔레트의 카테고리 구조가 변경될 수 있지만 리소스 이름은 동일합니다.
 > - 검색 기능을 활용하면 리소스를 쉽게 찾을 수 있습니다.
 
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
+>
+> | 리소스명           | 타입/사양       | IaC |                비용 |
+> | ------------------ | --------------- | :-: | ------------------: |
+> | AWS Lambda         | Python 3.12     | ✅  |    $0.20/100만 요청 |
+> | AWS Lambda         | 컴퓨팅 시간     | ✅  | $0.0000166667/GB-초 |
+> | Amazon API Gateway | REST API        | ✅  |    $3.50/100만 요청 |
+> | Amazon DynamoDB    | 온디맨드 테이블 | ✅  |                무료 |
+> | Amazon DynamoDB    | 읽기 요청       | ✅  |    $0.25/100만 요청 |
+> | Amazon DynamoDB    | 쓰기 요청       | ✅  |    $1.25/100만 요청 |
+>
+> - **예상 실습 시간**: 1-2시간
+> - **예상 총 비용**: 약 $0.01 미만 (실습 규모 10-20회 실행 기준, 실무 환경 온디맨드 기준)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [AWS Lambda 요금](https://aws.amazon.com/lambda/pricing/) | 📘 [Amazon API Gateway 요금](https://aws.amazon.com/api-gateway/pricing/) | 📘 [Amazon DynamoDB 요금](https://aws.amazon.com/dynamodb/pricing/) | 📘 [AWS CloudFormation 요금](https://aws.amazon.com/cloudformation/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
+
 > [!WARNING]
-> 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
-> AWS Lambda 함수와 Amazon DynamoDB 테이블은 프리 티어 범위 내에서 사용 가능하지만, 프리 티어를 초과하면 비용이 발생할 수 있습니다.
+> 이 실습에서 생성하는 리소스는 실습 종료 후 **반드시 삭제해야 합니다**.
 
 ## 태스크 1: AWS Infrastructure Composer 시작
 
@@ -79,14 +102,11 @@ prerequisites:
 3. 캔버스에 배치된 DynamoDB Table 리소스를 클릭합니다.
 
 > [!TIP]
-> 리소스 팔레트의 카테고리 이름이 변경된 경우 검색 기능을 사용하여 "DynamoDB"를 직접 검색합니다.
-4. 오른쪽 속성 패널에서 **Logical ID**를 `ItemsTable`로 변경합니다.
-5. **Properties** 섹션을 확장합니다.
-6. **AttributeDefinitions** 섹션을 확장합니다.
-7. [[Add item]] 버튼을 클릭합니다.
-8. 첫 번째 속성을 다음과 같이 설정합니다:
-   - **AttributeName**: `id`
-   - **AttributeType**: `S`
+> 리소스 팔레트의 카테고리 이름이 변경된 경우 검색 기능을 사용하여 "DynamoDB"를 직접 검색합니다. 4. 오른쪽 속성 패널에서 **Logical ID**를 `ItemsTable`로 변경합니다. 5. **Properties** 섹션을 확장합니다. 6. **AttributeDefinitions** 섹션을 확장합니다. 7. [[Add item]] 버튼을 클릭합니다. 8. 첫 번째 속성을 다음과 같이 설정합니다:
+
+- **AttributeName**: `id`
+- **AttributeType**: `S`
+
 9. **KeySchema** 섹션을 확장합니다.
 10. [[Add item]] 버튼을 클릭합니다.
 11. 키 스키마를 다음과 같이 설정합니다:
@@ -105,7 +125,7 @@ prerequisites:
 이 태스크에서는 DynamoDB 테이블에 데이터를 저장하고 조회하는 Lambda 함수를 추가합니다.
 
 > [!NOTE] Template 탭 코드 편집
-> 
+>
 > 이 태스크부터는 **Template 탭에서 YAML 코드를 직접 편집**합니다.
 > Infrastructure Composer는 비주얼 디자인과 코드 편집을 결합하여 사용하는 도구입니다.
 > Lambda 함수 코드와 같은 세부 설정은 Template 탭에서 작성하는 것이 더 효율적입니다.
@@ -171,16 +191,16 @@ Environment:
 ```
 
 > [!NOTE] Lambda 함수 코드 편집 및 Infrastructure Composer 한계
-> 
+>
 > **Lambda 함수 코드**: DynamoDB 테이블에서 데이터를 조회(GET)하고 생성(POST)하는 간단한 REST API를 구현합니다.
-> 
+>
 > **Infrastructure Composer 한계**: Infrastructure Composer에서 Lambda 함수 코드는 비주얼로 설정할 수 없어 Template 탭에서 직접 코드 편집이 필요합니다. 이는 현실적 한계이며, 복잡한 설정은 Template 탭에서 직접 편집해야 합니다.
 
 11. **Canvas** 탭을 선택합니다.
 12. Lambda Function과 DynamoDB Table 사이에 연결선이 표시되는지 확인합니다.
 
 > [!WARNING] Template 탭 코드 편집 주의사항
-> 
+>
 > Template 탭에서 코드를 직접 편집한 후 Canvas 탭을 선택하면, Infrastructure Composer가 코드를 파싱하여 캔버스를 업데이트합니다.
 > YAML 문법 오류(들여쓰기, 콜론 누락 등)가 있으면 편집 내용이 손실되거나 리소스가 캔버스에서 사라질 수 있습니다.
 > Canvas 탭으로 전환하기 전에 YAML 문법이 올바른지 확인합니다.
@@ -195,7 +215,7 @@ Environment:
 이 태스크에서는 Lambda 함수가 DynamoDB 테이블에 접근할 수 있도록 IAM 역할을 추가하고 권한을 설정합니다.
 
 > [!NOTE] Template 탭 코드 편집
-> 
+>
 > 이 태스크에서도 **Template 탭에서 YAML 코드를 직접 편집**합니다.
 > IAM 역할의 정책 문서는 비주얼로 설정할 수 없어 Template 탭에서 직접 작성해야 합니다.
 
@@ -235,7 +255,7 @@ ItemsFunctionRole:
 ```
 
 > [!WARNING] Template 탭 코드 편집 주의사항
-> 
+>
 > Template 탭에서 코드를 직접 편집한 후 Canvas 탭을 선택하면, Infrastructure Composer가 코드를 파싱하여 캔버스를 업데이트합니다.
 > YAML 문법 오류가 있으면 캔버스가 정상적으로 표시되지 않을 수 있으니, 코드 편집 후 오류가 없는지 확인합니다.
 
@@ -247,9 +267,9 @@ Role: !GetAtt ItemsFunctionRole.Arn
 ```
 
 > [!NOTE] IAM 역할 편집 및 Infrastructure Composer 한계
-> 
+>
 > **IAM 역할**: Lambda 함수가 DynamoDB 테이블에 접근하고 CloudWatch Logs에 로그를 기록할 수 있도록 권한을 부여합니다.
-> 
+>
 > **Infrastructure Composer 한계**: IAM 역할의 정책 문서는 비주얼로 설정할 수 없어 Template 탭에서 직접 코드 편집이 필요합니다.
 
 10. **Canvas** 탭을 선택합니다.
@@ -262,7 +282,7 @@ Role: !GetAtt ItemsFunctionRole.Arn
 이 태스크에서는 REST API를 생성하고 Lambda 함수와 연결하여 HTTP 요청을 처리할 수 있도록 구성합니다.
 
 > [!NOTE] Template 탭 코드 편집
-> 
+>
 > 이 태스크에서도 **Template 탭에서 YAML 코드를 직접 편집**합니다.
 > API Gateway의 리소스, 메서드, 배포, Lambda 권한은 비주얼로 설정할 수 없어 Template 탭에서 직접 작성해야 합니다.
 
@@ -312,18 +332,19 @@ LambdaApiPermission:
 ```
 
 > [!NOTE] Lambda 권한 SourceArn 패턴 설명
-> 
+>
 > **SourceArn 패턴**: `arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ItemsApi}/*/*/items`
+>
 > - 첫 번째 `*`: 스테이지 이름 (prod, dev 등 모든 스테이지 허용)
 > - 두 번째 `*`: HTTP 메서드 (GET, POST 등 모든 메서드 허용)
 > - `/items`: API 경로
-> 
+>
 > 이 패턴은 보안상 문제가 없으며, 모든 스테이지와 메서드에서 `/items` 경로로 Lambda 함수를 호출할 수 있도록 허용합니다.
 
 > [!NOTE] API Gateway 설정 및 Infrastructure Composer 한계
-> 
+>
 > **API Gateway 설정**: `/items` 경로에 ANY 메서드를 생성하여 모든 HTTP 메서드(GET, POST 등)를 Lambda 함수로 프록시합니다.
-> 
+>
 > **Infrastructure Composer 한계**: API Gateway의 리소스, 메서드, 배포, Lambda 권한은 비주얼로 설정할 수 없어 Template 탭에서 직접 코드 편집이 필요합니다. 이는 Infrastructure Composer가 주로 간단한 서버리스 아키텍처에 최적화되어 있기 때문입니다.
 
 9. **Canvas** 탭을 선택합니다.
@@ -362,10 +383,11 @@ Outputs:
 ```
 
 > [!IMPORTANT] Outputs 섹션 위치
-> 
+>
 > `Outputs` 섹션은 `Resources` 블록 바깥에 위치해야 합니다. YAML 들여쓰기 수준이 `Resources`와 동일해야 합니다.
-> 
+>
 > **올바른 구조**:
+>
 > ```yaml
 > Resources:
 >   ItemsTable:
@@ -374,7 +396,7 @@ Outputs:
 >   ItemsFunction:
 >     Type: AWS::Lambda::Function
 >     ...
-> 
+>
 > Outputs:  # Resources와 동일한 들여쓰기 레벨
 >   ApiUrl:
 >     Description: ...
@@ -394,10 +416,10 @@ Outputs:
 16. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 찾습니다.
 17. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `6-3` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `6-3`     |
 | `CreatedBy` | `Student` |
 
 18. [[Next]] 버튼을 클릭합니다.
@@ -416,7 +438,7 @@ Outputs:
 > **Events** 탭에는 리소스 생성 과정이 실시간으로 표시됩니다.
 > DynamoDB 테이블, IAM 역할, Lambda 함수, API Gateway가 순차적으로 생성됩니다.
 > 스택 생성에 2-3분이 소요됩니다. 대기하는 동안 Infrastructure Composer 탭을 선택하여 생성한 아키텍처 다이어그램을 다시 확인하거나, Week 6-1과 6-2에서 학습한 CloudFormation 개념을 복습할 수 있습니다.
-> 
+>
 > **스택 태그 자동 전파**: 스택에 추가한 태그(`Project`, `Week`, `CreatedBy`)는 스택이 생성하는 모든 리소스(DynamoDB, Lambda, API Gateway 등)에 자동으로 전파됩니다.
 
 24. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
@@ -453,8 +475,9 @@ curl -X POST https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/it
 > `https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items` 부분을 복사한 API URL로 대체합니다.
 
 > [!OUTPUT]
+>
 > ```json
-> {"message": "Item created"}
+> { "message": "Item created" }
 > ```
 
 8. 다음 명령어를 실행하여 모든 아이템을 조회합니다:
@@ -464,8 +487,15 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 ```
 
 > [!OUTPUT]
+>
 > ```json
-> [{"id": "item1", "name": "Sample Item", "description": "Created from Infrastructure Composer"}]
+> [
+>   {
+>     "id": "item1",
+>     "name": "Sample Item",
+>     "description": "Created from Infrastructure Composer"
+>   }
+> ]
 > ```
 
 9. 생성한 아이템이 조회되는지 확인합니다.
@@ -530,6 +560,7 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 ### Week 6-2 (코드 방식) vs Week 6-3 (하이브리드 방식)
 
 **Week 6-2: AWS CloudFormation 템플릿 작성 (코드)**
+
 - YAML 문법을 직접 작성합니다
 - 리소스 간 참조를 수동으로 설정합니다 (`!Ref`, `!GetAtt`)
 - 문법 오류 가능성이 있습니다
@@ -537,6 +568,7 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 - 복잡한 로직과 조건문을 사용할 수 있습니다
 
 **Week 6-3: Infrastructure Composer (하이브리드 방식)**
+
 - 드래그 앤 드롭으로 기본 리소스를 추가합니다
 - Template 탭에서 세부 설정을 코드로 편집합니다
 - 비주얼 디자이너와 코드 편집을 결합하여 사용합니다
@@ -548,12 +580,14 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 이 실습에서 구축한 서버리스 REST API는 다음 구성 요소로 이루어져 있습니다:
 
 **구성 요소**:
+
 - **Amazon DynamoDB**: NoSQL 데이터베이스로 아이템 데이터를 저장합니다
 - **AWS Lambda**: Python 함수로 비즈니스 로직을 실행합니다 (GET, POST 요청 처리)
 - **Amazon API Gateway**: REST API 엔드포인트를 제공하고 Lambda 함수를 호출합니다
 - **AWS IAM**: Lambda 함수가 DynamoDB에 접근할 수 있도록 권한을 부여합니다
 
 **데이터 흐름**:
+
 1. 클라이언트가 API Gateway 엔드포인트로 HTTP 요청을 보냅니다
 2. API Gateway가 Lambda 함수를 호출합니다
 3. Lambda 함수가 DynamoDB 테이블에서 데이터를 조회하거나 생성합니다
@@ -563,21 +597,25 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 ### Infrastructure Composer의 장점
 
 **빠른 시작**
+
 - 드래그 앤 드롭으로 기본 리소스를 즉시 추가할 수 있습니다
 - AWS 리소스 목록을 탐색하면서 학습할 수 있습니다
 - 비주얼 디자이너로 직관적으로 설계할 수 있습니다
 
 **시각적 이해**
+
 - 아키텍처를 다이어그램으로 볼 수 있습니다
 - 리소스 간 관계를 시각적으로 확인할 수 있습니다
 - 팀원과 아키텍처를 쉽게 공유할 수 있습니다
 
 **자동 코드 생성**
+
 - 비주얼 디자인이 실시간으로 YAML 코드로 변환됩니다
 - 생성된 코드를 학습 자료로 활용할 수 있습니다
 - 코드를 직접 편집하여 세밀한 조정도 가능합니다
 
 **오류 방지 (드래그 앤 드롭 리소스에 한함)**
+
 - 드래그 앤 드롭으로 추가한 리소스는 기본 문법 오류가 발생하지 않습니다
 - 필수 속성을 누락하지 않도록 가이드합니다
 - 리소스 간 참조(`!Ref`)가 자동으로 생성됩니다
@@ -588,31 +626,37 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 ### Infrastructure Composer의 한계
 
 **복잡한 설정은 코드 편집 필요**
+
 - Lambda 함수 코드는 Template 탭에서 직접 편집해야 합니다
 - IAM 정책 문서는 비주얼로 설정할 수 없습니다
 - API Gateway의 세부 설정(리소스, 메서드, 배포)은 코드로 작성해야 합니다
 
 **서버리스 리소스 중심**
+
 - VPC, EC2, 네트워킹 리소스는 드래그 앤 드롭이 제한적입니다
 - 주로 Lambda, API Gateway, DynamoDB, S3, Step Functions 등 서버리스 리소스에 최적화되어 있습니다
 
 **학습 곡선**
+
 - 비주얼 디자이너와 Template 탭을 함께 사용해야 합니다
 - 어떤 설정은 비주얼로, 어떤 설정은 코드로 해야 하는지 구분이 필요합니다
 
 ### AWS CloudFormation 템플릿 작성의 장점
 
 **세밀한 제어**
+
 - 모든 속성을 직접 제어할 수 있습니다
 - 복잡한 조건문과 반복문을 사용할 수 있습니다
 - 고급 기능(Nested Stacks, Custom Resources)을 활용할 수 있습니다
 
 **버전 관리**
+
 - Git 등의 버전 관리 시스템에 저장하기 쉽습니다
 - 변경 이력을 추적할 수 있습니다
 - 코드 리뷰 프로세스를 적용할 수 있습니다
 
 **자동화**
+
 - CI/CD 파이프라인에 통합하기 쉽습니다
 - 스크립트로 템플릿을 생성하거나 수정할 수 있습니다
 - 대규모 인프라를 효율적으로 관리할 수 있습니다
@@ -620,12 +664,14 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 ### 사용 사례별 권장사항
 
 **Infrastructure Composer 사용 권장**:
+
 - 서버리스 애플리케이션 프로토타이핑
 - 아키텍처 설계 및 팀 논의
 - AWS CloudFormation 학습 초기 단계
 - 간단한 서버리스 인프라 구축
 
 **AWS CloudFormation 템플릿 작성 권장**:
+
 - 프로덕션 환경 배포
 - 복잡한 인프라 구성 (VPC, 네트워킹)
 - CI/CD 파이프라인 통합
@@ -634,6 +680,7 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 ### 하이브리드 접근 방식
 
 **최적의 워크플로우**:
+
 1. Infrastructure Composer로 초기 서버리스 아키텍처 설계.
 2. 자동 생성된 템플릿을 다운로드.
 3. 코드 에디터에서 세밀한 조정 (Lambda 코드, IAM 정책 등).

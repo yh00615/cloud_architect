@@ -511,22 +511,23 @@
   border-color: rgba(251, 191, 36, 0.6);
 }
 
-/* Alert 내부 링크 스타일 - 앵커 링크와 동일하게 */
+/* Alert 내부 링크 스타일 - 앵커 링크와 동일하게 (모든 alert에 적용) */
 .info-box-content a {
   color: #0972d3;
   text-decoration: none;
   font-weight: 500;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
   transition: all 0.2s ease;
+  padding-bottom: 2px;
 }
 
 .info-box-content a:hover {
-  color: #0972d3;
+  color: #0862c2;
   border-bottom-color: #0972d3;
 }
 
 .info-box-content a:active {
-  color: #033160;
+  color: #0651a8;
 }
 
 /* 다크모드 지원 */
@@ -535,10 +536,10 @@
 }
 
 [data-awsui-theme='dark'] .info-box-content a:hover {
-  color: #539fe5;
+  color: #7bb7ed;
   border-bottom-color: #539fe5;
 }
 
 [data-awsui-theme='dark'] .info-box-content a:active {
-  color: #7db3ea;
+  color: #3d8fd9;
 }

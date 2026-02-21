@@ -29,17 +29,35 @@ prerequisites:
 > - 태스크 2: Amazon VPC 템플릿 구조 확인 (vpc-ec2-template.yaml 분석)
 > - 태스크 4: AWS CloudFormation 스택 생성 (vpc-ec2-template.yaml로 Amazon VPC 인프라 생성)
 
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
+>
+> | 리소스명   | 타입/사양 | IaC |         비용 |
+> | ---------- | --------- | :-: | -----------: |
+> | Amazon VPC | N/A       | ✅  |         무료 |
+> | 서브넷     | N/A       | ✅  |         무료 |
+> | Amazon EC2 | t2.micro  | ✅  | $0.0116/시간 |
+>
+> - **예상 실습 시간**: 1-2시간
+> - **예상 총 비용**: 약 $0.01-0.02/시간 (실무 환경 온디맨드 기준)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+> 
+> - AWS CloudFormation: 완전 무료
+>
+> **참고**
+>
+> ℹ️ 이 실습에서는 EC2 t2.micro 인스턴스를 사용합니다. 인스턴스 타입을 변경하면 비용이 크게 증가할 수 있습니다.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [Amazon EC2 요금](https://aws.amazon.com/ec2/pricing/) | 📘 [AWS CloudFormation 요금](https://aws.amazon.com/cloudformation/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
+
 > [!WARNING]
-> 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 스택을 삭제해야 합니다.
->
-> **예상 비용** (ap-northeast-2 리전 기준):
->
-> | 리소스              | 타입     | 시간당 비용 | Free Tier                |
-> | ------------------- | -------- | ----------- | ------------------------ |
-> | Amazon EC2 인스턴스 | t2.micro | 약 $0.0116  | 월 750시간 무료 (12개월) |
-> | AWS CloudFormation  | -        | 무료        | -                        |
->
-> **참고**: AWS Free Tier 계정(가입 후 12개월 이내)에서는 t2.micro 인스턴스를 월 750시간까지 무료로 사용할 수 있습니다.
+> 이 실습에서 생성하는 리소스는 실습 종료 후 **반드시 스택을 삭제해야 합니다**.
 
 ## 태스크 1: AWS CloudFormation 템플릿 기본 구조 이해
 

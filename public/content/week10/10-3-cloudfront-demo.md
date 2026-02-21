@@ -1,5 +1,5 @@
 ---
-title: "Amazon CloudFront CDN 배포 및 캐싱 전략"
+title: 'Amazon CloudFront CDN 배포 및 캐싱 전략'
 week: 10
 session: 3
 awsServices:
@@ -23,21 +23,45 @@ QuickTable은 전 세계 사용자가 레스토랑을 검색하고 예약할 수
 
 > [!DOWNLOAD]
 > [week10-3-cloudfront-demo.zip](/files/week10/week10-3-cloudfront-demo.zip)
+>
 > - `index.html` - QuickTable 메인 페이지 (레스토랑 검색 UI, Week 9-3에서 구축한 프론트엔드)
 > - `about.html` - QuickTable 소개 페이지 (서비스 설명, 글로벌 아키텍처)
 > - `style.css` - QuickTable 스타일시트 (캐싱 테스트용, 버전 관리 예시)
 > - `script.js` - QuickTable 인터랙티브 기능 (Week 4-3 API 호출, 캐싱 테스트, 지역별 레스토랑 필터링)
 > - `README.md` - 파일 업로드 가이드 및 트러블슈팅
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 1: Amazon S3 오리진 준비 (QuickTable 프론트엔드 파일 업로드)
 > - 태스크 2: Amazon CloudFront 배포 생성 (글로벌 CDN 구성, OAC 보안 설정)
 > - 태스크 3: 배포 테스트 및 캐싱 확인 (엣지 로케이션 성능 측정)
 > - 태스크 4: QuickTable 콘텐츠 업데이트 및 캐시 무효화 (버전 관리 전략)
 
-> [!NOTE]
-> 이 데모는 비용이 거의 발생하지 않습니다. Amazon CloudFront 프리 티어에서 매월 50GB 데이터 전송과 2,000,000건의 요청을 무료로 제공합니다.
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
+>
+> | 리소스명          | 타입/사양             | IaC |                비용 |
+> | ----------------- | --------------------- | :-: | ------------------: |
+> | Amazon S3         | 스토리지              | ❌  |        $0.025/GB/월 |
+> | Amazon S3         | PUT 요청              | ❌  |   $0.005/1,000 요청 |
+> | Amazon CloudFront | 데이터 전송 (첫 10TB) | ❌  |           $0.126/GB |
+> | Amazon CloudFront | HTTP/HTTPS 요청       | ❌  | $0.0120/10,000 요청 |
+>
+> - **예상 실습 시간**: 30분-1시간
+> - **예상 총 비용**: 약 $0.01-0.05 (실습 규모 기준, 실무 환경 온디맨드 기준)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+>
+> **실무 팁**
+>
+> 💡 CloudFront는 데이터 전송량에 따라 비용이 발생합니다. Price Class를 조정하여 주요 지역만 선택하면 비용을 약 30% 절감할 수 있습니다. 캐시 적중률을 높이면 오리진 요청이 줄어 S3 비용도 절감됩니다.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [Amazon S3 요금](https://aws.amazon.com/s3/pricing/) | 📘 [Amazon CloudFront 요금](https://aws.amazon.com/cloudfront/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
 
 ## 태스크 1: QuickTable 프론트엔드 Amazon S3 오리진 준비
 
@@ -60,18 +84,18 @@ QuickTable은 전 세계 사용자가 레스토랑을 검색하고 예약할 수
 
 7. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `10-3` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `10-3`    |
 | `CreatedBy` | `Student` |
 
 8. [[Create bucket]] 버튼을 클릭합니다.
-8. 생성된 버킷을 선택합니다.
-9. [[Upload]] 버튼을 클릭합니다.
-10. [[Add files]] 버튼을 클릭합니다.
-11. 압축 해제한 폴더에서 `index.html`, `about.html`, `style.css`, `script.js` 파일을 선택합니다.
-12. [[Upload]] 버튼을 클릭합니다.
+9. 생성된 버킷을 선택합니다.
+10. [[Upload]] 버튼을 클릭합니다.
+11. [[Add files]] 버튼을 클릭합니다.
+12. 압축 해제한 폴더에서 `index.html`, `about.html`, `style.css`, `script.js` 파일을 선택합니다.
+13. [[Upload]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > QuickTable 프론트엔드는 Week 9-3에서 구축한 정적 웹사이트를 기반으로 합니다. 레스토랑 검색, 예약 가능 시간대 조회 등의 기능이 포함되어 있습니다.
@@ -104,6 +128,7 @@ QuickTable은 전 세계 사용자가 레스토랑을 검색하고 예약할 수
 10. **Cache policy**에서 `CachingOptimized`를 선택합니다.
 
 > [!CONCEPT] 캐시 정책 (Cache Policy)
+>
 > - **CachingOptimized**: 정적 콘텐츠에 최적화, 최대 캐싱
 > - **CachingDisabled**: 동적 콘텐츠용, 캐싱 안 함
 > - **Custom**: 사용자 정의 TTL 및 캐시 키 설정
@@ -111,10 +136,7 @@ QuickTable은 전 세계 사용자가 레스토랑을 검색하고 예약할 수
 11. **Price class**에서 `Use North America, Europe, Asia, Middle East, and Africa`를 선택합니다.
 
 > [!TIP]
-> 비용 절감을 위해 "Use all edge locations" 대신 주요 지역만 선택합니다. 대부분의 사용자에게 충분한 성능을 제공하면서 비용을 약 30% 절감할 수 있습니다.
-12. **Default root object**에 `index.html`을 입력합니다.
-13. [[Create distribution]] 버튼을 클릭합니다.
-14. 상단에 표시되는 파란색 배너를 확인합니다.
+> 비용 절감을 위해 "Use all edge locations" 대신 주요 지역만 선택합니다. 대부분의 사용자에게 충분한 성능을 제공하면서 비용을 약 30% 절감할 수 있습니다. 12. **Default root object**에 `index.html`을 입력합니다. 13. [[Create distribution]] 버튼을 클릭합니다. 14. 상단에 표시되는 파란색 배너를 확인합니다.
 
 > [!IMPORTANT]
 > 파란색 배너는 배포 생성 직후 일시적으로 표시됩니다. 다른 페이지로 이동하면 사라질 수 있으므로 즉시 정책을 복사해야 합니다.
@@ -123,6 +145,7 @@ QuickTable은 전 세계 사용자가 레스토랑을 검색하고 예약할 수
 
 > [!NOTE]
 > 파란색 배너가 표시되지 않거나 놓친 경우, 다음 방법으로 정책을 확인할 수 있습니다:
+>
 > 1. Amazon CloudFront 콘솔에서 배포를 선택합니다.
 > 2. **Origins** 탭을 선택합니다.
 > 3. 오리진을 선택한 후 Edit 버튼을 클릭합니다.
@@ -140,10 +163,10 @@ QuickTable은 전 세계 사용자가 레스토랑을 검색하고 예약할 수
 25. [[Manage tags]] 버튼을 클릭합니다.
 26. 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `10-3` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `10-3`    |
 | `CreatedBy` | `Student` |
 
 27. [[Save changes]] 버튼을 클릭합니다.
@@ -186,6 +209,7 @@ QuickTable은 전 세계 사용자가 레스토랑을 검색하고 예약할 수
 > 첫 요청에서 `Miss from cloudfront`가 아닌 `Hit from cloudfront`가 표시될 수 있습니다. 이는 다른 사용자가 동일 엣지 로케이션에서 이미 해당 콘텐츠를 요청하여 캐시에 저장된 경우입니다. 이것은 정상 동작입니다.
 
 > [!CONCEPT] Amazon CloudFront 캐시 헤더
+>
 > - **x-cache: Miss from cloudfront** - 오리진에서 가져옴 (첫 요청)
 > - **x-cache: Hit from cloudfront** - 엣지에서 캐시 제공 (이후 요청)
 > - **x-amz-cf-pop** - 요청을 처리한 엣지 로케이션 (예: ICN54-C1은 서울)
@@ -264,17 +288,18 @@ QuickTable은 전 세계 사용자가 레스토랑을 검색하고 예약할 수
 
 > [!NOTE]
 > **성능 모니터링 주의사항**:
-> 
+>
 > **데이터 지연**: 메트릭은 1-5분 후 표시됩니다. 데이터가 없으면 잠시 후 새로고침하세요.
-> 
+>
 > **Cache hit rate 추가 비용**: "Enable additional metrics" 활성화 시 배포당 $0.01/월 추가 비용이 발생합니다. 이 실습에서는 활성화하지 않아도 됩니다.
-> 
+>
 > **소규모 테스트의 한계**: 요청 수가 적어 통계적으로 의미있는 데이터가 없을 수 있습니다. 실제 운영 환경에서는 수천 건 이상의 요청이 필요합니다.
 
 5. **Cache hit rate** 그래프를 확인합니다 (캐시 적중률, 데이터가 없을 수 있음).
 
 > [!CONCEPT] 캐시 적중률 (Cache Hit Rate)
 > 엣지 로케이션에서 캐시된 콘텐츠로 응답한 비율입니다.
+>
 > - **80% 이상**: 좋음 - 대부분의 요청이 엣지에서 처리됨
 > - **50-80%**: 보통 - TTL 증가 고려
 > - **50% 미만**: 낮음 - 캐시 전략 재검토 필요
@@ -331,13 +356,10 @@ Week 9-3에서 구축한 QuickTable 정적 웹사이트가 이제 CloudFront를 
 
 > [!TROUBLESHOOTING]
 > **문제**: "Distribution must be disabled before deleting" 오류 발생
-> 
+>
 > **원인**: Disabled 상태에서도 즉시 Delete가 안 될 수 있습니다
-> 
-> **해결**: 5-10분 추가 대기 후 재시도하세요
-5. 배포를 다시 선택합니다.
-6. [[Delete]] 버튼을 클릭합니다.
-7. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
+>
+> **해결**: 5-10분 추가 대기 후 재시도하세요 5. 배포를 다시 선택합니다. 6. [[Delete]] 버튼을 클릭합니다. 7. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
 #### S3 버킷 삭제
 
@@ -378,16 +400,19 @@ CloudFront는 AWS의 글로벌 CDN 서비스입니다. 전 세계에 분산된 �
 ### 아키텍처 구성 요소
 
 **엣지 로케이션 (Edge Location)**
+
 - 전 세계 400개 이상의 캐시 서버
 - 사용자와 가장 가까운 위치에서 콘텐츠 제공
 - 캐시 저장소 역할
 
 **오리진 (Origin)**
+
 - 원본 콘텐츠가 저장된 위치
 - Amazon S3, Amazon EC2, ALB, 커스텀 HTTP 서버 지원
 - 캐시 미스 시 CloudFront가 접근
 
 **리전별 엣지 캐시 (Regional Edge Cache)**
+
 - 엣지 로케이션과 오리진 사이의 중간 캐시
 - 더 큰 캐시 용량
 - 덜 자주 요청되는 콘텐츠 저장
@@ -395,11 +420,13 @@ CloudFront는 AWS의 글로벌 CDN 서비스입니다. 전 세계에 분산된 �
 ### 캐싱 동작
 
 **TTL (Time To Live)**
+
 - 캐시 유효 시간 (기본값: 24시간)
 - Cache-Control 헤더로 제어 가능
 - 파일 유형별로 다르게 설정 권장
 
 **캐시 키 (Cache Key)**
+
 - URL 경로 (필수)
 - 쿼리 스트링 (선택)
 - 헤더 (선택)
@@ -408,12 +435,14 @@ CloudFront는 AWS의 글로벌 CDN 서비스입니다. 전 세계에 분산된 �
 ### 보안 기능
 
 **OAC (Origin Access Control)**
+
 - Amazon S3 버킷을 비공개로 유지
 - CloudFront만 접근 가능
 - 서명된 요청 사용
 - OAI의 후속 기능 (더 많은 Amazon S3 기능 지원)
 
 **HTTPS 지원**
+
 - Amazon CloudFront 기본 인증서 (무료)
 - ACM 커스텀 인증서
 - HTTP를 HTTPS로 자동 리다이렉트
@@ -421,26 +450,30 @@ CloudFront는 AWS의 글로벌 CDN 서비스입니다. 전 세계에 분산된 �
 ### 비용 최적화
 
 **무효화 비용**
+
 - 매월 처음 1,000개 경로: 무료
 - 이후: 경로당 $0.005
 
 **대안 방법**
+
 - 파일명 변경: `style-v2.css` (가장 간단, 별도 설정 불필요)
 - 버전 관리: `style.css?v=2` (캐시 정책에서 쿼리 스트링을 캐시 키에 포함해야 함)
 - 짧은 TTL 설정
 
 > [!NOTE]
 > **쿼리 스트링 버전 관리 주의사항**:
-> 
+>
 > `style.css?v=2` 방식을 사용하려면 CloudFront 캐시 정책에서 쿼리 스트링을 캐시 키에 포함해야 합니다. 기본 CachingOptimized 정책은 쿼리 스트링을 무시합니다.
-> 
+>
 > **설정 방법**:
+>
 > 1. 커스텀 캐시 정책 생성
 > 2. Cache key settings → Query strings → Include → "v" 추가
-> 
+>
 > **가장 간단한 방법**: 파일명 변경 (`style-v2.css`) → 별도 설정 없이 즉시 새 파일로 인식됩니다
 
 **Price Class**
+
 - All edge locations: 최고 성능, 최고 비용
 - Price Class 200 — 북미, 유럽, 아시아, 중동, 아프리카: 중간 비용
 - Price Class 100 — 북미, 유럽만: 최저 비용

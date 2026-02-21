@@ -15,19 +15,35 @@ prerequisites:
   - AWS IAM 정책 기본 지식
 ---
 
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
+>
+> | 리소스명         | 타입/사양           | IaC |           비용 |
+> | ---------------- | ------------------- | :-: | -------------: |
+> | AWS Config       | Configuration Items | ❌  |    $0.003/항목 |
+> | AWS Config Rules | 규칙 평가           | ❌  |    $0.001/평가 |
+> | Amazon S3        | 스토리지            | ❌  |   $0.025/GB/월 |
+> | Amazon SNS       | 알림                | ❌  | $0.50/100만 건 |
+> | Conformance Pack | 배포                | ❌  |    $0.001/평가 |
+>
+> - **예상 실습 시간**: 1-2시간
+> - **예상 총 비용**: 약 $2-5/월 (실습 규모 기준, 실무 환경 온디맨드 기준)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+>
+> **실무 팁**
+>
+> 💡 AWS Config는 리소스 변경 시마다 Configuration Item을 생성하므로, 자주 변경되는 리소스가 많으면 비용이 증가합니다. 프로덕션 환경에서는 Recording Strategy를 "Record specific resource types"로 설정하여 중요한 리소스만 추적하는 것을 권장합니다.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [AWS Config 요금](https://aws.amazon.com/config/pricing/) | 📘 [Amazon S3 요금](https://aws.amazon.com/s3/pricing/) | 📘 [Amazon SNS 요금](https://aws.amazon.com/sns/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
+
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 **반드시 삭제해야 합니다**.
->
-> **예상 비용** (ap-northeast-2 리전 기준):
->
-> | 리소스           | 타입                | 비용                            |
-> | ---------------- | ------------------- | ------------------------------- |
-> | AWS Config       | Configuration Items | 월 $0.003/항목 (처음 100,000개) |
-> | AWS Config Rules | 규칙 평가           | 월 $0.001/평가 (처음 100,000개) |
-> | Amazon S3        | 스토리지            | 월 $0.025/GB                    |
-> | Amazon SNS       | 알림                | 월 $0.50/백만 건                |
-> | Conformance Pack | 배포                | 월 $0.001/평가                  |
-> | **총 예상**      |                     | **월 약 $2-5**                  |
 
 ## 태스크 1: AWS Config 설정
 

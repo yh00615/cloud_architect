@@ -1,5 +1,5 @@
 ---
-title: "AWS CodeBuild를 활용한 CI/CD 파이프라인 구축"
+title: 'AWS CodeBuild를 활용한 CI/CD 파이프라인 구축'
 week: 9
 session: 2
 awsServices:
@@ -39,30 +39,48 @@ week9-2-cicd-lab/
 
 > [!DOWNLOAD]
 > [week9-2-cicd-lab.zip](/files/week9/week9-2-cicd-lab.zip)
+>
 > - `app.js` - Node.js Express 애플리케이션 (태스크 1에서 CodeCommit에 푸시)
 > - `package.json` - Node.js 의존성 정의 (태스크 1에서 CodeCommit에 푸시)
 > - `Dockerfile` - Docker 이미지 빌드 설정 (태스크 1에서 CodeCommit에 푸시)
 > - `buildspec.yml` - AWS CodeBuild 빌드 스펙 (태스크 2에서 분석 및 푸시)
 > - `README.md` - 로컬 테스트 및 트러블슈팅 가이드
-> 
+>
 > **관련 태스크:**
-> 
+>
 > - 태스크 0: 실습 환경 구축 (CloudFormation으로 ECR 리포지토리 및 CodeCommit 리포지토리 자동 생성)
 > - 태스크 1: 애플리케이션 코드 준비 (app.js, package.json, Dockerfile을 CodeCommit에 푸시)
 > - 태스크 2: buildspec.yml 분석 및 푸시 (AWS CodeBuild 빌드 단계 이해 및 CodeCommit에 푸시)
 > - 태스크 3: AWS CodeBuild 프로젝트 생성 (빌드 환경 설정 및 ECR 연동)
 > - 태스크 4: 빌드 실행 및 검증 (이미지 빌드 및 ECR 푸시 확인)
 
+> [!COST]
+> **리소스 운영 비용 가이드 (ap-northeast-2 기준, 온디맨드 요금 기준)**
+>
+> | 리소스명               | 타입/사양            | IaC |           비용 |
+> | ---------------------- | -------------------- | :-: | -------------: |
+> | AWS CodeBuild          | build.general1.small | ❌  | $0.005/빌드 분 |
+> | Amazon ECR             | 스토리지             | ✅  |    $0.10/GB/월 |
+> | AWS CodeCommit         | 리포지토리           | ✅  |           무료 |
+> | Amazon CloudWatch Logs | 로그 저장            | ✅  |    $0.50/GB/월 |
+>
+> - **예상 실습 시간**: 1-2시간
+> - **예상 총 비용**: 약 $0.05-0.10 (실습 규모 5-10분 빌드 기준, 실무 환경 온디맨드 기준)
+>
+> **무료 플랜**
+>
+> - 이 실습 비용은 AWS 가입 후 6개월 내 제공되는 크레딧에서 차감될 수 있습니다.
+>
+> **실무 팁**
+>
+> 💡 CodeBuild는 빌드 시간에 따라 비용이 발생합니다. 불필요한 의존성 설치를 줄이고 캐싱을 활용하면 빌드 시간을 단축하여 비용을 절감할 수 있습니다.
+>
+> **리전별로 요금이 다를 수 있습니다. 최신 요금은 아래 링크에서 확인하세요.**
+>
+> 📘 [AWS CodeBuild 요금](https://aws.amazon.com/codebuild/pricing/) | 📘 [Amazon ECR 요금](https://aws.amazon.com/ecr/pricing/) | 📘 [AWS CodeCommit 요금](https://aws.amazon.com/codecommit/pricing/) | 🧮 [AWS 요금 계산기](https://calculator.aws/)
+
 > [!WARNING]
-> 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
-> 
-> **예상 비용** (ap-northeast-2 리전 기준):
-> 
-> | 리소스 | 타입 | 시간당 비용 |
-> |--------|------|------------|
-> | AWS CodeBuild | build.general1.small | 월 100분 무료, 초과 시 분당 약 $0.005 |
-> | Amazon ECR | 스토리지 | 월 500MB 무료, 초과 시 GB당 $0.10 |
-> | Amazon CloudWatch Logs | 로그 저장 | 월 5GB 무료, 초과 시 GB당 $0.50 |
+> 이 실습에서 생성하는 리소스는 실습 종료 후 **반드시 삭제해야 합니다**.
 
 ## 태스크 0: 실습 환경 구축
 
@@ -92,10 +110,10 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 확인합니다.
 13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
-| Key | Value |
-|-----|-------|
-| `Project` | `AWS-Lab` |
-| `Week` | `9-2` |
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `Week`      | `9-2`     |
 | `CreatedBy` | `Student` |
 
 14. [[Next]] 버튼을 클릭합니다.
@@ -107,6 +125,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!NOTE]
 > 스택 생성에 2-3분이 소요됩니다. 대기하는 동안:
+>
 > - **Events** 탭에서 생성 과정을 실시간으로 확인할 수 있습니다
 > - 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽어보세요
 > - 페이지를 새로고침하여 최신 상태를 확인할 수 있습니다
@@ -120,6 +139,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!IMPORTANT]
 > 이 출력값들은 다음 태스크에서 사용됩니다. 반드시 메모장에 저장합니다.
+>
 > - `CodeCommitRepositoryName`은 태스크 1에서 Git 리포지토리를 복제할 때 필요합니다
 > - `ECRRepositoryUri`는 태스크 3에서 환경 변수 설정 시 필요합니다
 > - `CodeBuildRoleArn`은 태스크 3에서 IAM 역할 설정 시 필요합니다
@@ -187,7 +207,7 @@ git config user.email "your.email@example.com"
 10. AWS CloudShell 우측 상단의 **Actions** 드롭다운을 클릭한 후 `Upload file`을 선택합니다.
 
 > [!NOTE]
-> AWS CloudShell의 Upload file 기능은 한 번에 1개 파일만 업로드할 수 있습니다. 
+> AWS CloudShell의 Upload file 기능은 한 번에 1개 파일만 업로드할 수 있습니다.
 > 다음 순서로 업로드합니다: ① `app.js` ② `package.json` ③ `Dockerfile`
 
 11. 파일 선택 창이 열리면 압축 해제한 폴더로 이동합니다.
@@ -211,6 +231,7 @@ ls -la
 ```
 
 > [!OUTPUT]
+>
 > ```
 > drwxr-xr-x 3 cloudshell-user cloudshell-user   96 Feb  7 10:00 .git
 > -rw-r--r-- 1 cloudshell-user cloudshell-user  256 Feb  7 10:00 app.js
@@ -232,6 +253,7 @@ git status
 ```
 
 > [!OUTPUT]
+>
 > ```
 > On branch main
 > Changes to be committed:
@@ -249,6 +271,7 @@ git commit -m "Add application code and Dockerfile"
 ```
 
 > [!OUTPUT]
+>
 > ```
 > [main abc1234] Add application code and Dockerfile
 >  3 files changed, 50 insertions(+)
@@ -267,6 +290,7 @@ git push origin main
 > 브랜치 이름이 `master`인 경우 `git push origin master`를 사용합니다.
 
 > [!OUTPUT]
+>
 > ```
 > Enumerating objects: 5, done.
 > Counting objects: 100% (5/5), done.
@@ -309,6 +333,7 @@ pwd
 ```
 
 > [!OUTPUT]
+>
 > ```
 > /home/cloudshell-user/codebuild-lab/<repository-name>
 > ```
@@ -336,6 +361,7 @@ ls -la buildspec.yml
 ```
 
 > [!OUTPUT]
+>
 > ```
 > -rw-r--r-- 1 cloudshell-user cloudshell-user 1024 Feb  7 10:00 buildspec.yml
 > ```
@@ -347,9 +373,10 @@ cat buildspec.yml
 ```
 
 > [!OUTPUT]
+>
 > ```yaml
 > version: 0.2
-> 
+>
 > phases:
 >   pre_build:
 >     commands:
@@ -372,7 +399,7 @@ cat buildspec.yml
 >       - docker push $REPOSITORY_URI:$IMAGE_TAG
 >       - echo Writing image definitions file...
 >       - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-> 
+>
 > artifacts:
 >   files:
 >     - imagedefinitions.json
@@ -382,24 +409,24 @@ cat buildspec.yml
 
 > [!CONCEPT] buildspec.yml 구조 분석
 > buildspec.yml은 AWS CodeBuild가 빌드를 수행하는 방법을 정의하는 YAML 파일입니다.
-> 
+>
 > **주요 구성 요소:**
-> 
+>
 > - **version**: buildspec 파일 버전 (현재 0.2 권장)
 > - **phases**: 빌드 프로세스의 각 단계 정의
 >   - `pre_build`: ECR 로그인, 환경 변수 설정
 >   - `build`: Docker 이미지 빌드 및 태그 지정
 >   - `post_build`: ECR에 이미지 푸시, 아티팩트 생성
 > - **artifacts**: 빌드 출력물 지정 (imagedefinitions.json)
-> 
+>
 > **환경 변수 사용:**
-> 
+>
 > - `$AWS_ACCOUNT_ID`, `$AWS_REGION`: 태스크 3에서 설정할 환경 변수
 > - `$IMAGE_REPO_NAME`, `$CONTAINER_NAME`: 태스크 3에서 설정할 환경 변수
 > - `$CODEBUILD_RESOLVED_SOURCE_VERSION`: CodeBuild가 자동으로 제공하는 Git 커밋 해시
-> 
+>
 > **이미지 태그 전략:**
-> 
+>
 > - `latest`: 항상 최신 이미지를 가리킴 (개발 환경)
 > - `$IMAGE_TAG`: Git 커밋 해시 기반 (프로덕션 환경, 롤백 가능)
 
@@ -416,6 +443,7 @@ git status
 ```
 
 > [!OUTPUT]
+>
 > ```
 > On branch main
 > Changes to be committed:
@@ -431,6 +459,7 @@ git commit -m "Add buildspec.yml for AWS CodeBuild"
 ```
 
 > [!OUTPUT]
+>
 > ```
 > [main def5678] Add buildspec.yml for AWS CodeBuild
 >  1 file changed, 30 insertions(+)
@@ -444,6 +473,7 @@ git push origin main
 ```
 
 > [!OUTPUT]
+>
 > ```
 > Enumerating objects: 4, done.
 > Counting objects: 100% (4/4), done.
@@ -549,15 +579,16 @@ git push origin main
 6. **PRE_BUILD** 단계의 로그를 확인합니다:
 
 > [!OUTPUT]
+>
 > ```
 > [Container] 2024/02/07 10:00:00 Running command echo Logging in to Amazon ECR...
 > Logging in to Amazon ECR...
-> 
+>
 > [Container] 2024/02/07 10:00:01 Running command aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 > WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
 > Configure a credential helper to remove this warning. See
 > https://docs.docker.com/engine/reference/commandline/login/#credentials-store
-> 
+>
 > Login Succeeded
 > ```
 
@@ -565,13 +596,14 @@ git push origin main
 8. **BUILD** 단계의 로그를 확인합니다:
 
 > [!OUTPUT]
+>
 > ```
 > [Container] 2024/02/07 10:00:05 Running command echo Build started on `date`
 > Build started on Wed Feb  7 10:00:05 UTC 2024
-> 
+>
 > [Container] 2024/02/07 10:00:05 Running command echo Building the Docker image...
 > Building the Docker image...
-> 
+>
 > [Container] 2024/02/07 10:00:05 Running command docker build -t $REPOSITORY_URI:latest .
 > Sending build context to Docker daemon  15.36kB
 > Step 1/6 : FROM node:18-alpine
@@ -586,19 +618,20 @@ git push origin main
 10. **POST_BUILD** 단계의 로그를 확인합니다:
 
 > [!OUTPUT]
+>
 > ```
 > [Container] 2024/02/07 10:00:30 Running command echo Build completed on `date`
 > Build completed on Wed Feb  7 10:00:30 UTC 2024
-> 
+>
 > [Container] 2024/02/07 10:00:30 Running command echo Pushing the Docker images...
 > Pushing the Docker images...
-> 
+>
 > [Container] 2024/02/07 10:00:30 Running command docker push $REPOSITORY_URI:latest
 > The push refers to repository [123456789012.dkr.ecr.ap-northeast-2.amazonaws.com/week9-2-codebuild-repo]
 > a1b2c3d: Pushed
 > ...
 > latest: digest: sha256:abc123... size: 1234
-> 
+>
 > [Container] 2024/02/07 10:00:45 Running command docker push $REPOSITORY_URI:$IMAGE_TAG
 > The push refers to repository [123456789012.dkr.ecr.ap-northeast-2.amazonaws.com/week9-2-codebuild-repo]
 > a1b2c3d: Layer already exists
@@ -610,6 +643,7 @@ git push origin main
 12. 로그 하단에서 최종 빌드 상태를 확인합니다:
 
 > [!OUTPUT]
+>
 > ```
 > [Container] 2024/02/07 10:00:50 Phase complete: PRE_BUILD State: SUCCEEDED
 > [Container] 2024/02/07 10:00:50 Phase complete: BUILD State: SUCCEEDED
@@ -623,14 +657,16 @@ git push origin main
 
 > [!TROUBLESHOOTING]
 > **문제**: 빌드가 실패하고 "FAILED" 상태로 표시됩니다
-> 
+>
 > **원인 및 해결**:
+>
 > - **ECR 로그인 실패**: 환경 변수 `AWS_ACCOUNT_ID`가 올바른지 확인합니다
 > - **Docker 빌드 실패**: Dockerfile 문법 오류를 확인합니다
 > - **ECR 푸시 실패**: 환경 변수 `IMAGE_REPO_NAME`이 올바른지 확인합니다
 > - **권한 오류**: IAM 역할에 ECR 푸시 권한이 있는지 확인합니다
-> 
+>
 > **해결 방법**:
+>
 > 1. **Build logs** 탭에서 오류 메시지를 확인합니다.
 > 2. 오류가 발생한 단계(PRE_BUILD, BUILD, POST_BUILD)를 식별합니다.
 > 3. 해당 단계의 명령어와 환경 변수를 확인합니다.
@@ -732,6 +768,7 @@ git push origin main
 AWS CodeBuild는 완전 관리형 빌드 서비스입니다. 소스 코드를 컴파일하고, 테스트를 실행하며, 배포 가능한 소프트웨어 패키지를 생성합니다.
 
 **주요 특징:**
+
 - 서버 프로비저닝 불필요
 - 사용한 만큼만 비용 지불
 - 사전 패키징된 빌드 환경 제공
@@ -740,35 +777,42 @@ AWS CodeBuild는 완전 관리형 빌드 서비스입니다. 소스 코드를 �
 ### buildspec.yml 구조
 
 **version**
+
 - buildspec 파일의 버전을 지정합니다
 - 현재 권장 버전은 `0.2`입니다
 
 **phases**
+
 - 빌드 프로세스의 각 단계를 정의합니다
 - `install`, `pre_build`, `build`, `post_build` 단계가 있습니다
 
 **artifacts**
+
 - 빌드 출력물을 지정합니다
 - Amazon S3 버킷에 업로드되거나 다음 단계로 전달됩니다
 
 ### Docker 빌드 프로세스
 
 **1단계: ECR 로그인**
+
 ```bash
 aws ecr get-login-password | docker login --username AWS --password-stdin <ecr-uri>
 ```
 
 **2단계: 이미지 빌드**
+
 ```bash
 docker build -t <repository-uri>:latest .
 ```
 
 **3단계: 이미지 태그 지정**
+
 ```bash
 docker tag <repository-uri>:latest <repository-uri>:<commit-hash>
 ```
 
 **4단계: ECR에 푸시**
+
 ```bash
 docker push <repository-uri>:latest
 docker push <repository-uri>:<commit-hash>
@@ -777,6 +821,7 @@ docker push <repository-uri>:<commit-hash>
 ### 환경 변수
 
 **사용자 정의 변수:**
+
 - `AWS_ACCOUNT_ID`: AWS 계정 ID (태스크 3에서 환경 변수로 추가)
 - `IMAGE_REPO_NAME`: ECR 리포지토리 이름 (태스크 3에서 환경 변수로 추가)
 - `CONTAINER_NAME`: 컨테이너 이름 (태스크 3에서 환경 변수로 추가)
@@ -786,6 +831,7 @@ docker push <repository-uri>:<commit-hash>
 > CodePipeline이 ECS에 배포할 때 어떤 컨테이너를 업데이트할지 식별하는 데 사용됩니다.
 
 **AWS CodeBuild 제공 변수:**
+
 - `AWS_REGION`: 빌드가 실행되는 리전 (AWS CodeBuild가 자동으로 설정)
 - `CODEBUILD_RESOLVED_SOURCE_VERSION`: Git 커밋 해시
 - `CODEBUILD_BUILD_ID`: 빌드 ID
@@ -796,6 +842,7 @@ docker push <repository-uri>:<commit-hash>
 Docker 이미지를 빌드하려면 AWS CodeBuild 프로젝트에서 **Privileged** 모드를 활성화해야 합니다.
 
 **이유:**
+
 - Docker 데몬이 컨테이너 내부에서 실행되어야 함
 - Docker-in-Docker 방식으로 이미지 빌드
 - 보안상 기본적으로 비활성화되어 있음
@@ -803,10 +850,12 @@ Docker 이미지를 빌드하려면 AWS CodeBuild 프로젝트에서 **Privilege
 ### 이미지 태그 전략
 
 **latest 태그:**
+
 - 항상 최신 이미지를 가리킴
 - 개발 환경에서 유용
 
 **커밋 해시 태그:**
+
 - 특정 버전을 식별 가능
 - 롤백 시 유용
 - 프로덕션 환경에서 권장
@@ -814,16 +863,19 @@ Docker 이미지를 빌드하려면 AWS CodeBuild 프로젝트에서 **Privilege
 ### 모범 사례
 
 **빌드 속도 최적화:**
+
 - Docker 레이어 캐싱 활용
 - 불필요한 파일 제외 (.dockerignore)
 - 멀티 스테이지 빌드 사용
 
 **보안:**
+
 - 최소 권한 원칙 적용
 - 민감한 정보는 환경 변수로 관리
 - 이미지 스캔 활성화
 
 **비용 최적화:**
+
 - 적절한 빌드 인스턴스 타입 선택
 - 빌드 캐싱 활용
 - 불필요한 빌드 방지

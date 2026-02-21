@@ -31,7 +31,7 @@ prerequisites:
 > - 태스크 2-7: 6가지 원칙 평가 (well-architected-checklist.md 참고하여 질문 답변)
 
 > [!NOTE]
-> 이 실습은 AWS 리소스를 생성하지 않으므로 비용이 발생하지 않습니다.
+> **비용 안내**: 이 실습은 AWS 리소스를 생성하지 않으므로 비용이 발생하지 않습니다.
 
 ## 태스크 1: AWS Well-Architected Tool 시작하기
 
