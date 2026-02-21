@@ -7,6 +7,7 @@ import {
   Box,
 } from '@cloudscape-design/components';
 import '@/styles/download-files.css';
+import '@/styles/download-button-override.css';
 
 interface FileInfo {
   name: string;
@@ -55,7 +56,12 @@ export const FileDownload: React.FC<FileDownloadProps> = ({
     <div className="file-download-box">
       <SpaceBetween direction="horizontal" size="s" alignItems="center">
         {/* 다운로드 버튼 */}
-        <Button variant="primary" iconName="download" onClick={handleDownload}>
+        <Button
+          variant="normal"
+          iconName="download"
+          onClick={handleDownload}
+          className="download-file-button"
+        >
           {fileName}
         </Button>
 
