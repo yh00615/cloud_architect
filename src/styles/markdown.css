@@ -240,3 +240,19 @@
 [data-awsui-theme='dark'] .markdown-content a:active {
   color: #3d8fd9;
 }
+
+/* 이미지 스타일 */
+.markdown-content .markdown-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  border: 1px solid var(--color-border-divider-default);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 다크모드 이미지 */
+[data-awsui-theme='dark'] .markdown-content .markdown-image {
+  border-color: var(--color-border-divider-default);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
