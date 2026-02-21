@@ -26,7 +26,7 @@ prerequisites:
 >
 > - 태스크 0: 실습 환경 구축 (AWS CloudFormation 스택 생성)
 
-이 데모에서는 **AWS Resource Groups & Tag Editor**를 사용하여 태그 기반으로 리소스를 검색하고 관리하는 방법을 학습합니다.
+이 데모에서는 **AWS Resource Groups & Tag Editor**를 사용하여 태그 기반으로 리소스를 검색하고 관리하는 방법을 학습합니다.  
 태그는 AWS 리소스 관리의 핵심 도구입니다.
 
 > [!CONCEPT] AWS 리소스 태그 (Resource Tags)
@@ -56,10 +56,11 @@ prerequisites:
 > - AWS Systems Manager와 통합하여 그룹 단위 자동화
 
 AWS CloudFormation을 사용하여 QuickTable 레스토랑 예약 시스템의 기본 AWS 리소스(Amazon S3 버킷, AWS Lambda 함수, Amazon DynamoDB 테이블)를 자동으로 생성하고, 이 리소스들에 태그를 추가합니다. AWS CloudFormation은 인프라를 코드로 관리할 수 있게 해주는 서비스로, 템플릿 파일 하나로 여러 리소스를 일관되게 생성하고 관리할 수 있습니다.
+
 **AWS Resource Groups & Tag Editor**로 태그 기반 검색을 수행하고, Resource Groups를 생성하여 관련 리소스를 그룹화합니다. 이 데모를 통해 앞으로 진행할 모든 실습에서 리소스를 효율적으로 관리하고 정리하는 방법을 익힐 수 있습니다.
 
 > [!NOTE]
-> 이 데모는 AWS 리소스를 생성하지만, AWS 프리티어 범위 내에서 사용 가능하며 비용이 거의 발생하지 않습니다.
+> 이 데모는 AWS 리소스를 생성하지만, AWS 프리티어 범위 내에서 사용 가능하며 비용이 거의 발생하지 않습니다.  
 > Amazon S3 버킷, AWS Lambda 함수, Amazon DynamoDB 테이블은 사용하지 않으면 비용이 발생하지 않습니다.
 
 ## 태스크 0: 실습 환경 구축
@@ -83,12 +84,16 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 ### 상세 단계
 
 > [!NOTE]
-> AWS CloudFormation 콘솔 UI는 주기적으로 업데이트됩니다. 버튼명이나 화면 구성이 가이드와 다를 수 있으나, 전체 흐름(템플릿 업로드 → 스택 이름 입력 → 태그 추가 → 생성)은 동일합니다.
+> AWS CloudFormation 콘솔 UI는 주기적으로 업데이트됩니다.  
+> 버튼명이나 화면 구성이 가이드와 다를 수 있으나, 전체 흐름(템플릿 업로드 → 스택 이름 입력 → 태그 추가 → 생성)은 동일합니다.
 
 1. 다운로드한 `week1-1-tag-editor-lab.zip` 파일의 압축을 해제합니다.
 2. `tag-editor-lab-stack.yaml` 파일을 확인합니다.
 3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
+
+![CloudFormation Create stack 드롭다운에서 With new resources (standard) 선택](/images/week1/1-1-step4-create-stack.png)
+
 5. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 `tag-editor-lab-stack.yaml` 파일을 선택합니다.
