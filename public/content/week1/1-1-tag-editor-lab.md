@@ -26,10 +26,11 @@ prerequisites:
 >
 > - 태스크 0: 실습 환경 구축 (AWS CloudFormation 스택 생성)
 
-이 데모에서는 AWS 리소스 태그(Tag)의 개념과 **AWS Resource Groups & Tag Editor**를 활용한 리소스 관리 방법을 학습합니다.
+이 데모에서는 **AWS Resource Groups & Tag Editor**를 사용하여 태그 기반으로 리소스를 검색하고 관리하는 방법을 학습합니다.
+태그는 AWS 리소스 관리의 핵심 도구입니다.
 
 > [!CONCEPT] AWS 리소스 태그 (Resource Tags)
-> AWS 태그는 리소스를 분류하고 추적하는 데 사용되는 키-값 쌍입니다.
+> AWS 리소스 태그는 리소스를 분류하고 추적하는 데 사용되는 키-값 쌍입니다.
 >
 > **주요 활용 사례**:
 >
@@ -37,10 +38,6 @@ prerequisites:
 > - AWS Cost Explorer에서 태그별 비용 분석
 > - Tag Editor로 특정 태그를 가진 리소스 빠르게 검색
 > - Resource Groups로 관련 리소스 논리적 그룹화
-
-태그는 AWS 리소스 관리의 핵심 도구입니다.
-
-이 데모에서는 **AWS Resource Groups & Tag Editor**를 사용하여 태그 기반으로 리소스를 검색하고 관리하는 방법을 학습합니다.
 
 > [!CONCEPT] AWS Resource Groups & Tag Editor
 > **AWS Resource Groups & Tag Editor**는 여러 AWS 서비스의 리소스를 한 곳에서 검색하고 태그를 관리할 수 있는 통합 도구입니다.
@@ -58,22 +55,30 @@ prerequisites:
 > - Amazon CloudWatch 대시보드와 통합하여 그룹 단위 모니터링
 > - AWS Systems Manager와 통합하여 그룹 단위 자동화
 
-AWS CloudFormation을 사용하여 QuickTable 레스토랑 예약 시스템의 기본 AWS 리소스(Amazon S3 버킷, AWS Lambda 함수, Amazon DynamoDB 테이블)를 자동으로 생성하고, 이 리소스들에 태그를 추가합니다. **AWS Resource Groups & Tag Editor**로 태그 기반 검색을 수행하고, Resource Groups를 생성하여 관련 리소스를 그룹화합니다. 이 데모를 통해 앞으로 진행할 모든 실습에서 리소스를 효율적으로 관리하고 정리하는 방법을 익힐 수 있습니다.
+AWS CloudFormation을 사용하여 QuickTable 레스토랑 예약 시스템의 기본 AWS 리소스(Amazon S3 버킷, AWS Lambda 함수, Amazon DynamoDB 테이블)를 자동으로 생성하고, 이 리소스들에 태그를 추가합니다. AWS CloudFormation은 인프라를 코드로 관리할 수 있게 해주는 서비스로, 템플릿 파일 하나로 여러 리소스를 일관되게 생성하고 관리할 수 있습니다.
+**AWS Resource Groups & Tag Editor**로 태그 기반 검색을 수행하고, Resource Groups를 생성하여 관련 리소스를 그룹화합니다. 이 데모를 통해 앞으로 진행할 모든 실습에서 리소스를 효율적으로 관리하고 정리하는 방법을 익힐 수 있습니다.
 
 > [!NOTE]
 > 이 데모는 AWS 리소스를 생성하지만, AWS 프리티어 범위 내에서 사용 가능하며 비용이 거의 발생하지 않습니다.
 > Amazon S3 버킷, AWS Lambda 함수, Amazon DynamoDB 테이블은 사용하지 않으면 비용이 발생하지 않습니다.
 
+## 태스크 0: 실습 환경 구축
+
+이 태스크에서는 AWS CloudFormation을 사용하여 QuickTable 레스토랑 예약 시스템의 기본 AWS 리소스를 자동으로 생성합니다.
+
 ### 환경 구성 요소
 
-AWS CloudFormation 스택은 다음 QuickTable 리소스를 생성합니다:
+AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 - **Amazon S3 버킷 2개**: 예약 데이터 저장용 버킷 (quicktable-reservations-{고유접미사}), 로그 저장용 버킷 (quicktable-logs-{고유접미사})
 - **AWS Lambda 함수 1개**: 예약 조회 함수 (QuickTableGetReservation)
 - **Amazon DynamoDB 테이블 1개**: 예약 데이터 테이블 (QuickTableReservations)
 - **AWS IAM 역할 1개**: AWS Lambda 함수 실행 역할 (QuickTableLambdaExecutionRole)
 
-💡 **참고**: Amazon S3 버킷 이름은 전 세계적으로 고유해야 하므로, AWS CloudFormation이 자동으로 고유 접미사를 추가합니다. 예: `quicktable-reservations-a1b2c3d4e5f6`. 태스크 0의 **Outputs** 탭에서 정확한 버킷 이름을 확인할 수 있습니다.
+모든 리소스에는 `Week=1-1` 태그가 자동으로 추가되어 나중에 Tag Editor로 쉽게 찾을 수 있습니다.
+
+> [!NOTE]
+> Amazon S3 버킷 이름은 전 세계적으로 고유해야 하므로, AWS CloudFormation이 자동으로 고유 접미사를 추가합니다. 예: `quicktable-reservations-a1b2c3d4e5f6`. 태스크 0의 **Outputs** 탭에서 정확한 버킷 이름을 확인할 수 있습니다.
 
 ### 상세 단계
 
@@ -468,11 +473,11 @@ AWS 태그는 리소스를 효과적으로 관리하기 위한 핵심 도구입�
 
 **제한사항**
 
-| 제한사항               | 설명                                                                                                         |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------ |
-| 검색 및 태그 관리 전용 | Tag Editor는 리소스를 찾고 태그를 관리하는 용도로만 사용됩니다                                               |
-| 리소스 삭제 불가       | 실제 리소스 삭제는 각 서비스 콘솔에서 수행해야 합니다                                                        |
-| 일부 리소스 미지원     | 모든 AWS 리소스 타입을 지원하지는 않습니다                                                                   |
+| 제한사항               | 설명                                                                                                             |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| 검색 및 태그 관리 전용 | Tag Editor는 리소스를 찾고 태그를 관리하는 용도로만 사용됩니다                                                   |
+| 리소스 삭제 불가       | 실제 리소스 삭제는 각 서비스 콘솔에서 수행해야 합니다                                                            |
+| 일부 리소스 미지원     | 모든 AWS 리소스 타입을 지원하지는 않습니다                                                                       |
 | 리전 선택 필요         | 특정 리전 또는 All regions를 선택하여 검색합니다. 글로벌 리소스(AWS IAM 등)는 All regions 선택 시에만 표시됩니다 |
 
 ### Resource Groups 활용
