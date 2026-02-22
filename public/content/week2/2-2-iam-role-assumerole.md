@@ -452,14 +452,17 @@ aws sts assume-role \
 > 이 방법을 사용하면 복사/붙여넣기 오류를 방지할 수 있습니다. **단, 역할 ARN은 실제 값으로 교체해야 합니다**.
 
 1. 메모장에 저장한 세 가지 자격증명 값을 확인합니다.
-2. 다음 명령어를 입력하되, 따옴표 안의 값을 실제 값으로 교체합니다:
+2. 다음 명령어 3줄을 메모장에 복사한 후, 따옴표 안의 값을 실제 자격증명 값으로 교체합니다:
 
 ```bash
 export AWS_ACCESS_KEY_ID="여기에_AccessKeyId_값_붙여넣기"
+export AWS_SECRET_ACCESS_KEY="여기에_SecretAccessKey_값_붙여넣기"
+export AWS_SESSION_TOKEN="여기에_SessionToken_값_붙여넣기"
 ```
 
 > [!IMPORTANT]
-> 쉘 명령어의 따옴표(`"`)는 그대로 유지하고, `여기에_AccessKeyId_값_붙여넣기` 부분만 실제 자격증명 값으로 교체합니다. 자격증명 값 자체에는 추가 따옴표를 넣지 않습니다.
+> 쉘 명령어의 따옴표(`"`)는 그대로 유지하고, `여기에_값_붙여넣기` 부분만 실제 자격증명 값으로 교체합니다.  
+> 자격증명 값 자체에는 추가 따옴표를 넣지 않습니다.
 >
 > **SessionToken에는 특수문자가 포함되어 있으므로 반드시 따옴표로 감싸야 합니다.** 따옴표를 빼먹으면 명령어가 실패합니다.
 
@@ -476,22 +479,15 @@ export AWS_ACCESS_KEY_ID="여기에_AccessKeyId_값_붙여넣기"
 > export AWS_ACCESS_KEY_ID=""ASIAZEXAMPLE123""  # 따옴표 중복 (잘못됨)
 > export AWS_ACCESS_KEY_ID=ASIAZEXAMPLE123      # 따옴표 누락 (SessionToken에 특수문자가 포함될 수 있으므로 반드시 따옴표 사용)
 > ```
+>
+> **자주 발생하는 오류:**
+>
+> - `InvalidAccessKeyId`: Access Key ID를 잘못 복사했거나 공백/줄바꿈이 포함된 경우
+> - `InvalidClientTokenId`: SessionToken을 잘못 복사했거나 만료된 경우
+> - 값 복사 시 전체가 선택되었는지 확인하고, 메모장에 붙여넣은 후 줄바꿈이 없는지 확인합니다
 
-3. Enter 키를 눌러 실행합니다.
-4. 두 번째 환경 변수를 설정합니다:
-
-```bash
-export AWS_SECRET_ACCESS_KEY="여기에_SecretAccessKey_값_붙여넣기"
-```
-
-5. Enter 키를 눌러 실행합니다.
-6. 세 번째 환경 변수를 설정합니다:
-
-```bash
-export AWS_SESSION_TOKEN="여기에_SessionToken_값_붙여넣기"
-```
-
-7. Enter 키를 눌러 실행합니다.
+3. 메모장에서 값을 교체한 3줄의 명령어를 모두 복사합니다.
+4. CloudShell에 붙여넣고 Enter 키를 눌러 실행합니다.
 
 > [!WARNING]
 > **환경 변수 히스토리 노출 주의**: `export` 명령어로 설정한 환경 변수는 셸 히스토리에 기록됩니다. `history` 명령어로 자격증명이 노출될 수 있으므로, 실습 종료 후 CloudShell 세션을 종료하거나 `history -c` 명령어로 히스토리를 삭제하는 것을 권장합니다.
@@ -544,7 +540,14 @@ aws s3 mb s3://test-bucket-assumerole-YOUR-INITIALS-12345
 ```
 
 > [!WARNING]
-> `YOUR-INITIALS-12345` 부분을 본인의 이니셜(소문자)과 랜덤 숫자로 변경합니다 (예: `test-bucket-assumerole-jdoe-98765`). Amazon S3 버킷 이름은 전 세계적으로 고유해야 하며, 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다.
+> `YOUR-INITIALS-12345` 부분을 본인의 이니셜(소문자)과 랜덤 숫자로 변경합니다 (예: `test-bucket-assumerole-jdoe-98765`).
+>
+> **Amazon S3 버킷 명명 규칙:**
+>
+> - 전 세계적으로 고유해야 합니다.
+> - 소문자(a-z), 숫자(0-9), 하이픈(-)만 사용 가능합니다.
+> - 대문자, 언더스코어(\_), 특수문자는 사용할 수 없습니다.
+> - 3-63자 사이여야 합니다.
 
 > [!OUTPUT]
 >
@@ -555,7 +558,9 @@ aws s3 mb s3://test-bucket-assumerole-YOUR-INITIALS-12345
 > [!IMPORTANT]
 > **AccessDenied** 오류가 나와야 정상입니다. 이는 S3ReadOnlyAccess 정책이 읽기 권한만 부여하므로 버킷 생성이 거부되었음을 의미합니다.
 >
-> 만약 `BucketAlreadyExists` 오류가 발생하면 다른 사람이 이미 같은 이름의 버킷을 생성한 것입니다. 만약 `BucketAlreadyOwnedByYou` 오류가 발생하면 본인 계정이 이미 소유한 버킷입니다. 두 경우 모두 다른 버킷 이름으로 다시 시도합니다. `AccessDenied` 오류가 나와야 권한 테스트가 성공한 것입니다.
+> 만약 `BucketAlreadyExists` 오류가 발생하면 다른 사람이 이미 같은 이름의 버킷을 생성한 것입니다.  
+> 만약 `BucketAlreadyOwnedByYou` 오류가 발생하면 본인 계정이 이미 소유한 버킷입니다.  
+> 두 경우 모두 다른 버킷 이름으로 다시 시도합니다. `AccessDenied` 오류가 나와야 권한 테스트가 성공한 것입니다.
 >
 > 이 명령은 AccessDenied로 실패하므로 버킷이 생성되지 않습니다. 별도의 정리가 필요하지 않습니다.
 
@@ -630,7 +635,8 @@ aws sts get-caller-identity
 3. **Regions**에서 `All regions`를 선택합니다.
 
 > [!NOTE]
-> AWS IAM은 글로벌 서비스이므로 특정 리전이 아닌 All regions를 선택해야 AWS IAM 역할이 검색됩니다. Week 1-1 실습에서는 리전별 리소스(Amazon S3, AWS Lambda 등)를 검색했으므로 ap-northeast-2를 선택했지만, AWS IAM 리소스는 All regions를 선택해야 합니다.
+> AWS IAM은 글로벌 서비스이므로 특정 리전이 아닌 All regions를 선택해야 AWS IAM 역할이 검색됩니다.  
+> Week 1-1 실습에서는 리전별 리소스(Amazon S3, AWS Lambda 등)를 검색했으므로 ap-northeast-2를 선택했지만, AWS IAM 리소스는 All regions를 선택해야 합니다.
 
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
 5. **Tags** 섹션에서 다음을 입력합니다:
