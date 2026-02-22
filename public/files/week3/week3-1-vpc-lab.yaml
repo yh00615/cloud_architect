@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 3-1: VPC 3-Tier 환경 구축 - Public/Private 서브넷, IGW, NAT Gateway 자동 생성'
+Description: 'Week 3-1: Amazon VPC 3-Tier 환경 구축 - Public/Private 서브넷, IGW, NAT Gateway 자동 생성'
 
 Parameters:
   EnvironmentName:
@@ -8,6 +8,21 @@ Parameters:
     Description: 환경 이름 (리소스 명명에 사용)
     AllowedPattern: ^[a-z0-9-]+$
     ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '3-1'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
 
   LatestAmiId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
@@ -32,11 +47,11 @@ Resources:
         - Key: Purpose
           Value: 'VPC Endpoint Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Internet Gateway 생성
   InternetGateway:
@@ -50,11 +65,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Internet Gateway를 VPC에 연결
   AttachGateway:
@@ -79,11 +94,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Public Subnet C (ap-northeast-2c)
   PublicSubnetC:
@@ -101,11 +116,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Subnet A (ap-northeast-2a)
   PrivateSubnetA:
@@ -122,11 +137,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Subnet C (ap-northeast-2c)
   PrivateSubnetC:
@@ -143,11 +158,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Elastic IP for NAT Gateway A
   NATGatewayEIPA:
@@ -163,11 +178,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # NAT Gateway A (ap-northeast-2a)
   NATGatewayA:
@@ -183,11 +198,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Public Route Table
   PublicRouteTable:
@@ -202,11 +217,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Public Route (0.0.0.0/0 -> Internet Gateway)
   PublicRoute:
@@ -244,11 +259,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Route A (0.0.0.0/0 -> NAT Gateway A)
   PrivateRouteA:
@@ -294,11 +309,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   TestEC2InstanceRole:
     Type: AWS::IAM::Role
@@ -322,11 +337,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   TestEC2InstanceProfile:
     Type: AWS::IAM::InstanceProfile
@@ -355,11 +370,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # SSM Interface Endpoint (Session Manager용)
   SSMEndpoint:
@@ -426,11 +441,11 @@ Resources:
         - Key: Purpose
           Value: 'VPC Endpoint Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash

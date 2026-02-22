@@ -2,6 +2,20 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'Week 9-2: AWS CodeBuild 실습 환경 - ECR 리포지토리, CodeCommit 리포지토리, IAM 역할 자동 생성'
 
 Parameters:
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '9-2'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
   ECRRepositoryName:
     Type: String
     Default: 'cicd-demo-app'
@@ -40,9 +54,9 @@ Resources:
           }
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '9-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
           Value: Student
 
@@ -54,9 +68,9 @@ Resources:
       RepositoryDescription: 'CI/CD 데모 애플리케이션 소스 코드'
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '9-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
           Value: Student
 
@@ -112,9 +126,9 @@ Resources:
                 Resource: !GetAtt CodeCommitRepository.Arn
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '9-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
           Value: Student
 

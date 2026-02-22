@@ -556,7 +556,11 @@ export const SessionGuide: React.FC = () => {
                       <Button
                         variant={index === 0 ? 'primary' : 'normal'}
                         iconName="download"
-                        href={file.path}
+                        href={
+                          file.path.startsWith('http')
+                            ? file.path
+                            : `${import.meta.env.BASE_URL}${file.path.replace(/^\//, '')}`
+                        }
                         download={file.name}
                       >
                         다운로드

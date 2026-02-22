@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 9-3: S3 Static Website CI/CD Pipeline with CodePipeline and CodeBuild'
+Description: 'Week 9-3: Amazon S3 Static Website CI/CD Pipeline with AWS CodePipeline and AWS CodeBuild'
 
 Parameters:
   StudentId:
@@ -9,8 +9,23 @@ Parameters:
     AllowedPattern: '^[a-z0-9-]+$'
     ConstraintDescription: 'Must contain only lowercase letters, numbers, and hyphens'
 
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '9-3'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
+
 Resources:
-  # S3 Bucket for Static Website Hosting
+  # Amazon S3 Bucket for Static Website Hosting
   WebsiteBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -28,8 +43,14 @@ Resources:
           Value: !Sub '${StudentId}-week9-3-website'
         - Key: Week
           Value: '9-3'
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # S3 Bucket Policy for Public Read Access
+  # Amazon S3 Bucket Policy for Public Read Access
   WebsiteBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
@@ -42,7 +63,7 @@ Resources:
             Action: 's3:GetObject'
             Resource: !Sub '${WebsiteBucket.Arn}/*'
 
-  # CodeCommit Repository
+  # AWS CodeCommit Repository
   CodeCommitRepository:
     Type: AWS::CodeCommit::Repository
     Properties:
@@ -53,8 +74,14 @@ Resources:
           Value: !Sub '${StudentId}-week9-3-website-repo'
         - Key: Week
           Value: '9-3'
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # IAM Role for CodeBuild
+  # IAM Role for AWS CodeBuild
   CodeBuildServiceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -91,13 +118,19 @@ Resources:
           Value: !Sub '${StudentId}-Week9-3-CodeBuildRole'
         - Key: Week
           Value: '9-3'
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # CodeBuild Project
+  # AWS CodeBuild Project
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
       Name: !Sub '${StudentId}-week9-3-website-build'
-      Description: 'Build and deploy static website to S3'
+      Description: 'Build and deploy static website to Amazon S3'
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Artifacts:
         Type: NO_ARTIFACTS
@@ -119,8 +152,14 @@ Resources:
           Value: !Sub '${StudentId}-week9-3-website-build'
         - Key: Week
           Value: '9-3'
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # IAM Role for CodePipeline
+  # IAM Role for AWS CodePipeline
   CodePipelineServiceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -162,8 +201,14 @@ Resources:
           Value: !Sub '${StudentId}-Week9-3-CodePipelineRole'
         - Key: Week
           Value: '9-3'
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # S3 Bucket for Pipeline Artifacts
+  # Amazon S3 Bucket for Pipeline Artifacts
   PipelineArtifactBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -175,8 +220,14 @@ Resources:
           Value: !Sub '${StudentId}-week9-3-pipeline-artifacts'
         - Key: Week
           Value: '9-3'
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # CodePipeline
+  # AWS CodePipeline
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -217,13 +268,19 @@ Resources:
           Value: !Sub '${StudentId}-week9-3-website-pipeline'
         - Key: Week
           Value: '9-3'
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # EventBridge Rule to trigger CodePipeline on CodeCommit push
+  # Amazon EventBridge Rule to trigger AWS CodePipeline on AWS CodeCommit push
   CodeCommitEventRule:
     Type: AWS::Events::Rule
     Properties:
       Name: !Sub '${StudentId}-week9-3-codecommit-trigger'
-      Description: 'Trigger CodePipeline on CodeCommit push'
+      Description: 'Trigger AWS CodePipeline on AWS CodeCommit push'
       EventPattern:
         source:
           - aws.codecommit
@@ -245,7 +302,7 @@ Resources:
           RoleArn: !GetAtt EventBridgeRole.Arn
           Id: CodePipelineTarget
 
-  # IAM Role for EventBridge
+  # IAM Role for Amazon EventBridge
   EventBridgeRole:
     Type: AWS::IAM::Role
     Properties:
@@ -270,34 +327,40 @@ Resources:
           Value: !Sub '${StudentId}-Week9-3-EventBridgeRole'
         - Key: Week
           Value: '9-3'
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
 Outputs:
   WebsiteBucketName:
-    Description: 'S3 bucket name for static website hosting'
+    Description: 'Amazon S3 bucket name for static website hosting'
     Value: !Ref WebsiteBucket
     Export:
       Name: !Sub '${AWS::StackName}-WebsiteBucketName'
 
   WebsiteURL:
-    Description: 'S3 static website URL'
+    Description: 'Amazon S3 static website URL'
     Value: !GetAtt WebsiteBucket.WebsiteURL
     Export:
       Name: !Sub '${AWS::StackName}-WebsiteURL'
 
   CodeCommitRepositoryUrl:
-    Description: 'CodeCommit repository HTTPS URL'
+    Description: 'AWS CodeCommit repository HTTPS URL'
     Value: !GetAtt CodeCommitRepository.CloneUrlHttp
     Export:
       Name: !Sub '${AWS::StackName}-CodeCommitRepositoryUrl'
 
   CodeBuildProjectName:
-    Description: 'CodeBuild project name'
+    Description: 'AWS CodeBuild project name'
     Value: !Ref CodeBuildProject
     Export:
       Name: !Sub '${AWS::StackName}-CodeBuildProjectName'
 
   CodePipelineName:
-    Description: 'CodePipeline name'
+    Description: 'AWS CodePipeline name'
     Value: !Ref CodePipeline
     Export:
       Name: !Sub '${AWS::StackName}-CodePipelineName'

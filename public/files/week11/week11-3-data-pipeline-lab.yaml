@@ -4,7 +4,7 @@ Description: 'Week 11-3: AWS Glue를 활용한 데이터 파이프라인 구축 
 Parameters:
   StudentId:
     Type: String
-    Description: 학번 또는 고유 식별자 (소문자, 숫자, 하이픈만 사용, 예: 20240001 또는 student01)
+    Description: '학번 또는 고유 식별자 (소문자, 숫자, 하이픈만 사용, 예: 20240001 또는 student01)'
     AllowedPattern: ^[a-z0-9-]+$
     MinLength: 5
     MaxLength: 20
@@ -16,6 +16,21 @@ Parameters:
     Description: 환경 이름 (리소스 명명에 사용)
     AllowedPattern: ^[a-z0-9-]+$
     ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '11-3'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
 
 Resources:
   # S3 Buckets - 학번으로 고유성 보장

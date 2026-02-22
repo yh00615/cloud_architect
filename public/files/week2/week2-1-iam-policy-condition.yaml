@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 2-1: IAM 정책 Condition 요소 실습 - 사전 환경 구축 (lab-user + Access Key)'
+Description: 'Week 2-1: AWS Identity and Access Management 정책 Condition 요소 실습 - 사전 환경 구축 (lab-user + Access Key)'
 
-# CloudFormation 템플릿: IAM 정책 Condition 실습을 위한 테스트 환경
-# 이 템플릿은 lab-user IAM 사용자와 Access Key를 자동으로 생성합니다.
-# 학생들은 S3 버킷 생성 및 IAM 정책 작성에 집중할 수 있습니다.
+# AWS CloudFormation 템플릿: AWS Identity and Access Management 정책 Condition 실습을 위한 테스트 환경
+# 이 템플릿은 lab-user AWS Identity and Access Management 사용자와 Access Key를 자동으로 생성합니다.
+# 학생들은 Amazon Simple Storage Service 버킷 생성 및 AWS Identity and Access Management 정책 작성에 집중할 수 있습니다.
 
 Parameters:
   EnvironmentName:
@@ -13,27 +13,42 @@ Parameters:
     AllowedPattern: ^[a-z0-9-]+$
     ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
 
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '2-1'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
+
 Resources:
-  # IAM 사용자: lab-user (정책 테스트용)
+  # AWS Identity and Access Management 사용자: lab-user (정책 테스트용)
   LabUser:
     Type: AWS::IAM::User
     Properties:
       UserName: lab-user
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '2-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
-  # Access Key: lab-user용 (CLI/API 테스트용)
+  # Access Key: lab-user용 (AWS Command Line Interface/API 테스트용)
   LabUserAccessKey:
     Type: AWS::IAM::AccessKey
     Properties:
       UserName: !Ref LabUser
 
-  # IAM 정책: 기본 S3 읽기 권한 (정책 테스트 전 기본 권한)
+  # AWS Identity and Access Management 정책: 기본 Amazon Simple Storage Service 읽기 권한 (정책 테스트 전 기본 권한)
   LabUserBasePolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -52,25 +67,25 @@ Resources:
 
 Outputs:
   LabUserName:
-    Description: IAM 사용자 이름 (태스크 2-5에서 정책 연결 시 사용)
+    Description: AWS Identity and Access Management 사용자 이름 (태스크 2-5에서 정책 연결 시 사용)
     Value: !Ref LabUser
     Export:
       Name: !Sub '${EnvironmentName}-LabUserName'
 
   LabUserAccessKeyId:
-    Description: Access Key ID (AWS CLI 설정 시 사용)
+    Description: Access Key ID (AWS Command Line Interface 설정 시 사용)
     Value: !Ref LabUserAccessKey
     Export:
       Name: !Sub '${EnvironmentName}-AccessKeyId'
 
   LabUserSecretAccessKey:
-    Description: Secret Access Key (AWS CLI 설정 시 사용 - 한 번만 표시됨)
+    Description: Secret Access Key (AWS Command Line Interface 설정 시 사용)
     Value: !GetAtt LabUserAccessKey.SecretAccessKey
     Export:
       Name: !Sub '${EnvironmentName}-SecretAccessKey'
 
   LabUserArn:
-    Description: IAM 사용자 ARN
+    Description: AWS Identity and Access Management 사용자 ARN
     Value: !GetAtt LabUser.Arn
     Export:
       Name: !Sub '${EnvironmentName}-LabUserArn'

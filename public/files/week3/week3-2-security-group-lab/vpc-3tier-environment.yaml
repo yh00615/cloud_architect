@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: '3-Tier VPC Environment for Security Group Lab (Week 3-2)'
+Description: '3-Tier Amazon VPC Environment for Security Group Lab (Week 3-2)'
 
 Parameters:
   EnvironmentName:
@@ -8,7 +8,7 @@ Parameters:
     Default: Lab
 
   VpcCIDR:
-    Description: CIDR block for VPC
+    Description: CIDR block for Amazon VPC
     Type: String
     Default: 10.0.0.0/16
 
@@ -52,8 +52,23 @@ Parameters:
     Type: String
     Default: 10.0.32.0/24
 
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '3-2'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
+
 Resources:
-  # VPC
+  # Amazon VPC
   VPC:
     Type: AWS::EC2::VPC
     Properties:
@@ -65,6 +80,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-VPC
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   # Internet Gateway
   InternetGateway:
@@ -75,6 +96,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-IGW
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   InternetGatewayAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
@@ -95,6 +122,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-Public-Subnet-1 (ALB)
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   PublicSubnet2:
     Type: AWS::EC2::Subnet
@@ -108,6 +141,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-Public-Subnet-2 (ALB)
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   # Private Subnets (Web Tier)
   PrivateSubnet1:
@@ -122,6 +161,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-Private-Subnet-1 (Web)
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   PrivateSubnet2:
     Type: AWS::EC2::Subnet
@@ -135,6 +180,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-Private-Subnet-2 (Web)
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   # Private Subnets (App Tier)
   PrivateSubnet3:
@@ -149,6 +200,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-Private-Subnet-3 (App)
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   PrivateSubnet4:
     Type: AWS::EC2::Subnet
@@ -162,6 +219,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-Private-Subnet-4 (App)
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   # Private Subnets (DB Tier)
   PrivateSubnet5:
@@ -176,6 +239,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-Private-Subnet-5 (DB)
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   PrivateSubnet6:
     Type: AWS::EC2::Subnet
@@ -189,6 +258,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-Private-Subnet-6 (DB)
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   # NAT Gateways
   NatGateway1EIP:
@@ -201,6 +276,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-NAT-Gateway-1-EIP
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   NatGateway2EIP:
     Type: AWS::EC2::EIP
@@ -212,6 +293,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-NAT-Gateway-2-EIP
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   NatGateway1:
     Type: AWS::EC2::NatGateway
@@ -223,6 +310,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-NAT-Gateway-1
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   NatGateway2:
     Type: AWS::EC2::NatGateway
@@ -234,6 +327,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-NAT-Gateway-2
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   # Public Route Table
   PublicRouteTable:
@@ -245,6 +344,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-Public-Routes
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   DefaultPublicRoute:
     Type: AWS::EC2::Route
@@ -276,6 +381,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-Private-Routes-AZ1
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   DefaultPrivateRoute1:
     Type: AWS::EC2::Route
@@ -312,6 +423,12 @@ Resources:
           Value: !Sub ${EnvironmentName}-Private-Routes-AZ2
         - Key: Lab
           Value: Week3-2
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   DefaultPrivateRoute2:
     Type: AWS::EC2::Route

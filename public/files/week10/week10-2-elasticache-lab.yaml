@@ -9,10 +9,25 @@ Parameters:
     AllowedPattern: ^[a-z0-9-]+$
     ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
 
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '10-2'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
+
   CacheNodeType:
     Type: String
     Default: 'cache.t3.micro'
-    Description: ElastiCache 노드 타입
+    Description: Amazon ElastiCache 노드 타입
     AllowedValues:
       - cache.t3.micro
       - cache.t3.small
@@ -36,11 +51,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Internet Gateway
   InternetGateway:
@@ -54,11 +69,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   AttachGateway:
     Type: AWS::EC2::VPCGatewayAttachment
@@ -82,11 +97,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Subnets for ElastiCache
   PrivateSubnetA:
@@ -103,11 +118,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   PrivateSubnetC:
     Type: AWS::EC2::Subnet
@@ -123,11 +138,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # NAT Gateway
   NATGatewayEIP:
@@ -143,11 +158,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   NATGateway:
     Type: AWS::EC2::NatGateway
@@ -162,11 +177,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Route Tables
   PublicRouteTable:
@@ -181,11 +196,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   PublicRoute:
     Type: AWS::EC2::Route
@@ -213,11 +228,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   PrivateRoute:
     Type: AWS::EC2::Route
@@ -254,11 +269,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # ElastiCache Security Group
   ElastiCacheSecurityGroup:
@@ -286,11 +301,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Lambda Security Group
   LambdaSecurityGroup:
@@ -318,11 +333,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # EC2 Security Group (for testing)
   EC2SecurityGroup:
@@ -356,11 +371,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Lambda Execution Role
   LambdaExecutionRole:
@@ -394,11 +409,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # DynamoDB Table (for API data)
   APIDataTable:
@@ -420,11 +435,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # CloudWatch Logs Group
   APIFunctionLogGroup:
@@ -440,11 +455,11 @@ Resources:
         - Key: Purpose
           Value: 'ElastiCache Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '10-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
 Outputs:
   VpcId:
@@ -511,25 +526,25 @@ Outputs:
     Description: 다음 단계 안내
     Value: !Sub |
       ElastiCache 환경 구축이 완료되었습니다!
-      
+
       생성된 리소스:
       - VPC: ${VPC}
       - ElastiCache Subnet Group: ${ElastiCacheSubnetGroup}
       - Lambda Execution Role: ${LambdaExecutionRole}
       - DynamoDB Table: ${APIDataTable}
-      
+
       다음 단계:
       1. ElastiCache Redis 클러스터 생성
          - Subnet Group: ${ElastiCacheSubnetGroup}
          - Security Group: ${ElastiCacheSecurityGroup}
          - Node Type: ${CacheNodeType}
-      
+
       2. Lambda 함수 생성 (API with Cache)
          - VPC: ${VPC}
          - Subnets: ${PrivateSubnetA}, ${PrivateSubnetC}
          - Security Group: ${LambdaSecurityGroup}
          - Role: ${LambdaExecutionRole.Arn}
-      
+
       3. API Gateway 생성 및 Lambda 연동
-      
+
       4. 캐싱 성능 테스트

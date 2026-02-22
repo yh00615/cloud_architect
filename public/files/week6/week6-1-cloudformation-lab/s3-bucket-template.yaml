@@ -1,13 +1,28 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 6-1: 간단한 S3 버킷 스택 - CloudFormation 기본 개념 학습'
+Description: 'Week 6-1: 간단한 Amazon S3 버킷 스택 - AWS CloudFormation 기본 개념 학습'
 
 Parameters:
   BucketPrefix:
     Type: String
     Default: cloudformation-lab
-    Description: S3 버킷 이름 접두사
+    Description: Amazon S3 버킷 이름 접두사
     AllowedPattern: ^[a-z0-9-]*$
     ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능합니다
+
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '6-1'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
 
 Resources:
   MyS3Bucket:
@@ -21,16 +36,23 @@ Resources:
         BlockPublicPolicy: true
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
 Outputs:
   BucketName:
-    Description: 생성된 S3 버킷 이름
+    Description: 생성된 Amazon S3 버킷 이름
     Value: !Ref MyS3Bucket
     Export:
       Name: !Sub '${AWS::StackName}-BucketName'
   
   BucketArn:
-    Description: S3 버킷 ARN
+    Description: Amazon S3 버킷 ARN
     Value: !GetAtt MyS3Bucket.Arn
     Export:
       Name: !Sub '${AWS::StackName}-BucketArn'

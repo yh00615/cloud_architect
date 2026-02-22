@@ -1,5 +1,21 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'S3 bucket with new name - This will cause replacement'
+Description: 'Amazon S3 bucket with new name - This will cause replacement'
+
+Parameters:
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '6'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
 
 Resources:
   S3Bucket:
@@ -13,10 +29,16 @@ Resources:
           Value: Demo
         - Key: Purpose
           Value: ChangeSetDemo
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
 Outputs:
   BucketName:
-    Description: Name of the S3 bucket
+    Description: Name of the Amazon S3 bucket
     Value: !Ref S3Bucket
     Export:
       Name: !Sub '${AWS::StackName}-BucketName'

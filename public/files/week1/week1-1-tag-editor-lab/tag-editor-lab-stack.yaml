@@ -2,10 +2,20 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'Week 1-1 Tag Editor Lab - QuickTable Restaurant Reservation System Resources for Tag Management Practice'
 
 Parameters:
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
   WeekTag:
     Type: String
     Default: '1-1'
     Description: Week tag value for all resources (students will add Project and CreatedBy tags manually)
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
 
 Resources:
   # S3 Bucket 1: QuickTable Reservations Bucket

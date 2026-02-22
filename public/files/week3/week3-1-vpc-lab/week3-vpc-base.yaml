@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 3 Lab - VPC Endpoint 실습을 위한 기본 인프라 구성'
+Description: 'Week 3 Lab - Amazon VPC Endpoint 실습을 위한 기본 인프라 구성'
 
 Parameters:
   LatestAmiId:
@@ -7,8 +7,23 @@ Parameters:
     Default: '/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64'
     Description: Amazon Linux 2023 최신 AMI ID
 
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '3-1'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
+
 Resources:
-  # VPC 생성
+  # Amazon VPC 생성
   LabVPC:
     Type: AWS::EC2::VPC
     Properties:
@@ -18,14 +33,26 @@ Resources:
       Tags:
         - Key: Name
           Value: Lab-VPC
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # 인터넷 게이트웨이
+  # Internet Gateway
   InternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
         - Key: Name
           Value: Lab-IGW
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   AttachGateway:
     Type: AWS::EC2::VPCGatewayAttachment
@@ -33,7 +60,7 @@ Resources:
       VpcId: !Ref LabVPC
       InternetGatewayId: !Ref InternetGateway
 
-  # 퍼블릭 서브넷
+  # Public Subnet
   PublicSubnet:
     Type: AWS::EC2::Subnet
     Properties:
@@ -44,8 +71,14 @@ Resources:
       Tags:
         - Key: Name
           Value: Lab-Public-Subnet
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # 프라이빗 서브넷
+  # Private Subnet
   PrivateSubnet:
     Type: AWS::EC2::Subnet
     Properties:
@@ -55,8 +88,14 @@ Resources:
       Tags:
         - Key: Name
           Value: Lab-Private-Subnet
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # 퍼블릭 라우팅 테이블
+  # Public Route Table
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -64,6 +103,12 @@ Resources:
       Tags:
         - Key: Name
           Value: Lab-Public-RT
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   PublicRoute:
     Type: AWS::EC2::Route
@@ -79,7 +124,7 @@ Resources:
       SubnetId: !Ref PublicSubnet
       RouteTableId: !Ref PublicRouteTable
 
-  # 프라이빗 라우팅 테이블
+  # Private Route Table
   PrivateRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -87,6 +132,12 @@ Resources:
       Tags:
         - Key: Name
           Value: Lab-Private-RT
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   PrivateSubnetRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
@@ -94,7 +145,7 @@ Resources:
       SubnetId: !Ref PrivateSubnet
       RouteTableId: !Ref PrivateRouteTable
 
-  # 보안 그룹 - 퍼블릭 인스턴스용
+  # Security Group - Public Instance
   PublicSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -110,8 +161,14 @@ Resources:
       Tags:
         - Key: Name
           Value: Lab-Public-SG
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # 보안 그룹 - 프라이빗 인스턴스용
+  # Security Group - Private Instance
   PrivateSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -127,8 +184,14 @@ Resources:
       Tags:
         - Key: Name
           Value: Lab-Private-SG
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
-  # IAM Role - EC2가 S3에 접근할 수 있도록
+  # IAM Role - Amazon EC2가 Amazon S3에 접근할 수 있도록
   EC2S3Role:
     Type: AWS::IAM::Role
     Properties:
@@ -145,6 +208,12 @@ Resources:
       Tags:
         - Key: Name
           Value: Lab-EC2-S3-Role
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
   # Instance Profile
   EC2InstanceProfile:
@@ -154,7 +223,7 @@ Resources:
       Roles:
         - !Ref EC2S3Role
 
-  # 퍼블릭 EC2 인스턴스 (Bastion Host)
+  # Public Amazon EC2 Instance (Bastion Host)
   PublicInstance:
     Type: AWS::EC2::Instance
     Properties:
@@ -167,13 +236,19 @@ Resources:
       Tags:
         - Key: Name
           Value: Lab-Public-Instance
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
           yum update -y
           yum install -y aws-cli
 
-  # 프라이빗 EC2 인스턴스
+  # Private Amazon EC2 Instance
   PrivateInstance:
     Type: AWS::EC2::Instance
     Properties:
@@ -186,13 +261,19 @@ Resources:
       Tags:
         - Key: Name
           Value: Lab-Private-Instance
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
           yum update -y
           yum install -y aws-cli
 
-  # S3 버킷 (테스트용)
+  # Amazon S3 버킷 (테스트용)
   LabBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -205,10 +286,16 @@ Resources:
       Tags:
         - Key: Name
           Value: Lab-VPC-Endpoint-Bucket
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: Week
+          Value: !Ref WeekTag
+        - Key: CreatedBy
+          Value: !Ref CreatedByTag
 
 Outputs:
   VPCId:
-    Description: VPC ID
+    Description: Amazon VPC ID
     Value: !Ref LabVPC
     Export:
       Name: Lab-VPC-ID
@@ -226,19 +313,19 @@ Outputs:
       Name: Lab-Private-Subnet-ID
 
   PublicInstanceId:
-    Description: Public Instance ID
+    Description: Public Amazon EC2 Instance ID
     Value: !Ref PublicInstance
 
   PrivateInstanceId:
-    Description: Private Instance ID
+    Description: Private Amazon EC2 Instance ID
     Value: !Ref PrivateInstance
 
   PrivateInstancePrivateIP:
-    Description: Private Instance Private IP
+    Description: Private Amazon EC2 Instance Private IP
     Value: !GetAtt PrivateInstance.PrivateIp
 
   S3BucketName:
-    Description: S3 Bucket Name
+    Description: Amazon S3 Bucket Name
     Value: !Ref LabBucket
 
   PrivateRouteTableId:

@@ -1,7 +1,21 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 7-3 EKS Lab - Amazon EKS 클러스터 및 노드 그룹 자동 생성'
+Description: 'Week 7-3 Amazon EKS Lab - Amazon EKS 클러스터 및 노드 그룹 자동 생성'
 
 Parameters:
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '7-3'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
   ClusterName:
     Type: String
     Default: my-eks-cluster
@@ -80,9 +94,9 @@ Resources:
           - !Ref PublicSubnet2
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '7-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
           Value: Student
 
@@ -97,9 +111,9 @@ Resources:
         - Key: Name
           Value: !Sub '${ClusterName}-vpc'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '7-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
           Value: Student
 
@@ -111,9 +125,9 @@ Resources:
         - Key: Name
           Value: !Sub '${ClusterName}-igw'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '7-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
           Value: Student
 
@@ -137,9 +151,9 @@ Resources:
         - Key: kubernetes.io/role/elb
           Value: '1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '7-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
           Value: Student
 
@@ -157,9 +171,9 @@ Resources:
         - Key: kubernetes.io/role/elb
           Value: '1'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '7-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
           Value: Student
 
@@ -172,9 +186,9 @@ Resources:
         - Key: Name
           Value: !Sub '${ClusterName}-public-rt'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '7-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
           Value: Student
 

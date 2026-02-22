@@ -4,9 +4,10 @@ week: 1
 session: 3
 awsServices: []
 learningObjectives:
-  - Draw.io를 사용하여 AWS 아키텍처 다이어그램을 작성할 수 있습니다.
-  - Multi-AZ 고가용성 설계 원칙을 적용할 수 있습니다.
-  - QuickTable 프로젝트의 3-Tier 아키텍처 구성 요소를 이해할 수 있습니다.
+  - Draw.io를 사용하여 AWS 아키텍처 다이어그램을 작성할 수 있습니다
+  - QuickTable 3-Tier 아키텍처 다이어그램을 작성할 수 있습니다
+  - Multi-AZ 구성으로 고가용성 설계를 적용할 수 있습니다
+  - 아키텍처 다이어그램을 PNG 파일로 내보낼 수 있습니다
 prerequisites:
   - AWS 기본 서비스 이해
   - 네트워킹 기본 개념

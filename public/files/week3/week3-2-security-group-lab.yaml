@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 3-2: 3-Tier VPC 환경 구축 - Public/Private 서브넷, 보안 그룹 기본 구조'
+Description: 'Week 3-2: Amazon VPC 3-Tier 환경 구축 - Public/Private 서브넷, 보안 그룹 기본 구조'
 
 Parameters:
   EnvironmentName:
@@ -8,6 +8,21 @@ Parameters:
     Description: 환경 이름 (리소스 명명에 사용)
     AllowedPattern: ^[a-z0-9-]+$
     ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '3-2'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
 
   LatestAmiId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
@@ -32,11 +47,11 @@ Resources:
         - Key: Purpose
           Value: 'Security Group Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Internet Gateway 생성
   InternetGateway:
@@ -50,11 +65,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Internet Gateway를 VPC에 연결
   AttachGateway:
@@ -81,11 +96,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Public Subnet C (ap-northeast-2c) - ALB용
   PublicSubnetC:
@@ -105,11 +120,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Subnet A - Web Tier (ap-northeast-2a)
   PrivateWebSubnetA:
@@ -128,11 +143,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Subnet C - Web Tier (ap-northeast-2c)
   PrivateWebSubnetC:
@@ -151,11 +166,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Subnet A - App Tier (ap-northeast-2a)
   PrivateAppSubnetA:
@@ -174,11 +189,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Subnet C - App Tier (ap-northeast-2c)
   PrivateAppSubnetC:
@@ -197,11 +212,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Subnet A - DB Tier (ap-northeast-2a)
   PrivateDBSubnetA:
@@ -220,11 +235,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Subnet C - DB Tier (ap-northeast-2c)
   PrivateDBSubnetC:
@@ -243,11 +258,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Elastic IP for NAT Gateway A
   NATGatewayEIPA:
@@ -263,11 +278,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # NAT Gateway A (ap-northeast-2a)
   NATGatewayA:
@@ -283,11 +298,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Public Route Table
   PublicRouteTable:
@@ -302,11 +317,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Public Route (0.0.0.0/0 -> Internet Gateway)
   PublicRoute:
@@ -344,11 +359,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Route A (0.0.0.0/0 -> NAT Gateway A)
   PrivateRouteA:
@@ -421,11 +436,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # ALB Security Group (기본 규칙 - 학생이 추가 설정)
   ALBSecurityGroup:
@@ -442,11 +457,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Web Tier Security Group (기본 규칙 - 학생이 추가 설정)
   WebTierSecurityGroup:
@@ -463,11 +478,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # App Tier Security Group (기본 규칙 - 학생이 추가 설정)
   AppTierSecurityGroup:
@@ -484,11 +499,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # DB Tier Security Group (기본 규칙 - 학생이 추가 설정)
   DBTierSecurityGroup:
@@ -505,11 +520,11 @@ Resources:
         - Key: Lab
           Value: 'Week3-2'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # EC2 인스턴스 3개 (Web, App, DB) - 보안 그룹 테스트용
   WebInstance:
@@ -530,11 +545,11 @@ Resources:
         - Key: Tier
           Value: Web
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   AppInstance:
     Type: AWS::EC2::Instance
@@ -554,11 +569,11 @@ Resources:
         - Key: Tier
           Value: App
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   DBInstance:
     Type: AWS::EC2::Instance
@@ -578,11 +593,11 @@ Resources:
         - Key: Tier
           Value: DB
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '3-2'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
 Outputs:
   VpcId:

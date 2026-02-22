@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 5-1: RDS Multi-AZ 실습 환경 - VPC, 서브넷, 보안 그룹, DB 서브넷 그룹 자동 생성'
+Description: 'Week 5-1: Amazon RDS Multi-AZ 실습 환경 - Amazon VPC, 서브넷, 보안 그룹, DB 서브넷 그룹 자동 생성'
 
 Parameters:
   EnvironmentName:
@@ -8,6 +8,21 @@ Parameters:
     Description: 환경 이름 (리소스 태그에 사용)
     AllowedPattern: ^[a-z0-9-]+$
     ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '5-1'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
 
 Resources:
   # VPC
@@ -27,11 +42,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Internet Gateway
   InternetGateway:
@@ -47,11 +62,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   AttachGateway:
     Type: AWS::EC2::VPCGatewayAttachment
@@ -77,11 +92,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   PublicSubnetC:
     Type: AWS::EC2::Subnet
@@ -100,11 +115,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Private Subnets (RDS용)
   PrivateSubnetA:
@@ -123,11 +138,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   PrivateSubnetC:
     Type: AWS::EC2::Subnet
@@ -145,11 +160,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # NAT Gateway (Private 서브넷의 아웃바운드 인터넷 연결용)
   NATGatewayEIP:
@@ -167,11 +182,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   NATGateway:
     Type: AWS::EC2::NatGateway
@@ -188,11 +203,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Public Route Table
   PublicRouteTable:
@@ -209,11 +224,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   PublicRoute:
     Type: AWS::EC2::Route
@@ -250,11 +265,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   PrivateRoute:
     Type: AWS::EC2::Route
@@ -298,11 +313,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # DB Subnet Group
   DBSubnetGroup:
@@ -323,11 +338,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # EC2 Security Group (MySQL 클라이언트용, 선택사항)
   EC2SecurityGroup:
@@ -346,11 +361,11 @@ Resources:
         - Key: Purpose
           Value: 'RDS Multi-AZ Lab'
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '5-1'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # RDS Security Group에 EC2에서의 접근 허용
   RDSSecurityGroupIngressFromEC2:

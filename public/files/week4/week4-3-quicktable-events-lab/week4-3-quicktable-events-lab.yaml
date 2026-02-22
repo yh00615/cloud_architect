@@ -2,6 +2,20 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'QuickTable 레스토랑 예약 시스템 - EventBridge 기반 이벤트 처리 인프라'
 
 Parameters:
+  ProjectTag:
+    Type: String
+    Default: 'AWS-Lab'
+    Description: Project 태그 값
+
+  WeekTag:
+    Type: String
+    Default: '4-3'
+    Description: Week 태그 값
+
+  CreatedByTag:
+    Type: String
+    Default: 'CloudFormation'
+    Description: CreatedBy 태그 값
   EnvironmentName:
     Type: String
     Default: week4-3-quicktable-events-lab
@@ -31,11 +45,11 @@ Resources:
             ProjectionType: ALL
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '4-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # DynamoDB 테이블: RestaurantAvailability
   RestaurantAvailabilityTable:
@@ -55,11 +69,11 @@ Resources:
           KeyType: RANGE
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '4-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # RestaurantAvailability 테이블 초기 데이터 삽입을 위한 Lambda 함수
   InitializeAvailabilityFunction:
@@ -75,11 +89,11 @@ Resources:
           AVAILABILITY_TABLE: !Ref RestaurantAvailabilityTable
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '4-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
       Code:
         ZipFile: |
           import boto3
@@ -135,11 +149,11 @@ Resources:
       Name: !Sub '${EnvironmentName}-ReservationEventBus'
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '4-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # SNS Topic: 예약 알림
   ReservationNotificationTopic:
@@ -149,11 +163,11 @@ Resources:
       DisplayName: QuickTable Reservation Notifications
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '4-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # IAM 역할: Lambda 실행 역할
   LambdaExecutionRole:
@@ -203,11 +217,11 @@ Resources:
                 Resource: !Ref ReservationNotificationTopic
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '4-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Lambda 함수: ReservationProcessor
   ReservationProcessorFunction:
@@ -312,11 +326,11 @@ Resources:
                   }
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '4-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Lambda 함수: TableAvailabilityChecker
   TableAvailabilityCheckerFunction:
@@ -407,11 +421,11 @@ Resources:
                   print(f"Error publishing event: {str(e)}")
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '4-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # Lambda 함수: NotificationSender
   NotificationSenderFunction:
@@ -455,21 +469,18 @@ Resources:
                   else:
                       status_message = f"요청하신 인원({party_size}명)에 비해 예약 가능한 테이블({available_slots}개)이 부족합니다."
                   
-                  message = f"""
-QuickTable 예약 불가 알림
-
-{status_message}
-
-예약 정보:
-- 예약 ID: {reservation_id}
-- 레스토랑 ID: {restaurant_id}
-- 예약 날짜: {date_part}
-- 예약 시간: {time_part}
-- 요청 인원: {party_size}명
-- 예약 가능 테이블: {available_slots}개
-
-발생 시간: {datetime.utcnow().isoformat()}
-                  """.strip()
+                  message = (
+                      f"QuickTable 예약 불가 알림\\n\\n"
+                      f"{status_message}\\n\\n"
+                      f"예약 정보:\\n"
+                      f"- 예약 ID: {reservation_id}\\n"
+                      f"- 레스토랑 ID: {restaurant_id}\\n"
+                      f"- 예약 날짜: {date_part}\\n"
+                      f"- 예약 시간: {time_part}\\n"
+                      f"- 요청 인원: {party_size}명\\n"
+                      f"- 예약 가능 테이블: {available_slots}개\\n\\n"
+                      f"발생 시간: {datetime.utcnow().isoformat()}"
+                  )
                   
                   response = sns.publish(
                       TopicArn=SNS_TOPIC_ARN,
@@ -484,11 +495,11 @@ QuickTable 예약 불가 알림
                   return {'statusCode': 500, 'body': json.dumps({'error': str(e)})}
       Tags:
         - Key: Project
-          Value: AWS-Lab
+          Value: !Ref ProjectTag
         - Key: Week
-          Value: '4-3'
+          Value: !Ref WeekTag
         - Key: CreatedBy
-          Value: CloudFormation
+          Value: !Ref CreatedByTag
 
   # CloudWatch Logs Groups
   ReservationProcessorLogGroup:
