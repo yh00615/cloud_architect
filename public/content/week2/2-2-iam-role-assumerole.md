@@ -229,7 +229,9 @@ ARN 형식 예시: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`
 > 2. **User name**에 `lab-user`를 입력합니다.
 > 3. **Provide user access to the AWS Management Console**을 체크합니다.
 > 4. [[Next]] 버튼을 클릭합니다.
-> 5. **Attach policies directly**를 선택하고 `IAMReadOnlyAccess` 정책을 연결합니다. (최소 권한)
+> 5. **Attach policies directly**를 선택하고 다음 정책들을 연결합니다:
+>    - `IAMReadOnlyAccess` (AWS IAM 리소스 조회용)
+>    - `AWSCloudShellFullAccess` (CloudShell 사용용)
 > 6. [[Next]] → [[Create user]] 버튼을 클릭합니다.
 > 7. 사용자 생성 완료 화면에서 콘솔 비밀번호와 로그인 링크(Console sign-in URL)가 표시됩니다.  
 >    [[Download .csv file]] 버튼을 클릭하여 자격증명을 다운로드하거나, 비밀번호와 로그인 링크를 복사하여 메모장에 저장합니다.
@@ -421,14 +423,18 @@ aws sts assume-role \
    - `SessionToken`: 매우 긴 문자열 값
 
 > [!WARNING]
-> **임시 자격증명 보안 주의사항**: 메모장에 저장한 자격증명 정보는 실습 종료 후 반드시 삭제합니다. 임시 자격증명이라도 유효 기간 동안에는 AWS 리소스에 접근할 수 있으므로 주의가 필요합니다.
+> **임시 자격증명 보안 주의사항**: 메모장에 저장한 자격증명 정보는 실습 종료 후 반드시 삭제합니다.  
+> 임시 자격증명이라도 유효 기간 동안에는 AWS 리소스에 접근할 수 있으므로 주의가 필요합니다.
 
 > [!NOTE]
 > 이 세 가지 값은 다음 태스크에서 환경 변수로 설정할 때 사용됩니다. 정확히 복사하여 메모장에 저장합니다.
 >
-> **SessionToken 길이 주의**: SessionToken은 매우 긴 문자열(보통 500-1000자 이상)입니다. 복사할 때 전체가 선택되었는지 확인합니다. 일부만 복사하면 다음 태스크에서 "Invalid token" 오류가 발생합니다. 메모장에 붙여넣은 후 스크롤하여 전체 길이를 확인하는 것을 권장합니다.
+> **SessionToken 길이 주의**: SessionToken은 매우 긴 문자열(보통 500-1000자 이상)입니다.  
+> 복사할 때 전체가 선택되었는지 확인합니다. 일부만 복사하면 다음 태스크에서 "Invalid token" 오류가 발생합니다.  
+> 메모장에 붙여넣은 후 스크롤하여 전체 길이를 확인하는 것을 권장합니다.
 >
-> **SessionToken 복사 시 줄바꿈 주의**: 복사한 값에 줄바꿈이 포함되지 않도록 주의합니다. 메모장에 붙여넣은 후 줄바꿈이 있으면 제거합니다. 줄바꿈이 포함되면 환경 변수 설정 시 오류가 발생합니다.
+> **SessionToken 복사 시 줄바꿈 주의**: 복사한 값에 줄바꿈이 포함되지 않도록 주의합니다.  
+> 메모장에 붙여넣은 후 줄바꿈이 있으면 제거합니다. 줄바꿈이 포함되면 환경 변수 설정 시 오류가 발생합니다.
 
 ✅ **태스크 완료**: AssumeRole이 성공적으로 수행되었습니다.
 
@@ -443,7 +449,7 @@ aws sts assume-role \
 > eval $(aws sts assume-role --role-arn arn:aws:iam::123456789012:role/S3ReadOnlyRole --role-session-name s3-readonly-session | jq -r '.Credentials | "export AWS_ACCESS_KEY_ID=\(.AccessKeyId)\nexport AWS_SECRET_ACCESS_KEY=\(.SecretAccessKey)\nexport AWS_SESSION_TOKEN=\(.SessionToken)"')
 > ```
 >
-> 이 방법을 사용하면 복사/붙여넣기 오류를 방지할 수 있습니다. 단, 역할 ARN은 실제 값으로 교체해야 합니다.
+> 이 방법을 사용하면 복사/붙여넣기 오류를 방지할 수 있습니다. **단, 역할 ARN은 실제 값으로 교체해야 합니다**.
 
 1. 메모장에 저장한 세 가지 자격증명 값을 확인합니다.
 2. 다음 명령어를 입력하되, 따옴표 안의 값을 실제 값으로 교체합니다:

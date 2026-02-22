@@ -20,6 +20,7 @@
   align-items: flex-start;
   gap: 14px;
   border: 1px solid;
+  overflow: hidden;
 }
 
 .info-box-icon {
@@ -71,6 +72,8 @@
   color: var(--color-text-body-default);
   word-break: break-word;
   overflow-wrap: break-word;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .info-box-content > div {
