@@ -151,12 +151,6 @@ export const labEnvironments: LabEnvironment[] = [
         zipFileName: 'week2-2-iam-role-assumerole.zip',
         files: [
             {
-                name: 'week2-2-iam-role-assumerole.yaml',
-                type: 'cloudformation',
-                description: 'IAM 사용자, Access Key, S3 버킷 생성 템플릿',
-                usedInTask: '태스크 0: 실습 환경 구축'
-            },
-            {
                 name: 'assume-role-policy.json',
                 type: 'config',
                 description: 'AssumeRole 권한 정책 JSON',
