@@ -137,6 +137,11 @@
   margin: 12px 0;
 }
 
+/* Alert 내부 코드 블록 td 패딩 줄이기 */
+.info-box-content table td {
+  padding: 2px 8px !important;
+}
+
 /* Alert 내부 표 여백 */
 .info-box-content table {
   margin: 16px 0;
