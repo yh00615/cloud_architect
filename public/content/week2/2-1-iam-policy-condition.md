@@ -65,24 +65,32 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 2. `week2-1-iam-policy-condition.yaml` 파일을 확인합니다.
 3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
 4. [[Create stack]] 버튼을 클릭합니다.
-5. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 `week2-1-iam-policy-condition.yaml` 파일을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
 9. **Stack name**에 `week2-1-iam-policy-stack`을 입력합니다.
 10. **Parameters** 섹션에서 기본값을 확인합니다 (변경 불필요).
 11. [[Next]] 버튼을 클릭합니다.
-12. **Configure stack options** 페이지에서 기본값을 유지하고 [[Next]] 버튼을 클릭합니다.
-13. **Review** 페이지에서 설정을 확인합니다.
+12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 찾습니다.
+13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+
+| Key         | Value     |
+| ----------- | --------- |
+| `Project`   | `AWS-Lab` |
+| `CreatedBy` | `Student` |
+
 14. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
-15. [[Submit]] 버튼을 클릭합니다.
+15. [[Next]] 버튼을 클릭합니다.
+16. **Review** 페이지에서 설정을 확인합니다.
+17. [[Submit]] 버튼을 클릭합니다.
 16. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
 
 > [!NOTE]
-> 스택 생성에 1-2분이 소요됩니다. **Events** 탭에서 AWS IAM 사용자와 Access Key가 생성되는 과정을 확인할 수 있습니다.
-> 대기하는 동안 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽어보세요.
+> 스택 생성에 1-2분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
+> 대기하는 동안 다음 태스크를 미리 읽어보세요.
 
-17. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
+17. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
 18. **Outputs** 탭을 선택합니다.
 19. 출력값들을 확인하고 메모장에 복사합니다:
     - `LabUserName`: lab-user

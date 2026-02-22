@@ -79,11 +79,15 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### 상세 단계
 
+> [!NOTE]
+> AWS CloudFormation 콘솔 UI는 주기적으로 업데이트됩니다.  
+> 버튼명이나 화면 구성이 가이드와 다를 수 있으나, 전체 흐름(템플릿 업로드 → 스택 이름 입력 → 태그 추가 → 생성)은 동일합니다.
+
 1. 다운로드한 `week11-3-data-pipeline-lab.zip` 파일의 압축을 해제합니다.
 2. `week11-3-data-pipeline-lab.yaml` 파일을 확인합니다.
 3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
-4. [[Create stack]] 드롭다운을 클릭한 후 `With new resources (standard)`를 선택합니다.
-5. **Prepare template**에서 `Template is ready`를 선택합니다.
+4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
+5. **Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 `week11-3-data-pipeline-lab.yaml` 파일을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
@@ -110,18 +114,17 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 > [!NOTE]
 > 이 태그들은 AWS CloudFormation 스택이 생성하는 모든 리소스(Amazon S3 버킷 3개, AWS Glue Database, AWS Glue Crawler, AWS Glue ETL Job, AWS Lambda 함수, EventBridge 규칙, AWS IAM 역할 2개)에 자동으로 전파됩니다.
 
-13. [[Next]] 버튼을 클릭합니다.
-14. **Review** 페이지에서 설정을 확인합니다.
-15. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources with custom names`를 체크합니다.
+13. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources with custom names`를 체크합니다.
+14. [[Next]] 버튼을 클릭합니다.
+15. **Review** 페이지에서 설정을 확인합니다.
 16. [[Submit]] 버튼을 클릭합니다.
 17. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
 
 > [!NOTE]
 > 스택 생성에 3-5분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
-> Amazon S3 버킷, AWS Glue Database, Crawler, ETL Job, AWS Lambda 함수 등이 순차적으로 생성됩니다.
-> 대기하는 동안 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽어보세요.
+> 대기하는 동안 다음 태스크를 미리 읽어보세요.
 
-18. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
+18. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
 19. **Outputs** 탭을 선택합니다.
 20. 출력값들을 확인하고 메모장에 복사합니다:
     - `DataBucketName`: 데이터 버킷 이름 (예: `week11-data-20240001-ap-northeast-2`)

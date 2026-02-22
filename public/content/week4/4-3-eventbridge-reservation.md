@@ -76,11 +76,15 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### 상세 단계
 
+> [!NOTE]
+> AWS CloudFormation 콘솔 UI는 주기적으로 업데이트됩니다.  
+> 버튼명이나 화면 구성이 가이드와 다를 수 있으나, 전체 흐름(템플릿 업로드 → 스택 이름 입력 → 태그 추가 → 생성)은 동일합니다.
+
 1. 다운로드한 `week4-3-quicktable-events-lab.zip` 파일의 압축을 해제합니다.
 2. `week4-3-quicktable-events-lab.yaml` 파일을 확인합니다.
 3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
-4. [[Create stack]] 버튼을 클릭한 후 **With new resources (standard)**를 선택합니다.
-5. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
+5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 `week4-3-quicktable-events-lab.yaml` 파일을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
@@ -96,18 +100,17 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 | `Week`      | `4-3`     |
 | `CreatedBy` | `Student` |
 
-14. [[Next]] 버튼을 클릭합니다.
-15. **Review** 페이지에서 설정을 확인합니다.
-16. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
+14. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
+15. [[Next]] 버튼을 클릭합니다.
+16. **Review** 페이지에서 설정을 확인합니다.
 17. [[Submit]] 버튼을 클릭합니다.
 18. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
 
 > [!NOTE]
 > 스택 생성에 3-5분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
-> Amazon DynamoDB 테이블, Amazon EventBridge Event Bus, AWS Lambda 역할, Amazon SNS Topic이 순차적으로 생성됩니다.
-> 대기하는 동안 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽습니다.
+> 대기하는 동안 다음 태스크를 미리 읽어보세요.
 
-19. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
+19. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
 20. **Outputs** 탭을 선택합니다.
 21. 출력값들을 확인합니다:
     - `ReservationsTableName`: Reservations 테이블 이름 (QuickTableReservations)

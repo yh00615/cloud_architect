@@ -383,8 +383,8 @@ Outputs:
 5. **Template** 탭에서 전체 YAML 코드를 복사합니다.
 6. 새 브라우저 탭을 엽니다.
 7. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
-8. [[Create stack]] 버튼을 클릭합니다.
-9. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+8. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
+9. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 10. **Specify template**에서 `Upload a template file`을 선택합니다.
 11. 복사한 YAML 코드를 텍스트 파일로 저장합니다 (예: `serverless-api-template.yaml`).
 12. [[Choose file]] 버튼을 클릭한 후 저장한 YAML 파일을 선택합니다.
@@ -400,9 +400,9 @@ Outputs:
 | `Week` | `6-3` |
 | `CreatedBy` | `Student` |
 
-18. [[Next]] 버튼을 클릭합니다.
-19. **Review and create** 페이지에서 아래로 스크롤하여 **Capabilities** 섹션을 찾습니다.
-20. `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
+18. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
+19. [[Next]] 버튼을 클릭합니다.
+20. **Review** 페이지에서 설정을 확인합니다.
 21. [[Submit]] 버튼을 클릭합니다.
 
 > [!NOTE]
@@ -419,7 +419,7 @@ Outputs:
 > 
 > **스택 태그 자동 전파**: 스택에 추가한 태그(`Project`, `Week`, `CreatedBy`)는 스택이 생성하는 모든 리소스(Amazon DynamoDB, AWS Lambda, Amazon API Gateway 등)에 자동으로 전파됩니다.
 
-24. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
+24. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
 
 ✅ **태스크 완료**: AWS CloudFormation 스택이 배포되었습니다.
 

@@ -45,11 +45,15 @@ Amazon VPC Endpoint는 Amazon VPC와 AWS 서비스 간의 프라이빗 연결을
 
 ### 상세 단계
 
+> [!NOTE]
+> AWS CloudFormation 콘솔 UI는 주기적으로 업데이트됩니다.  
+> 버튼명이나 화면 구성이 가이드와 다를 수 있으나, 전체 흐름(템플릿 업로드 → 스택 이름 입력 → 태그 추가 → 생성)은 동일합니다.
+
 1. 다운로드한 `week3-1-vpc-lab.zip` 파일의 압축을 해제합니다.
 2. `week3-1-vpc-lab.yaml` 파일을 확인합니다.
 3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
-4. [[Create stack]] 버튼을 클릭합니다.
-5. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
+5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 `week3-1-vpc-lab.yaml` 파일을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
@@ -110,7 +114,7 @@ Amazon VPC Endpoint는 Amazon VPC와 AWS 서비스 간의 프라이빗 연결을
 
 27. 페이지를 새로고침하여 최신 상태를 확인합니다.
 28. 페이지 상단의 **Status** 필드를 확인합니다.
-29. **Status**가 "CREATE_COMPLETE"로 변경될 때까지 27-28단계를 반복합니다.
+29. **Status**가 "**CREATE_COMPLETE**"로 변경될 때까지 27-28단계를 반복합니다.
 
 > [!NOTE]
 > 페이지 상단의 **Status** 필드는 전체 스택의 상태를 보여줍니다. "CREATE_IN_PROGRESS"에서 "CREATE_COMPLETE"로 변경되면 모든 리소스가 성공적으로 생성된 것입니다. 만약 "CREATE_FAILED"가 표시되면 **Events** 탭에서 오류 원인을 확인합니다.

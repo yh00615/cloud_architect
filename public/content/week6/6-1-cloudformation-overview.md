@@ -96,8 +96,8 @@ Outputs:
 ```
 
 4. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
-5. [[Create stack]] 버튼을 클릭한 후 `With new resources (standard)`를 선택합니다.
-6. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+5. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
+6. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 7. **Specify template**에서 `Upload a template file`을 선택합니다.
 8. [[Choose file]] 버튼을 클릭한 후 `simple-s3-template.yaml` 파일을 선택합니다.
 9. [[Next]] 버튼을 클릭합니다.
@@ -113,9 +113,10 @@ Outputs:
 | `Week` | `6-1` |
 | `CreatedBy` | `Student` |
 
-15. [[Next]] 버튼을 클릭합니다.
-16. **Review and create** 페이지에서 설정을 확인합니다.
-17. [[Submit]] 버튼을 클릭합니다.
+15. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
+16. [[Next]] 버튼을 클릭합니다.
+17. **Review** 페이지에서 설정을 확인합니다.
+18. [[Submit]] 버튼을 클릭합니다.
 18. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
 
 > [!NOTE]
@@ -124,7 +125,7 @@ Outputs:
 > 
 > **스택 태그 자동 전파**: 스택에 추가한 태그(`Project`, `Week`, `CreatedBy`)는 스택이 생성하는 모든 리소스(Amazon S3 버킷)에 자동으로 전파됩니다.
 
-19. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
+19. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
 20. **Outputs** 탭을 선택합니다.
 21. **BucketName** 값을 확인합니다 (예: `cfn-demo-bucket-123456789012`).
 22. **Resources** 탭을 선택합니다.

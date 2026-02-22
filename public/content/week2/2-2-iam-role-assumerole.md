@@ -6,13 +6,10 @@ awsServices:
   - AWS IAM
   - AWS STS
 learningObjectives:
-  - AWS 인증과 권한의 차이를 이해하고, AWS IAM을 통한 사용자 접근 관리 방법을 설명할 수 있습니다
-  - AWS IAM 정책 구조와 평가 로직을 설명할 수 있습니다
-  - Condition과 권한 경계를 활용한 고급 권한 제어 기법을 이해할 수 있습니다
-  - AWS IAM 역할과 임시 자격증명의 보안 이점을 설명할 수 있습니다
-  - 신뢰 정책과 권한 정책의 차이를 이해하고 구성할 수 있습니다
-  - AWS STS AssumeRole로 역할을 전환할 수 있습니다
-  - AWS Organizations의 멀티 계정 관리 전략을 이해할 수 있습니다
+  - AWS Lambda 실행 역할을 생성하고 신뢰 정책을 구성할 수 있습니다
+  - 역할에 Amazon S3 및 Amazon DynamoDB 접근 권한을 연결할 수 있습니다
+  - AWS CLI에서 AWS STS AssumeRole로 역할을 전환할 수 있습니다
+  - 임시 자격증명으로 리소스에 접근하여 역할 동작을 확인할 수 있습니다
 prerequisites:
   - AWS 계정 및 AWS IAM 사용자
   - AWS CloudShell 접근 가능한 환경 (또는 AWS CLI 설치 및 구성)
@@ -47,26 +44,32 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### 상세 단계
 
+> [!NOTE]
+> AWS CloudFormation 콘솔 UI는 주기적으로 업데이트됩니다.  
+> 버튼명이나 화면 구성이 가이드와 다를 수 있으나, 전체 흐름(템플릿 업로드 → 스택 이름 입력 → 태그 추가 → 생성)은 동일합니다.
+
 1. 다운로드한 `week2-2-iam-role-assumerole.zip` 파일의 압축을 해제합니다.
 2. `week2-2-iam-role-assumerole.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에서 `CloudFormation`을 검색하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
-5. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 `week2-2-iam-role-assumerole.yaml` 파일을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
 9. **Stack name**에 `week2-2-iam-role-stack`을 입력합니다.
 10. **Parameters** 섹션에서 기본값을 확인합니다.
 11. [[Next]] 버튼을 클릭합니다.
-12. **Configure stack options** 페이지에서 기본값을 유지하고 [[Next]] 버튼을 클릭합니다.
-13. **Review** 페이지에서 설정을 확인합니다.
-14. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
-15. [[Submit]] 버튼을 클릭합니다.
-16. 스택 생성이 시작됩니다.
-17. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
+12. **Configure stack options** 페이지에서 기본값을 유지합니다.
+13. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
+14. [[Next]] 버튼을 클릭합니다.
+15. **Review** 페이지에서 설정을 확인합니다.
+16. [[Submit]] 버튼을 클릭합니다.
+17. 스택 생성이 시작됩니다.
+18. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
 
 > [!NOTE]
-> 스택 생성에 1-2분이 소요됩니다. **Events** 탭에서 AWS IAM 사용자, Access Key, Amazon S3 버킷이 생성되는 과정을 확인할 수 있습니다. 대기하는 동안 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽어볼 수 있습니다.
+> 스택 생성에 1-2분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
+> 대기하는 동안 다음 태스크를 미리 읽어보세요.
 
 18. **Outputs** 탭을 선택합니다.
 19. 출력값들을 확인하고 메모장에 복사합니다:

@@ -99,11 +99,15 @@ Kubernetes 버전 호환성을 확인하는 것도 중요합니다.
 
 ### 상세 단계
 
+> [!NOTE]
+> AWS CloudFormation 콘솔 UI는 주기적으로 업데이트됩니다.  
+> 버튼명이나 화면 구성이 가이드와 다를 수 있으나, 전체 흐름(템플릿 업로드 → 스택 이름 입력 → 태그 추가 → 생성)은 동일합니다.
+
 1. 다운로드한 `week7-3-eks-lab.zip` 파일의 압축을 해제합니다.
 2. `week7-3-eks-lab.yaml` 파일을 확인합니다.
 3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
-4. [[Create stack]] 버튼을 클릭한 후 **With new resources (standard)**를 선택합니다.
-5. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
+5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 `week7-3-eks-lab.yaml` 파일을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
@@ -130,35 +134,21 @@ Kubernetes 버전 호환성을 확인하는 것도 중요합니다.
 | `Week` | `7-3` |
 | `CreatedBy` | `Student` |
 
-14. [[Next]] 버튼을 클릭합니다.
-15. **Review** 페이지에서 설정을 확인합니다.
-16. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources with custom names`를 체크합니다.
+14. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources with custom names`를 체크합니다.
+15. [[Next]] 버튼을 클릭합니다.
+16. **Review** 페이지에서 설정을 확인합니다.
 17. [[Submit]] 버튼을 클릭합니다.
 18. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
 
 > [!NOTE]
-> **Events** 탭에는 리소스 생성 과정이 실시간으로 표시됩니다.
-> Amazon VPC, 서브넷, AWS IAM 역할, Amazon EKS 클러스터, 노드 그룹이 순차적으로 생성됩니다.
-> 스택 생성에 20-30분이 소요됩니다. Amazon EKS 클러스터 생성에 10-15분, 노드 그룹 생성에 추가 5-10분이 필요합니다.
-> 대기하는 동안 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽어보세요.
-> 페이지를 새로고침하여 최신 상태를 확인할 수 있습니다.
+> 스택 생성에 20-30분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
+> 대기하는 동안 다음 태스크를 미리 읽어보세요.
 
 > [!WARNING]
 > **AWS CloudShell 세션 타임아웃 주의**: CloudShell은 약 20분 비활성 시 세션이 자동 종료됩니다.
 > 스택 생성 중 AWS CloudShell 세션이 끊어지면 다음 태스크에서 다시 CloudShell을 열고 `aws eks update-kubeconfig` 명령을 재실행합니다.
-> 
-> **kubeconfig 영속성**: kubeconfig 파일은 AWS CloudShell 홈 디렉토리(`~/.kube/config`)에 저장되므로, 세션이 재시작되어도 파일은 유지됩니다.
-> 세션 재시작 후 `kubectl get nodes` 명령을 바로 실행할 수 있습니다.
 
-스택 생성 상태를 확인하는 방법도 알아두세요.
-
-> [!NOTE]
-> **Status** 열은 스택의 현재 상태를 보여줍니다:
-> - **CREATE_IN_PROGRESS** (주황색): 리소스 생성 중
-> - **CREATE_COMPLETE** (초록색): 생성 완료
-> - **CREATE_FAILED** (빨간색): 오류 발생 (Events 탭에서 원인 확인)
-
-19. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
+19. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
 20. **Outputs** 탭을 선택합니다.
 21. 출력값들을 확인하고 메모장에 복사합니다:
     - `ClusterName`: Amazon EKS 클러스터 이름 (예: my-eks-cluster)

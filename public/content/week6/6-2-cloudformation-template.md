@@ -370,8 +370,8 @@ Outputs:
 이 태스크에서는 완성된 템플릿을 사용하여 AWS CloudFormation 스택을 생성합니다. 스택 생성 과정에서 Amazon VPC, 서브넷, 라우팅 테이블, 보안 그룹, Amazon EC2 인스턴스가 자동으로 생성됩니다.
 
 1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
-2. [[Create stack]] 버튼을 클릭한 후 `With new resources (standard)`를 선택합니다.
-3. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+2. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
+3. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 4. **Specify template**에서 `Upload a template file`을 선택합니다.
 5. [[Choose file]] 버튼을 클릭하고 `vpc-ec2-template.yaml` 파일을 선택합니다.
 6. [[Next]] 버튼을 클릭합니다.
@@ -397,19 +397,17 @@ Outputs:
 | `Week` | `6-2` |
 | `CreatedBy` | `Student` |
 
-12. [[Next]] 버튼을 클릭합니다.
-13. **Review and create** 페이지에서 모든 설정을 검토합니다.
-14. 페이지 하단의 **Capabilities** 섹션으로 스크롤합니다.
-15. `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
-
-> [!IMPORTANT]
-> 이 템플릿에는 AWS IAM 역할(WebServerRole)과 인스턴스 프로파일(WebServerInstanceProfile)이 포함되어 있습니다.
-> Capabilities 체크박스를 선택하지 않으면 스택 생성이 실패합니다.
-
-16. [[Submit]] 버튼을 클릭합니다.
+12. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
+13. [[Next]] 버튼을 클릭합니다.
+14. **Review** 페이지에서 설정을 확인합니다.
+15. [[Submit]] 버튼을 클릭합니다.
+16. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
 
 > [!NOTE]
-> 스택 생성에 3-5분이 소요됩니다. 상태가 **CREATE_COMPLETE**가 될 때까지 기다립니다.
+> 스택 생성에 3-5분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
+> 대기하는 동안 다음 태스크를 미리 읽어보세요.
+
+17. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
 
 ✅ **태스크 완료**: AWS CloudFormation 스택이 생성되었습니다.
 

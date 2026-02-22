@@ -137,7 +137,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 > 스택 생성에 2-3분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
 > 대기하는 동안 다음 태스크를 미리 읽어보세요.
 
-19. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
+19. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
 20. **Outputs** 탭을 선택합니다.
 21. 출력값들을 확인하고 메모장에 복사합니다:
     - `GetReservationFunctionName`: QuickTable 예약 조회 AWS Lambda 함수 이름
