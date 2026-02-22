@@ -66,7 +66,7 @@ prerequisites:
 
 이 태스크에서는 시크릿을 암호화하기 위한 AWS KMS 고객 관리형 키를 생성합니다. AWS KMS 키는 AWS Secrets Manager와 Parameter Store에서 데이터를 암호화하는 데 사용됩니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Key Management Service`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Key Management Service`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Customer managed keys**를 선택합니다.
 3. [[Create key]] 버튼을 클릭합니다.
 4. **Key type**에서 `Symmetric`을 선택합니다.
@@ -120,7 +120,7 @@ prerequisites:
 
 이 태스크에서는 AWS Secrets Manager에 데이터베이스 자격증명을 안전하게 저장합니다. AWS Secrets Manager는 자격증명을 암호화하여 저장하고, 자동 로테이션 기능을 제공하여 보안을 강화합니다.
 
-1. 상단 검색창에서 `AWS Secrets Manager`를 검색하고 선택합니다.
+1. 상단 검색창에 `Secrets Manager`을 입력하고 선택합니다.
 2. [[Store a new secret]] 버튼을 클릭합니다.
 3. **Secret type**에서 `Other type of secret`을 선택합니다.
 4. **Key/value pairs**에서 다음을 입력합니다:
@@ -186,7 +186,7 @@ prerequisites:
 
 이 태스크에서는 AWS Systems Manager Parameter Store에 애플리케이션 설정값을 저장합니다. Parameter Store는 일반 문자열과 암호화된 문자열(SecureString)을 모두 지원하며, 계층적 구조로 파라미터를 관리할 수 있습니다.
 
-1. 상단 검색창에서 `AWS Systems Manager`를 검색하고 선택합니다.
+1. 상단 검색창에 `Systems Manager`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Parameter Store**를 선택합니다.
 3. [[Create parameter]] 버튼을 클릭합니다.
 4. **Name**에 `/prod/app/config/region`을 입력합니다.
@@ -241,7 +241,7 @@ String 타입은 애초에 암호화되지 않으므로 `with_decryption` 값에
 
 이 태스크에서는 AWS Lambda 함수를 생성하고 AWS Secrets Manager와 Parameter Store에 저장된 자격증명을 안전하게 조회하는 방법을 실습합니다. AWS Lambda 함수에 적절한 AWS IAM 권한을 부여하여 시크릿과 파라미터에 접근할 수 있도록 설정합니다.
 
-1. 상단 검색창에서 `AWS Lambda`를 검색하고 선택합니다.
+1. 상단 검색창에 `Lambda`을 입력하고 선택합니다.
 2. [[Create function]] 버튼을 클릭합니다.
 3. **Function name**에 `access-secrets-demo`를 입력합니다.
 4. **Runtime**에서 `Python 3.12`를 선택합니다.
@@ -517,7 +517,7 @@ def lambda_handler(event, context):
 > [!IMPORTANT]
 > 이 단계를 건너뛰면 태스크 6에서 AWS Lambda 함수 실행 시 AccessDeniedException 오류가 발생합니다. AWS KMS 키는 키 정책(Key Policy)과 AWS IAM 정책 모두에서 허용되어야 접근 가능합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Key Management Service`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Key Management Service`을 입력하고 선택합니다.
 2. `secrets-encryption-key`를 선택합니다.
 3. **Key users** 탭을 선택합니다.
 4. [[Add]] 버튼을 클릭합니다.
@@ -574,7 +574,7 @@ def lambda_handler(event, context):
 
 ### 방법 1: Tag Editor로 리소스 찾기 (권장)
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.

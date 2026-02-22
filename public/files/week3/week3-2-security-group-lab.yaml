@@ -1,28 +1,28 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 3-2: Amazon VPC 3-Tier 환경 구축 - Public/Private 서브넷, 보안 그룹 기본 구조'
+Description: 'Week 3-2: Amazon VPC 3-Tier Environment Setup - Public/Private Subnets, Security Groups Basic Structure'
 
 Parameters:
   EnvironmentName:
     Type: String
     Default: 'week3-2-security-group'
-    Description: 환경 이름 (리소스 명명에 사용)
+    Description: Environment name (used for resource naming)
     AllowedPattern: ^[a-z0-9-]+$
-    ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+    ConstraintDescription: Only lowercase letters, numbers, and hyphens allowed
 
   ProjectTag:
     Type: String
     Default: 'AWS-Lab'
-    Description: Project 태그 값
+    Description: Project tag value
 
   WeekTag:
     Type: String
     Default: '3-2'
-    Description: Week 태그 값
+    Description: Week tag value
 
   CreatedByTag:
     Type: String
     Default: 'CloudFormation'
-    Description: CreatedBy 태그 값
+    Description: CreatedBy tag value
 
   LatestAmiId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
@@ -427,7 +427,7 @@ Resources:
           FromPort: 22
           ToPort: 22
           CidrIp: 0.0.0.0/0
-          Description: SSH from anywhere (실습용 - 프로덕션에서는 특정 IP로 제한)
+          Description: SSH from anywhere (for lab purposes - restrict to specific IP in production)
       Tags:
         - Key: Name
           Value: !Sub '${EnvironmentName}-Bastion-SG'
@@ -447,7 +447,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: !Sub '${EnvironmentName}-ALB-SG'
-      GroupDescription: Security group for Application Load Balancer (학생이 규칙 추가)
+      GroupDescription: Security group for Application Load Balancer (students need to add rules)
       VpcId: !Ref LabVPC
       Tags:
         - Key: Name
@@ -468,7 +468,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: !Sub '${EnvironmentName}-Web-SG'
-      GroupDescription: Security group for Web tier (학생이 규칙 추가)
+      GroupDescription: Security group for Web tier (students need to add rules)
       VpcId: !Ref LabVPC
       Tags:
         - Key: Name
@@ -489,7 +489,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: !Sub '${EnvironmentName}-App-SG'
-      GroupDescription: Security group for App tier (학생이 규칙 추가)
+      GroupDescription: Security group for App tier (students need to add rules)
       VpcId: !Ref LabVPC
       Tags:
         - Key: Name
@@ -510,7 +510,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: !Sub '${EnvironmentName}-DB-SG'
-      GroupDescription: Security group for Database tier (학생이 규칙 추가)
+      GroupDescription: Security group for Database tier (students need to add rules)
       VpcId: !Ref LabVPC
       Tags:
         - Key: Name
@@ -659,19 +659,19 @@ Outputs:
     Value: !Ref BastionSecurityGroup
 
   ALBSGId:
-    Description: ALB Security Group ID (학생이 규칙 추가 필요)
+    Description: ALB Security Group ID (students need to add rules)
     Value: !Ref ALBSecurityGroup
 
   WebTierSGId:
-    Description: Web Tier Security Group ID (학생이 규칙 추가 필요)
+    Description: Web Tier Security Group ID (students need to add rules)
     Value: !Ref WebTierSecurityGroup
 
   AppTierSGId:
-    Description: App Tier Security Group ID (학생이 규칙 추가 필요)
+    Description: App Tier Security Group ID (students need to add rules)
     Value: !Ref AppTierSecurityGroup
 
   DBTierSGId:
-    Description: DB Tier Security Group ID (학생이 규칙 추가 필요)
+    Description: DB Tier Security Group ID (students need to add rules)
     Value: !Ref DBTierSecurityGroup
 
   # EC2 인스턴스 Outputs

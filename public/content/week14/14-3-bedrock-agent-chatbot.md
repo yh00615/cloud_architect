@@ -54,7 +54,7 @@ prerequisites:
 
 이 태스크에서는 QuickTable 챗봇이 관리할 예약 데이터를 저장할 Amazon DynamoDB 테이블을 생성합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon DynamoDB`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `DynamoDB`을 입력하고 선택합니다.
 2. [[Create table]] 버튼을 클릭합니다.
 3. **Table name**에 `RestaurantReservations`를 입력합니다.
 4. **Partition key**에 `reservationId`를 입력합니다.
@@ -117,7 +117,7 @@ prerequisites:
 
 이 태스크에서는 QuickTable 챗봇이 예약을 조회하고 생성할 수 있도록 AWS Lambda 함수를 생성합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS Lambda`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Lambda`을 입력하고 선택합니다.
 2. [[Create function]] 버튼을 클릭합니다.
 3. **Author from scratch**를 선택합니다.
 4. **Function name**에 `BedrockAgentReservationHandler`를 입력합니다.
@@ -584,7 +584,7 @@ def cancel_reservation(params):
 3. **Execution role** 섹션에서 역할 이름을 클릭합니다.
 4. AWS IAM 역할 페이지에서 [[Add permissions]] 버튼을 클릭합니다.
 5. `Attach policies`를 선택합니다.
-6. 검색창에 `Amazon DynamoDB`를 입력합니다.
+6. 검색창에 `DynamoDB`를 입력합니다.
 7. `AmazonDynamoDBFullAccess` 정책을 체크합니다.
 
 > [!NOTE]
@@ -1148,7 +1148,7 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 
 ### 방법 1: Tag Editor로 리소스 찾기 (권장)
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
@@ -1165,7 +1165,7 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 
 #### 1. Amazon Bedrock Agent 삭제
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon Bedrock`을 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Bedrock`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Orchestration** > **Agents**를 선택합니다.
 3. `QuickTableAssistant` Agent를 선택합니다.
 4. **Delete** 버튼을 클릭합니다.
@@ -1177,7 +1177,7 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 
 #### 2. AWS Lambda 함수 삭제
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS Lambda`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Lambda`을 입력하고 선택합니다.
 2. `BedrockAgentReservationHandler` 함수를 선택합니다.
 3. **Actions** > `Delete`를 선택합니다.
 4. 확인 창에서 `delete`를 입력합니다.
@@ -1186,7 +1186,7 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 
 #### 3. Amazon DynamoDB 테이블 삭제
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon DynamoDB`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `DynamoDB`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tables**를 선택합니다.
 3. `RestaurantReservations` 테이블을 선택합니다.
 4. [[Delete]] 버튼을 클릭합니다.
@@ -1195,7 +1195,7 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 
 #### 4. AWS IAM 역할 삭제
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS IAM`을 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `IAM`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Roles**를 선택합니다.
 3. 검색창에 `BedrockAgent`를 입력합니다.
 4. Amazon Bedrock Agent가 생성한 역할들을 선택합니다.
@@ -1210,7 +1210,7 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 
 #### 5. Amazon CloudWatch Log Group 삭제
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon CloudWatch`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `CloudWatch`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Logs** > **Log groups**를 선택합니다.
 3. 검색창에 `/aws/lambda/BedrockAgent`를 입력합니다.
 4. 다음 로그 그룹들을 선택합니다:
@@ -1234,7 +1234,7 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 4. [[Delete]] 버튼을 클릭합니다.
 5. 확인 창에서 `delete`를 입력합니다.
 6. [[Delete]] 버튼을 클릭합니다.
-7. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon OpenSearch Service`를 검색하고 선택합니다.
+7. AWS Management Console에 로그인한 후 상단 검색창에 `OpenSearch`을 입력하고 선택합니다.
 8. 왼쪽 메뉴에서 **Serverless** > **Collections**를 선택합니다.
 9. Knowledge Base와 연결된 컬렉션을 선택합니다.
 

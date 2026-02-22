@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 2-2: AWS Identity and Access Management 역할 및 AssumeRole 실습 - 사전 환경 구축 (lab-user + Access Key + Amazon S3 버킷)'
+Description: 'Week 2-2: IAM Role and AssumeRole Lab - Pre-built Environment (lab-user + Access Key + S3 Bucket)'
 
 # AWS CloudFormation 템플릿: AWS Identity and Access Management 역할 및 AssumeRole 실습을 위한 테스트 환경
 # 이 템플릿은 lab-user AWS Identity and Access Management 사용자, Access Key, 테스트용 Amazon S3 버킷을 자동으로 생성합니다.
@@ -9,24 +9,24 @@ Parameters:
   EnvironmentName:
     Type: String
     Default: 'week2-2-iam-role'
-    Description: 환경 이름 (리소스 명명에 사용)
+    Description: Environment name (used for resource naming)
     AllowedPattern: ^[a-z0-9-]+$
-    ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+    ConstraintDescription: Only lowercase letters, numbers, and hyphens are allowed
 
   ProjectTag:
     Type: String
     Default: 'AWS-Lab'
-    Description: Project 태그 값
+    Description: Project tag value
 
   WeekTag:
     Type: String
     Default: '2-2'
-    Description: Week 태그 값
+    Description: Week tag value
 
   CreatedByTag:
     Type: String
     Default: 'CloudFormation'
-    Description: CreatedBy 태그 값
+    Description: CreatedBy tag value
 
 Resources:
   # AWS Identity and Access Management 사용자: lab-user (AssumeRole 테스트용)
@@ -63,31 +63,31 @@ Resources:
 
 Outputs:
   LabUserName:
-    Description: AWS Identity and Access Management 사용자 이름 (태스크 4에서 AssumeRole 권한 부여 시 사용)
+    Description: IAM user name (used in Task 4 for AssumeRole permission)
     Value: !Ref LabUser
     Export:
       Name: !Sub '${EnvironmentName}-LabUserName'
 
   LabUserAccessKeyId:
-    Description: Access Key ID (AWS Command Line Interface 설정 시 사용)
+    Description: Access Key ID (used for AWS CLI configuration)
     Value: !Ref LabUserAccessKey
     Export:
       Name: !Sub '${EnvironmentName}-AccessKeyId'
 
   LabUserSecretAccessKey:
-    Description: Secret Access Key (AWS Command Line Interface 설정 시 사용)
+    Description: Secret Access Key (used for AWS CLI configuration)
     Value: !GetAtt LabUserAccessKey.SecretAccessKey
     Export:
       Name: !Sub '${EnvironmentName}-SecretAccessKey'
 
   TestBucketName:
-    Description: 테스트용 Amazon Simple Storage Service 버킷 이름 (태스크 5-6에서 권한 테스트 시 사용)
+    Description: Test S3 bucket name (used in Task 5-6 for permission testing)
     Value: !Ref TestBucket
     Export:
       Name: !Sub '${EnvironmentName}-TestBucketName'
 
   TestBucketArn:
-    Description: 테스트용 Amazon Simple Storage Service 버킷 ARN
+    Description: Test S3 bucket ARN
     Value: !GetAtt TestBucket.Arn
     Export:
       Name: !Sub '${EnvironmentName}-TestBucketArn'

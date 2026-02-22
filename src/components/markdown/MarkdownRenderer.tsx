@@ -532,6 +532,20 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
                       '',
                     );
                   }
+                  // code 태그는 UserValue로 렌더링
+                  if (
+                    child?.type === 'code' &&
+                    child?.props?.inline !== false
+                  ) {
+                    const text = String(child.props.children)
+                      .replace(/\s+/g, ' ')
+                      .trim();
+                    return (
+                      <UserValue key={`code-${index}`} copyable={true}>
+                        {text}
+                      </UserValue>
+                    );
+                  }
                   return child;
                 })
               : typeof children === 'string'
@@ -919,6 +933,31 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
       const roleAttr =
         boxType === 'warning' || boxType === 'error' ? 'alert' : 'note';
 
+      // Alert 마커 제거 함수
+      const removeAlertMarker = (node: any): any => {
+        if (typeof node === 'string') {
+          return node.replace(
+            /\[!(NOTE|WARNING|TIP|ERROR|SUCCESS|COST|IMPORTANT|TROUBLESHOOTING|CONCEPT|DOWNLOAD|OUTPUT)\]\s*/g,
+            '',
+          );
+        }
+        if (Array.isArray(node)) {
+          return node.map(removeAlertMarker);
+        }
+        if (node?.props?.children) {
+          return {
+            ...node,
+            props: {
+              ...node.props,
+              children: removeAlertMarker(node.props.children),
+            },
+          };
+        }
+        return node;
+      };
+
+      const cleanedChildren = removeAlertMarker(children);
+
       return (
         <div className={`info-box info-box--${boxType}`} role={roleAttr}>
           <div className="info-box-icon">
@@ -926,7 +965,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
           </div>
           <div className="info-box-content">
             <strong>{label}</strong>
-            <div className="alert-content-wrapper">{formatAlertContent()}</div>
+            <div className="alert-content-wrapper">{cleanedChildren}</div>
           </div>
         </div>
       );

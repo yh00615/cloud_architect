@@ -33,7 +33,7 @@ prerequisites:
 
 ### 태스크 1.1: AWS Config 활성화 및 기본 설정
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS Config`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Config`을 입력하고 선택합니다.
 2. 처음 사용하는 경우 [[Get started]] 버튼을 클릭합니다.
 3. **Settings** 페이지에서 다음을 설정합니다:
    - **Recording strategy**: `Record specific resource types`
@@ -455,7 +455,7 @@ AWS Config는 선택한 규칙에 따라 적절한 Trigger type을 자동으로 
 
 #### 방법 1: Tag Editor로 리소스 찾기 (권장)
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.

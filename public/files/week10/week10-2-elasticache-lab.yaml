@@ -1,33 +1,33 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 10-2: Amazon ElastiCache로 API 응답 캐싱 구현 실습 환경'
+Description: 'Week 10-2: Amazon ElastiCache API Response Caching Implementation Lab Environment'
 
 Parameters:
   EnvironmentName:
     Type: String
     Default: 'week10-2-elasticache-lab'
-    Description: 환경 이름 (리소스 태그에 사용)
+    Description: Environment name (used for resource tagging)
     AllowedPattern: ^[a-z0-9-]+$
-    ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+    ConstraintDescription: Only lowercase letters, numbers, and hyphens allowed
 
   ProjectTag:
     Type: String
     Default: 'AWS-Lab'
-    Description: Project 태그 값
+    Description: Project tag value
 
   WeekTag:
     Type: String
     Default: '10-2'
-    Description: Week 태그 값
+    Description: Week tag value
 
   CreatedByTag:
     Type: String
     Default: 'CloudFormation'
-    Description: CreatedBy 태그 값
+    Description: CreatedBy tag value
 
   CacheNodeType:
     Type: String
     Default: 'cache.t3.micro'
-    Description: Amazon ElastiCache 노드 타입
+    Description: ElastiCache node type
     AllowedValues:
       - cache.t3.micro
       - cache.t3.small
@@ -523,7 +523,7 @@ Outputs:
       Name: !Sub '${AWS::StackName}-APIDataTableName'
 
   SetupInstructions:
-    Description: 다음 단계 안내
+    Description: Next steps guide
     Value: !Sub |
       ElastiCache 환경 구축이 완료되었습니다!
 

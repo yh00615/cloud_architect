@@ -76,12 +76,16 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### 상세 단계
 
+> [!NOTE]
+> AWS CloudFormation 콘솔 UI는 주기적으로 업데이트됩니다.  
+> 버튼명이나 화면 구성이 가이드와 다를 수 있으나, 전체 흐름(템플릿 업로드 → 스택 이름 입력 → 태그 추가 → 생성)은 동일합니다.
+
 1. 다운로드한 `week4-2-quicktable-api-lab.zip` 파일의 압축을 해제합니다.
 2. `week4-2-quicktable-api-lab.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
-4. [[Create stack]] 버튼을 클릭합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
+4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 5. **Choose a stack creation method**에서 `With new resources (standard)`를 선택합니다.
-6. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+6. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 7. **Specify template**에서 `Upload a template file`을 선택합니다.
 8. [[Choose file]] 버튼을 클릭한 후 `week4-2-quicktable-api-lab.yaml` 파일을 선택합니다.
 9. [[Next]] 버튼을 클릭합니다.
@@ -98,18 +102,19 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 | `CreatedBy` | `Student` |
 
 14. [[Next]] 버튼을 클릭합니다.
-15. **Review** 페이지에서 설정을 확인합니다.
-16. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
-17. [[Submit]] 버튼을 클릭합니다.
-18. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
+15. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
+16. [[Next]] 버튼을 클릭합니다.
+17. **Review** 페이지에서 설정을 확인합니다.
+18. [[Submit]] 버튼을 클릭합니다.
+19. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
 
 > [!NOTE]
 > 스택 생성에 2-3분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
-> 대기하는 동안 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽습니다.
+> 대기하는 동안 다음 태스크를 미리 읽어보세요.
 
-19. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
-20. **Outputs** 탭을 선택합니다.
-21. 출력값들을 확인하고 메모장에 복사합니다:
+20. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
+21. **Outputs** 탭을 선택합니다.
+22. 출력값들을 확인하고 메모장에 복사합니다:
     - `ApiGatewayInvokeUrl`: Amazon API Gateway Invoke URL (예: https://abc123.execute-api.ap-northeast-2.amazonaws.com/prod)
 
 > [!IMPORTANT]
@@ -126,7 +131,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### 태스크 1.1: User Pool 생성 시작 및 로그인 설정
 
-1. AWS Management Console 상단 검색창에서 `Amazon Cognito`를 검색하고 선택합니다.
+1. AWS Management Console 상단 검색창에 `Cognito`을 입력하고 선택합니다.
 2. [[Create user pool]] 버튼을 클릭합니다.
 3. **Amazon Cognito user pool sign-in options**에서 `Email`을 체크합니다.
 4. [[Next]] 버튼을 클릭합니다.
@@ -260,7 +265,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### 태스크 3.1: Authorizer 생성
 
-1. 상단 검색창에서 `Amazon API Gateway`를 검색하고 선택합니다.
+1. 상단 검색창에 `API Gateway`을 입력하고 선택합니다.
 2. API 목록에서 `Week4-2-QuickTableAPI`를 선택합니다.
 3. 왼쪽 메뉴에서 **Authorizers**를 선택합니다.
 4. [[Create authorizer]] 버튼을 클릭합니다.
@@ -607,7 +612,7 @@ curl -X GET $API_URL/reservations \
 
 실습에서 생성한 모든 리소스를 Tag Editor로 확인합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
@@ -715,7 +720,7 @@ fi
 
 마지막으로 AWS CloudFormation 스택을 삭제하여 나머지 모든 리소스를 정리합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 2. 스택 목록에서 `week4-2-quicktable-api-lab-stack` 스택을 검색합니다.
 3. `week4-2-quicktable-api-lab-stack` 스택의 체크박스를 선택합니다.
 

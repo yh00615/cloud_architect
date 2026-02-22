@@ -45,7 +45,7 @@ QuickTable은 전 세계 사용자가 레스토랑을 검색하고 예약할 수
 이 태스크에서는 CloudFront의 오리진으로 사용할 Amazon S3 버킷을 생성하고 QuickTable 프론트엔드 콘텐츠를 업로드합니다. `about.html` 파일은 QuickTable 서비스 소개 페이지로, 글로벌 아키텍처와 서비스 특징을 설명합니다. 이 파일을 통해 CloudFront의 다중 경로 라우팅 기능을 테스트할 수 있습니다.
 
 1. 다운로드한 `week10-3-cloudfront-demo.zip` 파일의 압축을 해제합니다.
-2. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon S3`를 검색하고 선택합니다.
+2. AWS Management Console에 로그인한 후 상단 검색창에 `S3`을 입력하고 선택합니다.
 3. [[Create bucket]] 버튼을 클릭합니다.
 4. **Bucket name**에 `quicktable-cloudfront-origin-YOUR-INITIALS-12345`를 입력합니다.
 
@@ -83,7 +83,7 @@ QuickTable은 전 세계 사용자가 레스토랑을 검색하고 예약할 수
 
 이 태스크에서는 Amazon S3 버킷을 오리진으로 하는 Amazon CloudFront 배포를 생성하여 QuickTable을 전 세계에 배포합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon CloudFront`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFront`을 입력하고 선택합니다.
 2. [[Create distribution]] 버튼을 클릭합니다.
 3. **Origin domain**에서 방금 생성한 Amazon S3 버킷을 선택합니다.
 
@@ -306,7 +306,7 @@ Week 9-3에서 구축한 QuickTable 정적 웹사이트가 이제 CloudFront를 
 
 ### 방법 1: Tag Editor로 리소스 찾기 (권장)
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.

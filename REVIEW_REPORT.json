@@ -281,28 +281,15 @@
   },
   "guides": {
     "total": 3,
-    "passed": 2,
-    "failed": 1,
+    "passed": 3,
+    "failed": 0,
     "warnings": 0,
-    "issues": [
-      {
-        "category": "파일 내용",
-        "severity": "error",
-        "count": 1,
-        "message": "CloudFormation/Python/SQL 파일 검증 실패",
-        "fix": "npm run validate:file-contents 실행하여 상세 확인"
-      }
-    ]
+    "issues": []
   },
   "overall": {
-    "score": 80,
-    "grade": "B",
+    "score": 90,
+    "grade": "A",
     "recommendations": [
-      {
-        "priority": "high",
-        "message": "1개의 오류를 먼저 수정하세요",
-        "action": "오류 항목부터 우선 처리"
-      },
       {
         "priority": "medium",
         "message": "코드 품질 경고가 많습니다",

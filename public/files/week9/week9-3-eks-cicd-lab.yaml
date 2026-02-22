@@ -1,49 +1,49 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 9-3: AWS CodePipeline으로 Amazon EKS 배포 자동화 실습 환경'
+Description: 'Week 9-3: AWS CodePipeline EKS Deployment Automation Lab Environment'
 
 Parameters:
   EnvironmentName:
     Type: String
     Default: 'week9-3-eks-cicd-lab'
-    Description: 환경 이름 (리소스 태그에 사용)
+    Description: Environment name (used for resource tagging)
     AllowedPattern: ^[a-z0-9-]+$
-    ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+    ConstraintDescription: Only lowercase letters, numbers, and hyphens allowed
 
   EKSClusterName:
     Type: String
     Default: 'eks-cicd-cluster'
-    Description: Amazon EKS 클러스터 이름
+    Description: EKS cluster name
     AllowedPattern: ^[a-zA-Z0-9-]+$
-    ConstraintDescription: 영문자, 숫자, 하이픈만 사용 가능
+    ConstraintDescription: Only letters, numbers, and hyphens allowed
 
   RepositoryName:
     Type: String
     Default: 'eks-app-repo'
-    Description: AWS CodeCommit 리포지토리 이름
+    Description: CodeCommit repository name
     AllowedPattern: ^[a-zA-Z0-9-_]+$
-    ConstraintDescription: 영문자, 숫자, 하이픈, 언더스코어만 사용 가능
+    ConstraintDescription: Only letters, numbers, hyphens, and underscores allowed
 
   ECRRepositoryName:
     Type: String
     Default: 'eks-app'
-    Description: Amazon ECR 리포지토리 이름
+    Description: ECR repository name
     AllowedPattern: ^[a-z0-9-_/]+$
-    ConstraintDescription: 소문자, 숫자, 하이픈, 언더스코어, 슬래시만 사용 가능
+    ConstraintDescription: Only lowercase letters, numbers, hyphens, underscores, and slashes allowed
 
   ProjectTag:
     Type: String
     Default: 'AWS-Lab'
-    Description: Project 태그 값
+    Description: Project tag value
 
   WeekTag:
     Type: String
     Default: '9-3'
-    Description: Week 태그 값
+    Description: Week tag value
 
   CreatedByTag:
     Type: String
     Default: 'CloudFormation'
-    Description: CreatedBy 태그 값
+    Description: CreatedBy tag value
 
 Resources:
   # VPC
@@ -849,7 +849,7 @@ Outputs:
     Value: !Sub 'aws eks update-kubeconfig --name ${EKSCluster} --region ${AWS::Region}'
 
   SetupInstructions:
-    Description: 다음 단계 안내
+    Description: Next steps guide
     Value: !Sub |
       CI/CD 환경 구축이 완료되었습니다!
       

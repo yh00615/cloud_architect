@@ -33,7 +33,7 @@ Playground는 코드 작성 없이 브라우저에서 직접 Foundation Model과
 
 ### 태스크 1.1: Playground 접속 및 모델 선택
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon Bedrock`을 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Bedrock`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Playgrounds** > **Text**를 선택합니다.
 3. 오른쪽 패널에서 [[Select model]] 버튼을 클릭합니다.
 4. `Anthropic Claude 3 Haiku` (또는 사용 가능한 최신 경량 모델)를 선택한 후 [[Apply]] 버튼을 클릭합니다.

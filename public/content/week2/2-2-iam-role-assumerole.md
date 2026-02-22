@@ -6,13 +6,10 @@ awsServices:
   - AWS IAM
   - AWS STS
 learningObjectives:
-  - AWS 인증과 권한의 차이를 이해하고, AWS IAM을 통한 사용자 접근 관리 방법을 설명할 수 있습니다
-  - AWS IAM 정책 구조와 평가 로직을 설명할 수 있습니다
-  - Condition과 권한 경계를 활용한 고급 권한 제어 기법을 이해할 수 있습니다
-  - AWS IAM 역할과 임시 자격증명의 보안 이점을 설명할 수 있습니다
-  - 신뢰 정책과 권한 정책의 차이를 이해하고 구성할 수 있습니다
-  - AWS STS AssumeRole로 역할을 전환할 수 있습니다
-  - AWS Organizations의 멀티 계정 관리 전략을 이해할 수 있습니다
+  - Amazon S3 읽기 전용 역할을 생성하고 신뢰 정책을 구성할 수 있습니다.
+  - 최소 권한 사용자에게 특정 역할을 맡을 수 있는 AssumeRole 권한을 부여할 수 있습니다.
+  - AWS CLI에서 AWS STS AssumeRole로 역할을 전환할 수 있습니다.
+  - 임시 자격증명으로 리소스에 접근하여 역할 동작을 확인할 수 있습니다.
 prerequisites:
   - AWS 계정 및 AWS IAM 사용자
   - AWS CloudShell 접근 가능한 환경 (또는 AWS CLI 설치 및 구성)
@@ -47,26 +44,32 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### 상세 단계
 
+> [!NOTE]
+> AWS CloudFormation 콘솔 UI는 주기적으로 업데이트됩니다.  
+> 버튼명이나 화면 구성이 가이드와 다를 수 있으나, 전체 흐름(템플릿 업로드 → 스택 이름 입력 → 태그 추가 → 생성)은 동일합니다.
+
 1. 다운로드한 `week2-2-iam-role-assumerole.zip` 파일의 압축을 해제합니다.
 2. `week2-2-iam-role-assumerole.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
-5. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 `week2-2-iam-role-assumerole.yaml` 파일을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
 9. **Stack name**에 `week2-2-iam-role-stack`을 입력합니다.
 10. **Parameters** 섹션에서 기본값을 확인합니다.
 11. [[Next]] 버튼을 클릭합니다.
-12. **Configure stack options** 페이지에서 기본값을 유지하고 [[Next]] 버튼을 클릭합니다.
-13. **Review** 페이지에서 설정을 확인합니다.
-14. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
-15. [[Submit]] 버튼을 클릭합니다.
-16. 스택 생성이 시작됩니다.
-17. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
+12. **Configure stack options** 페이지에서 기본값을 유지합니다.
+13. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
+14. [[Next]] 버튼을 클릭합니다.
+15. **Review** 페이지에서 설정을 확인합니다.
+16. [[Submit]] 버튼을 클릭합니다.
+17. 스택 생성이 시작됩니다.
+18. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
 
 > [!NOTE]
-> 스택 생성에 1-2분이 소요됩니다. **Events** 탭에서 AWS IAM 사용자, Access Key, Amazon S3 버킷이 생성되는 과정을 확인할 수 있습니다. 대기하는 동안 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽어볼 수 있습니다.
+> 스택 생성에 1-2분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
+> 대기하는 동안 다음 태스크를 미리 읽어보세요.
 
 18. **Outputs** 탭을 선택합니다.
 19. 출력값들을 확인하고 메모장에 복사합니다:
@@ -84,7 +87,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 이 태스크에서는 **AWS IAM 역할**을 생성하고 **신뢰 정책**(Trust Policy)을 구성합니다. **신뢰 정책**(Trust Policy)은 "누가 이 역할을 맡을 수 있는가"를 정의하며, **AWS 계정**을 신뢰 주체로 지정하면 같은 계정 내의 **AWS IAM 사용자**나 **서비스**가 이 역할을 맡을 수 있습니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS IAM`을 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `IAM`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Roles**를 선택합니다.
 3. [[Create role]] 버튼을 클릭합니다.
 4. **Trusted entity type**에서 `AWS account`를 선택합니다.
@@ -101,7 +104,10 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 5. **An AWS account**에서 `This account`를 선택합니다.
 
 > [!NOTE]
-> 콘솔 버전에 따라 "This account (계정ID)" 또는 "This account"로 표시될 수 있습니다. 현재 계정을 선택하는 옵션을 선택합니다. 6. **Account ID**에 현재 계정 ID가 표시되는지 확인합니다.
+> 콘솔 버전에 따라 "This account (계정ID)" 또는 "This account"로 표시될 수 있습니다.  
+> 현재 계정을 선택하는 옵션을 선택합니다.
+
+6. **Account ID**에 현재 계정 ID가 표시되는지 확인합니다.
 
 > [!NOTE]
 > **Account ID** 필드에 12자리 숫자가 자동으로 표시됩니다. 이는 현재 로그인한 AWS 계정의 ID입니다.
@@ -118,7 +124,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 이 태스크에서는 **권한 정책**(Permission Policy)을 역할에 연결합니다. **권한 정책**(Permission Policy)은 "이 역할이 무엇을 할 수 있는가"를 정의하며, **AWS 관리형 정책**인 **AmazonS3ReadOnlyAccess**를 사용하면 **Amazon S3 버킷**과 객체를 조회할 수 있지만 생성, 수정, 삭제는 할 수 없습니다.
 
-1. **Permissions policies** 검색창에 `Amazon S3`를 입력합니다.
+1. **Permissions policies** 검색창에 `S3`를 입력합니다.
 2. 검색 결과에서 `AmazonS3ReadOnlyAccess` 정책을 찾습니다.
 3. `AmazonS3ReadOnlyAccess` 정책 왼쪽의 체크박스를 선택합니다.
 
@@ -132,27 +138,27 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 8. 아래로 스크롤하여 **Step 1: Select trusted entities** 섹션을 확인합니다.
 
 > [!NOTE]
-> **Trusted entities** 섹션에 "Custom trust policy"가 표시되고, 신뢰 정책 요약이 보입니다. 콘솔 버전에 따라 JSON 전체가 표시되거나 요약 형태로 표시될 수 있습니다. JSON 전체를 보려면 역할 생성 후 **Trust relationships** 탭에서 확인할 수 있습니다.
->
-> 예상되는 신뢰 정책 JSON:
->
-> ```json
-> {
->   "Version": "2012-10-17",
->   "Statement": [
->     {
->       "Effect": "Allow",
->       "Principal": {
->         "AWS": "arn:aws:iam::123456789012:root"
->       },
->       "Action": "sts:AssumeRole",
->       "Condition": {}
->     }
->   ]
-> }
-> ```
->
-> 여기서 `123456789012`는 현재 계정 ID로 자동으로 채워집니다.
+> **Trusted entities** 섹션에 "Trust policy"가 표시되고, 신뢰 정책 요약이 보입니다.  
+> 콘솔 버전에 따라 JSON 전체가 표시되거나 요약 형태로 표시될 수 있습니다.  
+> JSON 전체를 보려면 역할 생성 후 **Trust relationships** 탭에서 확인할 수 있습니다.
+
+예상되는 신뢰 정책 JSON: 여기서 `123456789012`는 현재 계정 ID로 자동으로 채워집니다.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:root"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {}
+    }
+  ]
+}
+```
 
 9. **Step 2: Add permissions** 섹션에서 `AmazonS3ReadOnlyAccess` 정책이 연결되어 있는지 확인합니다.
 
@@ -189,14 +195,17 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 5. **ARN** 필드를 찾습니다.
 
 > [!NOTE]
-> **ARN** 필드는 **Summary** 섹션의 상단에 위치하며, `arn:aws:iam::123456789012:role/S3ReadOnlyRole` 형식으로 표시됩니다. ARN 오른쪽에 복사 아이콘이 있습니다.
+> **ARN** 필드는 **Summary** 섹션의 상단에 위치하며, `arn:aws:iam::123456789012:role/S3ReadOnlyRole` 형식으로 표시됩니다.  
+> ARN 오른쪽에 복사 아이콘이 있습니다.
 
 6. ARN 오른쪽의 복사 아이콘을 클릭하여 ARN 값을 복사합니다.
 7. 메모장을 열고 복사한 ARN을 붙여넣습니다.
 8. 메모장에 "S3ReadOnlyRole ARN:"이라는 레이블을 추가하여 저장합니다.
 
 > [!NOTE]
-> ARN 형식은 `arn:aws:iam::123456789012:role/S3ReadOnlyRole`입니다. AWS IAM은 글로벌 서비스이므로 리전 필드가 비어있어 콜론이 연속으로 두 개(`::`)가 나타나는 것이 정상입니다. ARN은 AWS 리소스를 고유하게 식별하는 값으로, AssumeRole 시 필요합니다. 다음 태스크에서 이 ARN을 사용합니다.
+> ARN은 AWS 리소스를 고유하게 식별하는 값으로, AssumeRole 시 필요합니다. 다음 태스크에서 이 ARN을 사용합니다. AWS IAM은 글로벌 서비스이므로 리전 필드가 비어있어 콜론이 연속으로 두 개(`::`)가 나타나는 것이 정상입니다.
+
+ARN 형식 예시: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`
 
 ✅ **태스크 완료**: 역할 ARN이 확인되었습니다.
 
@@ -209,29 +218,49 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 3. 사용자 목록에서 현재 사용 중인 AWS IAM 사용자를 검색합니다.
 
 > [!TIP]
-> 현재 로그인한 사용자 이름은 AWS 콘솔 우측 상단에 표시됩니다. "사용자이름 @ 계정ID" 형식으로 표시되며, @ 앞부분이 사용자 이름입니다. 또는 CloudShell에서 `aws sts get-caller-identity` 명령으로 확인할 수 있습니다.
+> 현재 로그인한 사용자 이름은 AWS 콘솔 우측 상단에 표시됩니다. "사용자이름 @ 계정ID" 형식으로 표시되며, @ 앞부분이 사용자 이름입니다.  
+> 또는 CloudShell에서 `aws sts get-caller-identity` 명령으로 확인할 수 있습니다.
 
 > [!NOTE]
-> 만약 현재 로그인한 사용자가 AWS IAM Users 목록에 없는 경우, 페더레이션 또는 SSO 사용자일 수 있습니다. 이 경우 새로운 AWS IAM 사용자를 생성하여 실습을 진행합니다:
+> 만약 현재 로그인한 사용자가 AWS IAM Users 목록에 없는 경우, 페더레이션 또는 SSO 사용자일 수 있습니다.  
+> 이 경우 새로운 AWS IAM 사용자를 생성하여 실습을 진행합니다:
 >
-> 1. [[Create user]] 버튼을 클릭합니다
-> 2. **User name**에 `lab-user`를 입력합니다
-> 3. **Provide user access to the AWS Management Console**을 체크합니다
-> 4. **I want to create an AWS IAM user**를 선택합니다
-> 5. [[Next]] 버튼을 클릭합니다
-> 6. **Attach policies directly**를 선택하고 `IAMReadOnlyAccess` 정책을 연결합니다 (최소 권한)
-> 7. [[Next]] → [[Create user]] 버튼을 클릭합니다
-> 8. 생성된 사용자의 **Security credentials** 탭에서 [[Create access key]]를 클릭하여 Access Key를 생성합니다
-> 9. **Use case**에서 `Command Line Interface (CLI)`를 선택합니다
-> 10. Access Key와 Secret Access Key를 메모장에 저장합니다
-> 11. CloudShell에서 `aws configure`로 이 자격증명을 설정하거나, 새 브라우저 시크릿 창에서 lab-user로 로그인하여 실습을 진행합니다
+> 1. [[Create user]] 버튼을 클릭합니다.
+> 2. **User name**에 `lab-user`를 입력합니다.
+> 3. **Provide user access to the AWS Management Console**을 체크합니다.
+> 4. [[Next]] 버튼을 클릭합니다.
+> 5. **Attach policies directly**를 선택하고 다음 정책들을 연결합니다:
+>    - `IAMReadOnlyAccess` (AWS IAM 리소스 조회용)
+>    - `AWSCloudShellFullAccess` (CloudShell 사용용)
+> 6. [[Next]] → [[Create user]] 버튼을 클릭합니다.
+> 7. 사용자 생성 완료 화면에서 콘솔 비밀번호와 로그인 링크(Console sign-in URL)가 표시됩니다.  
+>    [[Download .csv file]] 버튼을 클릭하여 자격증명을 다운로드하거나, 비밀번호와 로그인 링크를 복사하여 메모장에 저장합니다.
+> 8. [[Return to users list]] 버튼을 클릭하고 생성한 사용자를 선택합니다.
+> 9. 생성된 사용자의 **Security credentials** 탭에서 [[Create access key]]를 클릭하여 Access Key를 생성합니다.
+> 10. **Use case**에서 `Command Line Interface (CLI)`를 선택합니다.
+> 11. 하단의 **I understand the above recommendation and want to proceed to create an access key** 체크박스를 체크합니다.
+> 12. [[Next]] 버튼을 클릭 후 [[Create access key]] 버튼을 클릭합니다.
+> 13. Access Key와 Secret Access Key를 메모장에 저장하거나 [[Download .csv file]] 버튼을 클릭하여 저장합니다.
+> 14. CloudShell에서 `aws configure`로 이 자격증명을 설정하거나, **새 브라우저 시크릿 창**에서 lab-user로 로그인하여 실습을 진행합니다.
+>
+> **중요**: 콘솔 비밀번호는 사용자 생성 시 한 번만 표시됩니다.  
+> 다운로드하지 않았거나 분실한 경우, 나중에 사용자의 **Security credentials** 탭에서 [[Console password]] → [[Manage]]를 클릭하여 비밀번호를 재설정할 수 있습니다.
 
 4. 해당 사용자를 클릭합니다.
 
 > [!NOTE]
-> 현재 사용자가 관리자 권한(AdministratorAccess)을 가지고 있다면, 이 인라인 정책 없이도 AssumeRole이 성공합니다. 이 태스크는 최소 권한 원칙에 따라 특정 역할만 맡을 수 있도록 제한하는 방법을 학습하기 위한 것입니다. 실무에서는 관리자 권한 대신 이러한 세밀한 정책을 사용합니다.
+> 현재 사용자가 관리자 권한(AdministratorAccess)을 가지고 있다면, 이 인라인 정책 없이도 AssumeRole이 성공합니다.  
+> 이 태스크는 최소 권한 원칙에 따라 특정 역할만 맡을 수 있도록 제한하는 방법을 학습하기 위한 것입니다.  
+> 실무에서는 관리자 권한 대신 이러한 세밀한 정책을 사용합니다.
 >
-> **인라인 정책의 효과를 확인하려면**: 관리자 권한이 없는 별도 사용자(예: 위에서 생성한 lab-user)로 실습하는 것이 교육적으로 더 효과적입니다. 관리자 권한 사용자는 이미 모든 권한을 가지고 있어 인라인 정책 추가의 필요성을 체감하기 어렵습니다. 5. 사용자 상세 페이지에서 **Permissions** 탭을 선택합니다. 6. **Permissions policies** 섹션에서 [[Add permissions]] 버튼을 클릭합니다. 7. 드롭다운 메뉴가 나타나면 [[Create inline policy]]를 선택합니다. 8. **Specify permissions** 페이지가 열립니다. 9. **JSON** 탭 또는 토글을 선택합니다.
+> **인라인 정책의 효과를 확인하려면**: 관리자 권한이 없는 별도 사용자(예: 위에서 생성한 lab-user)로 실습하는 것이 교육적으로 더 효과적입니다.  
+> 관리자 권한 사용자는 이미 모든 권한을 가지고 있어 인라인 정책 추가의 필요성을 체감하기 어렵습니다.
+
+5. 사용자 상세 페이지에서 **Permissions** 탭을 선택합니다.
+6. **Permissions policies** 섹션에서 [[Add permissions]] 버튼을 클릭합니다.
+7. 드롭다운 메뉴가 나타나면 [[Create inline policy]]를 선택합니다.
+8. **Specify permissions** 페이지가 열립니다.
+9. **JSON** 탭 또는 토글을 선택합니다.
 
 > [!NOTE]
 > 콘솔 버전에 따라 "JSON" 탭, "JSON" 토글, 또는 "Switch to JSON editor" 버튼으로 표시될 수 있습니다. JSON 편집기로 전환하는 옵션을 선택합니다.
@@ -255,7 +284,8 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 > 다운로드한 ZIP 파일의 `assume-role-policy.json`에도 동일한 정책이 포함되어 있습니다. 파일을 열어서 복사하여 붙여넣을 수도 있습니다.
 
 > [!IMPORTANT]
-> `YOUR_ACCOUNT_ID`를 실제 계정 ID로 변경해야 합니다. 계정 ID는 태스크 3에서 복사한 ARN에서 확인할 수 있습니다 (예: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`에서 `123456789012` 부분).
+> `YOUR_ACCOUNT_ID`를 실제 계정 ID로 변경해야 합니다.  
+> 계정 ID는 태스크 3에서 복사한 ARN에서 확인할 수 있습니다 (예: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`에서 `123456789012` 부분).
 >
 > **권장 방법**: 태스크 3에서 복사한 ARN 전체를 Resource 값으로 사용합니다. 메모장에 저장한 ARN을 그대로 복사하여 붙여넣으면 오류를 방지할 수 있습니다.
 
@@ -300,11 +330,11 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 15. **Policy name**에 `AssumeS3ReadOnlyRolePolicy`를 입력합니다.
 16. [[Create policy]] 버튼을 클릭합니다.
 17. 정책 생성이 완료되면 사용자의 **Permissions** 탭으로 자동 이동합니다.
-18. 화면 상단에 녹색 배너로 "Policy AssumeS3ReadOnlyRolePolicy created successfully"라는 성공 메시지가 표시됩니다.
+18. 화면 상단에 녹색 배너로 "Policy AssumeS3ReadOnlyRolePolicy created"라는 성공 메시지가 표시됩니다.
 19. **Permissions policies** 섹션에서 `AssumeS3ReadOnlyRolePolicy`가 추가되었는지 확인합니다.
 
 > [!NOTE]
-> **Permissions policies** 섹션에 `AssumeS3ReadOnlyRolePolicy`가 표시되고, **Policy type** 열에 "Inline"으로 표시됩니다. 이는 사용자에게 직접 연결된 인라인 정책임을 의미합니다.
+> **Permissions policies** 섹션에 `AssumeS3ReadOnlyRolePolicy`가 표시되고, **Policy Type** 열에 "Customer inline"으로 표시됩니다. 이는 사용자에게 직접 연결된 인라인 정책임을 의미합니다.
 
 ✅ **태스크 완료**: AssumeRole 권한이 부여되었습니다.
 
@@ -313,12 +343,14 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 이 태스크에서는 **AWS CLI**를 사용하여 **AssumeRole API**를 호출하고 **임시 자격증명**을 획득합니다. **AssumeRole**은 **STS**(Security Token Service)의 API로, 역할을 맡으면 **AccessKeyId**, **SecretAccessKey**, **SessionToken**으로 구성된 임시 자격증명을 받습니다. 이 자격증명은 기본 1시간 동안 유효하며, 역할의 Maximum session duration 설정에서 최대 12시간까지 연장할 수 있습니다.
 
 > [!NOTE]
-> 이 실습에서 생성한 역할은 Maximum session duration을 변경하지 않았으므로 최대 세션 시간은 1시간입니다. 역할 설정에서 Maximum session duration을 늘리면 최대 12시간까지 연장할 수 있습니다.
+> 이 실습에서 생성한 역할은 Maximum session duration을 변경하지 않았으므로 최대 세션 시간은 1시간입니다.  
+> 역할 설정에서 Maximum session duration을 늘리면 최대 12시간까지 연장할 수 있습니다.
 
 1. AWS Management Console 상단 오른쪽의 AWS CloudShell 아이콘을 클릭합니다.
 
 > [!NOTE]
-> CloudShell은 AWS CLI가 사전 설치되어 있고 현재 로그인한 AWS IAM 사용자 자격증명이 자동으로 구성된 브라우저 기반 셸 환경입니다. 첫 실행 시 환경 초기화에 1-2분이 소요될 수 있습니다. 환경이 준비될 때까지 기다립니다.
+> CloudShell은 AWS CLI가 사전 설치되어 있고 현재 로그인한 AWS IAM 사용자 자격증명이 자동으로 구성된 브라우저 기반 셸 환경입니다.  
+> 첫 실행 시 환경 초기화에 1-2분이 소요될 수 있습니다. 환경이 준비될 때까지 기다립니다.
 
 2. 현재 자격증명을 확인합니다:
 
@@ -336,8 +368,24 @@ aws sts get-caller-identity
 > }
 > ```
 
-3. 메모장에 저장한 역할 ARN을 확인합니다.
-4. 다음 명령어를 입력하되, 역할 ARN 부분을 태스크 3에서 복사한 실제 ARN으로 교체합니다:
+3. 현재 사용자로 Amazon S3 버킷 목록 조회를 시도합니다:
+
+```bash
+aws s3 ls
+```
+
+> [!OUTPUT]
+>
+> ```bash
+> An error occurred (AccessDenied) when calling the ListBuckets operation: Access Denied
+> ```
+
+> [!NOTE]
+> **AccessDenied** 오류가 나타나는 것이 정상입니다. 현재 사용자는 `sts:AssumeRole` 권한만 가지고 있고, Amazon S3 접근 권한은 없습니다.  
+> 다음 단계에서 AssumeRole을 통해 S3ReadOnlyRole 역할을 맡으면 Amazon S3 읽기 권한을 얻을 수 있습니다.
+
+4. 메모장에 저장한 역할 ARN을 확인합니다.
+5. 다음 명령어를 입력하되, 역할 ARN 부분을 태스크 3에서 복사한 실제 ARN으로 교체합니다:
 
 ```bash
 aws sts assume-role \
@@ -366,7 +414,8 @@ aws sts assume-role \
 > ```
 
 5. Enter 키를 눌러 명령어를 실행합니다.
-6. 출력된 JSON 결과를 확인합니다.
+6. Enter 키를 눌러 명령어를 실행합니다.
+7. 출력된 JSON 결과를 확인합니다.
 
 > [!OUTPUT]
 >
@@ -385,20 +434,24 @@ aws sts assume-role \
 > }
 > ```
 
-7. 출력된 JSON에서 `Credentials` 섹션의 세 가지 값을 메모장에 복사합니다:
+8. 출력된 JSON에서 `Credentials` 섹션의 세 가지 값을 메모장에 복사합니다:
    - `AccessKeyId`: `ASIAZ...`로 시작하는 값
    - `SecretAccessKey`: 긴 문자열 값
    - `SessionToken`: 매우 긴 문자열 값
 
 > [!WARNING]
-> **임시 자격증명 보안 주의사항**: 메모장에 저장한 자격증명 정보는 실습 종료 후 반드시 삭제합니다. 임시 자격증명이라도 유효 기간 동안에는 AWS 리소스에 접근할 수 있으므로 주의가 필요합니다.
+> **임시 자격증명 보안 주의사항**: 메모장에 저장한 자격증명 정보는 실습 종료 후 반드시 삭제합니다.  
+> 임시 자격증명이라도 유효 기간 동안에는 AWS 리소스에 접근할 수 있으므로 주의가 필요합니다.
 
 > [!NOTE]
 > 이 세 가지 값은 다음 태스크에서 환경 변수로 설정할 때 사용됩니다. 정확히 복사하여 메모장에 저장합니다.
 >
-> **SessionToken 길이 주의**: SessionToken은 매우 긴 문자열(보통 500-1000자 이상)입니다. 복사할 때 전체가 선택되었는지 확인합니다. 일부만 복사하면 다음 태스크에서 "Invalid token" 오류가 발생합니다. 메모장에 붙여넣은 후 스크롤하여 전체 길이를 확인하는 것을 권장합니다.
+> **SessionToken 길이 주의**: SessionToken은 매우 긴 문자열(보통 500-1000자 이상)입니다.  
+> 복사할 때 전체가 선택되었는지 확인합니다. 일부만 복사하면 다음 태스크에서 "Invalid token" 오류가 발생합니다.  
+> 메모장에 붙여넣은 후 스크롤하여 전체 길이를 확인하는 것을 권장합니다.
 >
-> **SessionToken 복사 시 줄바꿈 주의**: 복사한 값에 줄바꿈이 포함되지 않도록 주의합니다. 메모장에 붙여넣은 후 줄바꿈이 있으면 제거합니다. 줄바꿈이 포함되면 환경 변수 설정 시 오류가 발생합니다.
+> **SessionToken 복사 시 줄바꿈 주의**: 복사한 값에 줄바꿈이 포함되지 않도록 주의합니다.  
+> 메모장에 붙여넣은 후 줄바꿈이 있으면 제거합니다. 줄바꿈이 포함되면 환경 변수 설정 시 오류가 발생합니다.
 
 ✅ **태스크 완료**: AssumeRole이 성공적으로 수행되었습니다.
 
@@ -413,17 +466,20 @@ aws sts assume-role \
 > eval $(aws sts assume-role --role-arn arn:aws:iam::123456789012:role/S3ReadOnlyRole --role-session-name s3-readonly-session | jq -r '.Credentials | "export AWS_ACCESS_KEY_ID=\(.AccessKeyId)\nexport AWS_SECRET_ACCESS_KEY=\(.SecretAccessKey)\nexport AWS_SESSION_TOKEN=\(.SessionToken)"')
 > ```
 >
-> 이 방법을 사용하면 복사/붙여넣기 오류를 방지할 수 있습니다. 단, 역할 ARN은 실제 값으로 교체해야 합니다.
+> 이 방법을 사용하면 복사/붙여넣기 오류를 방지할 수 있습니다. **단, 역할 ARN은 실제 값으로 교체해야 합니다**.
 
 1. 메모장에 저장한 세 가지 자격증명 값을 확인합니다.
-2. 다음 명령어를 입력하되, 따옴표 안의 값을 실제 값으로 교체합니다:
+2. 다음 명령어 3줄을 메모장에 복사한 후, 따옴표 안의 값을 실제 자격증명 값으로 교체합니다:
 
 ```bash
 export AWS_ACCESS_KEY_ID="여기에_AccessKeyId_값_붙여넣기"
+export AWS_SECRET_ACCESS_KEY="여기에_SecretAccessKey_값_붙여넣기"
+export AWS_SESSION_TOKEN="여기에_SessionToken_값_붙여넣기"
 ```
 
 > [!IMPORTANT]
-> 쉘 명령어의 따옴표(`"`)는 그대로 유지하고, `여기에_AccessKeyId_값_붙여넣기` 부분만 실제 자격증명 값으로 교체합니다. 자격증명 값 자체에는 추가 따옴표를 넣지 않습니다.
+> 쉘 명령어의 따옴표(`"`)는 그대로 유지하고, `여기에_값_붙여넣기` 부분만 실제 자격증명 값으로 교체합니다.  
+> 자격증명 값 자체에는 추가 따옴표를 넣지 않습니다.
 >
 > **SessionToken에는 특수문자가 포함되어 있으므로 반드시 따옴표로 감싸야 합니다.** 따옴표를 빼먹으면 명령어가 실패합니다.
 
@@ -440,22 +496,15 @@ export AWS_ACCESS_KEY_ID="여기에_AccessKeyId_값_붙여넣기"
 > export AWS_ACCESS_KEY_ID=""ASIAZEXAMPLE123""  # 따옴표 중복 (잘못됨)
 > export AWS_ACCESS_KEY_ID=ASIAZEXAMPLE123      # 따옴표 누락 (SessionToken에 특수문자가 포함될 수 있으므로 반드시 따옴표 사용)
 > ```
+>
+> **자주 발생하는 오류:**
+>
+> - `InvalidAccessKeyId`: Access Key ID를 잘못 복사했거나 공백/줄바꿈이 포함된 경우
+> - `InvalidClientTokenId`: SessionToken을 잘못 복사했거나 만료된 경우
+> - 값 복사 시 전체가 선택되었는지 확인하고, 메모장에 붙여넣은 후 줄바꿈이 없는지 확인합니다
 
-3. Enter 키를 눌러 실행합니다.
-4. 두 번째 환경 변수를 설정합니다:
-
-```bash
-export AWS_SECRET_ACCESS_KEY="여기에_SecretAccessKey_값_붙여넣기"
-```
-
-5. Enter 키를 눌러 실행합니다.
-6. 세 번째 환경 변수를 설정합니다:
-
-```bash
-export AWS_SESSION_TOKEN="여기에_SessionToken_값_붙여넣기"
-```
-
-7. Enter 키를 눌러 실행합니다.
+3. 메모장에서 값을 교체한 3줄의 명령어를 모두 복사합니다.
+4. CloudShell에 붙여넣고 Enter 키를 눌러 실행합니다.
 
 > [!WARNING]
 > **환경 변수 히스토리 노출 주의**: `export` 명령어로 설정한 환경 변수는 셸 히스토리에 기록됩니다. `history` 명령어로 자격증명이 노출될 수 있으므로, 실습 종료 후 CloudShell 세션을 종료하거나 `history -c` 명령어로 히스토리를 삭제하는 것을 권장합니다.
@@ -508,7 +557,14 @@ aws s3 mb s3://test-bucket-assumerole-YOUR-INITIALS-12345
 ```
 
 > [!WARNING]
-> `YOUR-INITIALS-12345` 부분을 본인의 이니셜(소문자)과 랜덤 숫자로 변경합니다 (예: `test-bucket-assumerole-jdoe-98765`). Amazon S3 버킷 이름은 전 세계적으로 고유해야 하며, 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다.
+> `YOUR-INITIALS-12345` 부분을 본인의 이니셜(소문자)과 랜덤 숫자로 변경합니다 (예: `test-bucket-assumerole-jdoe-98765`).
+>
+> **Amazon S3 버킷 명명 규칙:**
+>
+> - 전 세계적으로 고유해야 합니다.
+> - 소문자(a-z), 숫자(0-9), 하이픈(-)만 사용 가능합니다.
+> - 대문자, 언더스코어(\_), 특수문자는 사용할 수 없습니다.
+> - 3-63자 사이여야 합니다.
 
 > [!OUTPUT]
 >
@@ -519,7 +575,9 @@ aws s3 mb s3://test-bucket-assumerole-YOUR-INITIALS-12345
 > [!IMPORTANT]
 > **AccessDenied** 오류가 나와야 정상입니다. 이는 S3ReadOnlyAccess 정책이 읽기 권한만 부여하므로 버킷 생성이 거부되었음을 의미합니다.
 >
-> 만약 `BucketAlreadyExists` 오류가 발생하면 다른 사람이 이미 같은 이름의 버킷을 생성한 것입니다. 만약 `BucketAlreadyOwnedByYou` 오류가 발생하면 본인 계정이 이미 소유한 버킷입니다. 두 경우 모두 다른 버킷 이름으로 다시 시도합니다. `AccessDenied` 오류가 나와야 권한 테스트가 성공한 것입니다.
+> 만약 `BucketAlreadyExists` 오류가 발생하면 다른 사람이 이미 같은 이름의 버킷을 생성한 것입니다.  
+> 만약 `BucketAlreadyOwnedByYou` 오류가 발생하면 본인 계정이 이미 소유한 버킷입니다.  
+> 두 경우 모두 다른 버킷 이름으로 다시 시도합니다. `AccessDenied` 오류가 나와야 권한 테스트가 성공한 것입니다.
 >
 > 이 명령은 AccessDenied로 실패하므로 버킷이 생성되지 않습니다. 별도의 정리가 필요하지 않습니다.
 
@@ -589,12 +647,13 @@ aws sts get-caller-identity
 
 ### 단계 1: Tag Editor로 리소스 확인
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `All regions`를 선택합니다.
 
 > [!NOTE]
-> AWS IAM은 글로벌 서비스이므로 특정 리전이 아닌 All regions를 선택해야 AWS IAM 역할이 검색됩니다. Week 1-1 실습에서는 리전별 리소스(Amazon S3, AWS Lambda 등)를 검색했으므로 ap-northeast-2를 선택했지만, AWS IAM 리소스는 All regions를 선택해야 합니다.
+> AWS IAM은 글로벌 서비스이므로 특정 리전이 아닌 All regions를 선택해야 AWS IAM 역할이 검색됩니다.  
+> Week 1-1 실습에서는 리전별 리소스(Amazon S3, AWS Lambda 등)를 검색했으므로 ap-northeast-2를 선택했지만, AWS IAM 리소스는 All regions를 선택해야 합니다.
 
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
 5. **Tags** 섹션에서 다음을 입력합니다:
@@ -617,7 +676,7 @@ Tag Editor로 Week 태그 검색 → 리소스 확인 → AWS IAM 리소스 삭�
 
 ### 단계 1: Tag Editor로 리소스 확인
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `All regions`를 선택합니다.
 

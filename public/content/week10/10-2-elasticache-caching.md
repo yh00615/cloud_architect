@@ -63,15 +63,21 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### 상세 단계
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
-2. [[Create stack]] 버튼을 클릭합니다.
-3. **Prerequisite - Prepare template**에서 `Template is ready`를 선택합니다.
+> [!NOTE]
+> AWS CloudFormation 콘솔 UI는 주기적으로 업데이트됩니다.  
+> 버튼명이나 화면 구성이 가이드와 다를 수 있으나, 전체 흐름(템플릿 업로드 → 스택 이름 입력 → 태그 추가 → 생성)은 동일합니다.
+
+1. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
+2. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
+3. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 4. **Specify template**에서 `Upload a template file`을 선택합니다.
 5. [[Choose file]] 버튼을 클릭한 후 다운로드한 `week10-2-elasticache-lab.yaml` 파일을 선택합니다.
 6. [[Next]] 버튼을 클릭합니다.
 7. **Stack name**에 `week10-2-quicktable-cache-stack`을 입력합니다.
 8. **Parameters** 섹션에서 기본값을 확인합니다.
-9. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+9. [[Next]] 버튼을 클릭합니다.
+10. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 찾습니다.
+11. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
 | Key | Value |
 |-----|-------|
@@ -79,16 +85,17 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 | `Week` | `10-2` |
 | `CreatedBy` | `Student` |
 
-10. [[Next]] 버튼을 클릭합니다.
-11. **Configure stack options** 페이지에서 기본값을 유지하고 [[Next]] 버튼을 클릭합니다.
-12. **Review and create** 페이지에서 설정을 확인합니다.
-13. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
-14. [[Submit]] 버튼을 클릭합니다.
-15. 스택 생성이 시작됩니다.
-16. 상태가 "CREATE_COMPLETE"로 변경될 때까지 기다립니다.
+12. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
+13. [[Next]] 버튼을 클릭합니다.
+14. **Review** 페이지에서 설정을 확인합니다.
+15. [[Submit]] 버튼을 클릭합니다.
+16. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
 
 > [!NOTE]
-> **Events** 탭에는 리소스 생성 과정이 실시간으로 표시됩니다.
+> 스택 생성에 5-7분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
+> 대기하는 동안 다음 태스크를 미리 읽어보세요.
+
+17. 상태가 "**CREATE_COMPLETE**"로 변경될 때까지 기다립니다.
 > Amazon VPC, 서브넷, NAT Gateway, 보안 그룹, Amazon ElastiCache Subnet Group, Amazon DynamoDB 테이블이 순차적으로 생성됩니다.
 > 스택 생성에 5-7분이 소요됩니다. 대기하는 동안 이전 차시 내용을 복습하거나 다음 태스크를 미리 읽어보세요.
 
@@ -117,7 +124,7 @@ Redis는 인메모리 데이터 저장소로, 데이터베이스 조회 결과�
 
 ### 상세 단계
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon ElastiCache`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `ElastiCache`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Redis OSS caches**를 선택합니다.
 3. [[Create Redis OSS cache]] 버튼을 클릭합니다.
 4. **Deployment option**에서 `Design your own cache`를 선택합니다.
@@ -205,7 +212,7 @@ Redis CLI를 사용하여 기본 명령어를 실습하고 캐싱 동작을 이�
 
 ### 상세 단계
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon EC2`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `EC2`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Instances**를 선택합니다.
 3. [[Launch instances]] 버튼을 클릭합니다.
 4. **Name**에 `quicktable-cache-client`를 입력합니다.

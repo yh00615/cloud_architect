@@ -378,7 +378,7 @@ kubectl get service sample-app-service --watch
 >
 > 이러한 계층적 구조를 통해 성능 문제를 빠르게 식별하고 원인을 추적할 수 있습니다.
 
-1. AWS Management Console에서 상단 검색창에 `Amazon CloudWatch`를 입력한 후 선택합니다.
+1. AWS Management Console에서 상단 검색창에 `CloudWatch`를 입력한 후 선택합니다.
 2. 왼쪽 메뉴에서 **Insights** > **Container Insights**를 선택합니다.
 3. **Performance monitoring** 섹션이 표시됩니다.
 4. 상단의 드롭다운에서 `Amazon EKS Clusters`를 선택합니다.
@@ -809,7 +809,7 @@ kubectl get hpa
 
 ### 방법 1: Tag Editor로 리소스 찾기 (참고)
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
@@ -922,7 +922,7 @@ eksctl 삭제가 실패한 경우 다음 순서로 수동 삭제합니다:
 8. [[Delete]] 버튼을 클릭합니다.
 9. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
 
-10. AWS Management Console 상단 검색창에서 `Amazon SNS`를 검색하고 선택합니다.
+10. AWS Management Console 상단 검색창에 `SNS`을 입력하고 선택합니다.
 11. 왼쪽 메뉴에서 **Topics**를 선택합니다.
 12. `Amazon EKS-High-CPU-Alert` 토픽을 선택합니다.
 13. [[Delete]] 버튼을 클릭합니다.
