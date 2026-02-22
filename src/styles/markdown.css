@@ -32,6 +32,36 @@
   font-size: 1.0625rem;
 }
 
+/* Alert 내부의 ol은 번호로, ul은 불릿으로 표시 */
+.info-box-content ol {
+  list-style: decimal !important;
+  list-style-position: outside !important;
+  padding-left: 1.25rem !important;
+  margin: 0.75rem 0 !important;
+}
+
+.info-box-content ul {
+  list-style: disc !important;
+  list-style-position: outside !important;
+  padding-left: 1.25rem !important;
+  margin: 0.75rem 0 !important;
+}
+
+.info-box-content ol li,
+.info-box-content ul li {
+  padding-left: 0.25rem !important;
+  margin-bottom: 0.5rem !important;
+  position: static !important;
+  counter-increment: none !important;
+  display: list-item !important;
+}
+
+.info-box-content ol li::before,
+.info-box-content ul li::before {
+  content: none !important;
+  display: none !important;
+}
+
 /* 리스트 아이템 내부의 코드 블록 들여쓰기 제거 (이미 li의 padding으로 들여쓰기됨) */
 .markdown-content .markdown-ordered-list > li .markdown-code-block {
   margin-left: 0 !important;
