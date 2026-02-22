@@ -48,4 +48,4 @@ coverage
 **/*대본*.md
 
 # Exclude docs folder
-!docs/
+docs/
