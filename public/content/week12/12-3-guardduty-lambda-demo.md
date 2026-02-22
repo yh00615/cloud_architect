@@ -39,7 +39,7 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 
 이 태스크에서는 Amazon GuardDuty를 활성화하고 위협 탐지를 시작합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon GuardDuty`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `GuardDuty`을 입력하고 선택합니다.
 2. [[Get Started]] 버튼을 클릭합니다.
 3. [[Enable Amazon GuardDuty]] 버튼을 클릭합니다.
 4. Amazon GuardDuty가 활성화되면 대시보드가 표시됩니다.
@@ -83,7 +83,7 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 
 이 태스크에서는 보안 알림을 받을 Amazon SNS 토픽을 생성하고 이메일 구독을 설정합니다.
 
-1. 상단 검색창에 `Amazon SNS`를 입력하고 **Simple Notification Service**를 선택합니다.
+1. 상단 검색창에 `SNS`를 입력하고 **Simple Notification Service**를 선택합니다.
 2. 왼쪽 메뉴에서 **Topics**를 선택합니다.
 3. [[Create topic]] 버튼을 클릭합니다.
 4. **Type**에서 `Standard`를 선택합니다.
@@ -118,7 +118,7 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 
 이 태스크에서는 AWS Lambda 함수가 필요한 AWS 서비스에 접근할 수 있도록 AWS IAM 역할을 생성합니다.
 
-1. 상단 검색창에 `AWS IAM`을 입력한 후 선택합니다.
+1. 상단 검색창에 `IAM`을 입력한 후 선택합니다.
 2. 왼쪽 메뉴에서 **Roles**를 선택합니다.
 3. [[Create role]] 버튼을 클릭합니다.
 4. **Trusted entity type**에서 `AWS service`를 선택합니다.
@@ -215,7 +215,7 @@ Week 4-3에서 구축한 QuickTable 예약 API는 전 세계 사용자가 접근
 
 이 태스크에서는 Amazon GuardDuty Finding을 처리하고 자동 대응하는 AWS Lambda 함수를 생성합니다.
 
-1. 상단 검색창에 `AWS Lambda`를 입력한 후 선택합니다.
+1. 상단 검색창에 `Lambda`를 입력한 후 선택합니다.
 2. [[Create function]] 버튼을 클릭합니다.
 3. **Function name**에 `Amazon GuardDuty-AutoResponse`를 입력합니다.
 4. **Runtime**에서 `Python 3.13`을 선택합니다.
@@ -626,7 +626,7 @@ def get_severity_label(severity):
 
 이 태스크에서는 Amazon GuardDuty Finding을 AWS Lambda 함수로 전달하는 Amazon EventBridge 규칙을 생성합니다.
 
-1. 상단 검색창에 `Amazon EventBridge`를 입력한 후 선택합니다.
+1. 상단 검색창에 `EventBridge`를 입력한 후 선택합니다.
 2. 왼쪽 메뉴에서 **Rules**를 선택합니다.
 3. [[Create rule]] 버튼을 클릭합니다.
 4. **Name**에 `Amazon GuardDuty-AutoResponse-Rule`을 입력합니다.
@@ -866,7 +866,7 @@ Week 4-3에서 구축한 QuickTable API와 Week 10-2의 Amazon ElastiCache 인�
 
 실습에서 생성한 모든 리소스를 확인합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.

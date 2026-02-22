@@ -75,7 +75,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 1. 다운로드한 `week13-2-quicktable-xray-lab.zip` 파일의 압축을 해제합니다.
 2. `week13-2-quicktable-xray-lab.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -125,7 +125,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 이 태스크에서는 AWS CloudFormation으로 배포된 AWS Lambda 함수의 코드를 확인합니다. AWS X-Ray SDK가 통합되어 있으며, 예약 생성 및 조회 작업을 추적합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS Lambda`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Lambda`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Functions**를 선택합니다.
 3. 함수 목록에서 `CreateReservation`으로 시작하는 함수를 선택합니다.
 4. **Code** 탭을 선택합니다.
@@ -293,7 +293,7 @@ curl -X GET ${API_URL}/reservations
 
 이 태스크에서는 AWS X-Ray 콘솔에서 QuickTable API의 서비스 맵을 확인합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS X-Ray`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `X-Ray`을 입력하고 선택합니다.
 
 > [!NOTE]
 > AWS X-Ray를 검색하면 Amazon CloudWatch 콘솔의 AWS X-Ray 섹션으로 이동합니다.
@@ -406,7 +406,7 @@ curl -X GET ${API_URL}/reservations
 
 ### 사전 확인: Tag Editor로 리소스 확인
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
@@ -433,7 +433,7 @@ curl -X GET ${API_URL}/reservations
 
 ### Amazon CloudWatch Log Group 삭제
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon CloudWatch`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `CloudWatch`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Logs** > **Log groups**를 선택합니다.
 3. 다음 로그 그룹을 검색하여 삭제합니다:
    - `/aws/lambda/CreateReservation-*`

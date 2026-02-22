@@ -89,7 +89,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 1. 다운로드한 `week1-1-tag-editor-lab.zip` 파일의 압축을 해제합니다.
 2. `tag-editor-lab-stack.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 
 ![CloudFormation Create stack 드롭다운에서 With new resources (standard) 선택](/images/week1/1-1-step4-create-stack.png)
@@ -161,7 +161,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### 첫 번째 버킷: Amazon S3 콘솔에서 태그 추가
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon S3`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `S3`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **General purpose buckets**를 선택합니다.
 3. 태스크 0의 Outputs에서 복사한 `ReservationsBucketName` 값을 사용하여 버킷을 찾습니다.
 
@@ -193,7 +193,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 ### Tag Editor로 리소스 검색
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `All regions`를 선택합니다.
 4. **Resource types**에서 `AWS::Amazon S3::Bucket`을 선택합니다.
@@ -402,7 +402,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 실습에서 생성한 모든 리소스를 확인합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `All regions`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
@@ -443,7 +443,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 Resource Groups는 리소스를 그룹화하는 논리적 컨테이너이므로 AWS CloudFormation 스택 삭제 후 별도로 삭제해야 합니다.
 
-7. AWS Management Console 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+7. AWS Management Console 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 8. 왼쪽 메뉴에서 **Saved resource groups**를 선택합니다.
 9. `week1-1-lab-resources` 그룹을 선택합니다.
 10. [[Delete]] 버튼을 클릭합니다.

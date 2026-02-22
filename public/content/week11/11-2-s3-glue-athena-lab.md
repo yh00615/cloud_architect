@@ -48,7 +48,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 1. 다운로드한 `week11-2-quicktable-datalake-lab.zip` 파일의 압축을 해제합니다.
 2. `week11-2-quicktable-datalake-lab.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 5. **Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -100,7 +100,7 @@ StudentId는 Amazon S3 버킷명, Glue Database명, Crawler명 등 모든 리소
 
 이 태스크에서는 AWS CloudFormation이 자동으로 생성한 Amazon S3 버킷과 QuickTable 예약 샘플 데이터를 확인합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon S3`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `S3`을 입력하고 선택합니다.
 2. 버킷 목록에서 태스크 0에서 생성된 3개의 버킷을 확인합니다:
    - `quicktable-raw-{StudentId}-ap-northeast-2` (Raw Data 버킷 - QuickTable 예약 원본)
    - `quicktable-processed-{StudentId}-ap-northeast-2` (Processed Data 버킷 - 집계 데이터)
@@ -209,7 +209,7 @@ StudentId는 Amazon S3 버킷명, Glue Database명, Crawler명 등 모든 리소
 
 ### 태스크 2.1: AWS Glue Database 확인
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS Glue`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Glue`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Databases**를 선택합니다.
 3. 태스크 0에서 생성된 데이터베이스 `quicktable_db_{StudentId}`를 확인합니다.
 4. 데이터베이스를 클릭하여 상세 정보를 확인합니다:
@@ -333,7 +333,7 @@ StudentId는 Amazon S3 버킷명, Glue Database명, Crawler명 등 모든 리소
 
 ### 태스크 4.1: Amazon Athena Workgroup 확인 및 기본 쿼리
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon Athena`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Athena`을 입력하고 선택합니다.
 
 > [!WARNING]
 > **Workgroup 변경 전 주의사항**:
@@ -716,7 +716,7 @@ AWS CloudFormation이 자동으로 QuickTable 예약 샘플 데이터를 Amazon 
 
 ### 방법 1: Tag Editor로 리소스 찾기 (권장)
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.

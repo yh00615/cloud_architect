@@ -67,7 +67,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 > AWS CloudFormation 콘솔 UI는 주기적으로 업데이트됩니다.  
 > 버튼명이나 화면 구성이 가이드와 다를 수 있으나, 전체 흐름(템플릿 업로드 → 스택 이름 입력 → 태그 추가 → 생성)은 동일합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 2. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 3. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 4. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -124,7 +124,7 @@ Redis는 인메모리 데이터 저장소로, 데이터베이스 조회 결과�
 
 ### 상세 단계
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon ElastiCache`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `ElastiCache`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Redis OSS caches**를 선택합니다.
 3. [[Create Redis OSS cache]] 버튼을 클릭합니다.
 4. **Deployment option**에서 `Design your own cache`를 선택합니다.
@@ -212,7 +212,7 @@ Redis CLI를 사용하여 기본 명령어를 실습하고 캐싱 동작을 이�
 
 ### 상세 단계
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon EC2`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `EC2`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Instances**를 선택합니다.
 3. [[Launch instances]] 버튼을 클릭합니다.
 4. **Name**에 `quicktable-cache-client`를 입력합니다.

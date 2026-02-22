@@ -82,7 +82,7 @@ Knowledge Base는 Amazon S3 버킷의 문서를 자동으로 읽어 벡터 임�
 > 2. 사용하려는 모델(Claude 3.5 Sonnet, Titan Embeddings 등)이 현재 리전에서 사용 가능한지 확인
 > 3. **Anthropic 모델(Claude)**: 첫 사용 시 Use case 양식 제출 필요 (즉시 승인)
 
-2. 상단 검색창에서 `Amazon S3`를 검색하고 선택합니다.
+2. 상단 검색창에 `S3`을 입력하고 선택합니다.
 3. [[Create bucket]] 버튼을 클릭합니다.
 4. **Bucket name**에 `quicktable-kb-documents-YOUR-INITIALS`을 입력합니다.
 
@@ -258,7 +258,7 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 > Amazon Bedrock에서는 모든 Foundation Model에 대한 액세스가 기본적으로 활성화되어 있습니다.
 > AWS Marketplace 권한만 있으면 바로 모델을 사용할 수 있으며, Cohere 및 Anthropic 모델의 경우 첫 사용 시 사용 사례 양식만 제출하면 됩니다.
 
-1. 상단 검색창에서 `Amazon Bedrock`을 검색하고 선택합니다.
+1. 상단 검색창에 `Bedrock`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Orchestration** > **Knowledge bases**를 선택합니다.
 3. [[Create knowledge base]] 버튼을 클릭합니다.
 4. **Knowledge base name**에 `quicktable-restaurant-kb`를 입력합니다.
@@ -463,7 +463,7 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 
 ### 방법 1: Tag Editor로 리소스 찾기 (권장)
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
@@ -494,7 +494,7 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 
 #### OpenSearch Serverless 컬렉션 삭제 확인
 
-1. 상단 검색창에서 `Amazon OpenSearch Service`를 검색하고 선택합니다.
+1. 상단 검색창에 `OpenSearch`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Serverless** > **Collections**를 선택합니다.
 3. Knowledge Base와 연결된 컬렉션이 삭제되었는지 확인합니다.
 4. 컬렉션이 남아있다면 선택 후 [[Delete]] 버튼을 클릭합니다.
@@ -519,7 +519,7 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 
 #### Amazon CloudWatch Log Group 삭제
 
-1. 상단 검색창에서 `Amazon CloudWatch`를 검색하고 선택합니다.
+1. 상단 검색창에 `CloudWatch`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Logs** > **Log groups**를 선택합니다.
 3. 검색창에 `bedrock`을 입력합니다.
 

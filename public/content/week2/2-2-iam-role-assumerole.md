@@ -225,26 +225,34 @@ ARN 형식 예시: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`
 > 만약 현재 로그인한 사용자가 AWS IAM Users 목록에 없는 경우, 페더레이션 또는 SSO 사용자일 수 있습니다.  
 > 이 경우 새로운 AWS IAM 사용자를 생성하여 실습을 진행합니다:
 >
-> 1. [[Create user]] 버튼을 클릭합니다
-> 2. **User name**에 `lab-user`를 입력합니다
-> 3. **Provide user access to the AWS Management Console**을 체크합니다
-> 4. [[Next]] 버튼을 클릭합니다
-> 5. **Attach policies directly**를 선택하고 `IAMReadOnlyAccess` 정책을 연결합니다 (최소 권한)
-> 6. [[Next]] → [[Create user]] 버튼을 클릭합니다
-> 7. [[Return to users list]] 버튼을 클릭하고 생성한 사용자를 선택합니다.
-> 8. 생성된 사용자의 **Security credentials** 탭에서 [[Create access key]]를 클릭하여 Access Key를 생성합니다
-> 9. **Use case**에서 `Command Line Interface (CLI)`를 선택합니다
-> 10. 하단의 **I understand the above recommendation and want to proceed to create an access key** 체크박스를 체크합니다
-> 11. [[Next]] 버튼을 클릭합니다
-> 12. Access Key와 Secret Access Key를 메모장에 저장합니다
-> 13. CloudShell에서 `aws configure`로 이 자격증명을 설정하거나, 새 브라우저 시크릿 창에서 lab-user로 로그인하여 실습을 진행합니다
+> 1. [[Create user]] 버튼을 클릭합니다.
+> 2. **User name**에 `lab-user`를 입력합니다.
+> 3. **Provide user access to the AWS Management Console**을 체크합니다.
+> 4. [[Next]] 버튼을 클릭합니다.
+> 5. **Attach policies directly**를 선택하고 `IAMReadOnlyAccess` 정책을 연결합니다. (최소 권한)
+> 6. [[Next]] → [[Create user]] 버튼을 클릭합니다.
+> 7. 사용자 생성 완료 화면에서 콘솔 비밀번호와 로그인 링크(Console sign-in URL)가 표시됩니다.  
+>    [[Download .csv file]] 버튼을 클릭하여 자격증명을 다운로드하거나, 비밀번호와 로그인 링크를 복사하여 메모장에 저장합니다.
+> 8. [[Return to users list]] 버튼을 클릭하고 생성한 사용자를 선택합니다.
+> 9. 생성된 사용자의 **Security credentials** 탭에서 [[Create access key]]를 클릭하여 Access Key를 생성합니다.
+> 10. **Use case**에서 `Command Line Interface (CLI)`를 선택합니다.
+> 11. 하단의 **I understand the above recommendation and want to proceed to create an access key** 체크박스를 체크합니다.
+> 12. [[Next]] 버튼을 클릭 후 [[Create access key]] 버튼을 클릭합니다.
+> 13. Access Key와 Secret Access Key를 메모장에 저장하거나 [[Download .csv file]] 버튼을 클릭하여 저장합니다.
+> 14. CloudShell에서 `aws configure`로 이 자격증명을 설정하거나, **새 브라우저 시크릿 창**에서 lab-user로 로그인하여 실습을 진행합니다.
+>
+> **중요**: 콘솔 비밀번호는 사용자 생성 시 한 번만 표시됩니다.  
+> 다운로드하지 않았거나 분실한 경우, 나중에 사용자의 **Security credentials** 탭에서 [[Console password]] → [[Manage]]를 클릭하여 비밀번호를 재설정할 수 있습니다.
 
 4. 해당 사용자를 클릭합니다.
 
 > [!NOTE]
-> 현재 사용자가 관리자 권한(AdministratorAccess)을 가지고 있다면, 이 인라인 정책 없이도 AssumeRole이 성공합니다. 이 태스크는 최소 권한 원칙에 따라 특정 역할만 맡을 수 있도록 제한하는 방법을 학습하기 위한 것입니다. 실무에서는 관리자 권한 대신 이러한 세밀한 정책을 사용합니다.
+> 현재 사용자가 관리자 권한(AdministratorAccess)을 가지고 있다면, 이 인라인 정책 없이도 AssumeRole이 성공합니다.  
+> 이 태스크는 최소 권한 원칙에 따라 특정 역할만 맡을 수 있도록 제한하는 방법을 학습하기 위한 것입니다.  
+> 실무에서는 관리자 권한 대신 이러한 세밀한 정책을 사용합니다.
 >
-> **인라인 정책의 효과를 확인하려면**: 관리자 권한이 없는 별도 사용자(예: 위에서 생성한 lab-user)로 실습하는 것이 교육적으로 더 효과적입니다. 관리자 권한 사용자는 이미 모든 권한을 가지고 있어 인라인 정책 추가의 필요성을 체감하기 어렵습니다.
+> **인라인 정책의 효과를 확인하려면**: 관리자 권한이 없는 별도 사용자(예: 위에서 생성한 lab-user)로 실습하는 것이 교육적으로 더 효과적입니다.  
+> 관리자 권한 사용자는 이미 모든 권한을 가지고 있어 인라인 정책 추가의 필요성을 체감하기 어렵습니다.
 
 5. 사용자 상세 페이지에서 **Permissions** 탭을 선택합니다.
 6. **Permissions policies** 섹션에서 [[Add permissions]] 버튼을 클릭합니다.
@@ -274,7 +282,8 @@ ARN 형식 예시: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`
 > 다운로드한 ZIP 파일의 `assume-role-policy.json`에도 동일한 정책이 포함되어 있습니다. 파일을 열어서 복사하여 붙여넣을 수도 있습니다.
 
 > [!IMPORTANT]
-> `YOUR_ACCOUNT_ID`를 실제 계정 ID로 변경해야 합니다. 계정 ID는 태스크 3에서 복사한 ARN에서 확인할 수 있습니다 (예: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`에서 `123456789012` 부분).
+> `YOUR_ACCOUNT_ID`를 실제 계정 ID로 변경해야 합니다.  
+> 계정 ID는 태스크 3에서 복사한 ARN에서 확인할 수 있습니다 (예: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`에서 `123456789012` 부분).
 >
 > **권장 방법**: 태스크 3에서 복사한 ARN 전체를 Resource 값으로 사용합니다. 메모장에 저장한 ARN을 그대로 복사하여 붙여넣으면 오류를 방지할 수 있습니다.
 
@@ -319,11 +328,11 @@ ARN 형식 예시: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`
 15. **Policy name**에 `AssumeS3ReadOnlyRolePolicy`를 입력합니다.
 16. [[Create policy]] 버튼을 클릭합니다.
 17. 정책 생성이 완료되면 사용자의 **Permissions** 탭으로 자동 이동합니다.
-18. 화면 상단에 녹색 배너로 "Policy AssumeS3ReadOnlyRolePolicy created successfully"라는 성공 메시지가 표시됩니다.
+18. 화면 상단에 녹색 배너로 "Policy AssumeS3ReadOnlyRolePolicy created"라는 성공 메시지가 표시됩니다.
 19. **Permissions policies** 섹션에서 `AssumeS3ReadOnlyRolePolicy`가 추가되었는지 확인합니다.
 
 > [!NOTE]
-> **Permissions policies** 섹션에 `AssumeS3ReadOnlyRolePolicy`가 표시되고, **Policy type** 열에 "Inline"으로 표시됩니다. 이는 사용자에게 직접 연결된 인라인 정책임을 의미합니다.
+> **Permissions policies** 섹션에 `AssumeS3ReadOnlyRolePolicy`가 표시되고, **Policy Type** 열에 "Customer inline"으로 표시됩니다. 이는 사용자에게 직접 연결된 인라인 정책임을 의미합니다.
 
 ✅ **태스크 완료**: AssumeRole 권한이 부여되었습니다.
 
@@ -332,12 +341,14 @@ ARN 형식 예시: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`
 이 태스크에서는 **AWS CLI**를 사용하여 **AssumeRole API**를 호출하고 **임시 자격증명**을 획득합니다. **AssumeRole**은 **STS**(Security Token Service)의 API로, 역할을 맡으면 **AccessKeyId**, **SecretAccessKey**, **SessionToken**으로 구성된 임시 자격증명을 받습니다. 이 자격증명은 기본 1시간 동안 유효하며, 역할의 Maximum session duration 설정에서 최대 12시간까지 연장할 수 있습니다.
 
 > [!NOTE]
-> 이 실습에서 생성한 역할은 Maximum session duration을 변경하지 않았으므로 최대 세션 시간은 1시간입니다. 역할 설정에서 Maximum session duration을 늘리면 최대 12시간까지 연장할 수 있습니다.
+> 이 실습에서 생성한 역할은 Maximum session duration을 변경하지 않았으므로 최대 세션 시간은 1시간입니다.  
+> 역할 설정에서 Maximum session duration을 늘리면 최대 12시간까지 연장할 수 있습니다.
 
 1. AWS Management Console 상단 오른쪽의 AWS CloudShell 아이콘을 클릭합니다.
 
 > [!NOTE]
-> CloudShell은 AWS CLI가 사전 설치되어 있고 현재 로그인한 AWS IAM 사용자 자격증명이 자동으로 구성된 브라우저 기반 셸 환경입니다. 첫 실행 시 환경 초기화에 1-2분이 소요될 수 있습니다. 환경이 준비될 때까지 기다립니다.
+> CloudShell은 AWS CLI가 사전 설치되어 있고 현재 로그인한 AWS IAM 사용자 자격증명이 자동으로 구성된 브라우저 기반 셸 환경입니다.  
+> 첫 실행 시 환경 초기화에 1-2분이 소요될 수 있습니다. 환경이 준비될 때까지 기다립니다.
 
 2. 현재 자격증명을 확인합니다:
 

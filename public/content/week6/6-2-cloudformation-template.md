@@ -369,7 +369,7 @@ Outputs:
 
 이 태스크에서는 완성된 템플릿을 사용하여 AWS CloudFormation 스택을 생성합니다. 스택 생성 과정에서 Amazon VPC, 서브넷, 라우팅 테이블, 보안 그룹, Amazon EC2 인스턴스가 자동으로 생성됩니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 2. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 3. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 4. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -513,7 +513,7 @@ Outputs:
 
 ### 단계 1: Tag Editor로 생성된 리소스 확인
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.

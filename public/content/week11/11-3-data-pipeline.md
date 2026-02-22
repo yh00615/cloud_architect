@@ -85,7 +85,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 1. 다운로드한 `week11-3-data-pipeline-lab.zip` 파일의 압축을 해제합니다.
 2. `week11-3-data-pipeline-lab.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 5. **Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -158,7 +158,7 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 
 ### 태스크 1.1: Amazon S3 버킷 확인
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon S3`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `S3`을 입력하고 선택합니다.
 2. 다음 3개의 버킷이 생성되었는지 확인합니다:
    - `week11-data-{StudentId}-ap-northeast-2` (데이터 버킷)
    - `week11-scripts-{StudentId}-ap-northeast-2` (스크립트 버킷)
@@ -193,7 +193,7 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 
 ### 태스크 1.2: AWS Glue Database 확인
 
-1. 상단 검색창에서 `AWS Glue`를 검색하고 선택합니다.
+1. 상단 검색창에 `Glue`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Data Catalog** > **Databases**를 선택합니다.
 3. `week11_pipeline_{StudentId}` 데이터베이스가 생성되었는지 확인합니다.
 4. 데이터베이스를 클릭하여 상세 정보를 확인합니다.
@@ -227,7 +227,7 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 
 ### 태스크 1.5: AWS Lambda 함수 확인
 
-1. 상단 검색창에서 `AWS Lambda`를 검색하고 선택합니다.
+1. 상단 검색창에 `Lambda`을 입력하고 선택합니다.
 2. `week11-pipeline-trigger-{StudentId}` 함수가 생성되었는지 확인합니다.
 3. 함수를 클릭하여 상세 정보를 확인합니다.
 4. **Configuration** 탭을 선택합니다.
@@ -318,7 +318,7 @@ EnvironmentName은 리소스 이름의 공통 접두사로 사용됩니다. 예�
 
 ### 태스크 4.1: Amazon Athena 쿼리 결과 위치 설정
 
-1. 상단 검색창에서 `Amazon Athena`를 검색하고 선택합니다.
+1. 상단 검색창에 `Athena`을 입력하고 선택합니다.
 2. **Editor** 탭이 바로 표시되지 않는 경우, 상단 메뉴에서 **Query editor**를 선택합니다.
 3. **Settings** 탭을 선택합니다.
 4. [[Manage]] 버튼을 클릭합니다.
@@ -583,7 +583,7 @@ SELECT COUNT(*) as total_records FROM raw;
 
 ### 방법 1: Tag Editor로 리소스 찾기 (권장)
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.

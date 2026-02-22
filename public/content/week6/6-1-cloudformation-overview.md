@@ -95,7 +95,7 @@ Outputs:
     Value: !Ref DemoBucket
 ```
 
-4. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+4. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 5. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 6. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 7. **Specify template**에서 `Upload a template file`을 선택합니다.

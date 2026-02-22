@@ -105,7 +105,7 @@ Kubernetes 버전 호환성을 확인하는 것도 중요합니다.
 
 1. 다운로드한 `week7-3-eks-lab.zip` 파일의 압축을 해제합니다.
 2. `week7-3-eks-lab.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -844,7 +844,7 @@ kubectl get service nginx-app -o jsonpath='{.status.loadBalancer.ingress[0].host
 > AWS CLI를 사용하면 Load Balancer DNS 이름을 정확하게 추출할 수 있습니다.
 > 이 명령어는 자동화 스크립트나 CI/CD 파이프라인에서 유용하게 사용됩니다.
 
-5. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon EC2`를 검색하고 선택합니다.
+5. AWS Management Console에 로그인한 후 상단 검색창에 `EC2`을 입력하고 선택합니다.
 6. 왼쪽 메뉴에서 **Instances**를 선택합니다.
 8. 인스턴스 목록에서 이름에 `my-node-group`이 포함된 워커 노드 인스턴스를 하나 선택합니다.
 9. 하단의 **Security** 탭을 선택합니다.
@@ -927,7 +927,7 @@ kubectl get service nginx-app -o jsonpath='{.status.loadBalancer.ingress[0].host
 
 ### 방법 1: Tag Editor로 리소스 찾기 (권장)
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
@@ -954,7 +954,7 @@ kubectl describe service nginx-app | grep "LoadBalancer Ingress"
 > 이 명령어로 확인한 Load Balancer 주소를 메모합니다.
 > AWS 콘솔에서 해당 Load Balancer를 찾을 때 사용합니다.
 
-2. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon EC2`를 검색하고 선택합니다.
+2. AWS Management Console에 로그인한 후 상단 검색창에 `EC2`을 입력하고 선택합니다.
 3. 왼쪽 메뉴에서 **Load Balancers**를 선택합니다.
 4. Load Balancer 목록에서 메모한 주소와 일치하는 Load Balancer를 찾습니다.
 5. 해당 Load Balancer를 선택하고 **Tags** 탭을 선택합니다.

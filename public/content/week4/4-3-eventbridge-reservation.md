@@ -82,7 +82,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 1. 다운로드한 `week4-3-quicktable-events-lab.zip` 파일의 압축을 해제합니다.
 2. `week4-3-quicktable-events-lab.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -150,7 +150,7 @@ Amazon EventBridge 규칙은 이벤트 패턴을 정의하여 특정 이벤트�
 >
 > 나머지 단계는 모두 동일하므로 이 3가지 차이점에 집중하여 진행합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon EventBridge`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `EventBridge`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Rules**를 선택합니다.
 3. **Event bus** 드롭다운에서 태스크 0에서 생성한 Event Bus를 선택합니다.
 

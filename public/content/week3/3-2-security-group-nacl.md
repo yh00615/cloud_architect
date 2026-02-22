@@ -74,7 +74,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 1. 다운로드한 `week3-2-security-group-lab.zip` 파일의 압축을 해제합니다.
 2. `week3-2-security-group-lab.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -124,7 +124,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 다음 태스크를 시작하기 전에 AWS CloudFormation이 생성한 4개의 빈 보안 그룹을 확인합니다.
 
-24. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon VPC`를 검색하고 선택합니다.
+24. AWS Management Console에 로그인한 후 상단 검색창에 `VPC`을 입력하고 선택합니다.
 25. 왼쪽 메뉴에서 **Security groups**를 선택합니다.
 26. 검색창에 `week3-2-security-group`을 입력하여 필터링합니다.
 27. 다음 4개의 보안 그룹이 표시되는지 확인합니다:
@@ -145,7 +145,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 이 태스크에서는 Application Load Balancer용 보안 그룹에 인바운드 규칙을 추가합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon VPC`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `VPC`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Security groups**를 선택합니다.
 3. `week3-2-security-group-ALB-SG` 보안 그룹을 선택합니다.
 4. 하단의 **Inbound rules** 탭을 선택합니다.
@@ -559,7 +559,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 #### AWS CloudFormation으로 생성한 리소스 확인
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
@@ -682,7 +682,7 @@ done
 
 마지막으로 AWS CloudFormation 스택을 삭제하여 나머지 모든 리소스를 정리합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 2. 스택 목록에서 `week3-2-security-group-stack` 스택을 검색합니다.
 3. `week3-2-security-group-stack` 스택의 체크박스를 선택합니다.
 

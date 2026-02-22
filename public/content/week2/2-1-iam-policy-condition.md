@@ -63,7 +63,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 1. 다운로드한 `week2-1-iam-policy-condition.zip` 파일의 압축을 해제합니다.
 2. `week2-1-iam-policy-condition.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 버튼을 클릭합니다.
 5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -106,7 +106,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 이 태스크에서는 **Condition 정책**을 테스트하기 위한 **Amazon S3 버킷**을 생성합니다. **Amazon S3 버킷**은 다양한 **Condition 키**를 지원하므로 정책 테스트에 적합합니다. **버킷 이름**은 전 세계적으로 고유해야 하므로 본인의 이름이나 고유 식별자를 추가하여 생성합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon S3`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `S3`을 입력하고 선택합니다.
 2. [[Create bucket]] 버튼을 클릭합니다.
 3. **Bucket name**에 `iam-condition-lab-YOUR-INITIALS-12345`를 입력합니다.
 
@@ -741,7 +741,7 @@ aws s3 ls --profile condition-test
 
 ### 단계 1: Tag Editor로 리소스 확인
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `All regions`를 선택합니다.
 

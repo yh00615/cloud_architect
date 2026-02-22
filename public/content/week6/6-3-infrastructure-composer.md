@@ -54,7 +54,7 @@ prerequisites:
 
 이 태스크에서는 AWS Application Composer 콘솔에 접속하여 AWS Infrastructure Composer를 시작합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Application Composer`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Application Composer`을 입력하고 선택합니다.
 
 > [!NOTE]
 > AWS Infrastructure Composer는 AWS Application Composer 서비스의 일부입니다. 검색 시 "Application Composer"로 검색하면 됩니다.
@@ -382,7 +382,7 @@ Outputs:
 
 5. **Template** 탭에서 전체 YAML 코드를 복사합니다.
 6. 새 브라우저 탭을 엽니다.
-7. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+7. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 8. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 9. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 10. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -493,7 +493,7 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 
 ### 방법 1: Tag Editor로 리소스 찾기 (권장)
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.

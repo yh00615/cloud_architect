@@ -36,7 +36,7 @@ LSI(Local Secondary Index)와 GSI(Global Secondary Index)를 모두 생성하여
 
 이 태스크에서는 설계한 스키마를 바탕으로 Amazon DynamoDB 테이블을 생성합니다. 파티션 키와 정렬 키를 설정하고, LSI(Local Secondary Index)를 추가하여 날짜 기반 쿼리를 지원합니다. On-demand 모드는 사용량에 따라 자동으로 확장되어 예측 불가능한 워크로드에 적합하며, Provisioned 모드는 읽기/쓰기 용량을 미리 지정하여 비용을 예측할 수 있습니다. 암호화는 기본적으로 활성화되어 저장 데이터를 보호합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Amazon DynamoDB`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `DynamoDB`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tables**를 선택합니다.
 3. [[Create table]] 버튼을 클릭합니다.
 4. **Table name**에 `QuickTableReservations`를 입력합니다.
@@ -374,7 +374,7 @@ GSI는 다른 파티션 키를 사용하여 더 유연한 쿼리가 가능합니
 
 실습에서 생성한 모든 리소스를 Tag Editor로 확인합니다.
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.

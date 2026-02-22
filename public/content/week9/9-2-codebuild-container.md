@@ -84,7 +84,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 1. 다운로드한 `week9-2-cicd-lab.zip` 파일의 압축을 해제합니다.
 2. `cloudformation-template.yaml` 파일을 확인합니다.
-3. AWS Management Console에 로그인한 후 상단 검색창에서 `AWS CloudFormation`을 검색하고 선택합니다.
+3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
@@ -473,7 +473,7 @@ git push origin main
 > [!NOTE]
 > AWS 콘솔 UI는 주기적으로 업데이트됩니다. 화면 구성이 다를 수 있지만, 동일한 설정 항목을 찾아 적용하면 됩니다.
 
-1. AWS Management Console 상단 검색창에서 `AWS CodeBuild`를 검색하고 선택합니다.
+1. AWS Management Console 상단 검색창에 `CodeBuild`을 입력하고 선택합니다.
 2. [[Create project]] 버튼을 클릭합니다.
 3. **Project name**에 `week9-2-container-build`를 입력합니다.
 4. **Description**에 `Build Docker container image`를 입력합니다.
@@ -666,7 +666,7 @@ git push origin main
 
 ### 방법 1: Tag Editor로 리소스 찾기 (권장)
 
-1. AWS Management Console에 로그인한 후 상단 검색창에서 `Resource Groups & Tag Editor`를 검색하고 선택합니다.
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
 3. **Regions**에서 `ap-northeast-2`를 선택합니다.
 4. **Resource types**에서 `All supported resource types`를 선택합니다.
