@@ -1,36 +1,36 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 11-2: AWS Glue Crawler 및 Amazon Athena 쿼리 실습 환경'
+Description: 'Week 11-2: AWS Glue Crawler and Amazon Athena Query Lab Environment'
 
 Parameters:
   StudentId:
     Type: String
-    Description: '학번 또는 고유 식별자 (소문자, 숫자, 하이픈만 사용, 예: 20240001 또는 student01)'
+    Description: Student ID or unique identifier (lowercase, numbers, hyphens only, e.g., 20240001 or student01)
     AllowedPattern: ^[a-z0-9-]+$
     MinLength: 5
     MaxLength: 20
-    ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능 (5-20자)
+    ConstraintDescription: Only lowercase letters, numbers, and hyphens allowed (5-20 characters)
 
   EnvironmentName:
     Type: String
     Default: 'week11-2-datalake-lab'
-    Description: 환경 이름 (리소스 태그에 사용)
+    Description: Environment name (used for resource tagging)
     AllowedPattern: ^[a-z0-9-]+$
-    ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+    ConstraintDescription: Only lowercase letters, numbers, and hyphens allowed
 
   ProjectTag:
     Type: String
     Default: 'AWS-Lab'
-    Description: Project 태그 값
+    Description: Project tag value
 
   WeekTag:
     Type: String
     Default: '11-2'
-    Description: Week 태그 값
+    Description: Week tag value
 
   CreatedByTag:
     Type: String
     Default: 'CloudFormation'
-    Description: CreatedBy 태그 값
+    Description: CreatedBy tag value
 
 Resources:
   # S3 Buckets - 학번으로 고유성 보장
@@ -394,14 +394,14 @@ Outputs:
       Name: !Sub '${AWS::StackName}-AthenaWorkgroup'
 
   SampleDataLocation:
-    Description: 샘플 데이터 위치
+    Description: Sample data location
     Value: !Sub |
       샘플 데이터가 자동으로 업로드되었습니다:
       - CSV: s3://${RawDataBucket}/customer-data/customer-churn.csv
       - JSON: s3://${RawDataBucket}/sales-data/sales.json
 
   SetupInstructions:
-    Description: 다음 단계 안내
+    Description: Next steps guide
     Value: !Sub |
       데이터 레이크 환경 구축이 완료되었습니다!
       

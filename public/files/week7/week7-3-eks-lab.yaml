@@ -1,50 +1,50 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 7-3 Amazon EKS Lab - Amazon EKS 클러스터 및 노드 그룹 자동 생성'
+Description: 'Week 7-3 Amazon EKS Lab - EKS Cluster and Node Group Auto-Creation'
 
 Parameters:
   ProjectTag:
     Type: String
     Default: 'AWS-Lab'
-    Description: Project 태그 값
+    Description: Project tag value
 
   WeekTag:
     Type: String
     Default: '7-3'
-    Description: Week 태그 값
+    Description: Week tag value
 
   CreatedByTag:
     Type: String
     Default: 'CloudFormation'
-    Description: CreatedBy 태그 값
+    Description: CreatedBy tag value
   ClusterName:
     Type: String
     Default: my-eks-cluster
-    Description: EKS 클러스터 이름
+    Description: EKS cluster name
   
   NodeGroupName:
     Type: String
     Default: my-node-group
-    Description: 노드 그룹 이름
+    Description: Node group name
   
   NodeInstanceType:
     Type: String
     Default: t3.medium
-    Description: 워커 노드 인스턴스 타입
+    Description: Worker node instance type
   
   DesiredCapacity:
     Type: Number
     Default: 2
-    Description: 노드 그룹 원하는 용량
+    Description: Node group desired capacity
   
   MinSize:
     Type: Number
     Default: 1
-    Description: 노드 그룹 최소 크기
+    Description: Node group minimum size
   
   MaxSize:
     Type: Number
     Default: 3
-    Description: 노드 그룹 최대 크기
+    Description: Node group maximum size
 
 Resources:
   # EKS 클러스터 IAM 역할
@@ -238,25 +238,25 @@ Resources:
 
 Outputs:
   ClusterName:
-    Description: EKS 클러스터 이름
+    Description: EKS cluster name
     Value: !Ref ClusterName
     Export:
       Name: !Sub '${AWS::StackName}-ClusterName'
 
   ClusterEndpoint:
-    Description: EKS 클러스터 엔드포인트
+    Description: EKS cluster endpoint
     Value: !GetAtt EKSCluster.Endpoint
     Export:
       Name: !Sub '${AWS::StackName}-ClusterEndpoint'
 
   ClusterArn:
-    Description: EKS 클러스터 ARN
+    Description: EKS cluster ARN
     Value: !GetAtt EKSCluster.Arn
     Export:
       Name: !Sub '${AWS::StackName}-ClusterArn'
 
   NodeGroupName:
-    Description: 노드 그룹 이름
+    Description: Node group name
     Value: !Ref NodeGroupName
     Export:
       Name: !Sub '${AWS::StackName}-NodeGroupName'
@@ -268,13 +268,13 @@ Outputs:
       Name: !Sub '${AWS::StackName}-VpcId'
 
   ClusterRoleArn:
-    Description: EKS 클러스터 IAM 역할 ARN
+    Description: EKS cluster IAM role ARN
     Value: !GetAtt EKSClusterRole.Arn
     Export:
       Name: !Sub '${AWS::StackName}-ClusterRoleArn'
 
   NodeRoleArn:
-    Description: 워커 노드 IAM 역할 ARN
+    Description: Worker node IAM role ARN
     Value: !GetAtt EKSNodeRole.Arn
     Export:
       Name: !Sub '${AWS::StackName}-NodeRoleArn'

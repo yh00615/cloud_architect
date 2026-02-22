@@ -1,28 +1,28 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 5-1: Amazon RDS Multi-AZ 실습 환경 - Amazon VPC, 서브넷, 보안 그룹, DB 서브넷 그룹 자동 생성'
+Description: 'Week 5-1: Amazon RDS Multi-AZ Lab Environment - VPC, Subnets, Security Groups, DB Subnet Group Auto-Creation'
 
 Parameters:
   EnvironmentName:
     Type: String
     Default: 'week5-1-rds'
-    Description: 환경 이름 (리소스 태그에 사용)
+    Description: Environment name (used for resource tagging)
     AllowedPattern: ^[a-z0-9-]+$
-    ConstraintDescription: 소문자, 숫자, 하이픈만 사용 가능
+    ConstraintDescription: Only lowercase letters, numbers, and hyphens allowed
 
   ProjectTag:
     Type: String
     Default: 'AWS-Lab'
-    Description: Project 태그 값
+    Description: Project tag value
 
   WeekTag:
     Type: String
     Default: '5-1'
-    Description: Week 태그 값
+    Description: Week tag value
 
   CreatedByTag:
     Type: String
     Default: 'CloudFormation'
-    Description: CreatedBy 태그 값
+    Description: CreatedBy tag value
 
 Resources:
   # VPC
@@ -422,7 +422,7 @@ Outputs:
       Name: !Sub '${AWS::StackName}-RDSSecurityGroup'
 
   EC2SecurityGroupId:
-    Description: EC2 Security Group ID (MySQL 클라이언트용)
+    Description: EC2 Security Group ID (for MySQL client)
     Value: !Ref EC2SecurityGroup
     Export:
       Name: !Sub '${AWS::StackName}-EC2SecurityGroup'
