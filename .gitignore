@@ -46,3 +46,6 @@ coverage
 **/script*.md
 **/촬영*.md
 **/*대본*.md
+
+# Exclude docs folder
+!docs/
