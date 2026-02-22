@@ -6,10 +6,10 @@ awsServices:
   - AWS IAM
   - AWS STS
 learningObjectives:
-  - AWS Lambda 실행 역할을 생성하고 신뢰 정책을 구성할 수 있습니다
-  - 역할에 Amazon S3 및 Amazon DynamoDB 접근 권한을 연결할 수 있습니다
-  - AWS CLI에서 AWS STS AssumeRole로 역할을 전환할 수 있습니다
-  - 임시 자격증명으로 리소스에 접근하여 역할 동작을 확인할 수 있습니다
+  - Amazon S3 읽기 전용 역할을 생성하고 신뢰 정책을 구성할 수 있습니다.
+  - 최소 권한 사용자에게 특정 역할을 맡을 수 있는 AssumeRole 권한을 부여할 수 있습니다.
+  - AWS CLI에서 AWS STS AssumeRole로 역할을 전환할 수 있습니다.
+  - 임시 자격증명으로 리소스에 접근하여 역할 동작을 확인할 수 있습니다.
 prerequisites:
   - AWS 계정 및 AWS IAM 사용자
   - AWS CloudShell 접근 가능한 환경 (또는 AWS CLI 설치 및 구성)
@@ -368,8 +368,24 @@ aws sts get-caller-identity
 > }
 > ```
 
-3. 메모장에 저장한 역할 ARN을 확인합니다.
-4. 다음 명령어를 입력하되, 역할 ARN 부분을 태스크 3에서 복사한 실제 ARN으로 교체합니다:
+3. 현재 사용자로 Amazon S3 버킷 목록 조회를 시도합니다:
+
+```bash
+aws s3 ls
+```
+
+> [!OUTPUT]
+>
+> ```bash
+> An error occurred (AccessDenied) when calling the ListBuckets operation: Access Denied
+> ```
+
+> [!NOTE]
+> **AccessDenied** 오류가 나타나는 것이 정상입니다. 현재 사용자는 `sts:AssumeRole` 권한만 가지고 있고, Amazon S3 접근 권한은 없습니다.  
+> 다음 단계에서 AssumeRole을 통해 S3ReadOnlyRole 역할을 맡으면 Amazon S3 읽기 권한을 얻을 수 있습니다.
+
+4. 메모장에 저장한 역할 ARN을 확인합니다.
+5. 다음 명령어를 입력하되, 역할 ARN 부분을 태스크 3에서 복사한 실제 ARN으로 교체합니다:
 
 ```bash
 aws sts assume-role \
@@ -398,7 +414,8 @@ aws sts assume-role \
 > ```
 
 5. Enter 키를 눌러 명령어를 실행합니다.
-6. 출력된 JSON 결과를 확인합니다.
+6. Enter 키를 눌러 명령어를 실행합니다.
+7. 출력된 JSON 결과를 확인합니다.
 
 > [!OUTPUT]
 >
@@ -417,7 +434,7 @@ aws sts assume-role \
 > }
 > ```
 
-7. 출력된 JSON에서 `Credentials` 섹션의 세 가지 값을 메모장에 복사합니다:
+8. 출력된 JSON에서 `Credentials` 섹션의 세 가지 값을 메모장에 복사합니다:
    - `AccessKeyId`: `ASIAZ...`로 시작하는 값
    - `SecretAccessKey`: 긴 문자열 값
    - `SessionToken`: 매우 긴 문자열 값
