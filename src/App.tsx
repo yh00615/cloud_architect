@@ -16,6 +16,7 @@ import { EnvironmentSetup } from './pages/EnvironmentSetup';
 import { MidtermExam } from './pages/MidtermExam';
 import { FinalExam } from './pages/FinalExam';
 import { SessionGuide } from './pages/SessionGuide';
+import { WeekOverview } from './pages/WeekOverview';
 import '@cloudscape-design/global-styles/index.css';
 import './styles/theme.css';
 import './styles/responsive.css';
@@ -59,6 +60,7 @@ function AppContent() {
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/setup" element={<EnvironmentSetup />} />
+            <Route path="/week/:weekNumber" element={<WeekOverview />} />
             <Route
               path="/week/:weekNumber/session/:sessionNumber"
               element={<SessionGuide />}
