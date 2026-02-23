@@ -20,7 +20,7 @@ interface AppLayoutProps {
 
 // 반응형 브레이크포인트 (CloudScape 기본값)
 const MOBILE_BREAKPOINT = 688;
-const VERY_SMALL_BREAKPOINT = 400;
+const VERY_SMALL_BREAKPOINT = 500; // 작은 모바일 기기
 
 export const AppLayout: React.FC<AppLayoutProps> = ({
   children,
