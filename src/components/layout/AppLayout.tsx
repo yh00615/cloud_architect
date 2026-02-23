@@ -20,6 +20,7 @@ interface AppLayoutProps {
 
 // 반응형 브레이크포인트 (CloudScape 기본값)
 const MOBILE_BREAKPOINT = 688;
+const VERY_SMALL_BREAKPOINT = 400;
 
 export const AppLayout: React.FC<AppLayoutProps> = ({
   children,
@@ -28,6 +29,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
 }) => {
   const { theme, setTheme } = useTheme();
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    window.innerWidth < MOBILE_BREAKPOINT,
+  );
+  const [isVerySmall, setIsVerySmall] = useState(
+    window.innerWidth < VERY_SMALL_BREAKPOINT,
+  );
 
   // 초기 상태를 현재 창 크기에 따라 설정
   const [navigationOpen, setNavigationOpen] = useState(() => {
@@ -38,7 +45,11 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   useEffect(() => {
     const handleResize = () => {
       const shouldBeOpen = window.innerWidth >= MOBILE_BREAKPOINT;
+      const mobile = window.innerWidth < MOBILE_BREAKPOINT;
+      const verySmall = window.innerWidth < VERY_SMALL_BREAKPOINT;
       setNavigationOpen(shouldBeOpen);
+      setIsMobile(mobile);
+      setIsVerySmall(verySmall);
     };
 
     // 리사이즈 이벤트 리스너 등록
@@ -143,34 +154,89 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   // 도움말 패널 내용
   const helpPanel = (
     <HelpPanel header={<Box variant="h3">목차 및 용어 사전</Box>} footer={null}>
-      <HelpPanelContent />
+      <HelpPanelContent
+        onLinkClick={() => {
+          // 모바일에서만 패널 닫기
+          if (isMobile) {
+            setToolsOpen(false);
+          }
+        }}
+      />
     </HelpPanel>
   );
 
   return (
     <div className={`awsui-${theme}-mode app-layout-container`}>
-      {/* TopNavigation을 고정 위치에 배치 */}
-      <div className="app-layout-top-nav">
-        <TopNavigation
-          identity={{
-            href: import.meta.env.BASE_URL || '/',
-            title: '한양대학교 클라우드 서비스 디자인',
-          }}
-          utilities={[
-            {
-              type: 'button',
-              iconName: 'status-info',
-              text: '목차 및 용어 사전',
-              onClick: () => setToolsOpen(!toolsOpen),
-              ariaLabel: '목차 및 용어 사전 열기',
-            },
-            {
-              type: 'button',
-              text: theme === 'dark' ? '☀️ 라이트 모드' : '🌙 다크 모드',
-              onClick: toggleTheme,
-            },
-          ]}
-        />
+      {/* TopNavigation과 모바일 Breadcrumb을 하나의 헤더로 묶음 */}
+      <div className="app-layout-header">
+        {/* TopNavigation */}
+        <div className="app-layout-top-nav">
+          <TopNavigation
+            identity={{
+              href: import.meta.env.BASE_URL || '/',
+              title: isMobile ? '' : '한양대학교 클라우드 서비스 디자인',
+            }}
+            utilities={[
+              // 모바일에서만 햄버거 버튼 추가
+              ...(isMobile
+                ? [
+                    {
+                      type: 'button' as const,
+                      iconName: 'menu' as const,
+                      onClick: () => setNavigationOpen(!navigationOpen),
+                      ariaLabel: '메뉴 열기',
+                    },
+                  ]
+                : []),
+              // 모바일이지만 매우 작은 화면이 아닐 때만 중앙 텍스트 추가
+              ...(isMobile && !isVerySmall
+                ? [
+                    {
+                      type: 'button' as const,
+                      text: '한양대학교 클라우드 서비스 디자인',
+                      onClick: () => onNavigate('/'),
+                      variant: 'link' as const,
+                    },
+                  ]
+                : []),
+              {
+                type: 'button' as const,
+                iconName: 'status-info' as const,
+                text: isMobile ? undefined : '목차 및 용어 사전',
+                onClick: () => setToolsOpen(!toolsOpen),
+                ariaLabel: '목차 및 용어 사전 열기',
+              },
+              {
+                type: 'button' as const,
+                text: isMobile
+                  ? theme === 'dark'
+                    ? '☀️'
+                    : '🌙'
+                  : theme === 'dark'
+                    ? '☀️ 라이트 모드'
+                    : '🌙 다크 모드',
+                onClick: toggleTheme,
+                ariaLabel:
+                  theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환',
+              },
+            ]}
+          />
+        </div>
+
+        {/* 모바일에서만 Breadcrumb */}
+        {isMobile && (
+          <div className="mobile-breadcrumb-header">
+            <BreadcrumbGroup
+              items={getBreadcrumbs()}
+              onFollow={(event) => {
+                if (!event.detail.external) {
+                  event.preventDefault();
+                  onNavigate(event.detail.href);
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
 
       <CloudScapeAppLayout
@@ -178,16 +244,21 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
         toolsWidth={400}
         stickyNotifications
         breadcrumbs={
-          <BreadcrumbGroup
-            items={getBreadcrumbs()}
-            onFollow={(event) => {
-              if (!event.detail.external) {
-                event.preventDefault();
-                onNavigate(event.detail.href);
-              }
-            }}
-          />
+          !isMobile ? (
+            <div className="breadcrumb-container">
+              <BreadcrumbGroup
+                items={getBreadcrumbs()}
+                onFollow={(event) => {
+                  if (!event.detail.external) {
+                    event.preventDefault();
+                    onNavigate(event.detail.href);
+                  }
+                }}
+              />
+            </div>
+          ) : undefined
         }
+        content={children}
         navigation={
           <SideNavigation
             activeHref={currentPath}
@@ -206,7 +277,6 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
         tools={helpPanel}
         toolsOpen={toolsOpen}
         onToolsChange={({ detail }) => setToolsOpen(detail.open)}
-        content={children}
         contentType="default"
       />
     </div>

@@ -35,15 +35,7 @@ export const FileDownload: React.FC<FileDownloadProps> = ({
     ? downloadUrl
     : `${import.meta.env.BASE_URL}${downloadUrl.replace(/^\//, '')}`;
 
-  console.log('FileDownload Debug:', {
-    fileName,
-    downloadUrl,
-    baseUrl: import.meta.env.BASE_URL,
-    fullDownloadUrl,
-  });
-
   const handleDownload = () => {
-    console.log('Attempting download:', fullDownloadUrl);
     const link = document.createElement('a');
     link.href = fullDownloadUrl;
     link.download = fileName;

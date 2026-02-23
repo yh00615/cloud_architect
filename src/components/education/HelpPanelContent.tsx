@@ -15,7 +15,7 @@ import { loadMarkdownFile } from '@/utils/markdownLoader';
 import './HelpPanelContent.css';
 
 interface HelpPanelContentProps {
-  // 현재 props 없음 - 향후 확장 가능
+  onLinkClick?: () => void;
 }
 
 // 목차 아이템 인터페이스
@@ -75,7 +75,9 @@ const categoryIcons: Record<string, string> = {
   일반: '📌',
 };
 
-export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
+export const HelpPanelContent: React.FC<HelpPanelContentProps> = ({
+  onLinkClick,
+}) => {
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
@@ -406,6 +408,11 @@ export const HelpPanelContent: React.FC<HelpPanelContentProps> = () => {
           element.getBoundingClientRect().top + window.pageYOffset + yOffset;
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
+    }
+
+    // 모바일에서 목차 패널 닫기
+    if (onLinkClick) {
+      onLinkClick();
     }
   };
 
