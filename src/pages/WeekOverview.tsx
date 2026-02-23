@@ -11,6 +11,7 @@ import {
   ColumnLayout,
 } from '@cloudscape-design/components';
 import { curriculum } from '@/data/curriculum';
+import '@/styles/week-overview.css';
 
 export const WeekOverview: React.FC = () => {
   const { weekNumber } = useParams<{ weekNumber: string }>();
