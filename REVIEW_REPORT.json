@@ -1,9 +1,9 @@
 {
   "code": {
     "total": 7,
-    "passed": 6,
+    "passed": 5,
     "failed": 0,
-    "warnings": 66,
+    "warnings": 67,
     "issues": [
       {
         "category": "컴포넌트 구조",
@@ -276,6 +276,15 @@
             "issue": "export const 방식 미사용"
           }
         ]
+      },
+      {
+        "category": "CSS 파일",
+        "severity": "warning",
+        "count": 1,
+        "message": "className 사용하는 컴포넌트에 CSS 파일 누락",
+        "files": [
+          "src/pages/WeekOverview.tsx"
+        ]
       }
     ]
   },
@@ -287,8 +296,8 @@
     "issues": []
   },
   "overall": {
-    "score": 90,
-    "grade": "A",
+    "score": 80,
+    "grade": "B",
     "recommendations": [
       {
         "priority": "medium",

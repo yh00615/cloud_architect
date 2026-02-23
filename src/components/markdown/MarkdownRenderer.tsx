@@ -1173,12 +1173,6 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     tr: ({ children }: any) => <tr>{children}</tr>,
     th: ({ children }: any) => <th>{children}</th>,
     td: ({ children }: any) => <td>{children}</td>,
-
-    // p 태그를 Box로 변경하여 DOM nesting 경고 방지
-    p: ({ children }: any) => {
-      // blockquote 내부에서는 div 사용 (info-box 내부)
-      return <Box>{children}</Box>;
-    },
   };
 
   return (

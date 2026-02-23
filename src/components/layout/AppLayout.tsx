@@ -173,7 +173,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
         <div className="app-layout-top-nav">
           <TopNavigation
             identity={{
-              href: isMobile ? undefined : import.meta.env.BASE_URL || '/',
+              href: import.meta.env.BASE_URL || '/',
               title: isMobile ? '' : '한양대학교 클라우드 서비스 디자인',
             }}
             utilities={[
