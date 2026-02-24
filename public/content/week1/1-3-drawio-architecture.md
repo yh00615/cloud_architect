@@ -331,7 +331,7 @@ prerequisites:
 
 - [AWS 아키텍처 센터](https://aws.amazon.com/ko/architecture/)
 - [AWS Well-Architected Framework](https://aws.amazon.com/ko/architecture/well-architected/)
-- [3-Tier 웹 애플리케이션 아키텍처](https://aws.amazon.com/ko/architecture/reference-architecture-diagrams/)
+- [AWS 아키텍처 다이어그램 및 모범 사례](https://builder.aws.com/)
 - [Amazon RDS Multi-AZ 배포](https://docs.aws.amazon.com/ko_kr/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html)
 - [Amazon EC2 Auto Scaling 모범 사례](https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/as-best-practices.html)
 
