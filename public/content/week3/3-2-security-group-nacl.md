@@ -738,9 +738,9 @@ done
 
 ## 추가 학습 리소스
 
-- [보안 그룹](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/Amazon VPC_SecurityGroups.html)
+- [보안 그룹](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-security-groups.html)
 - [네트워크 ACL](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-network-acls.html)
-- [보안 그룹과 네트워크 ACL 비교](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/Amazon VPC_Security.html)
+- [보안 그룹과 네트워크 ACL 비교](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-security-best-practices.html)
 
 ## 📚 참고: 보안 그룹 및 NACL 핵심 개념
 

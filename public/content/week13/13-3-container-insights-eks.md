@@ -952,7 +952,7 @@ eksctl 삭제가 실패한 경우 다음 순서로 수동 삭제합니다:
 ## 추가 학습 리소스
 
 - [Container Insights 사용 설명서](https://docs.aws.amazon.com/ko_kr/AmazonCloudWatch/latest/monitoring/ContainerInsights.html)
-- [Amazon EKS에서 Container Insights 설정](https://docs.aws.amazon.com/ko_kr/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-Amazon EKS-quickstart.html)
+- [Amazon EKS에서 Container Insights 설정](https://docs.aws.amazon.com/ko_kr/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-EKS-quickstart.html)
 - [Amazon CloudWatch Logs Insights 쿼리 문법](https://docs.aws.amazon.com/ko_kr/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html)
 - [Kubernetes 메트릭 서버](https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/)
 - [Amazon EKS Add-ons](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/eks-add-ons.html)
