@@ -356,7 +356,7 @@ Week 9-3에서 구축한 QuickTable 정적 웹사이트가 이제 CloudFront를 
 
 - [Amazon CloudFront 개발자 가이드](https://docs.aws.amazon.com/ko_kr/AmazonCloudFront/latest/DeveloperGuide/)
 - [Amazon CloudFront 모범 사례](https://docs.aws.amazon.com/ko_kr/AmazonCloudFront/latest/DeveloperGuide/best-practices.html)
-- [Amazon CloudFront 가격](https://aws.amazon.com/cloudfront/pricing/)
+- [Amazon CloudFront 가격](https://aws.amazon.com/ko/cloudfront/pricing/)
 
 ### QuickTable 시리즈 연결
 

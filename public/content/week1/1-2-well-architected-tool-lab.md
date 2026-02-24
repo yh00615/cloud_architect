@@ -392,7 +392,7 @@ prerequisites:
 - [AWS Well-Architected Framework 백서](https://docs.aws.amazon.com/ko_kr/wellarchitected/latest/framework/welcome.html)
 - [Well-Architected Tool 사용자 가이드](https://docs.aws.amazon.com/ko_kr/wellarchitected/latest/userguide/intro.html)
 - [Well-Architected Labs](https://wellarchitectedlabs.com/)
-- [AWS Architecture Center](https://aws.amazon.com/architecture/)
+- [AWS Architecture Center](https://aws.amazon.com/ko/architecture/)
 
 ## 📚 참고: AWS Well-Architected Framework 6가지 원칙
 

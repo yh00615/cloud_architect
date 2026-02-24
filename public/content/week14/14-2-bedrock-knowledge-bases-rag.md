@@ -537,7 +537,7 @@ Knowledge Base는 문서를 자동으로 처리하여 벡터 데이터베이스�
 
 - [Amazon Bedrock Knowledge Bases 개발자 가이드](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/knowledge-base.html)
 - [RAG 아키텍처 모범 사례](https://aws.amazon.com/blogs/machine-learning/retrieval-augmented-generation/)
-- [벡터 데이터베이스 개요](https://aws.amazon.com/what-is/vector-databases/)
+- [벡터 데이터베이스 개요](https://aws.amazon.com/ko/what-is/vector-databases/)
 
 ## 📚 참고: RAG 아키텍처 심화
 

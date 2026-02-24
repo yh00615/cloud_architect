@@ -1258,7 +1258,7 @@ Week 14-2에서 구축한 Knowledge Base와 14-3의 Agent를 결합하여 QuickT
 - [Amazon Bedrock Agents Action Groups](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/agents-action-groups.html)
 - [Amazon Bedrock Agents Knowledge Bases](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/knowledge-base.html)
 - [Claude 3 모델 가이드](https://docs.anthropic.com/claude/docs/models-overview)
-- [Amazon Bedrock 요금](https://aws.amazon.com/bedrock/pricing/)
+- [Amazon Bedrock 요금](https://aws.amazon.com/ko/bedrock/pricing/)
 - [AWS Lambda와 Amazon Bedrock 통합](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/agents-lambda.html)
 
 ## 📚 참고: Amazon Bedrock Agent 핵심 개념
