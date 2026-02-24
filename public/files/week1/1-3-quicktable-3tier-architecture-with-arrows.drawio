@@ -127,6 +127,21 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
+                            <mxCell id="Security Group" value="Security Group" style="fillColor=none;strokeColor=#DD3522;verticalAlign=top;fontStyle=0;fontColor=#DD3522;fontSize=16;" vertex="1" parent="az-a">
+                    <mxGeometry x="155" y="520" width="150" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Security Group" style="fillColor=none;strokeColor=#DD3522;verticalAlign=top;fontStyle=0;fontColor=#DD3522;fontSize=16;" vertex="1" parent="private-subnet-c-db">
+                    <mxGeometry x="135" y="40" width="150" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="Security Group" value="Security Group" style="fillColor=none;strokeColor=#DD3522;verticalAlign=top;fontStyle=0;fontColor=#DD3522;fontSize=16;" vertex="1" parent="4">
+                    <mxGeometry x="540" y="15" width="310" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Security Group" style="fillColor=none;strokeColor=#DD3522;verticalAlign=top;fontStyle=0;fontColor=#DD3522;fontSize=16;" vertex="1" parent="4">
+                    <mxGeometry x="60" y="15" width="310" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="Security Group" value="Security Group" style="fillColor=none;strokeColor=#DD3522;verticalAlign=top;fontStyle=0;fontColor=#DD3522;fontSize=16;labelBackgroundColor=#FFFFFF;labelBorderColor=none;" vertex="1" parent="region">
+                    <mxGeometry x="430" y="189" width="220" height="145" as="geometry"/>
+                </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
