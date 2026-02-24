@@ -521,9 +521,9 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 
 ## 추가 학습 리소스
 
-- [AWS Application Composer 사용 설명서](https://docs.aws.amazon.com/application-composer/latest/dg/what-is-composer.html)
-- [Infrastructure Composer로 인프라 설계](https://docs.aws.amazon.com/application-composer/latest/dg/infrastructure-composer.html)
-- [AWS CloudFormation 템플릿 자동 생성](https://docs.aws.amazon.com/application-composer/latest/dg/template-generation.html)
+- [AWS Application Composer 사용 설명서](https://docs.aws.amazon.com/ko_kr/application-composer/latest/dg/what-is-composer.html)
+- [Infrastructure Composer로 인프라 설계](https://docs.aws.amazon.com/ko_kr/application-composer/latest/dg/infrastructure-composer.html)
+- [AWS CloudFormation 템플릿 자동 생성](https://docs.aws.amazon.com/ko_kr/application-composer/latest/dg/template-generation.html)
 
 ## 📚 참고: 코드 vs 하이브리드 비교
 

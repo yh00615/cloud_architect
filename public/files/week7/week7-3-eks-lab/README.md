@@ -115,5 +115,5 @@ EKSCluster:
 
 ## 참고 자료
 
-- [Amazon EKS 사용 설명서](https://docs.aws.amazon.com/eks/latest/userguide/)
-- [CloudFormation EKS 리소스](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/AWS_EKS.html)
+- [Amazon EKS 사용 설명서](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/)
+- [CloudFormation EKS 리소스](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/AWS_EKS.html)

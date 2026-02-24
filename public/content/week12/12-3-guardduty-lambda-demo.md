@@ -962,10 +962,10 @@ Week 4-3에서 구축한 QuickTable API와 Week 10-2의 Amazon ElastiCache 인�
 
 ## 추가 학습 리소스
 
-- [Amazon GuardDuty 사용 설명서](https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html)
-- [Amazon GuardDuty Finding 타입](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-types-active.html)
-- [Amazon EventBridge를 사용한 자동 대응](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings_cloudwatch.html)
-- [AWS Lambda 보안 모범 사례](https://docs.aws.amazon.com/lambda/latest/dg/lambda-security.html)
+- [Amazon GuardDuty 사용 설명서](https://docs.aws.amazon.com/ko_kr/guardduty/latest/ug/what-is-guardduty.html)
+- [Amazon GuardDuty Finding 타입](https://docs.aws.amazon.com/ko_kr/guardduty/latest/ug/guardduty_finding-types-active.html)
+- [Amazon EventBridge를 사용한 자동 대응](https://docs.aws.amazon.com/ko_kr/guardduty/latest/ug/guardduty_findings_cloudwatch.html)
+- [AWS Lambda 보안 모범 사례](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-security.html)
 
 ### QuickTable 시리즈 연결
 

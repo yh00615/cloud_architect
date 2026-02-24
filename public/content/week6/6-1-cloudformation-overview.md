@@ -436,11 +436,11 @@ Outputs:
 
 ## 추가 학습 리소스
 
-- [AWS CloudFormation 사용 설명서](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html)
-- [AWS CloudFormation 템플릿 레퍼런스](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html)
-- [AWS CloudFormation 모범 사례](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html)
-- [변경 세트 사용](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html)
-- [드리프트 감지](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html)
+- [AWS CloudFormation 사용 설명서](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/Welcome.html)
+- [AWS CloudFormation 템플릿 레퍼런스](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/template-reference.html)
+- [AWS CloudFormation 모범 사례](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/best-practices.html)
+- [변경 세트 사용](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html)
+- [드리프트 감지](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html)
 
 ## 📚 참고: AWS CloudFormation 핵심 개념
 

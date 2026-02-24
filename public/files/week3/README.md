@@ -271,13 +271,13 @@ Private Route Table:
 ## 📚 추가 학습 리소스
 
 ### AWS 공식 문서
-- [Amazon VPC 사용 설명서](https://docs.aws.amazon.com/vpc/latest/userguide/)
-- [보안 그룹](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html)
-- [네트워크 ACL](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html)
-- [NAT Gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)
+- [Amazon VPC 사용 설명서](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/)
+- [보안 그룹](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/VPC_SecurityGroups.html)
+- [네트워크 ACL](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-network-acls.html)
+- [NAT Gateway](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-nat-gateway.html)
 
 ### 베스트 프랙티스
-- [VPC 보안 모범 사례](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html)
+- [VPC 보안 모범 사례](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-security-best-practices.html)
 - [3-Tier 아키텍처 설계](https://aws.amazon.com/architecture/reference-architecture-diagrams/)
 
 ## 🆘 문제 해결

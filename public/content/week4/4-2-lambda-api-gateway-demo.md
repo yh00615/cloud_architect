@@ -776,8 +776,8 @@ fi
 
 ## 추가 학습 리소스
 
-- [Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html)
-- [Amazon API Gateway AWS Lambda Authorizers](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html)
+- [Amazon Cognito User Pools](https://docs.aws.amazon.com/ko_kr/cognito/latest/developerguide/cognito-user-identity-pools.html)
+- [Amazon API Gateway AWS Lambda Authorizers](https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html)
 - [JWT 토큰 구조](https://jwt.io/introduction)
 
 ## 📚 참고: Amazon Cognito 인증 아키텍처

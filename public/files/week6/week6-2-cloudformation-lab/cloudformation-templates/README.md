@@ -192,8 +192,8 @@ AvailabilityZone: !Select [0, !GetAZs '']
 ## 🔗 추가 리소스
 
 - [CloudFormation 사용 설명서](https://docs.aws.amazon.com/cloudformation/)
-- [CloudFormation 템플릿 레퍼런스](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html)
-- [CloudFormation 모범 사례](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html)
+- [CloudFormation 템플릿 레퍼런스](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/template-reference.html)
+- [CloudFormation 모범 사례](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/best-practices.html)
 - [AWS 샘플 템플릿](https://github.com/awslabs/aws-cloudformation-templates)
 
 ## 💡 실습 팁

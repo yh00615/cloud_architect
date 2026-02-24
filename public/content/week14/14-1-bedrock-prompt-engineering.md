@@ -379,7 +379,7 @@ Top P 값의 의미를 이해합니다.
 
 ## 추가 학습 리소스
 
-- [Amazon Bedrock 사용자 가이드](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html)
+- [Amazon Bedrock 사용자 가이드](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/what-is-bedrock.html)
 - [프롬프트 엔지니어링 가이드](https://docs.anthropic.com/claude/docs/prompt-engineering)
 - [Claude 3 모델 비교](https://www.anthropic.com/claude)
 

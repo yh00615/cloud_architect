@@ -252,7 +252,7 @@ kubectl delete pvc --all
 
 ## 📚 추가 리소스
 
-- [Amazon EKS 사용 설명서](https://docs.aws.amazon.com/eks/latest/userguide/)
+- [Amazon EKS 사용 설명서](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/)
 - [EKS 모범 사례 가이드](https://aws.github.io/aws-eks-best-practices/)
 - [kubectl 치트 시트](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 - [EKS 워크샵](https://www.eksworkshop.com/)

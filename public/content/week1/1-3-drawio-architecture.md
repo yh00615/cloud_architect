@@ -329,11 +329,11 @@ prerequisites:
 
 ## 추가 학습 리소스
 
-- [AWS 아키텍처 센터](https://aws.amazon.com/architecture/)
-- [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
-- [3-Tier 아키텍처 모범 사례](https://docs.aws.amazon.com/whitepapers/latest/web-application-hosting-best-practices/an-aws-cloud-architecture-for-web-hosting.html)
-- [Amazon RDS Multi-AZ 배포](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html)
-- [Amazon EC2 Auto Scaling 모범 사례](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-best-practices.html)
+- [AWS 아키텍처 센터](https://aws.amazon.com/ko/architecture/)
+- [AWS Well-Architected Framework](https://aws.amazon.com/ko/architecture/well-architected/)
+- [3-Tier 아키텍처 모범 사례](https://docs.aws.amazon.com/ko_kr/whitepapers/latest/web-application-hosting-best-practices/an-aws-cloud-architecture-for-web-hosting.html)
+- [Amazon RDS Multi-AZ 배포](https://docs.aws.amazon.com/ko_kr/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html)
+- [Amazon EC2 Auto Scaling 모범 사례](https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/as-best-practices.html)
 
 ## 📚 참고: QuickTable 3-Tier 아키텍처 설계 원칙
 

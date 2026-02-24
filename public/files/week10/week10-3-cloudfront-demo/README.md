@@ -232,8 +232,8 @@ aws cloudfront create-invalidation \
 ## 📚 추가 리소스
 
 - [Amazon CloudFront 개발자 가이드](https://docs.aws.amazon.com/cloudfront/)
-- [CloudFront 캐싱 모범 사례](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/ConfiguringCaching.html)
-- [OAC를 사용한 S3 오리진 보호](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html)
+- [CloudFront 캐싱 모범 사례](https://docs.aws.amazon.com/ko_kr/AmazonCloudFront/latest/DeveloperGuide/ConfiguringCaching.html)
+- [OAC를 사용한 S3 오리진 보호](https://docs.aws.amazon.com/ko_kr/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html)
 
 ## ❓ 자주 묻는 질문
 

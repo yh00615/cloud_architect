@@ -702,11 +702,11 @@ DROP TABLE IF EXISTS processed_transactions;
 
 ## 추가 학습 리소스
 
-- [AWS Glue 개발자 가이드](https://docs.aws.amazon.com/glue/)
-- [Amazon Athena 사용 설명서](https://docs.aws.amazon.com/athena/)
-- [데이터 레이크 아키텍처](https://aws.amazon.com/big-data/datalakes-and-analytics/)
-- [AWS Lambda 개발자 가이드](https://docs.aws.amazon.com/lambda/)
-- [EventBridge 사용 설명서](https://docs.aws.amazon.com/eventbridge/)
+- [AWS Glue 개발자 가이드](https://docs.aws.amazon.com/ko_kr/glue/latest/dg/what-is-glue.html)
+- [Amazon Athena 사용 설명서](https://docs.aws.amazon.com/ko_kr/athena/latest/ug/what-is.html)
+- [데이터 레이크 아키텍처](https://aws.amazon.com/ko/big-data/datalakes-and-analytics/)
+- [AWS Lambda 개발자 가이드](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/welcome.html)
+- [EventBridge 사용 설명서](https://docs.aws.amazon.com/ko_kr/eventbridge/latest/userguide/eb-what-is.html)
 
 ## 📚 참고: AWS 데이터 분석 서비스 및 모범 사례
 

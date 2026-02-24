@@ -715,10 +715,10 @@ git push origin main
 
 ## 추가 학습 리소스
 
-- [AWS CodeBuild 사용 설명서](https://docs.aws.amazon.com/codebuild/latest/userguide/welcome.html)
-- [buildspec.yml 참조](https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html)
-- [Docker 이미지 빌드 및 푸시](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)
-- [Amazon ECR 사용 설명서](https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html)
+- [AWS CodeBuild 사용 설명서](https://docs.aws.amazon.com/ko_kr/codebuild/latest/userguide/welcome.html)
+- [buildspec.yml 참조](https://docs.aws.amazon.com/ko_kr/codebuild/latest/userguide/build-spec-ref.html)
+- [Docker 이미지 빌드 및 푸시](https://docs.aws.amazon.com/ko_kr/codebuild/latest/userguide/sample-docker.html)
+- [Amazon ECR 사용 설명서](https://docs.aws.amazon.com/ko_kr/AmazonECR/latest/userguide/what-is-ecr.html)
 
 ## 📚 참고: AWS CodeBuild 및 buildspec.yml 개념
 

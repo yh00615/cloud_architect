@@ -573,9 +573,9 @@ git push origin main
 
 ## 추가 학습 리소스
 
-- [AWS CodePipeline 사용 설명서](https://docs.aws.amazon.com/codepipeline/)
-- [Amazon S3 정적 웹사이트 호스팅](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html)
-- [AWS CodeBuild buildspec 참조](https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html)
+- [AWS CodePipeline 사용 설명서](https://docs.aws.amazon.com/ko_kr/codepipeline/latest/userguide/welcome.html)
+- [Amazon S3 정적 웹사이트 호스팅](https://docs.aws.amazon.com/ko_kr/AmazonS3/latest/userguide/WebsiteHosting.html)
+- [AWS CodeBuild buildspec 참조](https://docs.aws.amazon.com/ko_kr/codebuild/latest/userguide/build-spec-ref.html)
 
 ## 📚 참고: Amazon S3 정적 웹사이트 호스팅 및 QuickTable 아키텍처
 

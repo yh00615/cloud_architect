@@ -204,7 +204,7 @@ aws cloudformation delete-stack \
 
 ### 샘플 코드
 - [AWS Glue ETL 스크립트 예시](https://github.com/aws-samples/aws-glue-samples)
-- [Athena 쿼리 예시](https://docs.aws.amazon.com/athena/latest/ug/code-samples.html)
+- [Athena 쿼리 예시](https://docs.aws.amazon.com/ko_kr/athena/latest/ug/code-samples.html)
 
 ---
 

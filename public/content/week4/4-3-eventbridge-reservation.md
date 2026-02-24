@@ -796,10 +796,10 @@ fi
 
 ## 추가 학습 리소스
 
-- [Amazon EventBridge 개발자 가이드](https://docs.aws.amazon.com/eventbridge/latest/userguide/what-is-amazon-eventbridge.html)
+- [Amazon EventBridge 개발자 가이드](https://docs.aws.amazon.com/ko_kr/eventbridge/latest/userguide/what-is-amazon-eventbridge.html)
 - [이벤트 기반 아키텍처 패턴](https://aws.amazon.com/event-driven-architecture/)
-- [Amazon EventBridge 이벤트 패턴](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html)
-- [AWS Lambda와 Amazon EventBridge 통합](https://docs.aws.amazon.com/lambda/latest/dg/with-eventbridge.html)
+- [Amazon EventBridge 이벤트 패턴](https://docs.aws.amazon.com/ko_kr/eventbridge/latest/userguide/eb-event-patterns.html)
+- [AWS Lambda와 Amazon EventBridge 통합](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/with-eventbridge.html)
 
 ---
 

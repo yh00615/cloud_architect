@@ -1242,17 +1242,17 @@ redis_client = RedisCluster(
 ### AWS 공식 문서
 
 1. **Amazon ElastiCache for Redis**
-   - [ElastiCache 사용 설명서](https://docs.aws.amazon.com/elasticache/latest/red-ug/)
-   - [Redis 모범 사례](https://docs.aws.amazon.com/elasticache/latest/red-ug/BestPractices.html)
-   - [성능 최적화](https://docs.aws.amazon.com/elasticache/latest/red-ug/CacheMetrics.html)
+   - [ElastiCache 사용 설명서](https://docs.aws.amazon.com/ko_kr/elasticache/latest/red-ug/)
+   - [Redis 모범 사례](https://docs.aws.amazon.com/ko_kr/elasticache/latest/red-ug/BestPractices.html)
+   - [성능 최적화](https://docs.aws.amazon.com/ko_kr/elasticache/latest/red-ug/CacheMetrics.html)
 
 2. **Amazon RDS for MySQL**
-   - [RDS 사용 설명서](https://docs.aws.amazon.com/rds/latest/userguide/)
-   - [성능 인사이트](https://docs.aws.amazon.com/rds/latest/userguide/USER_PerfInsights.html)
+   - [RDS 사용 설명서](https://docs.aws.amazon.com/ko_kr/rds/latest/userguide/)
+   - [성능 인사이트](https://docs.aws.amazon.com/ko_kr/rds/latest/userguide/USER_PerfInsights.html)
 
 3. **VPC 및 네트워킹**
-   - [VPC 사용 설명서](https://docs.aws.amazon.com/vpc/latest/userguide/)
-   - [보안 그룹](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html)
+   - [VPC 사용 설명서](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/)
+   - [보안 그룹](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/VPC_SecurityGroups.html)
 
 ### Redis 공식 문서
 

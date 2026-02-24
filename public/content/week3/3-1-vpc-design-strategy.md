@@ -705,9 +705,9 @@ fi
 
 ## 추가 학습 리소스
 
-- [Amazon VPC Endpoints 개요](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints.html)
-- [Gateway Endpoint vs Interface Endpoint](https://docs.aws.amazon.com/vpc/latest/privatelink/vpce-gateway.html)
-- [Amazon VPC Endpoint 정책](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-access.html)
+- [Amazon VPC Endpoints 개요](https://docs.aws.amazon.com/ko_kr/vpc/latest/privatelink/vpc-endpoints.html)
+- [Gateway Endpoint vs Interface Endpoint](https://docs.aws.amazon.com/ko_kr/vpc/latest/privatelink/vpce-gateway.html)
+- [Amazon VPC Endpoint 정책](https://docs.aws.amazon.com/ko_kr/vpc/latest/privatelink/vpc-endpoints-access.html)
 
 ## 📚 참고: Amazon VPC Endpoint 핵심 개념
 

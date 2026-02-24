@@ -188,7 +188,7 @@ aws cloudformation delete-stack \
 ## 📚 추가 리소스
 
 - [AWS VPC 사용 설명서](https://docs.aws.amazon.com/vpc/)
-- [CloudFormation VPC 템플릿 예시](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html)
+- [CloudFormation VPC 템플릿 예시](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html)
 - [3-Tier 아키텍처 모범 사례](https://aws.amazon.com/architecture/)
 
 ## ❓ 자주 묻는 질문

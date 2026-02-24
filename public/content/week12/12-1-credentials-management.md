@@ -872,6 +872,6 @@ def get_secret_cached(secret_name, ttl_seconds=3600):
 
 ## 추가 학습 리소스
 
-- [AWS Secrets Manager 모범 사례](https://docs.aws.amazon.com/secretsmanager/latest/userguide/best-practices.html)
-- [Parameter Store 사용 설명서](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html)
-- [AWS KMS 개발자 가이드](https://docs.aws.amazon.com/kms/latest/developerguide/)
+- [AWS Secrets Manager 모범 사례](https://docs.aws.amazon.com/ko_kr/secretsmanager/latest/userguide/best-practices.html)
+- [Parameter Store 사용 설명서](https://docs.aws.amazon.com/ko_kr/systems-manager/latest/userguide/systems-manager-parameter-store.html)
+- [AWS KMS 개발자 가이드](https://docs.aws.amazon.com/ko_kr/kms/latest/developerguide/)

@@ -1441,24 +1441,24 @@ s3.put_object(
 ### AWS 공식 문서
 
 #### Amazon Rekognition
-- [Amazon Rekognition 개발자 가이드](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html)
-- [DetectFaces API 레퍼런스](https://docs.aws.amazon.com/rekognition/latest/dg/API_DetectFaces.html)
-- [DetectLabels API 레퍼런스](https://docs.aws.amazon.com/rekognition/latest/dg/API_DetectLabels.html)
-- [DetectText API 레퍼런스](https://docs.aws.amazon.com/rekognition/latest/dg/API_DetectText.html)
-- [Rekognition 모범 사례](https://docs.aws.amazon.com/rekognition/latest/dg/best-practices.html)
+- [Amazon Rekognition 개발자 가이드](https://docs.aws.amazon.com/ko_kr/rekognition/latest/dg/what-is.html)
+- [DetectFaces API 레퍼런스](https://docs.aws.amazon.com/ko_kr/rekognition/latest/dg/API_DetectFaces.html)
+- [DetectLabels API 레퍼런스](https://docs.aws.amazon.com/ko_kr/rekognition/latest/dg/API_DetectLabels.html)
+- [DetectText API 레퍼런스](https://docs.aws.amazon.com/ko_kr/rekognition/latest/dg/API_DetectText.html)
+- [Rekognition 모범 사례](https://docs.aws.amazon.com/ko_kr/rekognition/latest/dg/best-practices.html)
 
 #### AWS Lambda
-- [Lambda 개발자 가이드](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
-- [Lambda와 S3 통합](https://docs.aws.amazon.com/lambda/latest/dg/with-s3.html)
-- [Lambda 성능 최적화](https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html)
+- [Lambda 개발자 가이드](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/welcome.html)
+- [Lambda와 S3 통합](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/with-s3.html)
+- [Lambda 성능 최적화](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/best-practices.html)
 
 #### Amazon S3
-- [S3 이벤트 알림](https://docs.aws.amazon.com/AmazonS3/latest/userguide/NotificationHowTo.html)
-- [S3 보안 모범 사례](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html)
+- [S3 이벤트 알림](https://docs.aws.amazon.com/ko_kr/AmazonS3/latest/userguide/NotificationHowTo.html)
+- [S3 보안 모범 사례](https://docs.aws.amazon.com/ko_kr/AmazonS3/latest/userguide/security-best-practices.html)
 
 #### Amazon DynamoDB
-- [DynamoDB 개발자 가이드](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html)
-- [DynamoDB 모범 사례](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html)
+- [DynamoDB 개발자 가이드](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/Introduction.html)
+- [DynamoDB 모범 사례](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/best-practices.html)
 
 ### 블로그 및 튜토리얼
 - [Building a Serverless Image Recognition System](https://aws.amazon.com/blogs/machine-learning/)

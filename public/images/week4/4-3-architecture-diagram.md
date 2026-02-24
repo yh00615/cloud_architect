@@ -728,9 +728,9 @@ breaker.fallback(() => ({ status: 'PENDING', message: 'Payment service unavailab
 ## 📚 참고 자료
 
 - [Amazon EventBridge 개발자 가이드](https://docs.aws.amazon.com/eventbridge/)
-- [AWS Lambda 모범 사례](https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html)
+- [AWS Lambda 모범 사례](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/best-practices.html)
 - [이벤트 기반 아키텍처 패턴](https://aws.amazon.com/event-driven-architecture/)
-- [DynamoDB 설계 모범 사례](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html)
+- [DynamoDB 설계 모범 사례](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/best-practices.html)
 
 ---
 

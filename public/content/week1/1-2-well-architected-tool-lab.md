@@ -389,8 +389,8 @@ prerequisites:
 
 ## 추가 학습 리소스
 
-- [AWS Well-Architected Framework 백서](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html)
-- [Well-Architected Tool 사용자 가이드](https://docs.aws.amazon.com/wellarchitected/latest/userguide/intro.html)
+- [AWS Well-Architected Framework 백서](https://docs.aws.amazon.com/ko_kr/wellarchitected/latest/framework/welcome.html)
+- [Well-Architected Tool 사용자 가이드](https://docs.aws.amazon.com/ko_kr/wellarchitected/latest/userguide/intro.html)
 - [Well-Architected Labs](https://wellarchitectedlabs.com/)
 - [AWS Architecture Center](https://aws.amazon.com/architecture/)
 

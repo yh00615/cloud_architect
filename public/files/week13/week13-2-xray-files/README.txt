@@ -117,7 +117,7 @@ Lambda 함수를 트리거할 API Gateway 생성
 
 - AWS X-Ray 개발자 가이드: https://docs.aws.amazon.com/xray/
 - X-Ray SDK for Python: https://docs.aws.amazon.com/xray-sdk-for-python/
-- Lambda와 X-Ray 통합: https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html
+- Lambda와 X-Ray 통합: https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/services-xray.html
 
 ## ⚠️ 주의사항
 

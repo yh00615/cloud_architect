@@ -541,9 +541,9 @@ Outputs:
 
 ## 추가 학습 리소스
 
-- [AWS CloudFormation 템플릿 레퍼런스](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html)
-- [AWS CloudFormation 모범 사례](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html)
-- [AWS CloudFormation 내장 함수](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)
+- [AWS CloudFormation 템플릿 레퍼런스](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/template-reference.html)
+- [AWS CloudFormation 모범 사례](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/best-practices.html)
+- [AWS CloudFormation 내장 함수](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)
 
 ## 📚 참고: AWS CloudFormation 핵심 개념
 

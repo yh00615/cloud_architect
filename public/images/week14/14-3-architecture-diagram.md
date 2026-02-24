@@ -1738,25 +1738,25 @@ jobs:
 ### AWS 공식 문서
 
 **Bedrock Agents**:
-- [Agents for Amazon Bedrock 개요](https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html)
-- [Agent 생성 및 구성](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-create.html)
-- [Action Groups 정의](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-action-groups.html)
-- [Agent API 참조](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_InvokeAgent.html)
+- [Agents for Amazon Bedrock 개요](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/agents.html)
+- [Agent 생성 및 구성](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/agents-create.html)
+- [Action Groups 정의](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/agents-action-groups.html)
+- [Agent API 참조](https://docs.aws.amazon.com/ko_kr/bedrock/latest/APIReference/API_agent_InvokeAgent.html)
 
 **Lambda**:
-- [Lambda 함수 생성](https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html)
-- [Lambda와 DynamoDB 통합](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html)
-- [Lambda 모범 사례](https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html)
+- [Lambda 함수 생성](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/getting-started.html)
+- [Lambda와 DynamoDB 통합](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/with-ddb.html)
+- [Lambda 모범 사례](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/best-practices.html)
 
 **DynamoDB**:
-- [DynamoDB 시작하기](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStartedDynamoDB.html)
-- [DynamoDB 데이터 모델링](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html)
-- [DynamoDB 보안](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/security.html)
+- [DynamoDB 시작하기](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/GettingStartedDynamoDB.html)
+- [DynamoDB 데이터 모델링](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/bp-general-nosql-design.html)
+- [DynamoDB 보안](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/security.html)
 
 **API Gateway**:
-- [REST API 생성](https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html)
-- [Lambda 프록시 통합](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html)
-- [API Gateway 보안](https://docs.aws.amazon.com/apigateway/latest/developerguide/security.html)
+- [REST API 생성](https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/how-to-create-api.html)
+- [Lambda 프록시 통합](https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html)
+- [API Gateway 보안](https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/security.html)
 
 ### 블로그 및 튜토리얼
 
@@ -1766,7 +1766,7 @@ jobs:
 - [Bedrock Agents Best Practices](https://aws.amazon.com/blogs/machine-learning/best-practices-for-amazon-bedrock-agents/)
 
 **서버리스 아키텍처**:
-- [Serverless Application Lens](https://docs.aws.amazon.com/wellarchitected/latest/serverless-applications-lens/welcome.html)
+- [Serverless Application Lens](https://docs.aws.amazon.com/ko_kr/wellarchitected/latest/serverless-applications-lens/welcome.html)
 - [Serverless Patterns Collection](https://serverlessland.com/patterns)
 - [AWS Serverless Hero Blog](https://aws.amazon.com/developer/community/heroes/serverless/)
 

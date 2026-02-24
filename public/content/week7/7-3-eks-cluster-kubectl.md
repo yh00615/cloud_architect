@@ -1064,7 +1064,7 @@ kubectl delete deployment nginx-app
 
 ## 추가 학습 리소스
 
-- [Amazon EKS 사용 설명서](https://docs.aws.amazon.com/eks/latest/userguide/)
+- [Amazon EKS 사용 설명서](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/)
 - [Kubernetes 공식 문서](https://kubernetes.io/docs/home/)
 - [kubectl 치트 시트](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 - [Amazon EKS 모범 사례 가이드](https://aws.github.io/aws-eks-best-practices/)
@@ -1363,7 +1363,7 @@ spec:
 - **레거시 마이그레이션**: Classic LB에서 ALB/NLB로 마이그레이션 계획 수립
 
 **참고 자료:**
-- [AWS Load Balancer Controller 설치 가이드](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
+- [AWS Load Balancer Controller 설치 가이드](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/aws-load-balancer-controller.html)
 - [ALB Ingress 어노테이션](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/annotations/)
 - [NLB Service 어노테이션](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
 

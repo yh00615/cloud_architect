@@ -210,5 +210,5 @@ uvicorn app:app --host 0.0.0.0 --port 5000
 
 - [FastAPI 공식 문서](https://fastapi.tiangolo.com/)
 - [Redis Python 클라이언트](https://redis-py.readthedocs.io/)
-- [ElastiCache 모범 사례](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/BestPractices.html)
+- [ElastiCache 모범 사례](https://docs.aws.amazon.com/ko_kr/AmazonElastiCache/latest/red-ug/BestPractices.html)
 - [Pydantic 문서](https://docs.pydantic.dev/)

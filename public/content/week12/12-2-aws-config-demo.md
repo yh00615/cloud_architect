@@ -602,10 +602,10 @@ aws configservice delete-delivery-channel --delivery-channel-name default
 
 ## 추가 학습 리소스
 
-- [AWS Config 개발자 가이드](https://docs.aws.amazon.com/config/)
-- [AWS Config Rules 레퍼런스](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html)
-- [Conformance Packs](https://docs.aws.amazon.com/config/latest/developerguide/conformance-packs.html)
-- [AWS Config 모범 사례](https://docs.aws.amazon.com/config/latest/developerguide/best-practices.html)
+- [AWS Config 개발자 가이드](https://docs.aws.amazon.com/ko_kr/config/latest/developerguide/WhatIsConfig.html)
+- [AWS Config Rules 레퍼런스](https://docs.aws.amazon.com/ko_kr/config/latest/developerguide/managed-rules-by-aws-config.html)
+- [Conformance Packs](https://docs.aws.amazon.com/ko_kr/config/latest/developerguide/conformance-packs.html)
+- [AWS Config 모범 사례](https://docs.aws.amazon.com/ko_kr/config/latest/developerguide/best-practices.html)
 
 ## 📚 참고: AWS Config 핵심 개념
 

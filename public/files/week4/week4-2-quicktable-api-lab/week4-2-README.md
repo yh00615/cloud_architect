@@ -339,10 +339,10 @@ Lambda 함수 코드에는 다음이 포함되어 있습니다:
 
 ## 📚 참고 자료
 
-- [AWS Lambda 개발자 가이드](https://docs.aws.amazon.com/lambda/latest/dg/)
-- [Amazon API Gateway 개발자 가이드](https://docs.aws.amazon.com/apigateway/latest/developerguide/)
-- [Amazon DynamoDB 개발자 가이드](https://docs.aws.amazon.com/dynamodb/latest/developerguide/)
-- [Amazon Cognito 개발자 가이드](https://docs.aws.amazon.com/cognito/latest/developerguide/)
+- [AWS Lambda 개발자 가이드](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/)
+- [Amazon API Gateway 개발자 가이드](https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/)
+- [Amazon DynamoDB 개발자 가이드](https://docs.aws.amazon.com/ko_kr/dynamodb/latest/developerguide/)
+- [Amazon Cognito 개발자 가이드](https://docs.aws.amazon.com/ko_kr/cognito/latest/developerguide/)
 - [CloudFormation 사용자 가이드](https://docs.aws.amazon.com/cloudformation/)
 
 ## ❓ 문제 해결

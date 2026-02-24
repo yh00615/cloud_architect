@@ -884,9 +884,9 @@ rm ~/.aws/credentials.bak ~/.aws/config.bak
 
 ## 추가 학습 리소스
 
-- [AWS IAM JSON 정책 요소: Condition](https://docs.aws.amazon.com/AWS IAM/latest/UserGuide/reference_policies_elements_condition.html)
-- [AWS 전역 조건 컨텍스트 키](https://docs.aws.amazon.com/AWS IAM/latest/UserGuide/reference_policies_condition-keys.html)
-- [AWS IAM 정책 예제](https://docs.aws.amazon.com/AWS IAM/latest/UserGuide/access_policies_examples.html)
+- [AWS IAM JSON 정책 요소: Condition](https://docs.aws.amazon.com/ko_kr/AWS IAM/latest/UserGuide/reference_policies_elements_condition.html)
+- [AWS 전역 조건 컨텍스트 키](https://docs.aws.amazon.com/ko_kr/AWS IAM/latest/UserGuide/reference_policies_condition-keys.html)
+- [AWS IAM 정책 예제](https://docs.aws.amazon.com/ko_kr/AWS IAM/latest/UserGuide/access_policies_examples.html)
 
 ## 📚 참고: Condition 키 종류
 

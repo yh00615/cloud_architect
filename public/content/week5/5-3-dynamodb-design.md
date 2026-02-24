@@ -459,9 +459,9 @@ echo "Amazon DynamoDB 테이블 삭제 완료"
 
 ## 추가 학습 리소스
 
-- [Amazon DynamoDB 데이터 모델링](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html)
-- [Amazon DynamoDB GSI 모범 사례](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-indexes.html)
-- [Amazon DynamoDB 용량 모드](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html)
+- [Amazon DynamoDB 데이터 모델링](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/bp-general-nosql-design.html)
+- [Amazon DynamoDB GSI 모범 사례](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/bp-indexes.html)
+- [Amazon DynamoDB 용량 모드](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html)
 
 ## 📚 참고: Amazon DynamoDB 테이블 설계 개요
 

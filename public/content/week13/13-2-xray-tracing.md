@@ -458,11 +458,11 @@ curl -X GET ${API_URL}/reservations
 
 ## 추가 학습 리소스
 
-- [AWS X-Ray 개발자 가이드](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html)
-- [AWS X-Ray SDK for Python](https://docs.aws.amazon.com/xray-sdk-for-python/latest/reference/)
-- [AWS Lambda와 AWS X-Ray 통합](https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html)
-- [AWS X-Ray 서비스 맵](https://docs.aws.amazon.com/xray/latest/devguide/xray-console-servicemap.html)
-- [AWS X-Ray Insights](https://docs.aws.amazon.com/xray/latest/devguide/xray-insights.html)
+- [AWS X-Ray 개발자 가이드](https://docs.aws.amazon.com/ko_kr/xray/latest/devguide/aws-xray.html)
+- [AWS X-Ray SDK for Python](https://docs.aws.amazon.com/ko_kr/xray-sdk-for-python/latest/reference/)
+- [AWS Lambda와 AWS X-Ray 통합](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/services-xray.html)
+- [AWS X-Ray 서비스 맵](https://docs.aws.amazon.com/ko_kr/xray/latest/devguide/xray-console-servicemap.html)
+- [AWS X-Ray Insights](https://docs.aws.amazon.com/ko_kr/xray/latest/devguide/xray-insights.html)
 
 ## 📚 참고: QuickTable 예약 시스템의 AWS X-Ray 추적
 

@@ -1426,11 +1426,11 @@ def resilient_query(query, kb_id):
 ## 📚 참고 자료
 
 ### AWS 공식 문서
-- [Amazon Bedrock Knowledge Bases](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html)
-- [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html)
-- [OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless.html)
-- [Titan Embeddings Models](https://docs.aws.amazon.com/bedrock/latest/userguide/titan-embedding-models.html)
-- [Claude 3 Models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html)
+- [Amazon Bedrock Knowledge Bases](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/knowledge-base.html)
+- [Amazon Bedrock User Guide](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/what-is-bedrock.html)
+- [OpenSearch Serverless](https://docs.aws.amazon.com/ko_kr/opensearch-service/latest/developerguide/serverless.html)
+- [Titan Embeddings Models](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/titan-embedding-models.html)
+- [Claude 3 Models](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html)
 
 ### RAG 개념 및 이론
 - [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401)
@@ -1463,7 +1463,7 @@ def resilient_query(query, kb_id):
 - [AI/ML 워크로드 비용 최적화](https://aws.amazon.com/blogs/machine-learning/cost-optimization-for-ml-workloads/)
 
 ### 보안 및 규정 준수
-- [AWS Bedrock 보안](https://docs.aws.amazon.com/bedrock/latest/userguide/security.html)
+- [AWS Bedrock 보안](https://docs.aws.amazon.com/ko_kr/bedrock/latest/userguide/security.html)
 - [데이터 프라이버시 가이드](https://aws.amazon.com/compliance/data-privacy/)
 - [GDPR 준수 가이드](https://aws.amazon.com/compliance/gdpr-center/)
 

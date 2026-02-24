@@ -816,10 +816,10 @@ AWS CloudFormation 스택 삭제 후 Amazon S3 버킷이 남아있습니다. 완
 
 ## 추가 리소스
 
-- [AWS Glue 개발자 가이드](https://docs.aws.amazon.com/glue/)
-- [Amazon Athena 사용 설명서](https://docs.aws.amazon.com/athena/)
-- [데이터 레이크 모범 사례](https://aws.amazon.com/big-data/datalakes-and-analytics/)
-- [Amazon Athena 성능 튜닝](https://docs.aws.amazon.com/athena/latest/ug/performance-tuning.html)
+- [AWS Glue 개발자 가이드](https://docs.aws.amazon.com/ko_kr/glue/latest/dg/what-is-glue.html)
+- [Amazon Athena 사용 설명서](https://docs.aws.amazon.com/ko_kr/athena/latest/ug/what-is.html)
+- [데이터 레이크 모범 사례](https://aws.amazon.com/ko/big-data/datalakes-and-analytics/)
+- [Amazon Athena 성능 튜닝](https://docs.aws.amazon.com/ko_kr/athena/latest/ug/performance-tuning.html)
 
 ## 📚 참고: 데이터 레이크 핵심 개념 및 최적화
 

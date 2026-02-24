@@ -203,7 +203,7 @@ aws cloudformation delete-stack \
 
 - [AWS CloudFormation 사용 설명서](https://docs.aws.amazon.com/cloudformation/)
 - [AWS 프리티어](https://aws.amazon.com/free/)
-- [AWS 리소스 태그 전략](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- [AWS 리소스 태그 전략](https://docs.aws.amazon.com/ko_kr/general/latest/gr/aws_tagging.html)
 
 ---
 

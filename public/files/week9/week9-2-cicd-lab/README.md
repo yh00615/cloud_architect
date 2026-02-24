@@ -125,4 +125,4 @@ ECS Fargate (배포)
 
 - [AWS CodePipeline 문서](https://docs.aws.amazon.com/codepipeline/)
 - [AWS CodeBuild 문서](https://docs.aws.amazon.com/codebuild/)
-- [ECS 배포 가이드](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/)
+- [ECS 배포 가이드](https://docs.aws.amazon.com/ko_kr/AmazonECS/latest/developerguide/)

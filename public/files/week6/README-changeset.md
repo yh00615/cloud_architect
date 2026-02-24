@@ -94,9 +94,9 @@
 
 ## 🔗 관련 AWS 문서
 
-- [변경 세트 사용](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html)
-- [스택 정책](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html)
-- [드리프트 감지](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html)
+- [변경 세트 사용](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html)
+- [스택 정책](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html)
+- [드리프트 감지](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html)
 
 ## 📝 실습 가이드
 

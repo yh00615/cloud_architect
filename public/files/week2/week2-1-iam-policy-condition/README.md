@@ -139,7 +139,7 @@ aws s3 cp file.txt s3://your-bucket/
 
 ## 🔗 추가 리소스
 
-- [IAM Policy 문법](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_grammar.html)
-- [Condition 키 레퍼런스](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html)
+- [IAM Policy 문법](https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/reference_policies_grammar.html)
+- [Condition 키 레퍼런스](https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/reference_policies_condition-keys.html)
 - [IAM Policy Simulator](https://policysim.aws.amazon.com/)
-- [AssumeRole API](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html)
+- [AssumeRole API](https://docs.aws.amazon.com/ko_kr/STS/latest/APIReference/API_AssumeRole.html)

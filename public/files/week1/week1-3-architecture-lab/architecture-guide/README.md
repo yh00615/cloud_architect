@@ -265,10 +265,10 @@ Outbound:
 
 - [AWS Architecture Center](https://aws.amazon.com/architecture/)
 - [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
-- [3-Tier 아키텍처 모범 사례](https://docs.aws.amazon.com/whitepapers/latest/web-application-hosting-best-practices/an-aws-cloud-architecture-for-web-hosting.html)
-- [RDS Multi-AZ 배포](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html)
+- [3-Tier 아키텍처 모범 사례](https://docs.aws.amazon.com/ko_kr/whitepapers/latest/web-application-hosting-best-practices/an-aws-cloud-architecture-for-web-hosting.html)
+- [RDS Multi-AZ 배포](https://docs.aws.amazon.com/ko_kr/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html)
 - [Auto Scaling 모범 사례](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-best-practices.html)
-- [Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html)
+- [Application Load Balancer](https://docs.aws.amazon.com/ko_kr/elasticloadbalancing/latest/application/introduction.html)
 
 ### Draw.io 리소스
 
@@ -279,8 +279,8 @@ Outbound:
 ### 3-Tier 아키텍처 예시
 
 - [Web Application Hosting](https://aws.amazon.com/getting-started/hands-on/host-static-website/)
-- [High Availability Architecture](https://docs.aws.amazon.com/whitepapers/latest/real-time-communication-on-aws/high-availability-and-scalability-on-aws.html)
-- [Database Best Practices](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_BestPractices.html)
+- [High Availability Architecture](https://docs.aws.amazon.com/ko_kr/whitepapers/latest/real-time-communication-on-aws/high-availability-and-scalability-on-aws.html)
+- [Database Best Practices](https://docs.aws.amazon.com/ko_kr/AmazonRDS/latest/UserGuide/CHAP_BestPractices.html)
 
 ## 📝 실습 후 확인 사항
 
