@@ -105,7 +105,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 19. **Apply lenses** 단계에서 **AWS Well-Architected Framework** 렌즈가 자동으로 선택되어 있는지 확인합니다.
 
 > [!NOTE]
-> **렌즈(Lens)**: 특정 산업이나 기술 영역에 맞춘 질문 세트입니다. AWS Well-Architected Framework 렌즈는 워크로드 생성 시 자동으로 적용됩니다. 한 워크로드에 최대 5개의 렌즈를 동시에 적용할 수 있습니다.
+> **렌즈(Lens)**: 특정 산업이나 기술 영역에 맞춘 질문 세트입니다. AWS Well-Architected Framework 렌즈는 워크로드 생성 시 자동으로 적용됩니다. 한 워크로드에 최대 20개의 렌즈를 동시에 적용할 수 있습니다.
 
 20. [[Define workload]] 버튼을 클릭하여 워크로드를 저장합니다.
 
@@ -386,7 +386,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 ## 태스크 6: 평가 결과 확인 및 개선 계획
 
-이 태스크에서는 평가 결과를 확인한 후 개선이 필요한 영역을 식별합니다. Well-Architected Tool은 각 원칙별로 위험 수준(높음, 중간, 없음)을 표시한 후 개선을 위한 권장 사항을 제공합니다. 대시보드에서 전체 워크로드의 상태를 한눈에 파악한 후 우선순위가 높은 개선 항목부터 마일스톤을 설정하여 체계적으로 아키텍처를 개선할 수 있습니다.
+이 태스크에서는 평가 결과를 확인한 후 개선이 필요한 영역을 식별합니다. Well-Architected Tool은 각 원칙별로 위험 수준(높음, 중간, 없음)을 표시한 후 개선을 위한 권장 사항을 제공합니다. 대시보드에서 전체 워크로드의 상태를 한눈에 파악한 후 우선순위가 높은 개선 항목을 식별하여 체계적으로 아키텍처를 개선할 수 있습니다.
 
 1. 워크로드 상세 페이지의 **Overview** 탭을 확인합니다.
 2. **Workload overview** 섹션에서 **Overall questions answered**와 **Overall risks**를 확인합니다.
@@ -394,13 +394,21 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > [!NOTE]
 > **Overall risks**: 전체 워크로드의 위험 수준을 요약하여 표시합니다.
 >
-> - **High risk** (🔴): 즉시 개선 필요
-> - **Medium risk** (🔶): 개선 고려 필요
+> - ❌ **High risk**: 즉시 개선 필요
+> - ⚠️ **Medium risk**: 개선 고려 필요
 
 3. 아래로 스크롤하여 **Lenses** 섹션을 확인합니다.
 4. **Lenses** 테이블에서 **AWS Well-Architected Framework** 렌즈를 클릭합니다.
+
+<img src="/images/week1/1-2-task6-step6-lens-overview.png" alt="Lenses 테이블에서 AWS Well-Architected Framework 렌즈 선택" class="guide-img-md" />
+
+> [!NOTE]
+> **마일스톤(Milestone)**: 워크로드 상세 페이지의 **Milestones** 탭에서 특정 시점의 평가 상태를 스냅샷으로 저장할 수 있습니다.
+
 5. **Overview** 탭에서 전체 평가 결과를 확인합니다.
 6. **Lens overview** 섹션에서 각 원칙별 답변 개수와 위험 수준을 확인합니다.
+
+<img src="/images/week1/1-2-task6-step6-pillars.png" alt="Lens overview 섹션의 각 원칙별 평가 결과" class="guide-img-md" />
 
 > [!OUTPUT]
 > **예상 출력** (답변에 따라 결과가 다르게 표시됩니다):
@@ -442,7 +450,13 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > 💡 초기 단계 스타트업 시스템 특성상 High risk 항목이 다수 식별되는 것이 정상입니다. Infrastructure as Code 미도입, 공식 Runbook 부재, AWS WAF 미적용 등 개선 영역이 많습니다.
 
 7. **Next risk to address** 섹션에서 다음으로 해결해야 할 위험 항목을 확인합니다.
+
+<img src="/images/week1/1-2-task6-step7-next-risk.png" alt="Next risk to address 섹션에서 다음 위험 항목 확인" class="guide-img-md" />
+
 8. 위험 항목을 클릭하여 상세 내용과 권장 개선 사항을 확인합니다.
+
+<img src="/images/week1/1-2-task6-step8-risk-detail.png" alt="위험 항목의 상세 내용과 개선 권장 사항" class="guide-img-md" />
+
 9. **Improvement plan** 탭을 선택합니다.
 10. 개선이 필요한 위험 항목 목록을 확인합니다.
 
@@ -452,16 +466,10 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 11. 각 항목의 위험 수준(High/Medium)과 개선 권장 사항을 검토합니다.
 12. 우선순위가 높은 항목부터 개선 계획을 수립합니다.
 
+<img src="/images/week1/1-2-task6-step12-improvement-plan.png" alt="Improvement plan 탭의 위험 항목 목록" class="guide-img-md" />
+
 > [!TIP]
 > **개선 우선순위**: High risk 항목 우선, 빠른 효과(Quick Wins), 비용 대비 효과, 규제 요구사항 순으로 결정합니다.
-
-13. **Milestones** 탭을 선택합니다.
-14. [[Create milestone]] 버튼을 클릭합니다.
-15. **Milestone name**에 `Initial Assessment`를 입력합니다.
-16. [[Save]] 버튼을 클릭합니다.
-
-> [!NOTE]
-> **마일스톤(Milestone)**: 특정 시점의 워크로드 평가 상태를 저장하는 스냅샷 기능입니다. 시간이 지남에 따라 아키텍처가 어떻게 개선되었는지 추적할 수 있습니다.
 
 > [!TIP]
 > 개선 계획은 팀과 공유하여 체계적으로 아키텍처를 개선할 수 있습니다. 각 항목에 담당자와 우선순위를 지정하면 진행 상황을 추적하기 쉽습니다.
@@ -472,32 +480,35 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 이 태스크에서는 평가 결과를 보고서로 생성한 후 팀과 공유합니다. Well-Architected Tool은 전체 평가 결과, 위험 항목, 개선 권장 사항을 포함한 상세 보고서를 자동으로 생성합니다. 이 보고서를 경영진이나 이해관계자에게 공유하여 아키텍처 개선의 필요성을 설명한 후 예산과 리소스를 확보하는 데 활용할 수 있습니다.
 
-1. 워크로드 상세 페이지로 이동합니다.
-2. **AWS Well-Architected Framework** 렌즈를 선택합니다.
-3. 우측 상단의 **Properties** 섹션에서 [[Generate report]] 버튼을 클릭합니다.
+1. 왼쪽 메뉴에서 **Workloads**를 선택합니다.
+2. 워크로드 목록에서 `quicktable-web-application`을 선택합니다.
+3. 상단의 [[Generate report]] 버튼을 클릭합니다.
+
+<img src="/images/week1/1-2-task7-step3-generate-report.png" alt="워크로드 목록에서 Generate report 버튼 클릭" class="guide-img-md" />
 
 > [!NOTE]
 > **보고서 생성 위치**:
 >
-> - 워크로드 상세 페이지 우측 상단의 **Properties** 섹션
-> - 또는 워크로드 목록에서 워크로드를 선택한 후 **Actions** > **Generate report**
+> - 워크로드 목록에서 워크로드를 선택한 후 [[Generate report]] 버튼 클릭
+> - 또는 워크로드 상세 페이지에서 렌즈를 선택한 후 우측 상단의 **Properties** 섹션에서 [[Generate report]] 클릭
 >
 > 보고서는 렌즈별로 생성됩니다. 여러 렌즈를 적용한 경우 각 렌즈에 대해 별도의 보고서를 생성할 수 있습니다.
 
 4. 보고서 생성이 시작됩니다.
 
 > [!NOTE]
-> 보고서 생성에 10-20초가 소요됩니다. 보고서는 HTML 형식으로 생성됩니다.
+> 보고서 생성에 10-20초가 소요됩니다. 보고서는 PDF 형식으로 생성됩니다.
 >
 > **보고서 열람 방식**:
 >
 > - 브라우저 설정에 따라 새 탭에서 자동으로 열리거나 파일로 다운로드됩니다
-> - 파일로 다운로드된 경우 브라우저에서 직접 열어 확인합니다
+> - 파일로 다운로드된 경우 PDF 뷰어에서 열어 확인합니다
 
 5. 생성된 보고서를 확인합니다.
 
 > [!NOTE]
-> **보고서 내용**: 워크로드 개요, 각 원칙별 평가 결과, 위험 항목 상세 내용, 개선 권장 사항을 포함합니다. 경영진 보고, 팀 공유, 규제 감사 자료로 활용할 수 있습니다.
+> **보고서 내용**: 워크로드 개요, 각 원칙별 평가 결과, 위험 항목 상세 내용, 개선 권장 사항을 포함합니다.  
+> 경영진 보고, 팀 공유, 규제 감사 자료로 활용할 수 있습니다.
 
 6. 보고서를 팀원들과 공유합니다.
 
@@ -514,8 +525,8 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 - 운영 우수성, 보안, 안정성 원칙을 평가했습니다.
 - 성능 효율성, 비용 최적화, 지속 가능성 원칙을 자율적으로 평가했습니다.
 - 위험 수준을 확인하고 개선 영역을 식별했습니다.
-- 개선 계획을 수립하고 마일스톤을 설정했습니다.
-- 평가 결과를 보고서(HTML 형식)로 생성하고 공유했습니다.
+- 개선 계획을 수립했습니다.
+- 평가 결과를 보고서(PDF 형식)로 생성하고 공유했습니다.
 
 ---
 
@@ -541,6 +552,9 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 생성한 워크로드를 삭제합니다.
 
 1. 워크로드 목록에서 `quicktable-web-application`을 선택합니다.
+
+<img src="/images/week1/1-2-cleanup-step2-delete-workload.png" alt="워크로드 목록에서 quicktable-web-application 선택 후 Delete workload 버튼" class="guide-img-md" />
+
 2. [[Delete workload]] 버튼을 클릭합니다.
 3. 확인 창에서 삭제할 내용을 확인합니다.
 
@@ -553,6 +567,8 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > 워크로드를 삭제하면 평가 결과, 개선 계획, 마일스톤 등 모든 데이터가 영구적으로 삭제됩니다. 필요한 경우 삭제 전에 보고서를 다운로드하여 보관하세요.
 
 4. [[Delete]] 버튼을 클릭하여 삭제를 확정합니다.
+
+<img src="/images/week1/1-2-cleanup-step2-confirm-delete.png" alt="워크로드 삭제 확인 창" class="guide-img-sm" />
 
 ## 3단계: 삭제 확인
 
@@ -600,8 +616,8 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 **주요 영역:**
 
 - 자격 증명 관리: AWS IAM, MFA, 임시 자격 증명
-- 탐지 제어: CloudTrail, Amazon GuardDuty, AWS Security Hub
-- 인프라 보호: Amazon VPC, 보안 그룹, AWS WAF
+- 탐지 제어: AWS CloudTrail, Amazon GuardDuty, AWS Security Hub
+- 인프라 보호: Amazon VPC, Amazon EC2 보안 그룹, AWS WAF
 - 데이터 보호: 암호화, 백업, 데이터 분류
 
 ### 3. 안정성 (Reliability)
@@ -663,3 +679,21 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 - 사용자 행동 패턴: 효율적인 데이터 전송, 캐싱
 - 소프트웨어 및 아키텍처: 효율적인 코드, 서버리스
 - 데이터 패턴: 데이터 수명 주기 관리, 중복 제거
+
+### 마일스톤 (Milestone)
+
+**마일스톤**은 특정 시점의 워크로드 평가 상태를 저장하는 스냅샷 기능입니다. 시간이 지남에 따라 아키텍처가 어떻게 개선되었는지 추적할 수 있습니다.
+
+**마일스톤 생성 방법:**
+
+- 워크로드 상세 페이지의 **Milestones** 탭에서 [[Create milestone]] 버튼 클릭
+- 마일스톤 이름 입력 (예: `Initial Assessment`, `Q1 Review`, `Post-Migration`)
+- 저장 후 해당 시점의 평가 결과가 스냅샷으로 보관됨
+
+**활용 사례:**
+
+- 초기 평가 기준선 설정
+- 분기별 아키텍처 개선 진행 상황 추적
+- 마이그레이션 전후 비교
+- 규제 감사를 위한 이력 관리
+- 팀 간 개선 성과 공유
