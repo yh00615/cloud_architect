@@ -327,17 +327,17 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 1. 왼쪽 패널에서 **Security Group** 또는 **보안 그룹**을 검색합니다.
 2. **Security Group** 아이콘을 ALB 주변에 배치합니다.
-3. 레이블을 `QuickTable-ALB-SG`로 설정합니다.
+3. 레이블을 `ALB-SG`로 설정합니다.
 
 ### Web Server 보안 그룹
 
 4. **Security Group** 아이콘을 Web Server 주변에 배치합니다.
-5. 레이블을 `QuickTable-Web-SG`로 설정합니다.
+5. 레이블을 `Web-SG`로 설정합니다.
 
 ### RDS 보안 그룹
 
 6. **Security Group** 아이콘을 Amazon RDS 주변에 배치합니다.
-7. 레이블을 `QuickTable-DB-SG`로 설정합니다.
+7. 레이블을 `DB-SG`로 설정합니다.
 
 > [!NOTE]
 > 보안 그룹은 계층화된 보안을 구현합니다. 각 계층은 이전 계층의 보안 그룹만 허용하여 최소 권한 원칙을 적용합니다.
