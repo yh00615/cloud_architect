@@ -680,12 +680,12 @@ aws s3 sync . s3://$BUCKET_NAME --delete --exclude "buildspec.yml"
 - 사용자 UI: 예약 생성/조회 인터페이스
 
 **데이터 흐름:**
-1. 사용자가 QuickTable 웹사이트 접속 (Amazon S3)
-2. Amazon Cognito로 로그인하여 ID 토큰 획득
-3. 예약 생성 버튼 클릭
-4. Amazon API Gateway로 POST 요청 (Authorization 헤더에 ID 토큰 포함)
-5. AWS Lambda 함수가 Amazon DynamoDB에 예약 데이터 저장
-6. 응답을 프론트엔드에 반환하여 화면 업데이트
+1. 사용자가 QuickTable 웹사이트 접속 (Amazon S3).
+2. Amazon Cognito로 로그인하여 ID 토큰 획득.
+3. 예약 생성 버튼 클릭.
+4. Amazon API Gateway로 POST 요청 (Authorization 헤더에 ID 토큰 포함).
+5. AWS Lambda 함수가 Amazon DynamoDB에 예약 데이터 저장.
+6. 응답을 프론트엔드에 반환하여 화면 업데이트.
 
 ### 모범 사례
 

@@ -372,7 +372,7 @@ ls public/images/week1/1-1-step4-create-stack-*.png
    cp /Volumes/Sub/aws/image_original/cloudformation1-1.png \
       public/images/week1/1-1-step4-create-stack.png
 
-4. 이미지 리사이징 (1200px 최대 너비)
+4. 이미지 리사이징 (모든 이미지 1200px로 통일)
    sips -Z 1200 public/images/week1/1-1-step4-create-stack.png
 
 5. 파일 크기 확인
@@ -380,7 +380,8 @@ ls public/images/week1/1-1-step4-create-stack-*.png
    → 500KB 초과 시 경고
 
 6. 마크다운 삽입
-   ![CloudFormation Create stack 드롭다운](/images/week1/1-1-step4-create-stack.png)
+   - 기본: ![CloudFormation Create stack 드롭다운](/images/week1/1-1-step4-create-stack.png)
+   - 작은 UI: <img src="/images/week1/1-1-step4-create-stack.png" alt="..." class="guide-img-sm" />
 
 7. Git 커밋 제안
    git add public/images/week1/1-1-step4-create-stack.png
@@ -399,8 +400,9 @@ ls public/images/week1/1-1-step4-create-stack-*.png
 - 기존 파일명 절대 변경 안 함
 - 새 이미지는 현재 실제 단계 번호 사용
 - 파일 존재 여부 자동 확인
-- 1200px 최대 너비로 리사이징
+- 모든 이미지 1200px로 리사이징 (통일)
 - 500KB 이하로 최적화
+- 작은 UI 요소는 CSS 클래스로 표시 크기 조절
 
 ### ❌ DON'T (하지 말아야 할 것)
 
@@ -409,6 +411,117 @@ ls public/images/week1/1-1-step4-create-stack-*.png
 - 번호 건너뛰기 금지 (1, 3, 4 ❌ → 1, 2, 3 ✅)
 - 첫 번째 이미지에 `-1` 붙이기 금지
 - 파일 존재 확인 없이 덮어쓰기 금지
+
+---
+
+## 🎨 이미지 크기 조절 (CSS 클래스)
+
+### 개요
+
+이미지 파일 자체는 1200px로 리사이징하되, 마크다운에서 표시 크기를 CSS 클래스로 제어합니다.
+
+### CSS 클래스 종류
+
+| 클래스         | 최대 너비 | 용도                           |
+| -------------- | --------- | ------------------------------ |
+| `guide-img-sm` | 400px     | 작은 UI 요소, 버튼, 대화상자   |
+| `guide-img-md` | 800px     | 일반적인 UI 화면, 설정 화면    |
+| `guide-img-lg` | 1200px    | 전체 화면, 아키텍처 다이어그램 |
+
+### 사용 방법
+
+#### 마크다운 기본 문법 (클래스 없음)
+
+```markdown
+![Draw.io 다이어그램 이름 변경 대화상자](/images/week1/1-3-step1-diagram-name.png)
+```
+
+- 기본적으로 이미지는 원본 크기로 표시됩니다
+- 대부분의 경우 이 방식을 사용합니다
+
+#### HTML 태그 + CSS 클래스 (크기 조절 필요 시)
+
+```markdown
+<img src="/images/week1/1-3-step1-diagram-name-2.png" alt="Draw.io 다이어그램 이름 변경 완료 화면" class="guide-img-sm" />
+```
+
+- 이미지 파일은 크지만 내용물이 작아서 작게 표시해야 하는 경우
+- 작은 UI 요소 (버튼, 아이콘, 작은 대화상자)
+- 일관된 크기로 표시하고 싶은 경우
+
+### 사용 예시
+
+#### 예시 1: 작은 대화상자 (guide-img-sm)
+
+```markdown
+2. 상단의 **제목 없는 다이어그램**을 클릭합니다.
+
+![Draw.io 다이어그램 이름 변경 대화상자](/images/week1/1-3-step1-diagram-name.png)
+
+3. **파일명** 필드에 `quicktable-architecture`를 입력합니다.
+4. **유형**은 `XML 파일 (.drawio)`로 유지합니다.
+5. [[이름 바꾸기]] 버튼을 클릭합니다.
+
+<img src="/images/week1/1-3-step1-diagram-name-2.png" alt="Draw.io 다이어그램 이름 변경 완료 화면" class="guide-img-sm" />
+```
+
+#### 예시 2: 일반 UI 화면 (guide-img-md)
+
+```markdown
+1. VPC 콘솔로 이동합니다.
+2. 왼쪽 메뉴에서 **Endpoints**를 선택합니다.
+
+<img src="/images/week3/3-3-step2-endpoints-menu.png" alt="VPC 콘솔의 Endpoints 메뉴" class="guide-img-md" />
+```
+
+#### 예시 3: 전체 화면 (guide-img-lg 또는 기본)
+
+```markdown
+![QuickTable 3-Tier Architecture](/images/week1/1-3-quicktable-3tier-architecture-with-sg.png)
+
+_QuickTable 레스토랑 예약 시스템의 3-Tier 고가용성 아키텍처_
+```
+
+### 선택 기준
+
+#### 기본 마크다운 문법 사용 (클래스 없음)
+
+- ✅ 아키텍처 다이어그램
+- ✅ 전체 화면 캡처
+- ✅ 복잡한 UI 화면
+- ✅ 여러 필드가 있는 설정 화면
+
+#### HTML + CSS 클래스 사용
+
+- ✅ 작은 대화상자 (파일명 입력, 확인 메시지)
+- ✅ 버튼이나 아이콘만 강조
+- ✅ 이미지 파일은 크지만 내용물이 작은 경우
+- ✅ 일관된 크기로 표시하고 싶은 경우
+
+### 리사이징 규칙
+
+#### 파일 리사이징 (sips 명령어)
+
+```bash
+# 모든 이미지: 1200px 최대 너비로 통일
+sips -Z 1200 public/images/week1/1-3-step1-diagram-name.png
+sips -Z 1200 public/images/week1/1-3-step1-diagram-name-2.png
+```
+
+**중요**: 모든 이미지 파일은 1200px로 리사이징합니다. 예외 없음.
+
+#### 표시 크기 (CSS 클래스)
+
+- 파일은 모두 1200px로 리사이징
+- 표시 크기는 CSS 클래스로 제어
+- 1200px 파일을 400px로 표시 가능 (guide-img-sm)
+- 모바일에서는 자동으로 100% 너비로 조정
+
+### 모바일 반응형
+
+- 모든 클래스는 768px 이하에서 100% 너비로 자동 조정
+- 가로 스크롤 없이 화면에 맞춰 표시
+- 텍스트 가독성 유지
 
 ---
 
@@ -665,6 +778,7 @@ aws s3 ls --debug 2>&1 | grep -i endpoint
 - [ ] 이미지 경로가 정확한가? (`/images/week{주차}/{파일명}`)
 - [ ] 이미지 위치가 적절한가? (관련 단계 바로 다음)
 - [ ] 이미지 설명이 필요한가? (NOTE Alert 추가)
+- [ ] CSS 클래스가 필요한가? (작은 UI 요소는 guide-img-sm)
 
 ---
 
@@ -680,6 +794,7 @@ aws s3 ls --debug 2>&1 | grep -i endpoint
 - ✅ 명확한 파일명 (`{주차}-{세션}-step{단계}-{설명}.png`)
 - ✅ 파일 크기 최적화 (500KB 이하)
 - ✅ 명확한 대체 텍스트 (10-20 단어)
+- ✅ 작은 UI 요소는 CSS 클래스로 크기 조절 (guide-img-sm)
 
 ### DON'T (하지 말아야 할 것)
 

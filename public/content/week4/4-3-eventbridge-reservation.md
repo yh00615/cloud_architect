@@ -294,11 +294,11 @@ ReservationProcessor 함수를 테스트 이벤트로 실행하면 ReservationCr
 
 **이벤트 흐름**:
 
-1. ReservationProcessor → Amazon DynamoDB에 예약 저장
-2. ReservationProcessor → Amazon EventBridge에 ReservationCreated 이벤트 발행
-3. Amazon EventBridge → ReservationCreatedRule 규칙 매칭
-4. Amazon EventBridge → TableAvailabilityChecker 함수 트리거
-5. TableAvailabilityChecker → 가용성 확인
+1. ReservationProcessor → Amazon DynamoDB에 예약 저장.
+2. ReservationProcessor → Amazon EventBridge에 ReservationCreated 이벤트 발행.
+3. Amazon EventBridge → ReservationCreatedRule 규칙 매칭.
+4. Amazon EventBridge → TableAvailabilityChecker 함수 트리거.
+5. TableAvailabilityChecker → 가용성 확인.
 6. (불가 시) TableAvailabilityChecker → Amazon EventBridge에 TableUnavailable 이벤트 발행
 7. (불가 시) Amazon EventBridge → TableUnavailableRule 규칙 매칭
 8. (불가 시) Amazon EventBridge → NotificationSender 함수 트리거

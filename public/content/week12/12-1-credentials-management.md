@@ -743,10 +743,10 @@ aws secretsmanager delete-secret \
 
 **봉투 암호화 (Envelope Encryption)**:
 
-1. AWS KMS가 데이터 키(Data Key)를 생성합니다
-2. 데이터 키로 실제 데이터를 암호화합니다
-3. AWS KMS 마스터 키로 데이터 키를 암호화합니다
-4. 암호화된 데이터와 암호화된 데이터 키를 함께 저장합니다
+1. AWS KMS가 데이터 키(Data Key)를 생성합니다.
+2. 데이터 키로 실제 데이터를 암호화합니다.
+3. AWS KMS 마스터 키로 데이터 키를 암호화합니다.
+4. 암호화된 데이터와 암호화된 데이터 키를 함께 저장합니다.
 
 **이중 권한 구조**:
 
@@ -767,7 +767,7 @@ aws secretsmanager delete-secret \
 
 **로테이션 프로세스**:
 
-1. **createSecret**: 새 자격증명 생성
+1. **createSecret**: 새 자격증명 생성.
 2. **setSecret**: 데이터베이스에 새 자격증명 설정
 3. **testSecret**: 새 자격증명으로 연결 테스트 (선택적 단계)
 4. **finishSecret**: 이전 자격증명 비활성화

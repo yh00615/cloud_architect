@@ -551,11 +551,11 @@ curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/items
 - **AWS IAM**: AWS Lambda 함수가 Amazon DynamoDB에 접근할 수 있도록 권한을 부여합니다
 
 **데이터 흐름**:
-1. 클라이언트가 Amazon API Gateway 엔드포인트로 HTTP 요청을 보냅니다
-2. Amazon API Gateway가 AWS Lambda 함수를 호출합니다
-3. AWS Lambda 함수가 Amazon DynamoDB 테이블에서 데이터를 조회하거나 생성합니다
-4. AWS Lambda 함수가 결과를 Amazon API Gateway로 반환합니다
-5. Amazon API Gateway가 HTTP 응답을 클라이언트에게 전달합니다
+1. 클라이언트가 Amazon API Gateway 엔드포인트로 HTTP 요청을 보냅니다.
+2. Amazon API Gateway가 AWS Lambda 함수를 호출합니다.
+3. AWS Lambda 함수가 Amazon DynamoDB 테이블에서 데이터를 조회하거나 생성합니다.
+4. AWS Lambda 함수가 결과를 Amazon API Gateway로 반환합니다.
+5. Amazon API Gateway가 HTTP 응답을 클라이언트에게 전달합니다.
 
 ### Infrastructure Composer의 장점
 

@@ -473,10 +473,10 @@ QuickTable 레스토랑 예약 시스템에서 AWS X-Ray는 다음과 같은 분
 
 **요청 흐름**:
 
-1. 클라이언트가 Amazon API Gateway에 예약 생성 요청을 전송합니다
-2. Amazon API Gateway가 CreateReservation AWS Lambda 함수를 호출합니다
-3. AWS Lambda 함수가 Amazon DynamoDB Reservations 테이블에 예약 데이터를 저장합니다
-4. 응답이 역순으로 클라이언트에게 전달됩니다
+1. 클라이언트가 Amazon API Gateway에 예약 생성 요청을 전송합니다.
+2. Amazon API Gateway가 CreateReservation AWS Lambda 함수를 호출합니다.
+3. AWS Lambda 함수가 Amazon DynamoDB Reservations 테이블에 예약 데이터를 저장합니다.
+4. 응답이 역순으로 클라이언트에게 전달됩니다.
 
 **추적 정보**:
 

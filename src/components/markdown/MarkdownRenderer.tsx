@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 import { Box, Icon } from '@cloudscape-design/components';
 import StatusIndicator from '@cloudscape-design/components/status-indicator';
 import CopyToClipboard from '@cloudscape-design/components/copy-to-clipboard';
@@ -21,6 +22,7 @@ import '@/styles/markdown.css';
 import '@/styles/info-boxes.css';
 import '@/styles/download-files.css';
 import '@/styles/markdown-renderer.css';
+import '@/styles/guide-images.css';
 
 // SQL 하이라이터 생성
 const sqlHighlight = createHighlight(new SqlHighlightRules());
@@ -866,6 +868,18 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
       return <strong className="markdown-strong">{children}</strong>;
     },
 
+    // 이미지 - className 속성 지원
+    img: ({ src, alt, className }: any) => {
+      return (
+        <img
+          src={src}
+          alt={alt || ''}
+          className={className || ''}
+          loading="lazy"
+        />
+      );
+    },
+
     // 순서 있는 리스트 - 전체 문서에서 연속된 번호
     ol: ({ children }: any) => {
       return (
@@ -1177,7 +1191,11 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
 
   return (
     <Box className="markdown-content">
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeRaw]}
+        components={components}
+      >
         {content}
       </ReactMarkdown>
     </Box>

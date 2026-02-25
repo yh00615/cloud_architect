@@ -18,11 +18,11 @@ prerequisites:
 
 먼저 Well-Architected Tool에 접속하여 **QuickTable 3-Tier 아키텍처**를 워크로드로 생성한 후 **AWS Well-Architected Framework의 6가지 핵심 원칙**별로 질문에 답변합니다:
 
-1. **운영 우수성 (Operational Excellence)**: 시스템 운영 및 모니터링
-2. **보안 (Security)**: 데이터 및 시스템 보호
-3. **안정성 (Reliability)**: 장애 복구 및 수요 대응
-4. **성능 효율성 (Performance Efficiency)**: 리소스 효율적 사용
-5. **비용 최적화 (Cost Optimization)**: 불필요한 비용 제거
+1. **운영 우수성 (Operational Excellence)**: 시스템 운영 및 모니터링.
+2. **보안 (Security)**: 데이터 및 시스템 보호.
+3. **안정성 (Reliability)**: 장애 복구 및 수요 대응.
+4. **성능 효율성 (Performance Efficiency)**: 리소스 효율적 사용.
+5. **비용 최적화 (Cost Optimization)**: 불필요한 비용 제거.
 6. **지속 가능성 (Sustainability)**: 환경 영향 최소화
 
 각 원칙에 대한 모범 사례를 검토한 후 위험 수준을 확인하며, 개선 계획을 수립하는 전체 프로세스를 실습합니다.
