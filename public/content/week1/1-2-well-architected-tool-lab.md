@@ -27,7 +27,8 @@ prerequisites:
 
 각 원칙에 대한 모범 사례를 검토한 후 위험 수준을 확인하며, 개선 계획을 수립하는 전체 프로세스를 실습합니다.
 
-이를 통해 AWS 모범 사례를 기반으로 아키텍처를 체계적으로 평가한 후 비즈니스 요구사항에 맞는 최적의 아키텍처를 설계하는 방법을 이해하게 됩니다. Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원칙을 미리 학습하는 기회가 됩니다.
+이를 통해 AWS 모범 사례를 기반으로 아키텍처를 체계적으로 평가한 후 비즈니스 요구사항에 맞는 최적의 아키텍처를 설계하는 방법을 이해하게 됩니다.  
+Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원칙을 미리 학습하는 기회가 됩니다.
 
 > [!DOWNLOAD]
 > [week1-2-well-architected-guide.zip](/files/week1/week1-2-well-architected-guide.zip)
@@ -52,9 +53,11 @@ prerequisites:
 
 1. AWS Management Console에 로그인한 후 상단 검색창에 `Well-Architected Tool`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Workloads**를 선택합니다.
-3. [[Define workload]] 버튼을 클릭합니다.
+3. 우측 상단의 [[Define workload]] 버튼을 클릭합니다.
 
 > [!NOTE]
+> [[Define workload]] 버튼은 드롭다운 형태로 표시될 수 있습니다. 이 경우 버튼을 클릭한 후 나타나는 메뉴에서 **Define workload**를 다시 선택합니다.
+>
 > 처음 Well-Architected Tool을 사용하는 경우 시작 화면이 표시될 수 있습니다. [[Get started]] 버튼을 클릭한 후 [[Define workload]]를 선택합니다.
 
 4. **Name**에 `quicktable-web-application`을 입력합니다.
@@ -67,10 +70,9 @@ prerequisites:
 > [!NOTE]
 > **Regions** 섹션은 AWS Regions와 Non-AWS regions 두 부분으로 구성됩니다. 이 실습에서는 AWS 리전만 선택합니다.
 
-10. **Account IDs**, **Application**, **Architectural design** 필드는 선택사항이므로 비워둡니다.
-11. **Industry type**과 **Industry** 필드는 선택사항이므로 비워둡니다.
-12. 아래로 스크롤하여 **AWS Trusted Advisor** 섹션으로 이동합니다.
-13. **AWS Trusted Advisor** 섹션은 선택사항이므로 활성화하지 않습니다.
+10. **Account IDs**, **Application**, **Architectural design**, **Industry type**, **Industry** 필드는 선택사항이므로 비워둡니다.
+11. 아래로 스크롤하여 **AWS Trusted Advisor** 섹션으로 이동합니다.
+12. **AWS Trusted Advisor** 섹션은 선택사항이므로 활성화하지 않습니다.
 14. **Jira** 섹션은 선택사항이므로 설정하지 않습니다.
 15. 아래로 스크롤하여 **Tags** 섹션으로 이동합니다.
 16. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
