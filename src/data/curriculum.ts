@@ -63,11 +63,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'AWS 리소스 태그의 개념과 중요성을 이해하고 Tag Editor로 리소스를 관리할 수 있습니다',
-      'Resource Groups를 생성하여 관련 리소스를 그룹화하고 효율적으로 관리할 수 있습니다',
-      'AWS Well-Architected Framework의 6가지 원칙을 설명할 수 있습니다',
-      '원칙 간 트레이드오프를 분석하여 아키텍처 의사결정을 내릴 수 있습니다',
-      '클라우드 서비스 디자인의 핵심 요소와 설계 개념을 설명할 수 있습니다',
+      'AWS Well-Architected Framework의 6가지 핵심 원칙을 이해하고 설명할 수 있습니다.',
+      'AWS Well-Architected Tool로 워크로드를 생성하고 평가할 수 있습니다.',
+      '운영 우수성, 보안, 안정성 원칙을 평가하고 개선 계획을 수립할 수 있습니다.',
+      '평가 결과 보고서를 생성하고 공유할 수 있습니다.'
     ],
     prerequisites: ['AWS 기본 개념 이해', '클라우드 컴퓨팅 기초 지식'],
     estimatedTime: '180분',
@@ -110,13 +109,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'AWS 인증과 권한의 차이를 이해하고, IAM을 통한 사용자 접근 관리 방법을 설명할 수 있습니다',
-      'AWS IAM 정책 구조와 평가 로직을 설명할 수 있습니다',
-      'Condition과 권한 경계를 활용한 고급 권한 제어 기법을 이해할 수 있습니다',
-      'AWS IAM 역할과 임시 자격증명의 보안 이점을 설명할 수 있습니다',
-      '신뢰 정책과 권한 정책의 차이를 이해하고 구성할 수 있습니다',
-      'AWS STS AssumeRole로 역할을 전환할 수 있습니다',
-      'AWS Organizations의 멀티 계정 관리 전략을 이해할 수 있습니다',
+      'AWS IAM 정책의 Condition 요소를 이해하고 설명할 수 있습니다.',
+      'MFA 강제, IP 주소 제한, 시간 기반 Condition 정책을 생성할 수 있습니다.',
+      '신뢰 정책과 권한 정책의 차이를 이해하고 구성할 수 있습니다.',
+      'Condition 정책의 동작을 테스트하고 검증할 수 있습니다.'
     ],
     prerequisites: ['Week 1 완료', 'IAM 기본 개념 이해'],
     estimatedTime: '180분',
@@ -159,13 +155,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'Amazon VPC 핵심 구성 요소와 역할을 설명할 수 있습니다',
-      'CIDR 블록 설계 원칙을 이해하고 서브넷 구성에 적용할 수 있습니다',
-      'Amazon VPC Endpoints의 유형을 이해하고 적절한 프라이빗 연결을 선택할 수 있습니다',
-      '다층 방어 전략의 개념과 네트워크 보안 계층 구성을 이해할 수 있습니다',
-      '보안 그룹과 NACL의 차이를 이해하고 활용할 수 있습니다',
-      '멀티 VPC 설계 시나리오를 비교하고 VPC Peering으로 연결할 수 있습니다',
-      'AWS Transit Gateway로 허브-스포크 네트워크를 설계할 수 있습니다',
+      '보안 그룹과 NACL의 차이점을 이해하고 설명할 수 있습니다.',
+      '3-tier 아키텍처의 각 계층(ALB, Web, App, DB)에 보안 그룹 규칙을 구성할 수 있습니다.',
+      'Public/Private 서브넷용 NACL을 생성하고 서브넷에 연결할 수 있습니다.',
+      '보안 그룹 체인과 NACL의 동작을 검증할 수 있습니다.'
     ],
     prerequisites: ['Week 1-2 완료', '네트워킹 기본 개념 이해'],
     estimatedTime: '180분',
@@ -208,13 +201,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      '서버리스 컴퓨팅의 특징과 제약사항을 설명할 수 있습니다',
-      'AWS Lambda의 이벤트 기반 실행 모델과 핸들러 함수 구조를 이해할 수 있습니다',
-      'AWS Lambda의 메모리, 동시성 등 성능 최적화 기법을 적용할 수 있습니다',
-      'RESTful API 설계 원칙을 적용할 수 있습니다',
-      'Amazon API Gateway와 AWS Lambda 통합을 구성할 수 있습니다',
-      'API 인증 방식을 비교하고 선택할 수 있습니다',
-      '이벤트 기반 아키텍처의 개념과 핵심 구성 요소를 이해할 수 있습니다',
+      'Amazon EventBridge의 이벤트 기반 아키텍처를 이해하고 설명할 수 있습니다.',
+      'ReservationCreated 이벤트 규칙을 생성하고 AWS Lambda를 연결할 수 있습니다.',
+      'TableUnavailable 이벤트 규칙을 생성하고 알림을 구성할 수 있습니다.',
+      '이벤트 기반 워크플로우를 테스트하고 검증할 수 있습니다.'
     ],
     prerequisites: ['Week 1-3 완료', 'REST API 기본 개념 이해'],
     estimatedTime: '180분',
@@ -257,13 +247,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'Amazon RDS Multi-AZ 배포와 Amazon RDS Read Replica를 비교하고 선택할 수 있습니다',
-      'Amazon RDS의 백업 방식과 스냅샷 활용 방법을 이해할 수 있습니다',
-      'Amazon RDS Proxy로 데이터베이스 연결을 최적화할 수 있습니다',
-      'Amazon Aurora의 클러스터 아키텍처 구조와 Amazon RDS와의 차이를 설명할 수 있습니다',
-      'Amazon Aurora의 고가용성 구조와 장애 조치 방식을 설명할 수 있습니다',
-      '파티션 키와 정렬 키 설계 원칙을 이해할 수 있습니다',
-      'GSI와 LSI를 비교하고 쿼리 요구사항에 맞게 활용할 수 있습니다',
+      'Amazon DynamoDB 테이블을 생성하고 파티션 키/정렬 키를 설계할 수 있습니다.',
+      'LSI(Local Secondary Index)를 사용하여 날짜 기반 쿼리를 수행할 수 있습니다.',
+      'GSI(Global Secondary Index)를 생성하여 다양한 쿼리 패턴을 지원할 수 있습니다.',
+      'Python boto3로 항목을 추가/조회/업데이트하고 쿼리 성능을 비교할 수 있습니다.'
     ],
     prerequisites: ['Week 1-4 완료', '데이터베이스 기본 개념 이해'],
     estimatedTime: '180분',
@@ -307,13 +294,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'Infrastructure as Code의 개념과 이점을 이해할 수 있습니다',
-      'AWS CloudFormation의 동작 원리와 주요 구성 요소를 설명할 수 있습니다',
-      '템플릿의 주요 섹션(Resources, Parameters, Outputs)과 역할을 이해할 수 있습니다',
-      'YAML 문법을 사용하여 CloudFormation 템플릿을 작성할 수 있습니다',
-      'Intrinsic Functions를 활용하여 동적 템플릿을 구성할 수 있습니다',
-      '변경 세트를 사용하여 변경 사항을 미리 확인할 수 있습니다',
-      '드리프트 탐지로 실제 리소스와 템플릿 간 차이를 파악할 수 있습니다',
+      'AWS Infrastructure Composer의 시각적 설계 기능을 이해할 수 있습니다.',
+      'Amazon DynamoDB, AWS Lambda, AWS IAM 역할을 드래그 앤 드롭으로 추가하고 연결할 수 있습니다.',
+      'Amazon API Gateway를 추가하고 AWS Lambda 함수와 통합할 수 있습니다.',
+      '생성된 AWS CloudFormation 템플릿을 검토하고 배포할 수 있습니다.'
     ],
     prerequisites: [
       'Week 1-5 완료',
@@ -359,13 +343,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      '컨테이너와 가상 머신의 차이를 이해할 수 있습니다',
-      'Docker의 기본 개념과 컨테이너 이미지 빌드 방법을 설명할 수 있습니다',
-      '컨테이너 오케스트레이션의 필요성을 이해할 수 있습니다',
-      'Kubernetes의 기본 개념과 주요 구성 요소를 설명할 수 있습니다',
-      'Amazon EKS 아키텍처와 컨트롤 플레인/데이터 플레인을 이해할 수 있습니다',
-      'Amazon EKS 클러스터를 생성하고 kubectl로 관리할 수 있습니다',
-      'Pod, Deployment, Service 등 Kubernetes 리소스를 생성할 수 있습니다',
+      'Kubernetes의 기본 개념과 Amazon EKS 아키텍처를 이해할 수 있습니다.',
+      'kubectl을 구성하고 Amazon EKS 클러스터에 연결할 수 있습니다.',
+      'Pod와 Deployment를 생성하고 롤링 업데이트/롤백을 수행할 수 있습니다.',
+      'Kubernetes Service를 생성하고 애플리케이션을 외부에 노출할 수 있습니다.'
     ],
     prerequisites: [
       'Week 1-6 완료',
@@ -428,13 +409,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'DevOps 문화와 CI/CD의 개념을 이해할 수 있습니다',
-      'AWS Developer Tools의 구성 요소와 역할을 설명할 수 있습니다',
-      'buildspec.yml을 작성하여 빌드 단계를 정의할 수 있습니다',
-      'AWS CodeBuild로 Docker 이미지를 빌드하고 ECR에 푸시할 수 있습니다',
-      'AWS CodePipeline으로 소스-빌드-배포 파이프라인을 구성할 수 있습니다',
-      'Amazon EKS에 컨테이너 애플리케이션을 자동으로 배포할 수 있습니다',
-      '파이프라인 실행 과정을 모니터링하고 문제를 해결할 수 있습니다',
+      'AWS CodePipeline의 소스-빌드-배포 파이프라인 구조를 이해할 수 있습니다.',
+      '프론트엔드 코드를 AWS CodeCommit에 푸시하고 파이프라인을 트리거할 수 있습니다.',
+      'AWS CodePipeline을 통해 Amazon S3에 자동 배포되는 과정을 확인할 수 있습니다.',
+      '코드 변경 후 자동 배포를 테스트하고 웹사이트를 확인할 수 있습니다.'
     ],
     prerequisites: [
       'Week 1-7 완료',
@@ -480,13 +458,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      '캐싱의 개념과 다양한 캐싱 전략을 이해할 수 있습니다',
-      'Redis와 Memcached의 차이점과 사용 사례를 비교할 수 있습니다',
-      'Amazon ElastiCache를 활용하여 API 응답을 캐싱할 수 있습니다',
-      '세션 스토어를 ElastiCache로 구현할 수 있습니다',
-      '캐시 무효화 패턴과 TTL 설정 전략을 이해할 수 있습니다',
-      'Amazon CloudFront의 동작 원리와 캐시 정책을 설명할 수 있습니다',
-      'CloudFront Functions로 엣지 로케이션에서 요청을 처리할 수 있습니다',
+      'CDN의 개념과 Amazon CloudFront의 동작 원리를 이해할 수 있습니다.',
+      'Amazon S3 오리진을 준비하고 Amazon CloudFront 배포를 생성할 수 있습니다.',
+      '캐시 정책을 구성하고 TTL을 설정할 수 있습니다.',
+      '캐시 무효화를 수행하고 Amazon CloudFront 성능을 확인할 수 있습니다.'
     ],
     prerequisites: [
       'Week 1-9 완료',
@@ -539,13 +514,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      '데이터 레이크와 데이터 웨어하우스의 차이를 이해할 수 있습니다',
-      'S3 데이터 레이크의 3계층 구조(Raw/Processed/Curated)를 설명할 수 있습니다',
-      'S3 스토리지 클래스의 종류와 사용 사례를 이해할 수 있습니다',
-      'AWS Glue Crawler의 동작 원리와 Data Catalog의 역할을 설명할 수 있습니다',
-      'Amazon Athena로 서버리스 SQL 쿼리를 실행할 수 있습니다',
-      'AWS Lambda를 사용하여 데이터를 전처리할 수 있습니다',
-      'AWS Glue ETL Job으로 데이터를 변환하고 파이프라인을 자동화할 수 있습니다',
+      'ETL(Extract, Transform, Load)의 개념과 AWS Glue ETL 작업을 이해할 수 있습니다.',
+      'AWS Glue ETL 스크립트를 작성하고 데이터 변환 로직을 구현할 수 있습니다.',
+      'AWS Glue ETL 작업을 실행하고 변환된 데이터를 확인할 수 있습니다.',
+      'Amazon Athena로 변환된 데이터를 쿼리하고 결과를 검증할 수 있습니다.'
     ],
     prerequisites: [
       'Week 1-10 완료',
@@ -592,13 +564,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      '코드에 자격증명을 하드코딩하는 문제점을 이해할 수 있습니다',
-      'AWS Systems Manager Parameter Store를 사용하여 설정을 관리할 수 있습니다',
-      'AWS Secrets Manager로 민감한 정보를 안전하게 저장할 수 있습니다',
-      'AWS Config의 개념과 필요성을 이해할 수 있습니다',
-      'AWS Config Rules를 사용하여 리소스 규정 준수를 확인할 수 있습니다',
-      'Amazon GuardDuty의 위협 탐지 기능을 이해할 수 있습니다',
-      'EventBridge와 Lambda를 활용하여 보안 위협에 자동으로 대응할 수 있습니다',
+      'AWS Config의 개념과 규정 준수 모니터링을 이해할 수 있습니다.',
+      'AWS Config를 활성화하고 리소스 구성 변경을 기록할 수 있습니다.',
+      '관리형 규칙을 추가하여 Amazon S3 버킷 암호화를 검증할 수 있습니다.',
+      '규정 준수 대시보드를 확인하고 비준수 리소스를 수정할 수 있습니다.'
     ],
     prerequisites: [
       'Week 1-11 완료',
@@ -645,15 +614,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      '관찰 가능성 3요소(메트릭, 로그, 트레이스)의 개념과 역할을 설명할 수 있습니다',
-      'Amazon CloudWatch 메트릭의 네임스페이스, 차원, 통계 기반 수집 구조를 이해할 수 있습니다',
-      'Amazon CloudWatch Logs Insights의 쿼리 언어를 활용하여 로그 패턴을 분석할 수 있습니다',
-      'AWS X-Ray의 구성요소와 분산 추적 방식을 설명할 수 있습니다',
-      '서비스 맵과 트레이스를 활용하여 서비스 간 의존성과 병목 지점을 식별할 수 있습니다',
-      'AWS X-Ray Insights의 자동 이상 탐지 기능을 설명할 수 있습니다',
-      'Amazon CloudWatch Lambda Insights로 서버리스 함수의 성능을 분석할 수 있습니다',
-      'Amazon CloudWatch Container Insights로 컨테이너 워크로드를 모니터링할 수 있습니다',
-      'Amazon CloudWatch ServiceLens로 메트릭, 로그, 트레이스를 통합하여 전체 아키텍처를 파악할 수 있습니다',
+      'Container Insights의 개념과 Amazon EKS 모니터링 구조를 이해할 수 있습니다.',
+      'Container Insights를 활성화하고 AWS CloudWatch 에이전트를 배포할 수 있습니다.',
+      'AWS CloudWatch 대시보드에서 클러스터 메트릭을 확인할 수 있습니다.',
+      'AWS CloudWatch Logs Insights로 컨테이너 로그를 쿼리하고 분석할 수 있습니다.'
     ],
     prerequisites: [
       'Week 1-12 완료',
@@ -700,13 +664,10 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      '생성형 AI의 개념과 Amazon Bedrock의 주요 기능을 이해할 수 있습니다',
-      '프롬프트 엔지니어링 기법을 적용하여 효과적인 프롬프트를 작성할 수 있습니다',
-      'Amazon Bedrock API를 사용하여 텍스트를 생성할 수 있습니다',
-      'RAG(Retrieval-Augmented Generation)의 개념과 동작 원리를 설명할 수 있습니다',
-      'Bedrock Knowledge Bases를 활용하여 RAG 시스템을 구축할 수 있습니다',
-      'Bedrock Agent를 사용하여 대화형 챗봇을 구현할 수 있습니다',
-      'AI/ML 서비스를 활용한 지능형 애플리케이션을 설계할 수 있습니다',
+      'Amazon Bedrock Agents의 개념과 자율 에이전트 아키텍처를 이해할 수 있습니다.',
+      'AWS Lambda 함수로 Action Group을 생성하고 에이전트와 연결할 수 있습니다.',
+      'Amazon Bedrock Knowledge Base를 에이전트에 연결하여 RAG 기능을 통합할 수 있습니다.',
+      '에이전트를 테스트하고 다단계 작업을 수행할 수 있습니다.'
     ],
     prerequisites: [
       'Week 1-13 완료',
