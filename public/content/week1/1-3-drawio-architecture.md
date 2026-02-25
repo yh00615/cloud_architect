@@ -231,11 +231,11 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 이 태스크에서는 **인터넷 게이트웨이**와 **NAT Gateway**를 추가하여 네트워크 연결을 구성합니다.
 
 1. 왼쪽 패널 검색창에서 **Internet Gateway**를 검색합니다. (또는 **AWS / Networking & Content Delivery** 카테고리에서 찾기)
-2. **Internet Gateway** 아이콘을 Amazon VPC 상단 외부에 배치합니다.
+2. **Internet Gateway** 아이콘을 Amazon VPC 상단 외부에 배치하고 크기를 조정합니다.
 3. 레이블을 `QuickTable IGW`로 설정합니다.
 4. Internet Gateway에서 Amazon VPC로 화살표를 연결합니다.
 5. 왼쪽 패널에서 **NAT Gateway** 아이콘을 검색합니다.
-6. **NAT Gateway** 아이콘을 **Public Subnet A** 내부에 배치합니다.
+6. **NAT Gateway** 아이콘을 **Public Subnet A** 내부에 배치하고 크기를 조정합니다.
 7. 레이블을 `NAT Gateway A`로 설정합니다.
 8. **NAT Gateway** 아이콘을 **Public Subnet C** 내부에 추가로 배치합니다.
 9. 레이블을 `NAT Gateway C`로 설정합니다.
