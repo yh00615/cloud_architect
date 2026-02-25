@@ -244,6 +244,7 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 > [!TIP]
 > **화살표 연결 방법**:
+>
 > 1. 왼쪽 도구 모음에서 **화살표** 도구를 선택합니다.
 > 2. 시작 아이콘을 클릭한 후 끝 아이콘을 클릭하면 화살표가 연결됩니다.
 > 3. 화살표를 선택하고 오른쪽 패널에서 스타일(실선/점선, 색상, 두께)을 변경할 수 있습니다.
@@ -265,10 +266,10 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 2. **Application Load Balancer** 아이콘을 **Public Subnet A**와 **Public Subnet C** 사이에 배치합니다.
 3. 레이블을 `QuickTable ALB`로 설정합니다.
 4. Internet Gateway에서 ALB로 화살표를 연결합니다.
-5. 화살표 레이블을 `HTTPS (443)`로 설정합니다.
 
 > [!NOTE]
-> Application Load Balancer는 Layer 7(애플리케이션 계층)에서 동작하며, HTTP/HTTPS 트래픽을 처리합니다. Multi-AZ 구성으로 2개의 퍼블릭 서브넷에 배포되어 고가용성을 보장합니다.
+> Application Load Balancer는 Layer 7(애플리케이션 계층)에서 동작하며, HTTP/HTTPS 트래픽을 처리합니다.  
+> Multi-AZ 구성으로 2개의 퍼블릭 서브넷에 배포되어 고가용성을 보장합니다.
 
 ✅ **태스크 완료**: Application Load Balancer가 추가되었습니다.
 
@@ -285,9 +286,8 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 7. **Amazon EC2 Auto Scaling** 아이콘을 Web Server 영역 주변에 배치합니다.
 8. 레이블을 `QuickTable Web ASG`로 설정합니다.
 9. ALB에서 각 Web Server로 화살표를 연결합니다.
-10. 화살표 레이블을 `HTTP (80)`로 설정합니다.
-11. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 하단에 추가로 배치합니다.
-12. 레이블을 `App Server A`로 설정합니다.
+10. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 하단에 추가로 배치합니다.
+11. 레이블을 `App Server A`로 설정합니다.
 13. **Amazon EC2 Instance** 아이콘을 **Private App Subnet C** 하단에 추가로 배치합니다.
 14. 레이블을 `App Server C`로 설정합니다.
 15. **Amazon EC2 Auto Scaling** 아이콘을 App Server 영역 주변에 배치합니다.
@@ -312,9 +312,7 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 4. **Amazon RDS DB Instance** 아이콘을 **Private DB Subnet C** 내부에 배치합니다.
 5. 레이블을 `QuickTable Amazon RDS Standby`로 설정합니다.
 6. Primary에서 Standby로 양방향 화살표를 연결합니다.
-7. 화살표 레이블을 `Synchronous Replication`로 설정합니다.
-8. 각 App Server에서 Amazon RDS Primary로 화살표를 연결합니다.
-9. 화살표 레이블을 `MySQL (3306)`로 설정합니다.
+7. 각 App Server에서 Amazon RDS Primary로 화살표를 연결합니다.
 
 > [!NOTE]
 >
