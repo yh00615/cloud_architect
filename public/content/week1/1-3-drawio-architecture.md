@@ -307,8 +307,8 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 3. 레이블을 `RDS Primary`로 설정합니다.
 4. **Amazon RDS DB Instance** 아이콘을 **Private DB Subnet C** 내부에 배치합니다.
 5. 레이블을 `RDS Standby`로 설정합니다.
-6. Primary에서 Standby로 화살표를 연결합니다.
-7. 각 App Server에서 Amazon RDS Primary로 화살표를 연결합니다.
+6. Primary에서 Standby로 양방향 화살표를 연결합니다.
+7. 각 Web Server에서 Amazon RDS Primary로 화살표를 연결합니다 (Web Server A1 → RDS Primary, Web Server A2 → RDS Primary, Web Server C1 → RDS Primary, Web Server C2 → RDS Primary).
 
 > [!NOTE]
 >
