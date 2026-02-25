@@ -12,6 +12,9 @@
   height: auto;
   display: block;
   margin: 1rem 0;
+  border: 1px solid #aab7b8;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 중간 이미지 (800px) - 일반적인 UI 화면, 설정 화면 */
@@ -21,6 +24,9 @@
   height: auto;
   display: block;
   margin: 1rem 0;
+  border: 1px solid #aab7b8;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 큰 이미지 (1200px) - 전체 화면, 아키텍처 다이어그램 */
@@ -30,6 +36,9 @@
   height: auto;
   display: block;
   margin: 1rem 0;
+  border: 1px solid #aab7b8;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 모바일 반응형 (768px 이하) */
@@ -46,4 +55,6 @@
 [data-theme='dark'] .guide-img-md,
 [data-theme='dark'] .guide-img-lg {
   opacity: 0.95;
+  border-color: #414d5c;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
