@@ -275,10 +275,9 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 ## 태스크 6: Amazon EC2 인스턴스 및 Amazon EC2 Auto Scaling 그룹
 
-이 태스크에서는 **Web Tier**와 **App Tier**의 **Amazon EC2 인스턴스**와 **Amazon EC2 Auto Scaling 그룹**을 추가합니다.
+이 태스크에서는 **Web Tier**의 **Amazon EC2 인스턴스**와 **Amazon EC2 Auto Scaling 그룹**을 추가합니다.
 
-- **Web Tier**: Amazon EC2 인스턴스 2개 + Amazon EC2 Auto Scaling 그룹
-- **App Tier**: Amazon EC2 인스턴스 2개 + Amazon EC2 Auto Scaling 그룹
+- **Web Tier**: Amazon EC2 인스턴스 2개 (각 AZ에 1개씩) + Amazon EC2 Auto Scaling 그룹
 
 1. 왼쪽 패널에서 **Amazon EC2** 아이콘을 검색합니다.
 2. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 내부에 배치합니다.
