@@ -5,13 +5,10 @@ session: 1
 awsServices:
   - Amazon VPC
 learningObjectives:
-  - Amazon VPC 핵심 구성 요소와 역할을 설명할 수 있습니다
-  - CIDR 블록 설계 원칙을 이해하고 서브넷 구성에 적용할 수 있습니다
-  - Amazon VPC Endpoints의 유형을 이해하고 적절한 프라이빗 연결을 선택할 수 있습니다
-  - 다층 방어 전략의 개념과 네트워크 보안 계층 구성을 이해할 수 있습니다
-  - 보안 그룹과 NACL의 차이를 이해하고 활용할 수 있습니다
-  - 멀티 Amazon VPC 설계 시나리오를 비교하고 Amazon VPC Peering으로 연결할 수 있습니다
-  - AWS Transit Gateway로 허브-스포크 네트워크를 설계할 수 있습니다
+  - Amazon VPC Endpoint의 유형(Interface, Gateway)을 이해하고 차이점을 설명할 수 있습니다.
+  - AWS Systems Manager Interface Endpoint를 생성하고 구성할 수 있습니다.
+  - Amazon S3 Gateway Endpoint를 생성하고 라우팅 테이블을 확인할 수 있습니다.
+  - Amazon VPC Endpoint를 통한 프라이빗 연결을 검증하고 동작을 확인할 수 있습니다.
 prerequisites:
   - Amazon VPC 기본 개념 이해
   - 네트워킹 기본 개념 (IP 주소, 서브넷, 라우팅)

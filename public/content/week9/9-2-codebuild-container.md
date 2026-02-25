@@ -8,13 +8,10 @@ awsServices:
   - Amazon ECR
   - Amazon CloudWatch Logs
 learningObjectives:
-  - DevOps 문화와 CI/CD의 개념을 이해할 수 있습니다
-  - AWS Developer Tools의 구성 요소와 역할을 설명할 수 있습니다
-  - buildspec.yml을 작성하여 빌드 단계를 정의할 수 있습니다
-  - AWS CodeBuild로 Docker 이미지를 빌드하고 Amazon ECR에 푸시할 수 있습니다
-  - AWS CodePipeline으로 소스-빌드-배포 파이프라인을 구성할 수 있습니다
-  - Amazon EKS에 컨테이너 애플리케이션을 자동으로 배포할 수 있습니다
-  - 파이프라인 실행 과정을 모니터링하고 문제를 해결할 수 있습니다
+  - CI/CD의 개념과 AWS Developer Tools를 이해할 수 있습니다.
+  - buildspec.yml 파일을 분석하고 빌드 단계를 이해할 수 있습니다.
+  - AWS CodeBuild 프로젝트를 생성하고 Docker 이미지를 빌드할 수 있습니다.
+  - 빌드를 실행하고 Amazon ECR에 푸시된 이미지를 검증할 수 있습니다.
 prerequisites:
   - Week 7 완료 (Docker 기본 개념)
   - Git 기본 명령어 이해

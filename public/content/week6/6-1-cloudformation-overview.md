@@ -5,13 +5,10 @@ session: 1
 awsServices:
   - AWS CloudFormation
 learningObjectives:
-  - Infrastructure as Code의 개념과 이점을 이해할 수 있습니다
-  - AWS CloudFormation의 동작 원리와 주요 구성 요소를 설명할 수 있습니다
-  - 템플릿의 주요 섹션(Resources, Parameters, Outputs)과 역할을 이해할 수 있습니다
-  - YAML 문법을 사용하여 AWS CloudFormation 템플릿을 작성할 수 있습니다
-  - Intrinsic Functions를 활용하여 동적 템플릿을 구성할 수 있습니다
-  - 변경 세트를 사용하여 변경 사항을 미리 확인할 수 있습니다
-  - 드리프트 탐지로 실제 리소스와 템플릿 간 차이를 파악할 수 있습니다
+  - Infrastructure as Code의 개념과 AWS CloudFormation의 동작 원리를 이해할 수 있습니다.
+  - AWS CloudFormation 스택을 생성하고 Amazon S3 버킷을 배포할 수 있습니다.
+  - 변경 세트를 사용하여 스택을 안전하게 업데이트할 수 있습니다.
+  - 드리프트 탐지로 수동 변경을 감지하고 스택을 삭제할 수 있습니다.
 prerequisites:
   - AWS 기본 서비스 이해 (Amazon VPC, Amazon EC2, Amazon S3 등)
   - YAML 또는 JSON 기본 문법 이해

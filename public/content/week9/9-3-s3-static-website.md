@@ -6,13 +6,10 @@ awsServices:
   - AWS CodePipeline
   - AWS CodeBuild
 learningObjectives:
-  - DevOps 문화와 CI/CD의 개념을 이해할 수 있습니다
-  - AWS Developer Tools의 구성 요소와 역할을 설명할 수 있습니다
-  - buildspec.yml을 작성하여 빌드 단계를 정의할 수 있습니다
-  - AWS CodeBuild로 Docker 이미지를 빌드하고 Amazon ECR에 푸시할 수 있습니다
-  - AWS CodePipeline으로 소스-빌드-배포 파이프라인을 구성할 수 있습니다
-  - Amazon EKS에 컨테이너 애플리케이션을 자동으로 배포할 수 있습니다
-  - 파이프라인 실행 과정을 모니터링하고 문제를 해결할 수 있습니다
+  - AWS CodePipeline의 소스-빌드-배포 파이프라인 구조를 이해할 수 있습니다.
+  - 프론트엔드 코드를 AWS CodeCommit에 푸시하고 파이프라인을 트리거할 수 있습니다.
+  - AWS CodePipeline을 통해 Amazon S3에 자동 배포되는 과정을 확인할 수 있습니다.
+  - 코드 변경 후 자동 배포를 테스트하고 웹사이트를 확인할 수 있습니다.
 prerequisites:
   - Week 1 완료 (Amazon S3 기본 개념)
   - Week 9-2 완료 (AWS CodeBuild 기본)

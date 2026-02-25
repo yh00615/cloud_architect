@@ -5,13 +5,10 @@ session: 2
 awsServices:
   - Amazon ElastiCache
 learningObjectives:
-  - 캐싱의 개념과 다양한 캐싱 전략을 이해할 수 있습니다
-  - Redis와 Memcached의 차이점과 사용 사례를 비교할 수 있습니다
-  - Amazon ElastiCache를 활용하여 API 응답을 캐싱할 수 있습니다
-  - 세션 스토어를 Amazon ElastiCache로 구현할 수 있습니다
-  - 캐시 무효화 패턴과 TTL 설정 전략을 이해할 수 있습니다
-  - Amazon CloudFront의 동작 원리와 캐시 정책을 설명할 수 있습니다
-  - Amazon CloudFront Functions로 엣지 로케이션에서 요청을 처리할 수 있습니다
+  - 캐싱 전략과 Redis의 기본 개념을 이해할 수 있습니다.
+  - Amazon ElastiCache Redis 클러스터를 생성하고 엔드포인트를 확인할 수 있습니다.
+  - Amazon EC2 인스턴스에서 Redis CLI로 기본 명령어를 실습할 수 있습니다.
+  - Cache-Aside 패턴을 적용한 애플리케이션을 테스트할 수 있습니다.
 prerequisites:
   - Week 5-1 Amazon RDS Multi-AZ 실습 완료 (MySQL 기본 지식)
   - Week 4-3 QuickTable 예약 API 실습 완료 (Amazon DynamoDB 기본 지식)

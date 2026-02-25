@@ -6,13 +6,10 @@ awsServices:
   - AWS CloudFormation
   - AWS Infrastructure Composer
 learningObjectives:
-  - Infrastructure as Code의 개념과 이점을 이해할 수 있습니다
-  - AWS CloudFormation의 동작 원리와 주요 구성 요소를 설명할 수 있습니다
-  - 템플릿의 주요 섹션(Resources, Parameters, Outputs)과 역할을 이해할 수 있습니다
-  - YAML 문법을 사용하여 AWS CloudFormation 템플릿을 작성할 수 있습니다
-  - Intrinsic Functions를 활용하여 동적 템플릿을 구성할 수 있습니다
-  - 변경 세트를 사용하여 변경 사항을 미리 확인할 수 있습니다
-  - 드리프트 탐지로 실제 리소스와 템플릿 간 차이를 파악할 수 있습니다
+  - AWS Infrastructure Composer의 시각적 설계 기능을 이해할 수 있습니다.
+  - Amazon DynamoDB, AWS Lambda, AWS IAM 역할을 드래그 앤 드롭으로 추가하고 연결할 수 있습니다.
+  - Amazon API Gateway를 추가하고 AWS Lambda 함수와 통합할 수 있습니다.
+  - 생성된 AWS CloudFormation 템플릿을 검토하고 배포할 수 있습니다.
 prerequisites:
   - Week 6-1 AWS CloudFormation 개요 이해
   - Week 6-2 AWS CloudFormation 템플릿 작성 완료

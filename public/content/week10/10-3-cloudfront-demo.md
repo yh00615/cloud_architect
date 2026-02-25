@@ -5,13 +5,10 @@ session: 3
 awsServices:
   - Amazon CloudFront
 learningObjectives:
-  - 캐싱의 개념과 다양한 캐싱 전략을 이해할 수 있습니다
-  - Redis와 Memcached의 차이점과 사용 사례를 비교할 수 있습니다
-  - Amazon ElastiCache를 활용하여 API 응답을 캐싱할 수 있습니다
-  - 세션 스토어를 ElastiCache로 구현할 수 있습니다
-  - 캐시 무효화 패턴과 TTL 설정 전략을 이해할 수 있습니다
-  - Amazon CloudFront의 동작 원리와 캐시 정책을 설명할 수 있습니다
-  - CloudFront Functions로 엣지 로케이션에서 요청을 처리할 수 있습니다
+  - CDN의 개념과 Amazon CloudFront의 동작 원리를 이해할 수 있습니다.
+  - Amazon S3 오리진을 준비하고 Amazon CloudFront 배포를 생성할 수 있습니다.
+  - 캐시 정책을 구성하고 TTL을 설정할 수 있습니다.
+  - 캐시 무효화를 수행하고 Amazon CloudFront 성능을 확인할 수 있습니다.
 prerequisites:
   - Amazon S3 기본 개념 이해
   - HTTP/HTTPS 프로토콜 이해

@@ -6,13 +6,10 @@ awsServices:
   - Amazon EKS
   - Kubernetes
 learningObjectives:
-  - 컨테이너와 가상 머신의 차이를 이해할 수 있습니다
-  - Docker의 기본 개념과 컨테이너 이미지 빌드 방법을 설명할 수 있습니다
-  - 컨테이너 오케스트레이션의 필요성을 이해할 수 있습니다
-  - Kubernetes의 기본 개념과 주요 구성 요소를 설명할 수 있습니다
-  - Amazon EKS 아키텍처와 컨트롤 플레인/데이터 플레인을 이해할 수 있습니다
-  - Amazon EKS 클러스터를 생성하고 kubectl로 관리할 수 있습니다
-  - Pod, Deployment, Service 등 Kubernetes 리소스를 생성할 수 있습니다
+  - Kubernetes의 기본 개념과 Amazon EKS 아키텍처를 이해할 수 있습니다.
+  - kubectl을 구성하고 Amazon EKS 클러스터에 연결할 수 있습니다.
+  - Pod와 Deployment를 생성하고 롤링 업데이트/롤백을 수행할 수 있습니다.
+  - Kubernetes Service를 생성하고 애플리케이션을 외부에 노출할 수 있습니다.
 prerequisites:
   - Week 3-1 Amazon VPC 기본 개념 이해
   - 컨테이너 기본 개념 이해

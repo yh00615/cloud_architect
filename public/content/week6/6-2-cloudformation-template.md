@@ -6,13 +6,10 @@ awsServices:
   - AWS CloudFormation
   - Amazon VPC
 learningObjectives:
-  - Infrastructure as Code의 개념과 이점을 이해할 수 있습니다
-  - AWS CloudFormation의 동작 원리와 주요 구성 요소를 설명할 수 있습니다
-  - 템플릿의 주요 섹션(Resources, Parameters, Outputs)과 역할을 이해할 수 있습니다
-  - YAML 문법을 사용하여 AWS CloudFormation 템플릿을 작성할 수 있습니다
-  - Intrinsic Functions를 활용하여 동적 템플릿을 구성할 수 있습니다
-  - 변경 세트를 사용하여 변경 사항을 미리 확인할 수 있습니다
-  - 드리프트 탐지로 실제 리소스와 템플릿 간 차이를 파악할 수 있습니다
+  - AWS CloudFormation 템플릿의 기본 구조(Resources, Parameters, Outputs)를 이해할 수 있습니다.
+  - Amazon VPC, 서브넷, 보안 그룹, Amazon EC2 인스턴스 템플릿 구조를 분석할 수 있습니다.
+  - AWS CloudFormation 스택을 생성하고 리소스를 배포할 수 있습니다.
+  - 스택 리소스를 확인하고 웹 서버 동작을 테스트할 수 있습니다.
 prerequisites:
   - Amazon VPC 및 Amazon EC2 기본 개념 이해
   - YAML 문법 기본 지식

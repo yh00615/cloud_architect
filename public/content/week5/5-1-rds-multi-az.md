@@ -5,13 +5,10 @@ session: 1
 awsServices:
   - Amazon RDS
 learningObjectives:
-  - Amazon RDS Multi-AZ 배포와 Amazon RDS Read Replica를 비교하고 선택할 수 있습니다
-  - Amazon RDS의 백업 방식과 스냅샷 활용 방법을 이해할 수 있습니다
-  - Amazon RDS Proxy로 데이터베이스 연결을 최적화할 수 있습니다
-  - Amazon Aurora의 클러스터 아키텍처 구조와 Amazon RDS와의 차이를 설명할 수 있습니다
-  - Amazon Aurora의 고가용성 구조와 장애 조치 방식을 설명할 수 있습니다
-  - 파티션 키와 정렬 키 설계 원칙을 이해할 수 있습니다
-  - GSI와 LSI를 비교하고 쿼리 요구사항에 맞게 활용할 수 있습니다
+  - Amazon RDS Multi-AZ 배포와 Amazon RDS Read Replica의 차이점을 이해하고 설명할 수 있습니다.
+  - Amazon RDS MySQL 인스턴스를 Multi-AZ로 생성하고 페일오버를 시뮬레이션할 수 있습니다.
+  - Amazon RDS Read Replica를 생성하고 읽기 부하를 분산할 수 있습니다.
+  - 수동 스냅샷과 자동 백업을 생성하고 관리할 수 있습니다.
 ---
 
 이 실습에서는 Amazon RDS MySQL 인스턴스를 Multi-AZ 배포로 생성하고 고가용성 데이터베이스 아키텍처를 구축합니다. Primary DB와 Standby DB가 서로 다른 가용 영역에 자동으로 배포되어 동기식 복제가 이루어지며, 페일오버 테스트를 통해 자동 전환 과정을 확인합니다. Read Replica를 생성하여 읽기 성능을 확장하고, 자동 백업과 수동 스냅샷을 구성하여 데이터 보호 전략을 학습합니다.
