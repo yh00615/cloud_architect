@@ -1,55 +1,10 @@
 {
   "code": {
-    "total": 7,
-    "passed": 6,
+    "total": 0,
+    "passed": 0,
     "failed": 0,
-    "warnings": 9,
-    "issues": [
-      {
-        "category": "컴포넌트 구조",
-        "severity": "warning",
-        "count": 9,
-        "message": "컴포넌트 표준 구조 미준수",
-        "details": [
-          {
-            "file": "src/components/education/._FileDownload.tsx",
-            "issue": "Props 인터페이스 누락"
-          },
-          {
-            "file": "src/components/education/._FileDownload.tsx",
-            "issue": "React.FC 타입 미사용"
-          },
-          {
-            "file": "src/components/education/._FileDownload.tsx",
-            "issue": "export const 방식 미사용"
-          },
-          {
-            "file": "src/components/education/._HelpPanelContent.tsx",
-            "issue": "Props 인터페이스 누락"
-          },
-          {
-            "file": "src/components/education/._HelpPanelContent.tsx",
-            "issue": "React.FC 타입 미사용"
-          },
-          {
-            "file": "src/components/education/._HelpPanelContent.tsx",
-            "issue": "export const 방식 미사용"
-          },
-          {
-            "file": "src/components/layout/._AppLayout.tsx",
-            "issue": "Props 인터페이스 누락"
-          },
-          {
-            "file": "src/components/layout/._AppLayout.tsx",
-            "issue": "React.FC 타입 미사용"
-          },
-          {
-            "file": "src/components/layout/._AppLayout.tsx",
-            "issue": "export const 방식 미사용"
-          }
-        ]
-      }
-    ]
+    "warnings": 0,
+    "issues": []
   },
   "guides": {
     "total": 3,
@@ -59,7 +14,7 @@
     "issues": []
   },
   "overall": {
-    "score": 90,
+    "score": 100,
     "grade": "A",
     "recommendations": []
   }
