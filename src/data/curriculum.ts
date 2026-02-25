@@ -63,10 +63,11 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'AWS Well-Architected Framework의 6가지 핵심 원칙을 이해하고 설명할 수 있습니다.',
-      'AWS Well-Architected Tool로 워크로드를 생성하고 평가할 수 있습니다.',
-      '운영 우수성, 보안, 안정성 원칙을 평가하고 개선 계획을 수립할 수 있습니다.',
-      '평가 결과 보고서를 생성하고 공유할 수 있습니다.'
+      'AWS 리소스 태그의 개념과 중요성을 이해하고 Tag Editor로 리소스를 관리할 수 있습니다.',
+      'Resource Groups를 생성하여 관련 리소스를 그룹화하고 효율적으로 관리할 수 있습니다.',
+      'AWS Well-Architected Framework의 6가지 원칙을 설명할 수 있습니다.',
+      '원칙 간 트레이드오프를 분석하여 아키텍처 의사결정을 내릴 수 있습니다.',
+      '클라우드 서비스 디자인의 핵심 요소와 설계 개념을 설명할 수 있습니다.',
     ],
     prerequisites: ['AWS 기본 개념 이해', '클라우드 컴퓨팅 기초 지식'],
     estimatedTime: '180분',
