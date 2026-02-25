@@ -216,6 +216,8 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 12. 두 번째 서브넷 레이블을 `Private App Subnet C (10.0.12.0/24)`로 변경합니다.
 13. 세 번째 서브넷 레이블을 `Private DB Subnet C (10.0.22.0/24)`로 변경합니다.
 
+<img src="/images/week1/1-3-step3-subnets-complete.png" alt="Draw.io에 3-Tier 서브넷 구성 완료" class="guide-img-sm" />
+
 > [!NOTE]
 >
 > - **퍼블릭 서브넷**: 인터넷 게이트웨이를 통해 외부와 통신하며, Application Load Balancer가 배치됩니다.
@@ -227,6 +229,9 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 ## 태스크 4: 인터넷 게이트웨이 및 NAT Gateway
 
 이 태스크에서는 **인터넷 게이트웨이**와 **NAT Gateway**를 추가하여 네트워크 연결을 구성합니다.
+
+> [!TIP]
+> **네트워크 아이콘 찾기**: Internet Gateway와 NAT Gateway는 검색창에서 검색하거나, **AWS / Networking & Content Delivery** 카테고리에서 찾을 수 있습니다.
 
 1. 왼쪽 패널에서 **Internet Gateway** 아이콘을 검색합니다.
 2. **Internet Gateway** 아이콘을 Amazon VPC 상단 외부에 배치합니다.
