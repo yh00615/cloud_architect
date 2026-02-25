@@ -233,13 +233,15 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 1. 왼쪽 패널 검색창에서 **Internet Gateway**를 검색합니다. (또는 **AWS / Networking & Content Delivery** 카테고리에서 찾기)
 2. **Internet Gateway** 아이콘을 VPC 상단 중앙에 배치하고 크기를 조정합니다.
 3. 레이블을 `QuickTable IGW`로 설정합니다.
+
+<img src="/images/week1/1-3-step4-igw-placement.png" alt="Draw.io에 Internet Gateway 배치" class="guide-img-sm" />
+
 4. 왼쪽 패널에서 **NAT Gateway** 아이콘을 검색합니다.
 5. **NAT Gateway** 아이콘을 **Public Subnet A** 내부에 배치하고 크기를 조정합니다.
 6. 레이블을 `NAT Gateway A`로 설정합니다.
 7. **NAT Gateway** 아이콘을 **Public Subnet C** 내부에 추가로 배치합니다.
 8. 레이블을 `NAT Gateway C`로 설정합니다.
 9. 각 NAT Gateway에서 Internet Gateway로 화살표를 연결합니다.
-10. 각 NAT Gateway에서 해당 AZ의 Private App Subnet으로 화살표를 연결합니다.
 
 > [!NOTE]
 >
