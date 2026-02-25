@@ -123,42 +123,69 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 <img src="/images/week1/1-3-step2-vpc-drag.png" alt="Draw.io 캔버스에 VPC 아이콘 드래그" class="guide-img-sm" />
 
-4. VPC 박스 크기를 조정하여 전체 아키텍처를 포함할 수 있도록 확장합니다.
-5. VPC 박스를 더블클릭하여 레이블을 `QuickTable Amazon VPC (10.0.0.0/16)`로 변경합니다.
-6. 왼쪽 패널에서 **Availability Zone** 아이콘을 검색합니다.
-7. **Availability Zone** 아이콘을 VPC 내부에 배치하고 크기를 조정합니다.
+3. VPC 박스 크기를 조정하여 전체 아키텍처를 포함할 수 있도록 확장합니다.
 
-> [!TIP]
-> **아이콘 복제 방법**:
-> - 배치한 아이콘을 선택 → **마우스 오른쪽 버튼** → **Duplicate** 선택
-> - **단축키**: **⌘ (Cmd) + D** (Mac) / **Ctrl + D** (Windows)
-> - **드래그**: **⌘ (Cmd)** (Mac) / **Ctrl** (Windows)을 누른 채로 드래그
+<img src="/images/week1/1-3-step2-vpc-size.png" alt="Draw.io에서 VPC 박스 크기 조정" class="guide-img-sm" />
 
-8. 복제 기능을 사용하여 두 번째 Availability Zone을 추가합니다.
+4. VPC 박스를 더블클릭하여 레이블을 `QuickTable Amazon VPC (10.0.0.0/16)`로 변경합니다.
+5. 왼쪽 패널에서 **Availability Zone** 아이콘을 검색합니다.
+6. **Availability Zone** 아이콘을 VPC 내부에 배치하고 크기를 조정합니다.
+7. 복제 기능을 사용하여 두 번째 Availability Zone을 추가합니다.
 
 <img src="/images/week1/1-3-step2-az-placement.png" alt="Draw.io에 VPC와 2개의 가용 영역 배치 완료" class="guide-img-sm" />
 
-9. 첫 번째 AZ 레이블을 `ap-northeast-2a`로 설정합니다.
-10. 두 번째 AZ 레이블을 `ap-northeast-2c`로 설정합니다.
+> [!TIP]
+> **아이콘 복제 방법**: Windows에서는 Ctrl 키를, macOS에서는 Cmd 키를 누른 채로 드래그하면 복제됩니다.
+
+8. 첫 번째 AZ 레이블을 `ap-northeast-2a`로 설정합니다.
+9. 두 번째 AZ 레이블을 `ap-northeast-2c`로 설정합니다.
+
+<img src="/images/week1/1-3-step6-web-app-connection.png" alt="Draw.io에서 가용 영역 레이블 설정 완료" class="guide-img-sm" />
 
 > [!NOTE]
-> Multi-AZ 구성은 하나의 가용 영역에 장애가 발생해도 다른 가용 영역에서 서비스를 계속 제공할 수 있도록 합니다. QuickTable은 2개의 AZ를 사용하여 고가용성을 보장합니다.
+> Multi-AZ 구성은 하나의 가용 영역에 장애가 발생해도 다른 가용 영역에서 서비스를 계속 제공할 수 있도록 합니다.  
+> QuickTable은 2개의 AZ를 사용하여 고가용성을 보장합니다.
 
 ✅ **태스크 완료**: QuickTable Amazon VPC와 2개의 가용 영역이 생성되었습니다.
 
 ## 태스크 3: 3-Tier 서브넷 구성
 
-이 태스크에서는 **3-Tier 아키텍처**의 핵심인 **퍼블릭 서브넷**, **프라이빗 애플리케이션 서브넷**, **프라이빗 데이터베이스 서브넷**을 각 가용 영역에 배치합니다.
+이 태스크에서는 **3-Tier 아키텍처**의 핵심인 **퍼블릭 서브넷**, **프라이빗 서브넷(애플리케이션)**, **프라이빗 서브넷(데이터베이스)**을 각 가용 영역에 배치합니다.
 
-1. 왼쪽 패널에서 **Subnet** 아이콘을 검색합니다.
-2. **ap-northeast-2a** AZ 내부에 3개의 서브넷을 배치합니다.
-3. 첫 번째 서브넷 레이블을 `Public Subnet A (10.0.1.0/24)`로 설정합니다.
-4. 두 번째 서브넷 레이블을 `Private App Subnet A (10.0.11.0/24)`로 설정합니다.
-5. 세 번째 서브넷 레이블을 `Private DB Subnet A (10.0.21.0/24)`로 설정합니다.
-6. **ap-northeast-2c** AZ 내부에 3개의 서브넷을 배치합니다.
-7. 첫 번째 서브넷 레이블을 `Public Subnet C (10.0.2.0/24)`로 설정합니다.
-8. 두 번째 서브넷 레이블을 `Private App Subnet C (10.0.12.0/24)`로 설정합니다.
-9. 세 번째 서브넷 레이블을 `Private DB Subnet C (10.0.22.0/24)`로 설정합니다.
+> [!NOTE]
+> **서브넷 종류**: AWS / Groups 카테고리에는 2가지 서브넷 아이콘이 있습니다.
+> - **Public Subnet** (초록색): 인터넷 게이트웨이를 통해 외부와 통신
+> - **Private Subnet** (파란색): NAT Gateway를 통해 아웃바운드만 허용 또는 완전히 격리
+
+### ap-northeast-2a 서브넷 배치
+
+1. 왼쪽 패널에서 **Public Subnet** 아이콘을 검색합니다.
+2. **Public Subnet** 아이콘을 **ap-northeast-2a** AZ 내부에 배치합니다.
+3. 레이블을 `Public Subnet A (10.0.1.0/24)`로 설정합니다.
+
+> [!TIP]
+> **서브넷 색상 변경**: 최신 버전의 Draw.io에서는 서브넷 색상을 변경할 수 있습니다.
+> 1. 서브넷을 선택합니다.
+> 2. 오른쪽 패널의 **스타일** 탭에서 **채우기** 색상을 변경합니다.
+> 3. **선** 색상을 변경하여 테두리 색상을 조정합니다.
+> 
+> **권장 색상**:
+> - Public Subnet: 초록색 계열 (테두리: 진한 초록, 내부: 연한 초록)
+> - Private Subnet: 파란색 계열 (테두리: 진한 파랑, 내부: 연한 파랑)
+
+4. 왼쪽 패널에서 **Private Subnet** 아이콘을 검색합니다.
+5. **Private Subnet** 아이콘을 **ap-northeast-2a** AZ 내부에 배치합니다.
+6. 레이블을 `Private App Subnet A (10.0.11.0/24)`로 설정합니다.
+7. 복제 기능을 사용하여 세 번째 서브넷을 추가합니다.
+8. 레이블을 `Private DB Subnet A (10.0.21.0/24)`로 설정합니다.
+
+### ap-northeast-2c 서브넷 배치
+
+9. **ap-northeast-2a**의 3개 서브넷을 모두 선택합니다 (Shift 키를 누른 채로 클릭).
+10. 복제 기능을 사용하여 **ap-northeast-2c** AZ로 복사합니다.
+11. 첫 번째 서브넷 레이블을 `Public Subnet C (10.0.2.0/24)`로 변경합니다.
+12. 두 번째 서브넷 레이블을 `Private App Subnet C (10.0.12.0/24)`로 변경합니다.
+13. 세 번째 서브넷 레이블을 `Private DB Subnet C (10.0.22.0/24)`로 변경합니다.
 
 > [!NOTE]
 >
