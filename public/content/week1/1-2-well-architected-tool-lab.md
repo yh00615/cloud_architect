@@ -117,11 +117,33 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > [!NOTE]
 > **QuickTable 시스템 현황**: 단일 리전(ap-northeast-2) 배포, 3-Tier 아키텍처, ALB + EC2 2대 + RDS Multi-AZ, 수동 배포, 기본 모니터링, 소규모 팀 운영. 정답은 없으며, 시스템 상태에 대한 본인의 판단을 반영합니다.
 
-3. 첫 번째 질문 **How do you determine what your priorities are?**를 확인합니다.
+3. 첫 번째 질문 **OPS 1. How do you determine what your priorities are?**를 확인합니다.
 4. 다운로드한 `well-architected-checklist.md` 파일을 엽니다.
 5. 파일에서 **1. 운영 우수성 (Operational Excellence)** 섹션을 찾습니다.
 6. **QuickTable 적용 사항**의 **현재 구성**과 **개선 영역**을 확인합니다.
-7. Well-Architected Tool 화면으로 돌아와 각 질문의 모범 사례 중 QuickTable에 이미 구현된 항목을 선택합니다.
+
+> [!NOTE]
+> **예시: OPS 1 질문 답변 방법**
+>
+> 질문: "How do you determine what your priorities are?"
+>
+> QuickTable은 초기 단계 스타트업으로 다음과 같은 상황입니다:
+>
+> - 고객 예약 기능이 핵심 비즈니스 목표
+> - 소규모 팀으로 운영 중
+> - 명확한 우선순위 문서화는 아직 미흡
+>
+> **선택 예시:**
+>
+> - ✅ **Evaluate external customer needs**: 고객의 예약 요구사항을 평가하고 있음
+> - ✅ **Evaluate compliance requirements**: 개인정보 보호 등 기본 규정 준수
+> - ❌ **Evaluate governance requirements**: 아직 공식적인 거버넌스 프로세스 미수립
+> - ❌ **Evaluate threat landscape**: 체계적인 위협 평가 프로세스 없음
+>
+> 이처럼 QuickTable의 현재 상태를 고려하여 실제로 구현된 항목만 선택합니다.
+
+7. Well-Architected Tool 화면으로 돌아와 위 예시를 참고하여 해당하는 모범 사례를 선택합니다.
+8. 필요한 경우 **Notes** 필드에 추가 설명을 입력합니다.
 
 > [!TIP]
 > 체크리스트 파일의 "현재 구성"에 나열된 항목은 선택하고, "개선 영역"에 나열된 항목은 선택하지 않습니다. 예를 들어, "CloudWatch 메트릭 수집"은 이미 구현되어 있으므로 관련 모범 사례를 선택하지만, "Infrastructure as Code 도입"은 아직 미구현이므로 선택하지 않습니다.
@@ -129,9 +151,31 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > [!TIP]
 > 각 질문에는 "Info" 링크가 있어 모범 사례에 대한 자세한 설명을 확인할 수 있습니다. 체크리스트 파일과 Info 링크를 함께 참고하면 더 정확한 답변을 할 수 있습니다.
 
-8. [[Next]] 버튼을 클릭합니다.
-9. 나머지 질문들도 동일한 방법으로 체크리스트 파일을 참고하여 답변합니다.
-10. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
+9. [[Next]] 버튼을 클릭하여 다음 질문으로 이동합니다.
+
+> [!NOTE]
+> **예시: OPS 7 질문 답변 방법**
+>
+> 질문: "How do you know that you are ready to support a workload?"
+>
+> QuickTable의 운영 준비 상태:
+>
+> - CloudWatch로 기본 메트릭 수집 중
+> - ALB 헬스 체크 설정됨
+> - 하지만 공식적인 운영 Runbook은 없음
+> - 장애 대응 절차가 문서화되지 않음
+>
+> **선택 예시:**
+>
+> - ✅ **Ensure personnel capability**: 팀원들이 시스템 운영 방법을 알고 있음
+> - ✅ **Ensure consistent review of operational readiness**: 배포 전 기본 체크리스트 확인
+> - ❌ **Use runbooks to perform procedures**: 공식 Runbook 미작성
+> - ❌ **Use playbooks to investigate issues**: 장애 대응 Playbook 미작성
+>
+> 이처럼 각 질문마다 QuickTable의 실제 상황을 반영하여 답변합니다.
+
+10. 나머지 질문들도 동일한 방법으로 체크리스트 파일을 참고하여 답변합니다.
+11. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > 버튼명은 콘솔 버전에 따라 "Save and exit", "Save", "Save and close"로 표시될 수 있습니다.
@@ -147,8 +191,52 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 1. 왼쪽 네비게이션에서 **Security**를 선택합니다.
 2. `well-architected-checklist.md` 파일에서 **2. 보안 (Security)** 섹션을 참고합니다.
-3. QuickTable의 현재 구성(계층화된 보안 그룹, HTTPS, RDS 암호화 등)을 확인한 후 해당하는 모범 사례를 선택합니다.
-4. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
+3. QuickTable의 현재 구성(계층화된 보안 그룹, HTTPS, RDS 암호화 등)을 확인합니다.
+
+> [!NOTE]
+> **예시: SEC 5 질문 답변 방법**
+>
+> 질문: "How do you protect your network resources?"
+>
+> QuickTable의 네트워크 보안:
+>
+> - 계층화된 보안 그룹 (ALB-SG, Web-SG, DB-SG)
+> - 프라이빗 서브넷에 애플리케이션과 데이터베이스 배치
+> - ALB에서 HTTPS 종료
+> - 하지만 AWS WAF는 미적용
+>
+> **선택 예시:**
+>
+> - ✅ **Create network layers**: 퍼블릭/프라이빗 서브넷 분리
+> - ✅ **Control traffic at all layers**: 보안 그룹으로 계층별 트래픽 제어
+> - ✅ **Implement inspection and protection**: ALB에서 HTTPS 종료
+> - ❌ **Automate network protection**: AWS WAF 미적용
+> - ❌ **Use AWS services for protection**: GuardDuty, Shield 미사용
+
+4. 위 예시를 참고하여 해당하는 모범 사례를 선택합니다.
+
+> [!NOTE]
+> **예시: SEC 8 질문 답변 방법**
+>
+> 질문: "How do you protect your data at rest?"
+>
+> QuickTable의 데이터 보호:
+>
+> - RDS 암호화 활성화 (저장 데이터 암호화)
+> - 자동 백업 설정 (7일 보관)
+> - 하지만 S3 버킷 암호화는 미설정
+> - 암호화 키 관리는 AWS 관리형 키 사용
+>
+> **선택 예시:**
+>
+> - ✅ **Implement secure key management**: AWS 관리형 키 사용
+> - ✅ **Enforce encryption at rest**: RDS 암호화 활성화
+> - ✅ **Automate data at rest protection**: RDS 자동 암호화
+> - ❌ **Enforce access control**: S3 버킷 정책 미설정
+> - ❌ **Use mechanisms to keep people away from data**: Secrets Manager 미사용
+
+5. 나머지 질문들도 동일한 방법으로 체크리스트 파일을 참고하여 답변합니다.
+6. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > 버튼명은 콘솔 버전에 따라 "Save and exit", "Save", "Save and close"로 표시될 수 있습니다.
@@ -164,8 +252,51 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 1. 왼쪽 네비게이션에서 **Reliability**를 선택합니다.
 2. `well-architected-checklist.md` 파일에서 **3. 안정성 (Reliability)** 섹션을 참고합니다.
-3. QuickTable의 현재 구성(Multi-AZ, RDS Multi-AZ, Auto Scaling 등)을 확인한 후 해당하는 모범 사례를 선택합니다.
-4. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
+3. QuickTable의 현재 구성(Multi-AZ, RDS Multi-AZ, Auto Scaling 등)을 확인합니다.
+
+> [!NOTE]
+> **예시: REL 2 질문 답변 방법**
+>
+> 질문: "How do you plan your network topology?"
+>
+> QuickTable의 네트워크 구성:
+>
+> - VPC를 퍼블릭/프라이빗 서브넷으로 분리
+> - 2개 가용 영역(ap-northeast-2a, 2c)에 리소스 분산
+> - NAT Gateway를 통한 아웃바운드 트래픽 처리
+> - 하지만 단일 리전만 사용 중
+>
+> **선택 예시:**
+>
+> - ✅ **Use highly available network connectivity for workload public endpoints**: ALB를 통한 고가용성 엔드포인트
+> - ✅ **Provision redundant connectivity between private networks**: Multi-AZ 구성으로 중복 연결
+> - ❌ **Ensure IP subnet allocation accounts for expansion**: 서브넷 확장 계획 미수립
+> - ❌ **Prefer hub-and-spoke topologies over many-to-many mesh**: 단순 구조로 해당 없음
+
+4. 위 예시를 참고하여 해당하는 모범 사례를 선택합니다.
+
+> [!NOTE]
+> **예시: REL 11 질문 답변 방법**
+>
+> 질문: "How do you design your workload to withstand component failures?"
+>
+> QuickTable의 장애 대응 설계:
+>
+> - RDS Multi-AZ로 데이터베이스 장애 자동 복구
+> - ALB 헬스 체크로 비정상 인스턴스 제외
+> - Auto Scaling으로 인스턴스 자동 교체
+> - 하지만 애플리케이션 레벨 재시도 로직은 없음
+>
+> **선택 예시:**
+>
+> - ✅ **Monitor all components of the workload to detect failures**: CloudWatch로 모니터링
+> - ✅ **Fail over to healthy resources**: ALB와 Auto Scaling으로 자동 장애 조치
+> - ✅ **Automate healing on all layers**: RDS Multi-AZ 자동 복구
+> - ❌ **Use bulkhead architectures**: 장애 격리 패턴 미적용
+> - ❌ **Test reliability**: 정기적인 장애 복구 테스트 미실시
+
+5. 나머지 질문들도 동일한 방법으로 체크리스트 파일을 참고하여 답변합니다.
+6. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > 버튼명은 콘솔 버전에 따라 "Save and exit", "Save", "Save and close"로 표시될 수 있습니다.
