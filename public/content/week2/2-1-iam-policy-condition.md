@@ -5,9 +5,9 @@ session: 1
 awsServices:
   - AWS IAM
 learningObjectives:
-  - AWS IAM 정책의 Condition 요소를 이해하고 설명할 수 있습니다.
+  - AWS IAM 정책에 Condition 요소를 추가하고 동작을 확인할 수 있습니다.
   - MFA 강제, IP 주소 제한, 시간 기반 Condition 정책을 생성할 수 있습니다.
-  - 신뢰 정책과 권한 정책의 차이를 이해하고 구성할 수 있습니다.
+  - 신뢰 정책과 권한 정책을 각각 생성하고 차이점을 비교할 수 있습니다.
   - Condition 정책의 동작을 테스트하고 검증할 수 있습니다.
 prerequisites:
   - Week 1 완료

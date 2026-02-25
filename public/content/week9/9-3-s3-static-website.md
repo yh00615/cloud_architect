@@ -6,7 +6,7 @@ awsServices:
   - AWS CodePipeline
   - AWS CodeBuild
 learningObjectives:
-  - AWS CodePipeline의 소스-빌드-배포 파이프라인 구조를 이해할 수 있습니다.
+  - AWS CodePipeline을 생성하고 소스-빌드-배포 자동화를 구성할 수 있습니다.
   - 프론트엔드 코드를 AWS CodeCommit에 푸시하고 파이프라인을 트리거할 수 있습니다.
   - AWS CodePipeline을 통해 Amazon S3에 자동 배포되는 과정을 확인할 수 있습니다.
   - 코드 변경 후 자동 배포를 테스트하고 웹사이트를 확인할 수 있습니다.

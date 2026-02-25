@@ -7,7 +7,7 @@ awsServices:
   - AWS Lambda
   - Amazon EventBridge
 learningObjectives:
-  - Amazon GuardDuty의 개념과 위협 탐지 원리를 이해할 수 있습니다.
+  - Amazon GuardDuty를 활성화하고 자동 대응 규칙을 구성할 수 있습니다.
   - Amazon EventBridge 규칙으로 GuardDuty 결과를 AWS Lambda로 전달할 수 있습니다.
   - AWS Lambda 함수로 의심스러운 IAM 사용자를 자동으로 비활성화할 수 있습니다.
   - GuardDuty 콘솔에서 탐지된 위협을 확인하고 분석할 수 있습니다.

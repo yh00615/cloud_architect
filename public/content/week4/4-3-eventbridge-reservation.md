@@ -7,7 +7,7 @@ awsServices:
   - AWS Lambda
   - Amazon DynamoDB
 learningObjectives:
-  - Amazon EventBridge의 이벤트 기반 아키텍처를 이해하고 설명할 수 있습니다.
+  - Amazon EventBridge 규칙을 생성하고 이벤트 기반 워크플로우를 구축할 수 있습니다.
   - ReservationCreated 이벤트 규칙을 생성하고 AWS Lambda를 연결할 수 있습니다.
   - TableUnavailable 이벤트 규칙을 생성하고 알림을 구성할 수 있습니다.
   - 이벤트 기반 워크플로우를 테스트하고 검증할 수 있습니다.

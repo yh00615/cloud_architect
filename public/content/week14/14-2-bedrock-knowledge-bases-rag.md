@@ -7,7 +7,7 @@ awsServices:
   - Amazon S3
   - Amazon OpenSearch Serverless
 learningObjectives:
-  - RAG(Retrieval-Augmented Generation)의 개념과 동작 원리를 이해할 수 있습니다.
+  - Amazon Bedrock Knowledge Base를 생성하고 RAG 기반 질의응답을 구현할 수 있습니다.
   - Amazon S3에 문서를 업로드하고 Amazon Bedrock Knowledge Base를 생성할 수 있습니다.
   - 벡터 임베딩을 생성하고 Amazon OpenSearch Serverless에 저장할 수 있습니다.
   - Amazon Bedrock Knowledge Base를 쿼리하고 RAG 기반 응답을 확인할 수 있습니다.

@@ -5,7 +5,7 @@ session: 1
 awsServices:
   - Amazon RDS
 learningObjectives:
-  - Amazon RDS Multi-AZ 배포와 Amazon RDS Read Replica의 차이점을 이해하고 설명할 수 있습니다.
+  - Amazon RDS Multi-AZ와 Read Replica를 각각 구성하고 동작을 비교할 수 있습니다.
   - Amazon RDS MySQL 인스턴스를 Multi-AZ로 생성하고 페일오버를 시뮬레이션할 수 있습니다.
   - Amazon RDS Read Replica를 생성하고 읽기 부하를 분산할 수 있습니다.
   - 수동 스냅샷과 자동 백업을 생성하고 관리할 수 있습니다.

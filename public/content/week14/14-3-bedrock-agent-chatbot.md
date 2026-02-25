@@ -5,7 +5,7 @@ session: 3
 awsServices:
   - Amazon Bedrock
 learningObjectives:
-  - Amazon Bedrock Agents의 개념과 자율 에이전트 아키텍처를 이해할 수 있습니다.
+  - Amazon Bedrock Agent를 생성하고 Action Group을 연결할 수 있습니다.
   - AWS Lambda 함수로 Action Group을 생성하고 에이전트와 연결할 수 있습니다.
   - Amazon Bedrock Knowledge Base를 에이전트에 연결하여 RAG 기능을 통합할 수 있습니다.
   - 에이전트를 테스트하고 다단계 작업을 수행할 수 있습니다.
