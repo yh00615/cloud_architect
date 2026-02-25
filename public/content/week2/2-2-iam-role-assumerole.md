@@ -32,15 +32,17 @@ prerequisites:
 
 ## 태스크 0: 실습 환경 구축
 
-이 태스크에서는 AWS CloudFormation을 사용하여 실습에 필요한 AWS IAM 사용자, Access Key, 테스트용 Amazon S3 버킷을 자동으로 생성합니다.
+이 태스크에서는 AWS CloudFormation을 사용하여 실습에 필요한 AWS IAM 사용자와 테스트용 Amazon S3 버킷을 자동으로 생성합니다.
 
 ### 환경 구성 요소
 
 AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
-- **AWS IAM 사용자**: `lab-user` (AssumeRole 테스트용)
-- **Access Key**: AWS CLI 및 API 테스트용
+- **AWS IAM 사용자**: `lab-user` (콘솔 로그인 가능, AssumeRole 테스트용)
 - **Amazon S3 버킷**: 역할 권한 테스트용
+
+> [!NOTE]
+> lab-user는 콘솔 로그인이 가능하도록 초기 비밀번호가 설정됩니다. 첫 로그인 시 비밀번호 변경이 필요합니다.
 
 ### 상세 단계
 
@@ -74,12 +76,17 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 18. **Outputs** 탭을 선택합니다.
 19. 출력값들을 확인하고 메모장에 복사합니다:
     - `LabUserName`: lab-user
-    - `LabUserAccessKeyId`: AKIA로 시작하는 Access Key ID
-    - `LabUserSecretAccessKey`: Secret Access Key
+    - `LabUserConsoleLoginUrl`: 콘솔 로그인 URL
+    - `LabUserInitialPassword`: 초기 비밀번호 (ChangeMe123!)
     - `TestBucketName`: iam-role-lab-{계정ID}
 
 > [!IMPORTANT]
-> 이 출력값들은 태스크 4-6에서 AssumeRole 테스트 시 사용됩니다. 반드시 메모장에 저장합니다.
+> 이 출력값들은 태스크 4-6에서 사용됩니다. 반드시 메모장에 저장합니다.
+> 
+> **다음 단계**: 새 시크릿 창(또는 시크릿 모드)을 열고 `LabUserConsoleLoginUrl`로 접속하여 lab-user로 로그인합니다.
+> - 사용자 이름: `lab-user`
+> - 비밀번호: `ChangeMe123!` (또는 스택 생성 시 설정한 비밀번호)
+> - 첫 로그인 시 새 비밀번호로 변경해야 합니다.
 
 ✅ **태스크 완료**: 실습 환경이 준비되었습니다.
 
@@ -211,50 +218,16 @@ ARN 형식 예시: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`
 
 ## 태스크 4: AWS IAM 사용자에게 AssumeRole 권한 부여
 
-이 태스크에서는 **AWS IAM 사용자**에게 **sts:AssumeRole** 권한을 부여합니다. 이 권한은 **인라인 정책**으로 사용자에게 직접 연결하며, 정책에서 **Resource 요소**로 맡을 수 있는 역할을 명시적으로 지정합니다. 이를 통해 사용자가 특정 역할만 맡을 수 있도록 제한하여 **보안**을 강화합니다.
+이 태스크에서는 **lab-user**에게 **sts:AssumeRole** 권한을 부여합니다. 이 권한은 **인라인 정책**으로 사용자에게 직접 연결하며, 정책에서 **Resource 요소**로 맡을 수 있는 역할을 명시적으로 지정합니다. 이를 통해 사용자가 특정 역할만 맡을 수 있도록 제한하여 **보안**을 강화합니다.
+
+> [!NOTE]
+> 이 태스크는 **lab-user로 로그인한 시크릿 창**에서 진행하거나, 관리자 권한이 있는 원래 창에서 진행할 수 있습니다.
+> lab-user는 IAMReadOnlyAccess 권한만 있어 자신에게 정책을 추가할 수 없으므로, **관리자 권한이 있는 원래 창**에서 진행하는 것을 권장합니다.
 
 1. AWS IAM 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Users**를 선택합니다.
-3. 사용자 목록에서 현재 사용 중인 AWS IAM 사용자를 검색합니다.
-
-> [!TIP]
-> 현재 로그인한 사용자 이름은 AWS 콘솔 우측 상단에 표시됩니다. "사용자이름 @ 계정ID" 형식으로 표시되며, @ 앞부분이 사용자 이름입니다.  
-> 또는 CloudShell에서 `aws sts get-caller-identity` 명령으로 확인할 수 있습니다.
-
-> [!NOTE]
-> 만약 현재 로그인한 사용자가 AWS IAM Users 목록에 없는 경우, 페더레이션 또는 SSO 사용자일 수 있습니다.  
-> 이 경우 새로운 AWS IAM 사용자를 생성하여 실습을 진행합니다:
->
-> 1. [[Create user]] 버튼을 클릭합니다.
-> 2. **User name**에 `lab-user`를 입력합니다.
-> 3. **Provide user access to the AWS Management Console**을 체크합니다.
-> 4. [[Next]] 버튼을 클릭합니다.
-> 5. **Attach policies directly**를 선택하고 다음 정책들을 연결합니다:
->    - `IAMReadOnlyAccess` (AWS IAM 리소스 조회용)
->    - `AWSCloudShellFullAccess` (CloudShell 사용용)
-> 6. [[Next]] → [[Create user]] 버튼을 클릭합니다.
-> 7. 사용자 생성 완료 화면에서 콘솔 비밀번호와 로그인 링크(Console sign-in URL)가 표시됩니다.  
->    [[Download .csv file]] 버튼을 클릭하여 자격증명을 다운로드하거나, 비밀번호와 로그인 링크를 복사하여 메모장에 저장합니다.
-> 8. [[Return to users list]] 버튼을 클릭하고 생성한 사용자를 선택합니다.
-> 9. 생성된 사용자의 **Security credentials** 탭에서 [[Create access key]]를 클릭하여 Access Key를 생성합니다.
-> 10. **Use case**에서 `Command Line Interface (CLI)`를 선택합니다.
-> 11. 하단의 **I understand the above recommendation and want to proceed to create an access key** 체크박스를 체크합니다.
-> 12. [[Next]] 버튼을 클릭 후 [[Create access key]] 버튼을 클릭합니다.
-> 13. Access Key와 Secret Access Key를 메모장에 저장하거나 [[Download .csv file]] 버튼을 클릭하여 저장합니다.
-> 14. CloudShell에서 `aws configure`로 이 자격증명을 설정하거나, **새 브라우저 시크릿 창**에서 lab-user로 로그인하여 실습을 진행합니다.
->
-> **중요**: 콘솔 비밀번호는 사용자 생성 시 한 번만 표시됩니다.  
-> 다운로드하지 않았거나 분실한 경우, 나중에 사용자의 **Security credentials** 탭에서 [[Console password]] → [[Manage]]를 클릭하여 비밀번호를 재설정할 수 있습니다.
-
-4. 해당 사용자를 클릭합니다.
-
-> [!NOTE]
-> 현재 사용자가 관리자 권한(AdministratorAccess)을 가지고 있다면, 이 인라인 정책 없이도 AssumeRole이 성공합니다.  
-> 이 태스크는 최소 권한 원칙에 따라 특정 역할만 맡을 수 있도록 제한하는 방법을 학습하기 위한 것입니다.  
-> 실무에서는 관리자 권한 대신 이러한 세밀한 정책을 사용합니다.
->
-> **인라인 정책의 효과를 확인하려면**: 관리자 권한이 없는 별도 사용자(예: 위에서 생성한 lab-user)로 실습하는 것이 교육적으로 더 효과적입니다.  
-> 관리자 권한 사용자는 이미 모든 권한을 가지고 있어 인라인 정책 추가의 필요성을 체감하기 어렵습니다.
+3. 사용자 목록에서 `lab-user`를 검색합니다.
+4. `lab-user`를 클릭합니다.
 
 5. 사용자 상세 페이지에서 **Permissions** 탭을 선택합니다.
 6. **Permissions policies** 섹션에서 [[Add permissions]] 버튼을 클릭합니다.
@@ -340,13 +313,21 @@ ARN 형식 예시: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`
 
 ## 태스크 5: AWS CLI로 AssumeRole 수행
 
-이 태스크에서는 **AWS CLI**를 사용하여 **AssumeRole API**를 호출하고 **임시 자격증명**을 획득합니다. **AssumeRole**은 **STS**(Security Token Service)의 API로, 역할을 맡으면 **AccessKeyId**, **SecretAccessKey**, **SessionToken**으로 구성된 임시 자격증명을 받습니다. 이 자격증명은 기본 1시간 동안 유효하며, 역할의 Maximum session duration 설정에서 최대 12시간까지 연장할 수 있습니다.
+이 태스크에서는 **lab-user로 로그인한 시크릿 창**에서 **AWS CloudShell**을 사용하여 **AssumeRole API**를 호출하고 **임시 자격증명**을 획득합니다. **AssumeRole**은 **STS**(Security Token Service)의 API로, 역할을 맡으면 **AccessKeyId**, **SecretAccessKey**, **SessionToken**으로 구성된 임시 자격증명을 받습니다. 이 자격증명은 기본 1시간 동안 유효하며, 역할의 Maximum session duration 설정에서 최대 12시간까지 연장할 수 있습니다.
+
+> [!IMPORTANT]
+> 이 태스크는 **lab-user로 로그인한 시크릿 창**에서 진행합니다.
+> 
+> 1. 새 시크릿 창(또는 시크릿 모드)을 엽니다.
+> 2. 태스크 0의 Outputs에서 복사한 `LabUserConsoleLoginUrl`로 접속합니다.
+> 3. 사용자 이름: `lab-user`, 비밀번호: 태스크 0에서 확인한 초기 비밀번호
+> 4. 첫 로그인 시 새 비밀번호로 변경합니다.
 
 > [!NOTE]
 > 이 실습에서 생성한 역할은 Maximum session duration을 변경하지 않았으므로 최대 세션 시간은 1시간입니다.  
 > 역할 설정에서 Maximum session duration을 늘리면 최대 12시간까지 연장할 수 있습니다.
 
-1. AWS Management Console 상단 오른쪽의 AWS CloudShell 아이콘을 클릭합니다.
+1. **lab-user로 로그인한 시크릿 창**에서 AWS Management Console 상단 오른쪽의 AWS CloudShell 아이콘을 클릭합니다.
 
 > [!NOTE]
 > CloudShell은 AWS CLI가 사전 설치되어 있고 현재 로그인한 AWS IAM 사용자 자격증명이 자동으로 구성된 브라우저 기반 셸 환경입니다.  
@@ -364,7 +345,7 @@ aws sts get-caller-identity
 > {
 >   "UserId": "AIDAI...",
 >   "Account": "123456789012",
->   "Arn": "arn:aws:iam::123456789012:user/your-username"
+>   "Arn": "arn:aws:iam::123456789012:user/lab-user"
 > }
 > ```
 
@@ -624,7 +605,7 @@ aws sts get-caller-identity
 > {
 >   "UserId": "AIDAI...",
 >   "Account": "123456789012",
->   "Arn": "arn:aws:iam::123456789012:user/your-username"
+>   "Arn": "arn:aws:iam::123456789012:user/lab-user"
 > }
 > ```
 

@@ -1,8 +1,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Week 2-2: IAM Role and AssumeRole Lab - Pre-built Environment (lab-user + Access Key + S3 Bucket)'
+Description: 'Week 2-2: IAM Role and AssumeRole Lab - Pre-built Environment (lab-user + S3 Bucket)'
 
 # AWS CloudFormation 템플릿: AWS Identity and Access Management 역할 및 AssumeRole 실습을 위한 테스트 환경
-# 이 템플릿은 lab-user AWS Identity and Access Management 사용자, Access Key, 테스트용 Amazon S3 버킷을 자동으로 생성합니다.
+# 이 템플릿은 lab-user AWS Identity and Access Management 사용자(콘솔 로그인 가능), 테스트용 Amazon S3 버킷을 자동으로 생성합니다.
 # 학생들은 AWS Identity and Access Management 역할 생성 및 AssumeRole API 호출에 집중할 수 있습니다.
 
 Parameters:
@@ -12,6 +12,15 @@ Parameters:
     Description: Environment name (used for resource naming)
     AllowedPattern: ^[a-z0-9-]+$
     ConstraintDescription: Only lowercase letters, numbers, and hyphens are allowed
+
+  LabUserPassword:
+    Type: String
+    NoEcho: true
+    Default: 'ChangeMe123!'
+    Description: Initial password for lab-user (must be changed on first login)
+    MinLength: 8
+    AllowedPattern: ^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{}|;:,.<>?]+$
+    ConstraintDescription: Password must be at least 8 characters
 
   ProjectTag:
     Type: String
@@ -29,11 +38,17 @@ Parameters:
     Description: CreatedBy tag value
 
 Resources:
-  # AWS Identity and Access Management 사용자: lab-user (AssumeRole 테스트용)
+  # AWS Identity and Access Management 사용자: lab-user (콘솔 로그인 + AssumeRole 테스트용)
   LabUser:
     Type: AWS::IAM::User
     Properties:
       UserName: lab-user
+      LoginProfile:
+        Password: !Ref LabUserPassword
+        PasswordResetRequired: true
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/IAMReadOnlyAccess
+        - arn:aws:iam::aws:policy/AWSCloudShellFullAccess
       Tags:
         - Key: Project
           Value: !Ref ProjectTag
@@ -41,12 +56,6 @@ Resources:
           Value: !Ref WeekTag
         - Key: CreatedBy
           Value: !Ref CreatedByTag
-
-  # Access Key: lab-user용 (AWS Command Line Interface/API 테스트용)
-  LabUserAccessKey:
-    Type: AWS::IAM::AccessKey
-    Properties:
-      UserName: !Ref LabUser
 
   # Amazon S3 버킷: 역할 권한 테스트용
   TestBucket:
@@ -68,17 +77,15 @@ Outputs:
     Export:
       Name: !Sub '${EnvironmentName}-LabUserName'
 
-  LabUserAccessKeyId:
-    Description: Access Key ID (used for AWS CLI configuration)
-    Value: !Ref LabUserAccessKey
+  LabUserConsoleLoginUrl:
+    Description: Console login URL for lab-user
+    Value: !Sub 'https://${AWS::AccountId}.signin.aws.amazon.com/console'
     Export:
-      Name: !Sub '${EnvironmentName}-AccessKeyId'
+      Name: !Sub '${EnvironmentName}-ConsoleLoginUrl'
 
-  LabUserSecretAccessKey:
-    Description: Secret Access Key (used for AWS CLI configuration)
-    Value: !GetAtt LabUserAccessKey.SecretAccessKey
-    Export:
-      Name: !Sub '${EnvironmentName}-SecretAccessKey'
+  LabUserInitialPassword:
+    Description: Initial password (must be changed on first login)
+    Value: !Ref LabUserPassword
 
   TestBucketName:
     Description: Test S3 bucket name (used in Task 5-6 for permission testing)
