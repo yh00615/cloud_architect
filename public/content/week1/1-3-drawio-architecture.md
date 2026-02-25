@@ -177,7 +177,7 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 ### ap-northeast-2a 서브넷 배치
 
 1. 왼쪽 패널에서 **Public Subnet** 아이콘을 검색합니다.
-2. **Public Subnet** 아이콘을 **ap-northeast-2a** AZ 내부에 배치합니다.
+2. **Public Subnet** 아이콘을 **ap-northeast-2a** AZ 내부에 배치하고 크기를 조정합니다.
 3. 레이블을 `Public Subnet A (10.0.1.0/24)`로 설정합니다.
 
 > [!TIP]
@@ -193,7 +193,7 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 > - **Private Subnet**: 파란색 계열 (격리된 환경)
 
 4. 왼쪽 패널에서 **Private Subnet** 아이콘을 검색합니다.
-5. **Private Subnet** 아이콘을 **ap-northeast-2a** AZ 내부에 배치합니다.
+5. **Private Subnet** 아이콘을 **ap-northeast-2a** AZ 내부에 배치하고 크기를 조정합니다.
 6. 레이블을 `Private App Subnet A (10.0.11.0/24)`로 설정합니다.
 7. 복제 기능을 사용하여 세 번째 서브넷을 추가합니다.
 8. 레이블을 `Private DB Subnet A (10.0.21.0/24)`로 설정합니다.
