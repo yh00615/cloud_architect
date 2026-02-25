@@ -6,7 +6,7 @@ awsServices:
   - Amazon CloudWatch
   - Amazon EKS
 learningObjectives:
-  - Container Insights를 활성화하고 Amazon EKS 클러스터를 모니터링할 수 있습니다.
+  - Container Insights의 개념과 컨테이너 메트릭 수집 구조를 이해할 수 있습니다.
   - Container Insights를 활성화하고 AWS CloudWatch 에이전트를 배포할 수 있습니다.
   - AWS CloudWatch 대시보드에서 클러스터 메트릭을 확인할 수 있습니다.
   - AWS CloudWatch Logs Insights로 컨테이너 로그를 쿼리하고 분석할 수 있습니다.

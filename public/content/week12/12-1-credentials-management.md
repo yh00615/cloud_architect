@@ -6,7 +6,7 @@ awsServices:
   - AWS Systems Manager
   - AWS Secrets Manager
 learningObjectives:
-  - AWS Systems Manager Parameter Store에 파라미터를 저장하고 조회할 수 있습니다.
+  - AWS Systems Manager Parameter Store와 AWS Secrets Manager의 차이점을 이해할 수 있습니다.
   - AWS Secrets Manager에 Amazon RDS 자격증명을 저장하고 자동 로테이션을 설정할 수 있습니다.
   - AWS Lambda 함수에서 Parameter Store와 Secrets Manager를 조회할 수 있습니다.
   - 하드코딩된 자격증명을 제거하고 보안을 강화할 수 있습니다.

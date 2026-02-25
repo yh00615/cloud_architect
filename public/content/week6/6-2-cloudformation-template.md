@@ -6,7 +6,7 @@ awsServices:
   - AWS CloudFormation
   - Amazon VPC
 learningObjectives:
-  - AWS CloudFormation 템플릿을 분석하고 Parameters와 Outputs를 활용할 수 있습니다.
+  - AWS CloudFormation 템플릿의 기본 구조(Resources, Parameters, Outputs, Mappings)를 이해할 수 있습니다.
   - Amazon VPC, 서브넷, 보안 그룹, Amazon EC2 인스턴스 템플릿 구조를 분석할 수 있습니다.
   - AWS CloudFormation 스택을 생성하고 리소스를 배포할 수 있습니다.
   - 스택 리소스를 확인하고 웹 서버 동작을 테스트할 수 있습니다.

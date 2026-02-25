@@ -5,7 +5,7 @@ session: 1
 awsServices:
   - AWS CloudFormation
 learningObjectives:
-  - AWS CloudFormation 스택을 생성하고 Infrastructure as Code 방식을 실습할 수 있습니다.
+  - Infrastructure as Code의 개념과 AWS CloudFormation의 이점을 이해할 수 있습니다.
   - AWS CloudFormation 스택을 생성하고 Amazon S3 버킷을 배포할 수 있습니다.
   - 변경 세트를 사용하여 스택을 안전하게 업데이트할 수 있습니다.
   - 드리프트 탐지로 수동 변경을 감지하고 스택을 삭제할 수 있습니다.

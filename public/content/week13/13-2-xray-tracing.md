@@ -5,7 +5,7 @@ session: 2
 awsServices:
   - AWS X-Ray
 learningObjectives:
-  - AWS X-Ray를 활성화하고 서버리스 애플리케이션을 추적할 수 있습니다.
+  - 분산 추적의 개념과 AWS X-Ray의 트레이스 구조를 이해할 수 있습니다.
   - AWS Lambda 함수에 AWS X-Ray SDK를 통합하고 추적을 활성화할 수 있습니다.
   - AWS X-Ray 서비스 맵으로 애플리케이션 구조를 시각화할 수 있습니다.
   - 트레이스를 분석하여 병목 지점과 오류를 파악할 수 있습니다.

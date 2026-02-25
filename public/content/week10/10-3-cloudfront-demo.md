@@ -5,7 +5,7 @@ session: 3
 awsServices:
   - Amazon CloudFront
 learningObjectives:
-  - Amazon CloudFront 배포를 생성하고 CDN 캐싱 동작을 확인할 수 있습니다.
+  - CDN의 개념과 Amazon CloudFront의 엣지 로케이션 동작 원리를 이해할 수 있습니다.
   - Amazon S3 오리진을 준비하고 Amazon CloudFront 배포를 생성할 수 있습니다.
   - 캐시 정책을 구성하고 TTL을 설정할 수 있습니다.
   - 캐시 무효화를 수행하고 Amazon CloudFront 성능을 확인할 수 있습니다.

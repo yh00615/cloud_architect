@@ -5,7 +5,7 @@ session: 2
 awsServices:
   - AWS Well-Architected Tool
 learningObjectives:
-  - AWS Well-Architected Tool로 워크로드를 생성하고 6가지 원칙을 평가할 수 있습니다.
+  - AWS Well-Architected Framework의 6가지 핵심 원칙(운영 우수성, 보안, 안정성, 성능 효율성, 비용 최적화, 지속 가능성)을 이해할 수 있습니다.
   - AWS Well-Architected Tool로 워크로드를 생성하고 평가할 수 있습니다.
   - 운영 우수성, 보안, 안정성 원칙을 평가하고 개선 계획을 수립할 수 있습니다.
   - 평가 결과 보고서를 생성하고 공유할 수 있습니다.

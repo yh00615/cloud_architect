@@ -5,7 +5,7 @@ session: 2
 awsServices:
   - AWS Config
 learningObjectives:
-  - AWS Config를 활성화하고 규정 준수 규칙을 생성할 수 있습니다.
+  - AWS Config의 개념과 규정 준수 모니터링의 중요성을 이해할 수 있습니다.
   - AWS Config를 활성화하고 리소스 구성 변경을 기록할 수 있습니다.
   - 관리형 규칙을 추가하여 Amazon S3 버킷 암호화를 검증할 수 있습니다.
   - 규정 준수 대시보드를 확인하고 비준수 리소스를 수정할 수 있습니다.

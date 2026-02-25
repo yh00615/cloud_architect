@@ -5,7 +5,7 @@ session: 2
 awsServices:
   - Amazon VPC
 learningObjectives:
-  - 보안 그룹과 NACL을 각각 구성하고 트래픽 제어 방식을 비교할 수 있습니다.
+  - 보안 그룹과 NACL의 차이점(상태 저장 vs 무상태, 규칙 평가 방식)을 이해할 수 있습니다.
   - 3-tier 아키텍처의 각 계층(ALB, Web, App, DB)에 보안 그룹 규칙을 구성할 수 있습니다.
   - Public/Private 서브넷용 NACL을 생성하고 서브넷에 연결할 수 있습니다.
   - 보안 그룹 체인과 NACL의 동작을 검증할 수 있습니다.

@@ -5,7 +5,7 @@ session: 2
 awsServices:
   - Amazon ElastiCache
 learningObjectives:
-  - Amazon ElastiCache Redis를 생성하고 Cache-Aside 패턴을 적용할 수 있습니다.
+  - 캐싱 전략(Cache-Aside, Write-Through)과 Redis 데이터 구조를 이해할 수 있습니다.
   - Amazon ElastiCache Redis 클러스터를 생성하고 엔드포인트를 확인할 수 있습니다.
   - Amazon EC2 인스턴스에서 Redis CLI로 기본 명령어를 실습할 수 있습니다.
   - Cache-Aside 패턴을 적용한 애플리케이션을 테스트할 수 있습니다.

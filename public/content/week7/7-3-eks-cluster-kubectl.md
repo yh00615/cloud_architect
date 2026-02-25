@@ -6,7 +6,7 @@ awsServices:
   - Amazon EKS
   - Kubernetes
 learningObjectives:
-  - Amazon EKS 클러스터에 접속하고 Kubernetes 리소스를 배포할 수 있습니다.
+  - Kubernetes의 기본 개념(Pod, Deployment, Service)과 Amazon EKS 아키텍처를 이해할 수 있습니다.
   - kubectl을 구성하고 Amazon EKS 클러스터에 연결할 수 있습니다.
   - Pod와 Deployment를 생성하고 롤링 업데이트/롤백을 수행할 수 있습니다.
   - Kubernetes Service를 생성하고 애플리케이션을 외부에 노출할 수 있습니다.

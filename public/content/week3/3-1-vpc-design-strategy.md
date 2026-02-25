@@ -5,7 +5,7 @@ session: 1
 awsServices:
   - Amazon VPC
 learningObjectives:
-  - Interface Endpoint와 Gateway Endpoint를 각각 생성하고 동작을 비교할 수 있습니다.
+  - Amazon VPC Endpoint의 개념과 프라이빗 연결의 이점을 이해할 수 있습니다.
   - AWS Systems Manager Interface Endpoint를 생성하고 구성할 수 있습니다.
   - Amazon S3 Gateway Endpoint를 생성하고 라우팅 테이블을 확인할 수 있습니다.
   - Amazon VPC Endpoint를 통한 프라이빗 연결을 검증하고 동작을 확인할 수 있습니다.

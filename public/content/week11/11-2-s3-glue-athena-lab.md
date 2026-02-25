@@ -7,7 +7,7 @@ awsServices:
   - AWS Glue
   - Amazon Athena
 learningObjectives:
-  - AWS Glue Crawler를 생성하고 데이터 레이크 스키마를 자동 검색할 수 있습니다.
+  - 데이터 레이크의 개념과 AWS Glue Data Catalog의 역할을 이해할 수 있습니다.
   - AWS Glue Crawler를 생성하고 Amazon S3 데이터의 스키마를 자동 검색할 수 있습니다.
   - Amazon Athena로 AWS Glue 데이터 카탈로그를 쿼리할 수 있습니다.
   - 파티셔닝을 적용하여 쿼리 성능을 최적화할 수 있습니다.

@@ -7,7 +7,7 @@ awsServices:
   - Amazon Athena
   - Amazon S3
 learningObjectives:
-  - AWS Glue ETL 작업을 생성하고 데이터 변환 파이프라인을 구축할 수 있습니다.
+  - ETL(Extract, Transform, Load)의 개념과 데이터 변환 프로세스를 이해할 수 있습니다.
   - AWS Glue ETL 스크립트를 작성하고 데이터 변환 로직을 구현할 수 있습니다.
   - AWS Glue ETL 작업을 실행하고 변환된 데이터를 확인할 수 있습니다.
   - Amazon Athena로 변환된 데이터를 쿼리하고 결과를 검증할 수 있습니다.

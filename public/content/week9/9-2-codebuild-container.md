@@ -8,7 +8,7 @@ awsServices:
   - Amazon ECR
   - Amazon CloudWatch Logs
 learningObjectives:
-  - AWS CodeBuild 프로젝트를 생성하고 CI/CD 파이프라인을 구축할 수 있습니다.
+  - CI/CD의 개념과 AWS CodeBuild의 빌드 프로세스를 이해할 수 있습니다.
   - buildspec.yml 파일을 분석하고 빌드 단계를 이해할 수 있습니다.
   - AWS CodeBuild 프로젝트를 생성하고 Docker 이미지를 빌드할 수 있습니다.
   - 빌드를 실행하고 Amazon ECR에 푸시된 이미지를 검증할 수 있습니다.

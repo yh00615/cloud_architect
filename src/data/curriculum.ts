@@ -110,7 +110,7 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'AWS IAM 정책에 Condition 요소를 추가하고 동작을 확인할 수 있습니다.',
+      'AWS IAM 정책의 구조(Effect, Action, Resource, Condition)를 이해할 수 있습니다.',
       'MFA 강제, IP 주소 제한, 시간 기반 Condition 정책을 생성할 수 있습니다.',
       '신뢰 정책과 권한 정책을 각각 생성하고 차이점을 비교할 수 있습니다.',
       'Condition 정책의 동작을 테스트하고 검증할 수 있습니다.'
@@ -156,7 +156,7 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      '보안 그룹과 NACL을 각각 구성하고 트래픽 제어 방식을 비교할 수 있습니다.',
+      '보안 그룹과 NACL의 차이점(상태 저장 vs 무상태, 규칙 평가 방식)을 이해할 수 있습니다.',
       '3-tier 아키텍처의 각 계층(ALB, Web, App, DB)에 보안 그룹 규칙을 구성할 수 있습니다.',
       'Public/Private 서브넷용 NACL을 생성하고 서브넷에 연결할 수 있습니다.',
       '보안 그룹 체인과 NACL의 동작을 검증할 수 있습니다.'
@@ -202,7 +202,7 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'Amazon EventBridge 규칙을 생성하고 이벤트 기반 워크플로우를 구축할 수 있습니다.',
+      'Amazon EventBridge의 이벤트 기반 아키텍처와 이벤트 패턴 매칭을 이해할 수 있습니다.',
       'ReservationCreated 이벤트 규칙을 생성하고 AWS Lambda를 연결할 수 있습니다.',
       'TableUnavailable 이벤트 규칙을 생성하고 알림을 구성할 수 있습니다.',
       '이벤트 기반 워크플로우를 테스트하고 검증할 수 있습니다.'
@@ -344,7 +344,7 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'Amazon EKS 클러스터에 접속하고 Kubernetes 리소스를 배포할 수 있습니다.',
+      'Kubernetes의 기본 개념(Pod, Deployment, Service)과 Amazon EKS 아키텍처를 이해할 수 있습니다.',
       'kubectl을 구성하고 Amazon EKS 클러스터에 연결할 수 있습니다.',
       'Pod와 Deployment를 생성하고 롤링 업데이트/롤백을 수행할 수 있습니다.',
       'Kubernetes Service를 생성하고 애플리케이션을 외부에 노출할 수 있습니다.'
@@ -410,7 +410,7 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'AWS CodePipeline을 생성하고 소스-빌드-배포 자동화를 구성할 수 있습니다.',
+      'AWS CodePipeline의 파이프라인 단계(Source, Build, Deploy)를 이해할 수 있습니다.',
       '프론트엔드 코드를 AWS CodeCommit에 푸시하고 파이프라인을 트리거할 수 있습니다.',
       'AWS CodePipeline을 통해 Amazon S3에 자동 배포되는 과정을 확인할 수 있습니다.',
       '코드 변경 후 자동 배포를 테스트하고 웹사이트를 확인할 수 있습니다.'
@@ -459,7 +459,7 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'Amazon CloudFront 배포를 생성하고 CDN 캐싱 동작을 확인할 수 있습니다.',
+      'CDN의 개념과 Amazon CloudFront의 엣지 로케이션 동작 원리를 이해할 수 있습니다.',
       'Amazon S3 오리진을 준비하고 Amazon CloudFront 배포를 생성할 수 있습니다.',
       '캐시 정책을 구성하고 TTL을 설정할 수 있습니다.',
       '캐시 무효화를 수행하고 Amazon CloudFront 성능을 확인할 수 있습니다.'
@@ -515,7 +515,7 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'AWS Glue ETL 작업을 생성하고 데이터 변환 파이프라인을 구축할 수 있습니다.',
+      'ETL(Extract, Transform, Load)의 개념과 데이터 변환 프로세스를 이해할 수 있습니다.',
       'AWS Glue ETL 스크립트를 작성하고 데이터 변환 로직을 구현할 수 있습니다.',
       'AWS Glue ETL 작업을 실행하고 변환된 데이터를 확인할 수 있습니다.',
       'Amazon Athena로 변환된 데이터를 쿼리하고 결과를 검증할 수 있습니다.'
@@ -565,7 +565,7 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'AWS Config를 활성화하고 규정 준수 규칙을 생성할 수 있습니다.',
+      'AWS Config의 개념과 규정 준수 모니터링의 중요성을 이해할 수 있습니다.',
       'AWS Config를 활성화하고 리소스 구성 변경을 기록할 수 있습니다.',
       '관리형 규칙을 추가하여 Amazon S3 버킷 암호화를 검증할 수 있습니다.',
       '규정 준수 대시보드를 확인하고 비준수 리소스를 수정할 수 있습니다.'
@@ -615,7 +615,7 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'Container Insights를 활성화하고 Amazon EKS 클러스터를 모니터링할 수 있습니다.',
+      'Container Insights의 개념과 컨테이너 메트릭 수집 구조를 이해할 수 있습니다.',
       'Container Insights를 활성화하고 AWS CloudWatch 에이전트를 배포할 수 있습니다.',
       'AWS CloudWatch 대시보드에서 클러스터 메트릭을 확인할 수 있습니다.',
       'AWS CloudWatch Logs Insights로 컨테이너 로그를 쿼리하고 분석할 수 있습니다.'
@@ -665,7 +665,7 @@ export const curriculum: WeekCurriculum[] = [
       },
     ],
     learningObjectives: [
-      'Amazon Bedrock Agent를 생성하고 Action Group을 연결할 수 있습니다.',
+      'Amazon Bedrock Agents의 자율 에이전트 아키텍처와 ReAct 프롬프팅을 이해할 수 있습니다.',
       'AWS Lambda 함수로 Action Group을 생성하고 에이전트와 연결할 수 있습니다.',
       'Amazon Bedrock Knowledge Base를 에이전트에 연결하여 RAG 기능을 통합할 수 있습니다.',
       '에이전트를 테스트하고 다단계 작업을 수행할 수 있습니다.'
