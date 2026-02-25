@@ -54,8 +54,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 1. AWS Management Console에 로그인한 후 상단 검색창에 `Well-Architected Tool`을 입력하고 선택합니다.
 2. 왼쪽 메뉴에서 **Workloads**를 선택합니다.
 3. 우측 상단의 [[Define workload]] 버튼을 클릭합니다.
-
-![Well-Architected Tool의 Define workload 버튼](/images/week1/1-2-step3-define-workload.png)
+   ![Well-Architected Tool의 Define workload 버튼](/images/week1/1-2-step3-define-workload.png)
 
 > [!NOTE]
 > [[Define workload]] 버튼은 드롭다운 형태로 표시될 수 있습니다. 이 경우 버튼을 클릭한 후 나타나는 메뉴에서 **Define workload**를 다시 선택합니다.
@@ -68,8 +67,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 7. **Environment**에서 `Production`을 선택합니다.
 8. 아래로 스크롤하여 **Regions** 섹션으로 이동합니다.
 9. **AWS Regions** 드롭다운을 클릭한 후 `Asia Pacific (Seoul) ap-northeast-2`를 선택합니다.
-
-<img src="/images/week1/1-2-step9-region-selection.png" alt="Regions 섹션에서 AWS Region 선택" class="guide-img-md" />
+   <img src="/images/week1/1-2-step9-region-selection.png" alt="Regions 섹션에서 AWS Region 선택" class="guide-img-md" />
 
 > [!NOTE]
 > **Regions** 섹션은 AWS Regions와 Non-AWS regions 두 부분으로 구성됩니다. 이 실습에서는 AWS 리전만 선택합니다.
@@ -78,8 +76,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 11. 아래로 스크롤하여 **AWS Trusted Advisor** 섹션으로 이동합니다.
 12. **AWS Trusted Advisor** 섹션은 선택사항이므로 활성화하지 않습니다.
 13. **Jira** 섹션은 선택사항이므로 설정하지 않습니다.
-
-<img src="/images/week1/1-2-step13-jira-section.png" alt="Jira 섹션 설정 화면" class="guide-img-md" />
+    <img src="/images/week1/1-2-step13-jira-section.png" alt="Jira 섹션 설정 화면" class="guide-img-md" />
 
 14. 아래로 스크롤하여 **Tags** 섹션으로 이동합니다.
 15. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
@@ -90,7 +87,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 | `Week`      | `1-2`     |
 | `CreatedBy` | `Student` |
 
-<img src="/images/week1/1-2-step15-tags-section.png" alt="Tags 섹션에서 태그 추가" class="guide-img-md" />
+   <img src="/images/week1/1-2-step15-tags-section.png" alt="Tags 섹션에서 태그 추가" class="guide-img-md" />
 
 16. [[Next]] 버튼을 클릭합니다.
 17. **Apply profile** 단계에서 프로파일을 적용하지 않습니다.
@@ -99,8 +96,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > **프로파일(Profile)**: 조직의 내부 표준이나 규정을 반영한 커스텀 질문 세트입니다. 이 실습에서는 프로파일을 적용하지 않고 기본 Well-Architected Framework 질문만 사용합니다.
 
 18. [[Next]] 버튼을 클릭합니다.
-
-<img src="/images/week1/1-2-step18-apply-profile.png" alt="Apply profile 단계 화면" class="guide-img-md" />
+    <img src="/images/week1/1-2-step18-apply-profile.png" alt="Apply profile 단계 화면" class="guide-img-md" />
 
 19. **Apply lenses** 단계에서 **AWS Well-Architected Framework** 렌즈가 자동으로 선택되어 있는지 확인합니다.
 
@@ -108,8 +104,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > **렌즈(Lens)**: 특정 산업이나 기술 영역에 맞춘 질문 세트입니다. AWS Well-Architected Framework 렌즈는 워크로드 생성 시 자동으로 적용됩니다. 한 워크로드에 최대 20개의 렌즈를 동시에 적용할 수 있습니다.
 
 20. [[Define workload]] 버튼을 클릭하여 워크로드를 저장합니다.
-
-<img src="/images/week1/1-2-step20-apply-lenses.png" alt="Apply lenses 단계에서 AWS Well-Architected Framework 렌즈 확인" class="guide-img-md" />
+    <img src="/images/week1/1-2-step20-apply-lenses.png" alt="Apply lenses 단계에서 AWS Well-Architected Framework 렌즈 확인" class="guide-img-md" />
 
 21. 워크로드가 생성되면 워크로드 상세 페이지로 이동합니다.
 
@@ -120,8 +115,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 이 태스크에서는 운영 우수성(Operational Excellence) 원칙을 평가합니다. 운영 우수성은 시스템을 효과적으로 운영하고 모니터링하며, 지속적으로 개선하는 능력을 의미합니다.
 
 1. 워크로드 상세 페이지에서 [[Start reviewing]] 버튼을 클릭합니다.
-
-<img src="/images/week1/1-2-task2-step1-start-reviewing.png" alt="워크로드 상세 페이지의 Start reviewing 버튼" class="guide-img-md" />
+   <img src="/images/week1/1-2-task2-step1-start-reviewing.png" alt="워크로드 상세 페이지의 Start reviewing 버튼" class="guide-img-md" />
 
 > [!NOTE]
 > 처음 평가를 시작하는 경우 [[Start reviewing]] 버튼이 표시됩니다. 이미 일부 평가가 진행된 경우에는 [[Continue reviewing]] 버튼으로 표시됩니다.
@@ -159,7 +153,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 >
 > 이처럼 QuickTable의 현재 상태를 고려하여 실제로 구현된 항목만 선택합니다.
 >
-> <img src="/images/week1/1-2-task2-ops1-example.png" alt="OPS 1 질문 답변 예시 화면" class="guide-img-sm" />
+>    <img src="/images/week1/1-2-task2-ops1-example.png" alt="OPS 1 질문 답변 예시 화면" class="guide-img-sm" />
 
 7. Well-Architected Tool 화면으로 돌아와 위 예시를 참고하여 해당하는 모범 사례를 선택합니다.
 8. 필요한 경우 **Notes** 필드에 추가 설명을 입력합니다.
@@ -193,7 +187,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 >
 > 이처럼 각 질문마다 QuickTable의 실제 상황을 반영하여 답변합니다.
 >
-> <img src="/images/week1/1-2-task2-ops7-example.png" alt="OPS 7 질문 답변 예시 화면" class="guide-img-sm" />
+>    <img src="/images/week1/1-2-task2-ops7-example.png" alt="OPS 7 질문 답변 예시 화면" class="guide-img-sm" />
 
 10. 나머지 질문들도 동일한 방법으로 체크리스트 파일을 참고하여 답변합니다.
 11. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭하거나, [[Next]] 버튼을 클릭하여 다음 원칙(보안)으로 이동합니다.
@@ -234,7 +228,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > - ❌ **Automate network protection**: AWS WAF 미적용
 > - ❌ **Use AWS services for protection**: GuardDuty, Shield 미사용
 >
-> <img src="/images/week1/1-2-task3-sec5-example.png" alt="SEC 5 질문 답변 예시 화면" class="guide-img-sm" />
+>    <img src="/images/week1/1-2-task3-sec5-example.png" alt="SEC 5 질문 답변 예시 화면" class="guide-img-sm" />
 
 > [!NOTE]
 > **예시: SEC 8 질문 답변 방법**
@@ -256,7 +250,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > - ❌ **Enforce access control**: S3 버킷 정책 미설정
 > - ❌ **Use mechanisms to keep people away from data**: Secrets Manager 미사용
 >
-> <img src="/images/week1/1-2-task3-sec8-example.png" alt="SEC 8 질문 답변 예시 화면" class="guide-img-sm" />
+>    <img src="/images/week1/1-2-task3-sec8-example.png" alt="SEC 8 질문 답변 예시 화면" class="guide-img-sm" />
 
 4. 위 예시들을 참고하여 해당하는 모범 사례를 선택합니다.
 5. 나머지 질문들도 동일한 방법으로 체크리스트 파일을 참고하여 답변합니다.
@@ -297,7 +291,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > - ❌ **Ensure IP subnet allocation accounts for expansion**: 서브넷 확장 계획 미수립
 > - ❌ **Prefer hub-and-spoke topologies over many-to-many mesh**: 단순 구조로 해당 없음
 >
-> <img src="/images/week1/1-2-task4-rel2-example.png" alt="REL 2 질문 답변 예시 화면" class="guide-img-sm" />
+>    <img src="/images/week1/1-2-task4-rel2-example.png" alt="REL 2 질문 답변 예시 화면" class="guide-img-sm" />
 
 > [!NOTE]
 > **예시: REL 11 질문 답변 방법**
@@ -319,7 +313,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > - ❌ **Use bulkhead architectures**: 장애 격리 패턴 미적용
 > - ❌ **Test reliability**: 정기적인 장애 복구 테스트 미실시
 >
-> <img src="/images/week1/1-2-task4-rel11-example.png" alt="REL 11 질문 답변 예시 화면" class="guide-img-sm" />
+>    <img src="/images/week1/1-2-task4-rel11-example.png" alt="REL 11 질문 답변 예시 화면" class="guide-img-sm" />
 
 4. 위 예시들을 참고하여 해당하는 모범 사례를 선택합니다.
 5. 나머지 질문들도 동일한 방법으로 체크리스트 파일을 참고하여 답변합니다.
@@ -399,16 +393,14 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 3. 아래로 스크롤하여 **Lenses** 섹션을 확인합니다.
 4. **Lenses** 테이블에서 **AWS Well-Architected Framework** 렌즈를 클릭합니다.
-
-<img src="/images/week1/1-2-task6-step6-lens-overview.png" alt="Lenses 테이블에서 AWS Well-Architected Framework 렌즈 선택" class="guide-img-md" />
+   <img src="/images/week1/1-2-task6-step6-lens-overview.png" alt="Lenses 테이블에서 AWS Well-Architected Framework 렌즈 선택" class="guide-img-md" />
 
 > [!NOTE]
 > **마일스톤(Milestone)**: 워크로드 상세 페이지의 **Milestones** 탭에서 특정 시점의 평가 상태를 스냅샷으로 저장할 수 있습니다.
 
 5. **Overview** 탭에서 전체 평가 결과를 확인합니다.
 6. **Lens overview** 섹션에서 각 원칙별 답변 개수와 위험 수준을 확인합니다.
-
-<img src="/images/week1/1-2-task6-step6-pillars.png" alt="Lens overview 섹션의 각 원칙별 평가 결과" class="guide-img-md" />
+   <img src="/images/week1/1-2-task6-step6-pillars.png" alt="Lens overview 섹션의 각 원칙별 평가 결과" class="guide-img-md" />
 
 > [!OUTPUT]
 > **예상 출력** (답변에 따라 결과가 다르게 표시됩니다):
@@ -450,12 +442,10 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > 💡 초기 단계 스타트업 시스템 특성상 High risk 항목이 다수 식별되는 것이 정상입니다. Infrastructure as Code 미도입, 공식 Runbook 부재, AWS WAF 미적용 등 개선 영역이 많습니다.
 
 7. **Next risk to address** 섹션에서 다음으로 해결해야 할 위험 항목을 확인합니다.
-
-<img src="/images/week1/1-2-task6-step7-next-risk.png" alt="Next risk to address 섹션에서 다음 위험 항목 확인" class="guide-img-md" />
+   <img src="/images/week1/1-2-task6-step7-next-risk.png" alt="Next risk to address 섹션에서 다음 위험 항목 확인" class="guide-img-md" />
 
 8. 위험 항목을 클릭하여 상세 내용과 권장 개선 사항을 확인합니다.
-
-<img src="/images/week1/1-2-task6-step8-risk-detail.png" alt="위험 항목의 상세 내용과 개선 권장 사항" class="guide-img-md" />
+   <img src="/images/week1/1-2-task6-step8-risk-detail.png" alt="위험 항목의 상세 내용과 개선 권장 사항" class="guide-img-md" />
 
 9. **Improvement plan** 탭을 선택합니다.
 10. 개선이 필요한 위험 항목 목록을 확인합니다.
@@ -465,8 +455,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 11. 각 항목의 위험 수준(High/Medium)과 개선 권장 사항을 검토합니다.
 12. 우선순위가 높은 항목부터 개선 계획을 수립합니다.
-
-<img src="/images/week1/1-2-task6-step12-improvement-plan.png" alt="Improvement plan 탭의 위험 항목 목록" class="guide-img-md" />
+    <img src="/images/week1/1-2-task6-step12-improvement-plan.png" alt="Improvement plan 탭의 위험 항목 목록" class="guide-img-md" />
 
 > [!TIP]
 > **개선 우선순위**: High risk 항목 우선, 빠른 효과(Quick Wins), 비용 대비 효과, 규제 요구사항 순으로 결정합니다.
@@ -483,8 +472,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 1. 왼쪽 메뉴에서 **Workloads**를 선택합니다.
 2. 워크로드 목록에서 `quicktable-web-application`을 선택합니다.
 3. 상단의 [[Generate report]] 버튼을 클릭합니다.
-
-<img src="/images/week1/1-2-task7-step3-generate-report.png" alt="워크로드 목록에서 Generate report 버튼 클릭" class="guide-img-md" />
+   <img src="/images/week1/1-2-task7-step3-generate-report.png" alt="워크로드 목록에서 Generate report 버튼 클릭" class="guide-img-md" />
 
 > [!NOTE]
 > **보고서 생성 위치**:
@@ -552,8 +540,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 생성한 워크로드를 삭제합니다.
 
 1. 워크로드 목록에서 `quicktable-web-application`을 선택합니다.
-
-<img src="/images/week1/1-2-cleanup-step2-delete-workload.png" alt="워크로드 목록에서 quicktable-web-application 선택 후 Delete workload 버튼" class="guide-img-md" />
+   <img src="/images/week1/1-2-cleanup-step2-delete-workload.png" alt="워크로드 목록에서 quicktable-web-application 선택 후 Delete workload 버튼" class="guide-img-md" />
 
 2. [[Delete workload]] 버튼을 클릭합니다.
 3. 확인 창에서 삭제할 내용을 확인합니다.

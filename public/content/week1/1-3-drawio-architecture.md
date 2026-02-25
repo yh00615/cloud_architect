@@ -57,20 +57,16 @@ _QuickTable 레스토랑 예약 시스템의 3-Tier 고가용성 아키텍처_
 3. **파일명** 필드에 `quicktable-architecture`를 입력합니다.
 4. **유형**은 `XML 파일 (.drawio)`로 유지합니다.
 5. [[이름 바꾸기]] 버튼을 클릭합니다.
-
-<img src="/images/week1/1-3-step1-diagram-name-2.png" alt="Draw.io 다이어그램 이름 변경 완료 화면" class="guide-img-sm" />
+   <img src="/images/week1/1-3-step1-diagram-name-2.png" alt="Draw.io 다이어그램 이름 변경 완료 화면" class="guide-img-sm" />
 
 ### 다이어그램 저장
 
 6. 상단 메뉴에서 **파일** > **저장**을 선택합니다.
-
-<img src="/images/week1/1-3-step1-save-confirm.png" alt="Draw.io 파일 메뉴에서 저장 선택" class="guide-img-sm" />
-
-<img src="/images/week1/1-3-step1-save-location.png" alt="Draw.io 저장 위치 선택 대화상자" class="guide-img-sm" />
+   <img src="/images/week1/1-3-step1-save-confirm.png" alt="Draw.io 파일 메뉴에서 저장 선택" class="guide-img-sm" />
+   <img src="/images/week1/1-3-step1-save-location.png" alt="Draw.io 저장 위치 선택 대화상자" class="guide-img-sm" />
 
 7. **위치**에서 저장 위치를 선택합니다 (예: `Google 드라이브 - 내 드라이브`, `브라우저`, `기기` 등).
-
-<img src="/images/week1/1-3-step1-save-button.png" alt="Draw.io 저장 버튼" class="guide-img-sm" />
+   <img src="/images/week1/1-3-step1-save-button.png" alt="Draw.io 저장 버튼" class="guide-img-sm" />
 
 8. [[저장]] 버튼을 클릭합니다.
 
@@ -86,7 +82,7 @@ _QuickTable 레스토랑 예약 시스템의 3-Tier 고가용성 아키텍처_
 > 2. **빈 다이어그램**을 선택합니다.
 > 3. [[만들기]] 버튼을 클릭합니다.
 >
-> <img src="/images/week1/1-3-step1-new-diagram.png" alt="Draw.io 새 다이어그램 만들기" class="guide-img-sm" />
+>    <img src="/images/week1/1-3-step1-new-diagram.png" alt="Draw.io 새 다이어그램 만들기" class="guide-img-sm" />
 
 > [!TIP]
 > **영어 인터페이스로 변경하기**
@@ -122,8 +118,7 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 > 카테고리를 클릭하면 해당 카테고리의 모든 아이콘이 표시됩니다. 이후 태스크에서도 이 방법을 사용하여 필요한 아이콘을 검색하세요.
 
 2. **Region** 아이콘을 캔버스로 드래그합니다.
-
-<img src="/images/week1/1-3-step2-region-drag.png" alt="Draw.io 캔버스에 Region 아이콘 드래그" class="guide-img-sm" />
+   <img src="/images/week1/1-3-step2-region-drag.png" alt="Draw.io 캔버스에 Region 아이콘 드래그" class="guide-img-sm" />
 
 3. Region 박스 크기를 조정하여 전체 아키텍처를 포함할 수 있도록 확장합니다.
 4. Region 박스를 더블클릭하여 레이블을 `AWS Region: ap-northeast-2 (Seoul)`로 변경합니다.
@@ -131,20 +126,17 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 ### Amazon VPC 배치
 
 5. **VPC** 아이콘을 Region 내부로 드래그합니다.
-
-<img src="/images/week1/1-3-step2-vpc-drag.png" alt="Draw.io 캔버스에 VPC 아이콘 드래그" class="guide-img-sm" />
+   <img src="/images/week1/1-3-step2-vpc-drag.png" alt="Draw.io 캔버스에 VPC 아이콘 드래그" class="guide-img-sm" />
 
 6. VPC 박스 크기를 조정하여 전체 아키텍처를 포함할 수 있도록 확장합니다.
-
-<img src="/images/week1/1-3-step2-vpc-size.png" alt="Draw.io에서 VPC 박스 크기 조정" class="guide-img-sm" />
+   <img src="/images/week1/1-3-step2-vpc-size.png" alt="Draw.io에서 VPC 박스 크기 조정" class="guide-img-sm" />
 
 7. VPC 박스를 더블클릭하여 레이블을 `QuickTable Amazon VPC (10.0.0.0/16)`로 변경합니다.
 
 ### 가용 영역 배치
 
 8. 왼쪽 패널에서 **Availability Zone** 아이콘을 검색합니다.
-
-<img src="/images/week1/1-3-step2-az-placement.png" alt="Draw.io에 VPC와 2개 가용 영역" class="guide-img-sm" />
+   <img src="/images/week1/1-3-step2-az-placement.png" alt="Draw.io에 VPC와 2개 가용 영역" class="guide-img-sm" />
 
 9. **Availability Zone** 아이콘을 VPC 내부에 배치하고 크기를 조정합니다.
 
@@ -165,11 +157,10 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 11. 첫 번째 AZ 레이블을 `ap-northeast-2a`로 설정합니다.
 12. 두 번째 AZ 레이블을 `ap-northeast-2c`로 설정합니다.
-
-<img src="/images/week1/1-3-step2-az-labels.png" alt="Draw.io에서 가용 영역 레이블 설정 완료" class="guide-img-sm" />
+    <img src="/images/week1/1-3-step2-az-labels.png" alt="Draw.io에서 가용 영역 레이블 설정 완료" class="guide-img-sm" />
 
 > [!NOTE]
-> Multi-AZ 구성은 하나의 가용 영역에 장애가 발생해도 다른 가용 영역에서 서비스를 계속 제공할 수 있도록 합니다.  
+> Multi-AZ 구성은 하나의 가용 영역에 장애가 발생해도 다른 가용 영역에서 서비스를 계속 제공할 수 있도록 합니다.
 > QuickTable은 2개의 AZ를 사용하여 고가용성을 보장합니다.
 
 ✅ **태스크 완료**: AWS 리전, QuickTable Amazon VPC, 2개의 가용 영역이 생성되었습니다.
@@ -215,14 +206,14 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 11. 첫 번째 서브넷 레이블을 `Public Subnet C (10.0.2.0/24)`로 변경합니다.
 12. 두 번째 서브넷 레이블을 `Private App Subnet C (10.0.12.0/24)`로 변경합니다.
 13. 세 번째 서브넷 레이블을 `Private DB Subnet C (10.0.22.0/24)`로 변경합니다.
-
-<img src="/images/week1/1-3-step3-subnets-complete.png" alt="Draw.io에 3-Tier 서브넷 구성 완료" class="guide-img-sm" />
+    <img src="/images/week1/1-3-step3-subnets-complete.png" alt="Draw.io에 3-Tier 서브넷 구성 완료" class="guide-img-sm" />
 
 > [!NOTE]
+> **퍼블릭 서브넷**: 인터넷 게이트웨이를 통해 외부와 통신하며, Application Load Balancer가 배치됩니다.
 >
-> - **퍼블릭 서브넷**: 인터넷 게이트웨이를 통해 외부와 통신하며, Application Load Balancer가 배치됩니다.
-> - **프라이빗 서브넷(애플리케이션)**: NAT Gateway를 통해 외부로 나가는 트래픽만 허용하며, Amazon EC2 웹 서버와 앱 서버가 배치됩니다.
-> - **프라이빗 서브넷(데이터베이스)**: 외부 인터넷 접근이 차단되며, Amazon RDS 데이터베이스가 배치됩니다.
+> **프라이빗 서브넷(애플리케이션)**: NAT Gateway를 통해 외부로 나가는 트래픽만 허용하며, Amazon EC2 웹 서버와 앱 서버가 배치됩니다.
+>
+> **프라이빗 서브넷(데이터베이스)**: 외부 인터넷 접근이 차단되며, Amazon RDS 데이터베이스가 배치됩니다.
 
 ✅ **태스크 완료**: 3-Tier 서브넷 구성이 완료되었습니다.
 
@@ -233,28 +224,46 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 1. 왼쪽 패널 검색창에서 **Internet Gateway**를 검색합니다. (또는 **AWS / Networking & Content Delivery** 카테고리에서 찾습니다.)
 2. **Internet Gateway** 아이콘을 VPC 상단 중앙에 배치하고 크기를 조정합니다.
 3. 레이블을 `QuickTable IGW`로 설정합니다.
+   <img src="/images/week1/1-3-step4-igw-placement.png" alt="Draw.io에 Internet Gateway 배치" class="guide-img-sm" />
 
-<img src="/images/week1/1-3-step4-igw-placement.png" alt="Draw.io에 Internet Gateway 배치" class="guide-img-sm" />
+> [!TIP]
+> **텍스트 위치 및 정렬 조정**:
+>
+> 아이콘에 화살표를 연결하면 텍스트가 가려지거나 레이아웃이 복잡해질 수 있습니다. 오른쪽 패널에서 텍스트 위치를 자유롭게 조정할 수 있습니다.
+>
+> 1. 아이콘을 선택합니다.
+> 2. 오른쪽 패널의 **텍스트** 섹션에서:
+>    - **정렬**: 왼쪽/가운데/오른쪽 정렬 선택
+>    - **수직 정렬**: 위/가운데/아래 정렬 선택
+>    - **간격**: Spacing 값을 조정하여 텍스트와 아이콘 사이 거리 조절
+> 3. 텍스트를 아이콘 외부에 배치하려면 **Position** 섹션에서 위치를 조정합니다.
+>
+> 이 방법을 사용하면 화살표가 많아져도 텍스트가 가려지지 않고 깔끔한 다이어그램을 유지할 수 있습니다.
 
 4. 왼쪽 패널에서 **NAT Gateway** 아이콘을 검색합니다.
 5. **NAT Gateway** 아이콘을 **Public Subnet A** 내부에 배치하고 크기를 조정합니다.
 6. 레이블을 `NAT Gateway A`로 설정합니다.
 7. **NAT Gateway** 아이콘을 **Public Subnet C** 내부에 추가로 배치합니다.
 8. 레이블을 `NAT Gateway C`로 설정합니다.
+9. 각 NAT Gateway에서 Internet Gateway로 화살표를 연결합니다.
+   <img src="/images/week1/1-3-task4-arrow-connected.png" alt="Draw.io에서 NAT Gateway와 Internet Gateway 간 화살표 연결 완료" class="guide-img-sm" />
 
 > [!TIP]
 > **화살표 연결 방법**:
 >
 > 1. 왼쪽 도구 모음에서 **화살표** 도구를 선택합니다.
+>
+>    <img src="/images/week1/1-3-task4-arrow-tool.png" alt="Draw.io 왼쪽 도구 모음에서 화살표 도구 선택" class="guide-img-sm" />
+>
 > 2. 시작 아이콘을 클릭한 후 끝 아이콘을 클릭하면 화살표가 연결됩니다.
 > 3. 화살표를 선택하고 오른쪽 패널에서 스타일(실선/점선, 색상, 두께)을 변경할 수 있습니다.
-
-9. 각 NAT Gateway에서 Internet Gateway로 화살표를 연결합니다.
+>
+>    <img src="/images/week1/1-3-task4-arrow-style.png" alt="Draw.io 오른쪽 패널에서 화살표 스타일 변경" class="guide-img-sm" />
 
 > [!NOTE]
+> **Internet Gateway**: 퍼블릭 서브넷의 리소스가 인터넷과 양방향 통신을 할 수 있도록 합니다.
 >
-> - **Internet Gateway**: 퍼블릭 서브넷의 리소스가 인터넷과 양방향 통신을 할 수 있도록 합니다.
-> - **NAT Gateway**: 프라이빗 서브넷의 리소스가 인터넷으로 나가는 트래픽을 처리합니다. NAT Gateway는 퍼블릭 서브넷에 배치되며, Internet Gateway를 통해 인터넷에 연결됩니다. 프라이빗 서브넷의 리소스는 NAT Gateway를 통해 인터넷으로 나가는 트래픽만 허용하며, 외부에서 들어오는 트래픽은 차단합니다. Multi-AZ 구성으로 고가용성을 보장합니다.
+> **NAT Gateway**: 프라이빗 서브넷의 리소스가 인터넷으로 나가는 트래픽을 처리합니다. NAT Gateway는 퍼블릭 서브넷에 배치되며, Internet Gateway를 통해 인터넷에 연결됩니다. 프라이빗 서브넷의 리소스는 NAT Gateway를 통해 인터넷으로 나가는 트래픽만 허용하며, 외부에서 들어오는 트래픽은 차단합니다. Multi-AZ 구성으로 고가용성을 보장합니다.
 
 ✅ **태스크 완료**: 인터넷 게이트웨이 및 NAT Gateway가 추가되었습니다.
 
@@ -262,13 +271,14 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 이 태스크에서는 **Application Load Balancer(ALB)**를 퍼블릭 서브넷에 배치하여 외부 트래픽을 수신하고 Amazon EC2 인스턴스로 분산합니다.
 
-1. 왼쪽 패널에서 **Elastic Load Balancing** 또는 **Application Load Balancer** 아이콘을 검색합니다.
+1. 왼쪽 패널에서 **Application Load Balancer** 아이콘을 검색합니다.
 2. **Application Load Balancer** 아이콘을 **Public Subnet A**와 **Public Subnet C** 사이에 배치합니다.
-3. 레이블을 `QuickTable ALB`로 설정합니다.
+3. 레이블을 `QuickTable ALB`로 설정하고, 오른쪽 패널에서 텍스트 정렬을 오른쪽으로 변경합니다.
 4. Internet Gateway에서 ALB로 화살표를 연결합니다.
+   <img src="/images/week1/1-3-task5-alb-complete.png" alt="Draw.io에 Application Load Balancer 추가 완료" class="guide-img-sm" />
 
 > [!NOTE]
-> Application Load Balancer는 Layer 7(애플리케이션 계층)에서 동작하며, HTTP/HTTPS 트래픽을 처리합니다.  
+> Application Load Balancer는 Layer 7(애플리케이션 계층)에서 동작하며, HTTP/HTTPS 트래픽을 처리합니다.
 > Multi-AZ 구성으로 2개의 퍼블릭 서브넷에 배포되어 고가용성을 보장합니다.
 
 ✅ **태스크 완료**: Application Load Balancer가 추가되었습니다.
@@ -289,11 +299,22 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 10. 왼쪽 패널에서 **Auto Scaling** 또는 **Amazon EC2 Auto Scaling** 아이콘을 검색합니다.
 11. **Amazon EC2 Auto Scaling** 아이콘을 Web Server 영역 주변에 배치합니다.
 12. 레이블을 `QuickTable Web ASG`로 설정합니다.
-13. ALB에서 각 AZ의 Web Server 1개씩 화살표를 연결합니다. (ALB → Web Server A1, ALB → Web Server C1)
-14. 각 AZ의 Web Server 1개에서 NAT Gateway로 화살표를 연결합니다. (Web Server A2 → NAT Gateway A, Web Server C2 → NAT Gateway C)
+13. ALB에서 각 AZ의 모든 Web Server로 화살표를 연결합니다. (ALB → Web Server A1, ALB → Web Server A2, ALB → Web Server C1, ALB → Web Server C2)
+    <img src="/images/week1/1-3-task6-web-servers-complete.png" alt="Draw.io에 Web Server 및 Auto Scaling 그룹 추가 완료" class="guide-img-sm" />
+
+14. 각 AZ의 Web Server 1개에서 NAT Gateway로 점선 화살표를 연결합니다. (Web Server A1 → NAT Gateway A, Web Server C2 → NAT Gateway C)
+    <img src="/images/week1/1-3-task6-nat-connection.png" alt="Draw.io에 Web Server와 NAT Gateway 점선 연결 완료" class="guide-img-sm" />
+
+> [!TIP]
+> **점선 화살표 만들기**:
+>
+> 1. 화살표를 선택합니다.
+> 2. 오른쪽 패널의 **스타일** 섹션에서 **점선(Dashed)** 옵션을 선택합니다.
+> 3. 점선은 아웃바운드 트래픽(인터넷으로 나가는 트래픽)을 나타냅니다.
 
 > [!NOTE]
-> **Web Tier**: Nginx 또는 Apache를 실행하며, 정적 콘텐츠를 제공하고 요청을 처리합니다. 각 가용 영역에 2개씩 총 4개의 Web Server를 배치하여 고가용성과 확장성을 보장합니다.  
+> **Web Tier**: Nginx 또는 Apache를 실행하며, 정적 콘텐츠를 제공하고 요청을 처리합니다. 각 가용 영역에 2개씩 총 4개의 Web Server를 배치하여 고가용성과 확장성을 보장합니다.
+>
 > **Amazon EC2 Auto Scaling**: 트래픽에 따라 Amazon EC2 인스턴스 수를 자동으로 조정하여 비용을 최적화하고 가용성을 보장합니다.
 
 ✅ **태스크 완료**: Amazon EC2 인스턴스 및 Amazon EC2 Auto Scaling 그룹이 추가되었습니다.
@@ -307,15 +328,28 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 3. 레이블을 `RDS Primary`로 설정합니다.
 4. **Amazon RDS DB Instance** 아이콘을 **Private DB Subnet C** 내부에 배치합니다.
 5. 레이블을 `RDS Standby`로 설정합니다.
-6. Primary에서 Standby로 양방향 화살표를 연결합니다.
-7. ALB에 연결된 Web Server에서 Amazon RDS Primary로 화살표를 연결합니다. (Web Server A1 → RDS Primary, Web Server C1 → RDS Primary)
+6. Primary에서 Standby로 점선 화살표를 연결하고, 화살표에 `Replication` 레이블을 추가합니다.
+
+> [!TIP]
+> **화살표에 레이블 추가**:
+>
+> 1. 화살표를 더블클릭합니다.
+> 2. 텍스트를 입력합니다 (예: `Replication`).
+> 3. 오른쪽 패널에서 폰트 크기와 위치를 조정할 수 있습니다.
+>
+> RDS Multi-AZ는 Primary에서 Standby로 단방향 동기식 복제가 이루어집니다. 점선 화살표를 사용하여 복제 흐름을 표현합니다.
+
+7. 각 가용 영역의 Web Server 1개씩 RDS로 화살표를 연결합니다. (Web Server A1 → RDS Primary, Web Server C2 → RDS Standby)
+   <img src="/images/week1/1-3-task7-rds-complete.png" alt="Draw.io에 RDS Multi-AZ 추가 완료" class="guide-img-sm" />
 
 > [!NOTE]
+> **Amazon RDS Multi-AZ**: Primary DB 인스턴스와 Standby DB 인스턴스가 서로 다른 가용 영역에 배포됩니다.
 >
-> - **Amazon RDS Multi-AZ**: Primary DB 인스턴스와 Standby DB 인스턴스가 서로 다른 가용 영역에 배포됩니다.
-> - **동기식 복제**: Primary에 쓰기가 발생하면 즉시 Standby로 복제됩니다.
-> - **자동 페일오버**: Primary에 장애가 발생하면 1-2분 내에 Standby가 자동으로 Primary로 승격됩니다.
-> - **엔드포인트**: 애플리케이션은 단일 엔드포인트를 사용하며, 페일오버 시 DNS가 자동으로 업데이트됩니다.
+> **동기식 복제**: Primary에 쓰기가 발생하면 즉시 Standby로 복제됩니다.
+>
+> **자동 페일오버**: Primary에 장애가 발생하면 1-2분 내에 Standby가 자동으로 Primary로 승격됩니다.
+>
+> **엔드포인트**: 애플리케이션은 단일 엔드포인트를 사용하며, 페일오버 시 DNS가 자동으로 업데이트됩니다.
 
 ✅ **태스크 완료**: Amazon RDS Multi-AZ 데이터베이스가 추가되었습니다.
 
@@ -338,6 +372,7 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 6. **Security Group** 아이콘을 Amazon RDS 주변에 배치합니다.
 7. 레이블을 `DB-SG`로 설정합니다.
+   <img src="/images/week1/1-3-task8-security-groups-complete.png" alt="Draw.io에 보안 그룹 추가 완료" class="guide-img-sm" />
 
 > [!NOTE]
 > 보안 그룹은 계층화된 보안을 구현합니다. 각 계층은 이전 계층의 보안 그룹만 허용하여 최소 권한 원칙을 적용합니다.
@@ -353,18 +388,37 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 3. 레이블이 읽기 쉬운지 확인합니다.
 4. 보안 그룹이 각 계층을 명확히 구분하는지 확인합니다.
 5. 상단 메뉴에서 **파일** > **다음에서 가져오기** > **PNG...**를 선택합니다.
+   <img src="/images/week1/1-3-task9-export-menu.png" alt="Draw.io 파일 메뉴에서 PNG 내보내기 선택" class="guide-img-sm" />
+
 6. **이미지** 대화상자에서 필요한 설정을 확인한 후 [[내보내기]] 버튼을 클릭합니다.
+   <img src="/images/week1/1-3-task9-export-dialog.png" alt="Draw.io PNG 내보내기 대화상자" class="guide-img-sm" />
 
 > [!NOTE]
 > **배율** 설정은 이미지 해상도를 결정합니다. 100%는 기본 해상도이며, 더 높은 해상도가 필요한 경우 200% 또는 300%로 설정할 수 있습니다.
 
 7. 파일명을 `quicktable-architecture`로 입력하고 저장 위치를 선택합니다.
 8. [[저장]] 버튼을 클릭합니다.
+   <img src="/images/week1/1-3-task9-save-complete.png" alt="Draw.io PNG 파일 저장 완료" class="guide-img-sm" />
 
 > [!TIP]
 > 다이어그램을 팀원과 공유하려면 **파일** > **다음에서 가져오기** > **SVG...**를 선택하여 벡터 형식으로도 저장하세요. SVG 파일은 확대해도 선명하며, 웹 문서에 삽입하기 적합합니다.
 
+> [!TIP]
+> **다이어그램 추가 개선 (선택사항)**:
+>
+> 기본 아키텍처가 완성되었다면, 다음 요소를 추가하여 더욱 완성도 높은 다이어그램을 만들 수 있습니다:
+>
+> - **사용자 아이콘**: Internet Gateway 외부에 사용자 아이콘을 배치하여 트래픽 시작점을 명확히 표현
+> - **CloudWatch**: 모니터링 아이콘 추가
+> - **Route 53**: DNS 라우팅 표현
+> - **CloudFront**: CDN 계층 추가
+> - **ElastiCache**: 캐싱 계층 추가
+>
+> 이러한 추가 요소는 실습 범위를 벗어나지만, 실제 프로덕션 아키텍처를 표현할 때 유용합니다.
+
 ✅ **태스크 완료**: QuickTable 3-Tier 아키텍처 다이어그램이 PNG 이미지로 내보내기되었습니다.
+
+<img src="/images/week1/1-3-task9-complete.png" alt="Draw.io 다이어그램 내보내기 완료 화면" class="guide-img-sm" />
 
 ## 마무리
 

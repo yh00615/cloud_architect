@@ -91,21 +91,18 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 2. `tag-editor-lab-stack.yaml` 파일을 확인합니다.
 3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
-
-![CloudFormation Create stack 드롭다운에서 With new resources (standard) 선택](/images/week1/1-1-step4-create-stack.png)
+   ![CloudFormation Create stack 드롭다운에서 With new resources (standard) 선택](/images/week1/1-1-step4-create-stack.png)
 
 5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 `tag-editor-lab-stack.yaml` 파일을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
-
-![CloudFormation 템플릿 업로드 후 Next 버튼 클릭](/images/week1/1-1-step8-next-button.png)
+   ![CloudFormation 템플릿 업로드 후 Next 버튼 클릭](/images/week1/1-1-step8-next-button.png)
 
 9. **Stack name**에 `week1-1-tag-editor-lab-stack`을 입력합니다.
 10. **Parameters** 섹션에서 기본값을 확인합니다.
 11. [[Next]] 버튼을 클릭합니다.
-
-![CloudFormation 스택 이름 입력 후 Next 버튼 클릭](/images/week1/1-1-step11-next-button.png)
+    ![CloudFormation 스택 이름 입력 후 Next 버튼 클릭](/images/week1/1-1-step11-next-button.png)
 
 12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 찾습니다.
 13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
@@ -123,13 +120,11 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 14. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation may create AWS IAM resources`를 체크합니다.
 15. [[Next]] 버튼을 클릭합니다.
-
-![CloudFormation Capabilities 체크 후 Next 버튼 클릭](/images/week1/1-1-step15-next-button.png)
+    ![CloudFormation Capabilities 체크 후 Next 버튼 클릭](/images/week1/1-1-step15-next-button.png)
 
 16. **Review** 페이지에서 설정을 확인합니다.
 17. [[Submit]] 버튼을 클릭합니다.
-
-![CloudFormation Review 페이지에서 Submit 버튼 클릭](/images/week1/1-1-step17-submit-button.png)
+    ![CloudFormation Review 페이지에서 Submit 버튼 클릭](/images/week1/1-1-step17-submit-button.png)
 
 18. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
 

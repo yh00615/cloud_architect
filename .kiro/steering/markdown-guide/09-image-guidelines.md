@@ -525,6 +525,133 @@ sips -Z 1200 public/images/week1/1-3-step1-diagram-name-2.png
 
 ---
 
+## 📐 이미지 들여쓰기 규칙 ⭐
+
+### 기본 원칙
+
+**번호 매기기 목록 내부의 이미지는 반드시 들여쓰기하여 번호가 이어지도록 합니다.**
+
+### 들여쓰기 규칙
+
+#### 일반 번호 목록 (3칸 들여쓰기)
+
+```markdown
+1. 첫 번째 단계를 수행합니다.
+   ![이미지 설명](/images/week1/1-1-step1-example.png)
+
+2. 두 번째 단계를 수행합니다.
+   <img src="/images/week1/1-1-step2-example.png" alt="이미지 설명" class="guide-img-sm" />
+
+3. 세 번째 단계를 수행합니다.
+```
+
+- **들여쓰기**: 3칸 스페이스
+- **중요**: 이미지 바로 앞에 빈 줄이 있으면 안 됨 (번호가 끊김)
+- **효과**: 이미지가 번호 목록의 일부로 인식되어 번호가 계속 이어짐
+- **적용 대상**: 마크다운 이미지 문법 (`![...]`) 및 HTML `<img>` 태그 모두
+
+#### Alert 내부 번호 목록 (4칸 들여쓰기)
+
+```markdown
+> [!TIP]
+> **화살표 연결 방법**:
+>
+> 1. 왼쪽 도구 모음에서 **화살표** 도구를 선택합니다.
+>    <img src="/images/week1/1-3-task4-arrow-tool.png" alt="화살표 도구" class="guide-img-sm" />
+> 2. 시작 아이콘을 클릭한 후 끝 아이콘을 클릭합니다.
+>    <img src="/images/week1/1-3-task4-arrow-style.png" alt="화살표 스타일" class="guide-img-sm" />
+```
+
+- **들여쓰기**: 4칸 스페이스 (Alert 내부이므로 1칸 추가)
+- **중요**: 이미지 바로 앞에 빈 줄이 있으면 안 됨 (번호가 끊김)
+- **효과**: Alert 내부 번호 목록에서 이미지가 포함되어 번호가 이어짐
+- **적용 대상**: TIP, NOTE, CONCEPT 등 모든 Alert 내부 번호 목록
+
+### ✅ 올바른 예시
+
+#### 예시 1: 일반 번호 목록
+
+```markdown
+1. AWS Management Console에 로그인합니다.
+2. S3 콘솔로 이동합니다.
+   ![S3 콘솔 화면](/images/week1/1-1-step2-s3-console.png)
+
+3. [[Create bucket]] 버튼을 클릭합니다.
+   <img src="/images/week1/1-1-step3-create-bucket.png" alt="Create bucket 버튼" class="guide-img-sm" />
+
+4. 버킷 이름을 입력합니다.
+```
+
+**결과**: 번호가 1, 2, 3, 4로 정상적으로 이어짐
+
+#### 예시 2: Alert 내부 번호 목록
+
+```markdown
+> [!NOTE]
+> **스택 생성 과정**:
+>
+> 1. CloudFormation이 리소스를 생성합니다.
+>    <img src="/images/week1/1-1-task0-stack-creating.png" alt="스택 생성 중" class="guide-img-sm" />
+> 2. 모든 리소스가 생성되면 상태가 "CREATE_COMPLETE"로 변경됩니다.
+>    <img src="/images/week1/1-1-task0-stack-complete.png" alt="스택 생성 완료" class="guide-img-sm" />
+```
+
+**결과**: Alert 내부에서 번호가 1, 2로 정상적으로 이어짐
+
+### ❌ 잘못된 예시
+
+#### 예시 1: 들여쓰기 없음
+
+```markdown
+1. 첫 번째 단계를 수행합니다.
+
+![이미지 설명](/images/week1/1-1-step1-example.png)
+
+2. 두 번째 단계를 수행합니다.
+```
+
+**문제**: 이미지가 번호 목록 밖으로 나가서 2번이 1번으로 다시 시작됨
+
+#### 예시 2: 들여쓰기 부족 (Alert 내부)
+
+```markdown
+> [!TIP]
+>
+> 1. 첫 번째 팁입니다.
+>
+>   <img src="/images/week1/example.png" alt="예시" class="guide-img-sm" />
+>
+> 2. 두 번째 팁입니다.
+```
+
+**문제**: 3칸 들여쓰기로는 Alert 내부에서 번호가 끊김 (4칸 필요)
+
+### 적용 대상
+
+#### 반드시 들여쓰기 필요
+
+- ✅ 번호 매기기 목록 내부의 모든 이미지
+- ✅ Alert 내부 번호 목록의 모든 이미지
+- ✅ 마크다운 이미지 문법 (`![...]`)
+- ✅ HTML 이미지 태그 (`<img>`)
+
+#### 들여쓰기 불필요
+
+- ❌ 번호 목록 밖의 이미지 (Front Matter 직후, 태스크 설명 등)
+- ❌ 불릿 포인트 목록 내부 이미지 (선택사항)
+
+### 체크리스트
+
+이미지 추가 시 확인:
+
+- [ ] 이미지가 번호 목록 내부에 있는가?
+- [ ] 일반 번호 목록: 3칸 들여쓰기 적용
+- [ ] Alert 내부 번호 목록: 4칸 들여쓰기 적용
+- [ ] 이미지 앞뒤로 빈 줄 추가
+- [ ] 다음 번호가 정상적으로 이어지는지 확인
+
+---
+
 ## 🎨 이미지 최적화
 
 ### 1. 파일 형식
