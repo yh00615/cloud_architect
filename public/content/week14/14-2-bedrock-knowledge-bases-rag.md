@@ -7,10 +7,11 @@ awsServices:
   - Amazon S3
   - Amazon OpenSearch Serverless
 learningObjectives:
-  - Amazon S3 버킷에 문서를 업로드할 수 있습니다
-  - Amazon Bedrock Knowledge Base를 생성하고 Amazon S3를 데이터 소스로 연결할 수 있습니다
-  - Amazon OpenSearch Serverless 컬렉션을 구성할 수 있습니다
-  - 문서 기반 질의응답을 테스트하고 RAG 동작을 확인할 수 있습니다
+  - RAG(Retrieval-Augmented Generation)의 개념과 동작 원리를 이해할 수 있습니다.
+  - Amazon S3에 문서를 업로드하고 Amazon Bedrock Knowledge Base를 생성할 수 있습니다.
+  - 벡터 임베딩을 생성하고 Amazon OpenSearch Serverless에 저장할 수 있습니다.
+  - Amazon Bedrock Knowledge Base를 쿼리하고 RAG 기반 응답을 확인할 수 있습니다.
+
 prerequisites:
   - Amazon S3 기본 사용 경험.
   - 생성형 AI 기본 개념 이해.

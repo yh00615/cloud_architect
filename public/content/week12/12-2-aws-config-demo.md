@@ -5,10 +5,11 @@ session: 2
 awsServices:
   - AWS Config
 learningObjectives:
-  - AWS Config를 활성화하고 Amazon S3 버킷을 구성할 수 있습니다
-  - 관리형 규칙을 추가하여 리소스 규정 준수를 확인할 수 있습니다
-  - 규정 비준수 리소스를 식별하고 수정할 수 있습니다
-  - AWS Config 타임라인으로 리소스 변경 이력을 추적할 수 있습니다
+  - AWS Config의 개념과 규정 준수 모니터링을 이해할 수 있습니다.
+  - AWS Config를 활성화하고 리소스 구성 변경을 기록할 수 있습니다.
+  - 관리형 규칙을 추가하여 Amazon S3 버킷 암호화를 검증할 수 있습니다.
+  - 규정 준수 대시보드를 확인하고 비준수 리소스를 수정할 수 있습니다.
+
 prerequisites:
   - AWS 리소스 기본 개념 이해
   - 규정 준수 (Compliance) 개념 이해

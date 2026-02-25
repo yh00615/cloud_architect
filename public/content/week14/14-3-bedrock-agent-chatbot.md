@@ -5,10 +5,11 @@ session: 3
 awsServices:
   - Amazon Bedrock
 learningObjectives:
-  - AWS Lambda 함수로 예약 조회 API를 구현할 수 있습니다
-  - Amazon Bedrock Agent를 생성하고 Action Group으로 AWS Lambda를 연결할 수 있습니다
-  - Amazon Bedrock Knowledge Base를 Agent에 통합할 수 있습니다
-  - 챗봇으로 API 호출과 문서 질의응답을 테스트할 수 있습니다
+  - Amazon Bedrock Agents의 개념과 자율 에이전트 아키텍처를 이해할 수 있습니다.
+  - AWS Lambda 함수로 Action Group을 생성하고 에이전트와 연결할 수 있습니다.
+  - Amazon Bedrock Knowledge Base를 에이전트에 연결하여 RAG 기능을 통합할 수 있습니다.
+  - 에이전트를 테스트하고 다단계 작업을 수행할 수 있습니다.
+
 prerequisites:
   - AWS 계정 및 관리자 권한
   - AWS Lambda 함수 기본 지식

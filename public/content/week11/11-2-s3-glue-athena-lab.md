@@ -7,10 +7,11 @@ awsServices:
   - AWS Glue
   - Amazon Athena
 learningObjectives:
-  - 데이터 레이크 아키텍처를 이해할 수 있습니다
-  - AWS Glue 크롤러의 메타데이터 수집 과정을 설명할 수 있습니다
-  - Athena를 사용한 서버리스 쿼리 방식을 이해할 수 있습니다
-  - 파티셔닝을 통한 쿼리 최적화 방법을 이해할 수 있습니다
+  - 데이터 레이크의 개념과 AWS Glue의 역할을 이해할 수 있습니다.
+  - AWS Glue Crawler를 생성하고 Amazon S3 데이터의 스키마를 자동 검색할 수 있습니다.
+  - Amazon Athena로 AWS Glue 데이터 카탈로그를 쿼리할 수 있습니다.
+  - 파티셔닝을 적용하여 쿼리 성능을 최적화할 수 있습니다.
+
 prerequisites:
   - Amazon S3 기본 사용법 이해
   - SQL 기본 문법 이해

@@ -5,10 +5,11 @@ session: 3
 awsServices:
   - Amazon DynamoDB
 learningObjectives:
-  - Amazon DynamoDB 테이블을 생성하고 파티션 키/정렬 키를 설계할 수 있습니다
-  - GSI(Global Secondary Index)를 추가하여 다양한 쿼리 패턴을 지원할 수 있습니다
-  - Python boto3로 항목을 추가/조회/업데이트/삭제할 수 있습니다
-  - 쿼리 성능을 비교하고 인덱스 설계를 최적화할 수 있습니다
+  - Amazon DynamoDB 테이블을 생성하고 파티션 키/정렬 키를 설계할 수 있습니다.
+  - LSI(Local Secondary Index)를 사용하여 날짜 기반 쿼리를 수행할 수 있습니다.
+  - GSI(Global Secondary Index)를 생성하여 다양한 쿼리 패턴을 지원할 수 있습니다.
+  - Python boto3로 항목을 추가/조회/업데이트하고 쿼리 성능을 비교할 수 있습니다.
+
 prerequisites:
   - NoSQL 데이터베이스 기본 개념 이해
   - AWS Management Console 사용 경험

@@ -7,10 +7,11 @@ awsServices:
   - Amazon Athena
   - Amazon S3
 learningObjectives:
-  - Amazon S3에 Raw/Processed/Curated 3계층 데이터 레이크 구조를 생성할 수 있습니다
-  - AWS Lambda로 Raw 데이터를 전처리하여 Processed로 이동할 수 있습니다
-  - AWS Glue ETL Job으로 데이터를 변환하고 Curated로 저장할 수 있습니다
-  - Amazon EventBridge로 데이터 파이프라인을 자동화할 수 있습니다
+  - ETL(Extract, Transform, Load)의 개념과 AWS Glue ETL 작업을 이해할 수 있습니다.
+  - AWS Glue ETL 스크립트를 작성하고 데이터 변환 로직을 구현할 수 있습니다.
+  - AWS Glue ETL 작업을 실행하고 변환된 데이터를 확인할 수 있습니다.
+  - Amazon Athena로 변환된 데이터를 쿼리하고 결과를 검증할 수 있습니다.
+
 prerequisites:
   - Amazon S3 기본 개념 이해.
   - SQL 쿼리 기본 지식.

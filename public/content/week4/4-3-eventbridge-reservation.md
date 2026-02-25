@@ -7,10 +7,11 @@ awsServices:
   - AWS Lambda
   - Amazon DynamoDB
 learningObjectives:
-  - Amazon DynamoDB 테이블을 생성하고 예약 데이터를 저장할 수 있습니다
-  - AWS Lambda 함수로 예약 CRUD 기능을 구현할 수 있습니다
-  - Amazon EventBridge 규칙으로 이벤트 기반 워크플로우를 구성할 수 있습니다
-  - Amazon API Gateway로 RESTful API를 구성하고 전체 시스템을 테스트할 수 있습니다
+  - Amazon EventBridge의 이벤트 기반 아키텍처를 이해하고 설명할 수 있습니다.
+  - ReservationCreated 이벤트 규칙을 생성하고 AWS Lambda를 연결할 수 있습니다.
+  - TableUnavailable 이벤트 규칙을 생성하고 알림을 구성할 수 있습니다.
+  - 이벤트 기반 워크플로우를 테스트하고 검증할 수 있습니다.
+
 prerequisites:
   - Week 4-2 AWS Lambda 및 Amazon API Gateway 이해
 ---

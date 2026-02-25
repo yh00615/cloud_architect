@@ -5,10 +5,11 @@ session: 1
 awsServices:
   - Amazon Bedrock
 learningObjectives:
-  - Amazon Bedrock Playground에서 Claude 모델을 선택할 수 있습니다
-  - Zero-shot, Few-shot, Chain-of-Thought 프롬프팅을 실습할 수 있습니다
-  - 시스템 프롬프트와 파라미터(Temperature, Top P)를 조정할 수 있습니다
-  - 프롬프트 기법별 응답 품질을 비교할 수 있습니다
+  - Amazon Bedrock의 개념과 Claude 모델을 이해할 수 있습니다.
+  - Zero-shot, Few-shot, Chain-of-Thought 프롬프팅 기법을 실습할 수 있습니다.
+  - 시스템 프롬프트와 파라미터(Temperature, Top P)를 조정할 수 있습니다.
+  - 프롬프트 기법별 응답 품질을 비교하고 평가할 수 있습니다.
+
 prerequisites:
   - 생성형 AI 및 LLM 기본 개념 이해.
   - AWS Management Console 사용 경험.

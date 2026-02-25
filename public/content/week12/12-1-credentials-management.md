@@ -6,10 +6,11 @@ awsServices:
   - AWS Systems Manager
   - AWS Secrets Manager
 learningObjectives:
-  - AWS Systems Manager Parameter Store에 데이터베이스 연결 정보를 저장할 수 있습니다
-  - AWS Secrets Manager에 Amazon RDS 자격증명을 저장하고 자동 로테이션을 설정할 수 있습니다
-  - AWS Lambda 함수에서 Parameter Store와 AWS Secrets Manager를 조회할 수 있습니다
-  - 하드코딩된 자격증명을 제거하고 보안을 강화할 수 있습니다
+  - AWS Systems Manager Parameter Store의 개념과 사용 사례를 이해할 수 있습니다.
+  - AWS Secrets Manager에 Amazon RDS 자격증명을 저장하고 자동 로테이션을 설정할 수 있습니다.
+  - AWS Lambda 함수에서 Parameter Store와 Secrets Manager를 조회할 수 있습니다.
+  - 하드코딩된 자격증명을 제거하고 보안을 강화할 수 있습니다.
+
 prerequisites:
   - AWS IAM 기본 개념 이해.
   - AWS Lambda 기본 사용 경험.

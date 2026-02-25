@@ -7,10 +7,11 @@ awsServices:
   - Amazon API Gateway
   - Amazon Cognito
 learningObjectives:
-  - AWS Lambda 함수를 생성하고 Amazon DynamoDB를 조회할 수 있습니다
-  - Amazon API Gateway REST API를 생성하고 AWS Lambda와 통합할 수 있습니다
-  - Amazon Cognito User Pool로 API 인증을 구성할 수 있습니다
-  - Postman으로 인증된 API 요청을 테스트할 수 있습니다
+  - Amazon Cognito User Pool을 생성하고 구성할 수 있습니다.
+  - Amazon API Gateway Authorizer를 생성하고 메서드에 연결할 수 있습니다.
+  - Amazon Cognito 사용자를 생성하고 인증 토큰을 획득할 수 있습니다.
+  - 인증된 API 요청을 테스트하고 검증할 수 있습니다.
+
 prerequisites:
   - Week 3 Amazon VPC 및 네트워킹 이해.
   - REST API 기본 개념 이해.
