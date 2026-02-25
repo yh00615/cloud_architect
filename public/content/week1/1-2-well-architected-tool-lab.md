@@ -73,9 +73,9 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 10. **Account IDs**, **Application**, **Architectural design**, **Industry type**, **Industry** 필드는 선택사항이므로 비워둡니다.
 11. 아래로 스크롤하여 **AWS Trusted Advisor** 섹션으로 이동합니다.
 12. **AWS Trusted Advisor** 섹션은 선택사항이므로 활성화하지 않습니다.
-14. **Jira** 섹션은 선택사항이므로 설정하지 않습니다.
-15. 아래로 스크롤하여 **Tags** 섹션으로 이동합니다.
-16. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+13. **Jira** 섹션은 선택사항이므로 설정하지 않습니다.
+14. 아래로 스크롤하여 **Tags** 섹션으로 이동합니다.
+15. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
 | Key         | Value     |
 | ----------- | --------- |
@@ -118,15 +118,20 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > **QuickTable 시스템 현황**: 단일 리전(ap-northeast-2) 배포, 3-Tier 아키텍처, ALB + EC2 2대 + RDS Multi-AZ, 수동 배포, 기본 모니터링, 소규모 팀 운영. 정답은 없으며, 시스템 상태에 대한 본인의 판단을 반영합니다.
 
 3. 첫 번째 질문 **How do you determine what your priorities are?**를 확인합니다.
-4. 다운로드한 `well-architected-checklist.md` 파일을 참고하여 QuickTable 시스템에 적용 가능한 모범 사례를 선택합니다.
-5. QuickTable 시스템의 현재 상태를 고려하여 해당하는 모범 사례를 선택합니다.
+4. 다운로드한 `well-architected-checklist.md` 파일을 엽니다.
+5. 파일에서 **1. 운영 우수성 (Operational Excellence)** 섹션을 찾습니다.
+6. **QuickTable 적용 사항**의 **현재 구성**과 **개선 영역**을 확인합니다.
+7. Well-Architected Tool 화면으로 돌아와 각 질문의 모범 사례 중 QuickTable에 이미 구현된 항목을 선택합니다.
 
 > [!TIP]
-> 각 질문에는 "Info" 링크가 있어 모범 사례에 대한 자세한 설명을 확인할 수 있습니다. 답변이 어려운 경우 이 링크를 클릭하여 AWS 권장사항을 참고합니다.
+> 체크리스트 파일의 "현재 구성"에 나열된 항목은 선택하고, "개선 영역"에 나열된 항목은 선택하지 않습니다. 예를 들어, "CloudWatch 메트릭 수집"은 이미 구현되어 있으므로 관련 모범 사례를 선택하지만, "Infrastructure as Code 도입"은 아직 미구현이므로 선택하지 않습니다.
 
-6. [[Next]] 버튼을 클릭합니다.
-7. 나머지 질문들도 QuickTable 시스템의 현재 구현 상태를 고려하여 답변합니다.
-8. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
+> [!TIP]
+> 각 질문에는 "Info" 링크가 있어 모범 사례에 대한 자세한 설명을 확인할 수 있습니다. 체크리스트 파일과 Info 링크를 함께 참고하면 더 정확한 답변을 할 수 있습니다.
+
+8. [[Next]] 버튼을 클릭합니다.
+9. 나머지 질문들도 동일한 방법으로 체크리스트 파일을 참고하여 답변합니다.
+10. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > 버튼명은 콘솔 버전에 따라 "Save and exit", "Save", "Save and close"로 표시될 수 있습니다.
@@ -135,14 +140,15 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 ## 태스크 3: 보안 원칙 평가
 
-이 태스크에서는 보안(Security) 원칙을 평가합니다. 보안은 데이터와 시스템을 보호하고, 위협을 탐지하며, 보안 이벤트에 대응하는 능력을 의미합니다. 자격 증명 관리, 네트워크 보안, 데이터 보호, 인시던트 대응 등의 영역에서 현재 보안 수준을 평가한 후 취약점을 식별합니다.
+이 태스크에서는 보안(Security) 원칙을 평가합니다. 보안은 데이터와 시스템을 보호하고, 위협을 탐지하며, 보안 이벤트에 대응하는 능력을 의미합니다.
 
 > [!CONCEPT] 보안 원칙 (Security Pillar)
 > 보안 원칙은 데이터 기밀성과 무결성을 유지하고, 권한을 관리하며, 보안 이벤트를 탐지하는 능력을 다룹니다. 최소 권한 원칙, 다층 방어, 자동화된 보안 모범 사례 적용이 핵심입니다.
 
 1. 왼쪽 네비게이션에서 **Security**를 선택합니다.
-2. QuickTable 시스템의 보안 구현 상태를 고려하여 각 질문에 답변합니다.
-3. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
+2. `well-architected-checklist.md` 파일에서 **2. 보안 (Security)** 섹션을 참고합니다.
+3. QuickTable의 현재 구성(계층화된 보안 그룹, HTTPS, RDS 암호화 등)을 확인한 후 해당하는 모범 사례를 선택합니다.
+4. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > 버튼명은 콘솔 버전에 따라 "Save and exit", "Save", "Save and close"로 표시될 수 있습니다.
@@ -151,14 +157,15 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 ## 태스크 4: 안정성 원칙 평가
 
-이 태스크에서는 안정성(Reliability) 원칙을 평가합니다. 안정성은 시스템이 장애를 복구하고, 수요 변화에 동적으로 대응하며, 구성 오류를 완화하는 능력을 의미합니다. 기초 설정, 워크로드 아키텍처, 변경 관리, 장애 관리 등의 영역에서 현재 안정성 수준을 평가합니다.
+이 태스크에서는 안정성(Reliability) 원칙을 평가합니다. 안정성은 시스템이 장애를 복구하고, 수요 변화에 동적으로 대응하며, 구성 오류를 완화하는 능력을 의미합니다.
 
 > [!CONCEPT] 안정성 원칙 (Reliability Pillar)
 > 안정성 원칙은 워크로드가 의도한 기능을 올바르고 일관되게 수행하는 능력을 다룹니다. 장애 복구, 수요 변화 대응, 구성 오류 완화가 핵심입니다.
 
 1. 왼쪽 네비게이션에서 **Reliability**를 선택합니다.
-2. QuickTable 시스템의 안정성 구현 상태를 고려하여 각 질문에 답변합니다.
-3. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
+2. `well-architected-checklist.md` 파일에서 **3. 안정성 (Reliability)** 섹션을 참고합니다.
+3. QuickTable의 현재 구성(Multi-AZ, RDS Multi-AZ, Auto Scaling 등)을 확인한 후 해당하는 모범 사례를 선택합니다.
+4. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > 버튼명은 콘솔 버전에 따라 "Save and exit", "Save", "Save and close"로 표시될 수 있습니다.
@@ -179,16 +186,10 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > [!CONCEPT] 성능 효율성 원칙
 > 성능 효율성은 컴퓨팅 리소스를 효율적으로 사용하여 시스템 요구사항을 충족하고, 수요 변화와 기술 발전에 따라 효율성을 유지하는 능력입니다.
 
-**평가 포인트:**
-
-- QuickTable은 현재 고정 크기 Amazon EC2 인스턴스를 사용합니다
-- 트래픽 증가 시 수동으로 인스턴스를 추가합니다
-- 데이터베이스 쿼리 최적화가 미구현 상태입니다
-- 캐싱 전략이 부재합니다
-
 1. 왼쪽 네비게이션에서 **Performance Efficiency**를 선택합니다.
-2. QuickTable 시스템의 성능 효율성을 고려하여 각 질문에 답변합니다.
-3. [[Save and exit]] 버튼을 클릭합니다.
+2. `well-architected-checklist.md` 파일에서 **4. 성능 효율성 (Performance Efficiency)** 섹션을 참고합니다.
+3. QuickTable의 현재 구성(ALB, Auto Scaling 등)과 개선 영역(ElastiCache, CloudFront 등)을 확인한 후 답변합니다.
+4. [[Save and exit]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > 버튼명은 콘솔 버전에 따라 "Save and exit", "Save", "Save and close"로 표시될 수 있습니다.
@@ -198,16 +199,10 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > [!CONCEPT] 비용 최적화 원칙
 > 비용 최적화는 불필요한 비용을 제거하고, 가장 비용 효율적인 리소스를 선택하며, 시간 경과에 따라 지출을 최적화하는 능력입니다.
 
-**평가 포인트:**
-
-- 개발/운영 환경이 분리되어 있지 않습니다
-- 리소스 사용률 모니터링이 미구현 상태입니다
-- 예약 인스턴스를 사용하지 않습니다
-- 비용 태그 전략이 부재합니다
-
-4. 왼쪽 네비게이션에서 **Cost Optimization**을 선택합니다.
-5. QuickTable 시스템의 비용 최적화 상태를 고려하여 각 질문에 답변합니다.
-6. [[Save and exit]] 버튼을 클릭합니다.
+5. 왼쪽 네비게이션에서 **Cost Optimization**을 선택합니다.
+6. `well-architected-checklist.md` 파일에서 **5. 비용 최적화 (Cost Optimization)** 섹션을 참고합니다.
+7. QuickTable의 현재 구성(Auto Scaling, 리소스 태그)과 개선 영역(Reserved Instances, Savings Plans 등)을 확인한 후 답변합니다.
+8. [[Save and exit]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > 버튼명은 콘솔 버전에 따라 "Save and exit", "Save", "Save and close"로 표시될 수 있습니다.
@@ -217,16 +212,10 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > [!CONCEPT] 지속 가능성 원칙
 > 지속 가능성은 클라우드 워크로드 실행의 환경 영향을 최소화하는 능력입니다. 에너지 효율, 리소스 활용 최적화, 탄소 배출 감소가 핵심입니다.
 
-**평가 포인트:**
-
-- 단일 리전 배포로 에너지 효율 최적화가 미구현 상태입니다
-- 불필요한 리소스 정리 프로세스가 없습니다
-- 데이터 수명 주기 관리가 부재합니다
-- 서버리스 아키텍처를 활용하지 않습니다
-
-7. 왼쪽 네비게이션에서 **Sustainability**를 선택합니다.
-8. QuickTable 시스템의 지속 가능성을 고려하여 각 질문에 답변합니다.
-9. [[Save and exit]] 버튼을 클릭합니다.
+9. 왼쪽 네비게이션에서 **Sustainability**를 선택합니다.
+10. `well-architected-checklist.md` 파일에서 **6. 지속 가능성 (Sustainability)** 섹션을 참고합니다.
+11. QuickTable의 현재 구성(서울 리전, Auto Scaling)과 개선 영역(Graviton 인스턴스, Lambda 등)을 확인한 후 답변합니다.
+12. [[Save and exit]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > 버튼명은 콘솔 버전에 따라 "Save and exit", "Save", "Save and close"로 표시될 수 있습니다.
