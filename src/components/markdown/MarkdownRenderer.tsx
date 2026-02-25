@@ -868,18 +868,6 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
       return <strong className="markdown-strong">{children}</strong>;
     },
 
-    // 이미지 - className 속성 지원
-    img: ({ src, alt, className }: any) => {
-      return (
-        <img
-          src={src}
-          alt={alt || ''}
-          className={className || ''}
-          loading="lazy"
-        />
-      );
-    },
-
     // 순서 있는 리스트 - 전체 문서에서 연속된 번호
     ol: ({ children }: any) => {
       return (
