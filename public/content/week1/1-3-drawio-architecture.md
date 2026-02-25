@@ -277,7 +277,7 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 이 태스크에서는 **Web Tier**의 **Amazon EC2 인스턴스**와 **Amazon EC2 Auto Scaling 그룹**을 추가합니다.
 
-1. 왼쪽 패널에서 **Amazon EC2** 아이콘을 검색합니다.
+1. 왼쪽 패널에서 **instance** 아이콘을 검색합니다. (필요하다면 **그 외 결과** 버튼 누릅니다.)
 2. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 내부에 배치합니다.
 3. 레이블을 `Web Server A1`로 설정합니다.
 4. **Web Server A1**을 복사하여 옆에 배치합니다.
@@ -289,11 +289,12 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 10. 왼쪽 패널에서 **Auto Scaling** 또는 **Amazon EC2 Auto Scaling** 아이콘을 검색합니다.
 11. **Amazon EC2 Auto Scaling** 아이콘을 Web Server 영역 주변에 배치합니다.
 12. 레이블을 `QuickTable Web ASG`로 설정합니다.
-13. ALB에서 각 Web Server로 화살표를 연결합니다.
+13. ALB에서 각 AZ의 Web Server 1개씩 화살표를 연결합니다 (A1, C1).
+14. 각 AZ의 NAT Gateway에서 남은 Web Server로 화살표를 연결합니다 (NAT A → A2, NAT C → C2).
 
 > [!NOTE]
-> **Web Tier**: Nginx 또는 Apache를 실행하며, 정적 콘텐츠를 제공하고 요청을 처리합니다. 각 가용 영역에 2개씩 총 4개의 Web Server를 배치하여 고가용성과 확장성을 보장합니다.
-> - **Amazon EC2 Auto Scaling**: 트래픽에 따라 Amazon EC2 인스턴스 수를 자동으로 조정하여 비용을 최적화하고 가용성을 보장합니다.
+> **Web Tier**: Nginx 또는 Apache를 실행하며, 정적 콘텐츠를 제공하고 요청을 처리합니다. 각 가용 영역에 2개씩 총 4개의 Web Server를 배치하여 고가용성과 확장성을 보장합니다.  
+> **Amazon EC2 Auto Scaling**: 트래픽에 따라 Amazon EC2 인스턴스 수를 자동으로 조정하여 비용을 최적화하고 가용성을 보장합니다.
 
 ✅ **태스크 완료**: Amazon EC2 인스턴스 및 Amazon EC2 Auto Scaling 그룹이 추가되었습니다.
 
@@ -301,12 +302,12 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 이 태스크에서는 **Amazon RDS MySQL Multi-AZ** 데이터베이스를 프라이빗 데이터베이스 서브넷에 추가합니다.
 
-1. 왼쪽 패널에서 **Amazon RDS** 아이콘을 검색합니다.
+1. 왼쪽 패널에서 **RDS** 아이콘을 검색합니다.
 2. **Amazon RDS DB Instance** 아이콘을 **Private DB Subnet A** 내부에 배치합니다.
-3. 레이블을 `QuickTable Amazon RDS Primary`로 설정합니다.
+3. 레이블을 `RDS Primary`로 설정합니다.
 4. **Amazon RDS DB Instance** 아이콘을 **Private DB Subnet C** 내부에 배치합니다.
-5. 레이블을 `QuickTable Amazon RDS Standby`로 설정합니다.
-6. Primary에서 Standby로 양방향 화살표를 연결합니다.
+5. 레이블을 `RDS Standby`로 설정합니다.
+6. Primary에서 Standby로 화살표를 연결합니다.
 7. 각 App Server에서 Amazon RDS Primary로 화살표를 연결합니다.
 
 > [!NOTE]
