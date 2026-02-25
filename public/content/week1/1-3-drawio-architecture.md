@@ -277,27 +277,30 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 이 태스크에서는 **Web Tier**의 **Amazon EC2 인스턴스**와 **Amazon EC2 Auto Scaling 그룹**을 추가합니다.
 
+### ap-northeast-2a Web Server 배치
+
 1. 왼쪽 패널에서 **Amazon EC2** 아이콘을 검색합니다.
-2. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 내부에 배치합니다.
-3. 레이블을 `Web Server A`로 설정합니다.
-4. **Amazon EC2 Instance** 아이콘을 **Private App Subnet C** 내부에 배치합니다.
-5. 레이블을 `Web Server C`로 설정합니다.
-6. 왼쪽 패널에서 **Auto Scaling** 또는 **Amazon EC2 Auto Scaling** 아이콘을 검색합니다.
-7. **Amazon EC2 Auto Scaling** 아이콘을 Web Server 영역 주변에 배치합니다.
-8. 레이블을 `QuickTable Web ASG`로 설정합니다.
-9. ALB에서 각 Web Server로 화살표를 연결합니다.
-10. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 하단에 추가로 배치합니다.
-11. 레이블을 `App Server A`로 설정합니다.
-13. **Amazon EC2 Instance** 아이콘을 **Private App Subnet C** 하단에 추가로 배치합니다.
-14. 레이블을 `App Server C`로 설정합니다.
-15. **Amazon EC2 Auto Scaling** 아이콘을 App Server 영역 주변에 배치합니다.
-16. 레이블을 `QuickTable App ASG`로 설정합니다.
-17. 각 Web Server에서 해당 AZ의 App Server로 화살표를 연결합니다.
+2. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 상단에 배치합니다.
+3. 레이블을 `Web Server A-1`로 설정합니다.
+4. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 하단에 추가로 배치합니다.
+5. 레이블을 `Web Server A-2`로 설정합니다.
+
+### ap-northeast-2c Web Server 배치
+
+6. **Amazon EC2 Instance** 아이콘을 **Private App Subnet C** 상단에 배치합니다.
+7. 레이블을 `Web Server C-1`로 설정합니다.
+8. **Amazon EC2 Instance** 아이콘을 **Private App Subnet C** 하단에 추가로 배치합니다.
+9. 레이블을 `Web Server C-2`로 설정합니다.
+
+### Auto Scaling 그룹 및 연결
+
+10. 왼쪽 패널에서 **Auto Scaling** 또는 **Amazon EC2 Auto Scaling** 아이콘을 검색합니다.
+11. **Amazon EC2 Auto Scaling** 아이콘을 Web Server 영역 주변에 배치합니다.
+12. 레이블을 `QuickTable Web ASG`로 설정합니다.
+13. ALB에서 각 Web Server로 화살표를 연결합니다.
 
 > [!NOTE]
->
-> - **Web Tier**: Nginx 또는 Apache를 실행하며, 정적 콘텐츠를 제공하고 요청을 App Tier로 전달합니다.
-> - **App Tier**: Node.js 또는 Python 애플리케이션을 실행하며, 비즈니스 로직을 처리합니다.
+> **Web Tier**: Nginx 또는 Apache를 실행하며, 정적 콘텐츠를 제공하고 요청을 처리합니다. 각 가용 영역에 2개씩 총 4개의 Web Server를 배치하여 고가용성과 확장성을 보장합니다.
 > - **Amazon EC2 Auto Scaling**: 트래픽에 따라 Amazon EC2 인스턴스 수를 자동으로 조정하여 비용을 최적화하고 가용성을 보장합니다.
 
 ✅ **태스크 완료**: Amazon EC2 인스턴스 및 Amazon EC2 Auto Scaling 그룹이 추가되었습니다.
