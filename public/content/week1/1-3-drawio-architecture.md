@@ -129,8 +129,8 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 > [!TIP]
 > **아이콘 복제 방법**:
 > - 배치한 아이콘을 선택 → **마우스 오른쪽 버튼** → **Duplicate** 선택
-> - **단축키**: `⌘ D` (Cmd+D, Mac) / `Ctrl + D` (Windows)
-> - **드래그**: `⌘` (Cmd, Mac) / `Ctrl` (Windows)을 누른 채로 드래그
+> - **단축키**: **⌘ D** (Cmd+D, Mac) / **Ctrl + D** (Windows)
+> - **드래그**: **⌘** (Cmd, Mac) / **Ctrl** (Windows)을 누른 채로 드래그
 
 7. 복제 기능을 사용하여 두 번째 Availability Zone을 추가합니다.
 7. 첫 번째 AZ 레이블을 `ap-northeast-2a`로 설정합니다.
