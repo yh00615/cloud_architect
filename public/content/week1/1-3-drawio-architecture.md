@@ -289,8 +289,8 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 10. 왼쪽 패널에서 **Auto Scaling** 또는 **Amazon EC2 Auto Scaling** 아이콘을 검색합니다.
 11. **Amazon EC2 Auto Scaling** 아이콘을 Web Server 영역 주변에 배치합니다.
 12. 레이블을 `QuickTable Web ASG`로 설정합니다.
-13. ALB에서 각 AZ의 Web Server 1개씩 화살표를 연결합니다 (ALB → Web Server A1, ALB → Web Server C1).
-14. 각 AZ의 Web Server 1개에서 NAT Gateway로 화살표를 연결합니다 (Web Server A2 → NAT Gateway A, Web Server C2 → NAT Gateway C).
+13. ALB에서 각 AZ의 Web Server 1개씩 화살표를 연결합니다. (ALB → Web Server A1, ALB → Web Server C1)
+14. 각 AZ의 Web Server 1개에서 NAT Gateway로 화살표를 연결합니다. (Web Server A2 → NAT Gateway A, Web Server C2 → NAT Gateway C)
 
 > [!NOTE]
 > **Web Tier**: Nginx 또는 Apache를 실행하며, 정적 콘텐츠를 제공하고 요청을 처리합니다. 각 가용 영역에 2개씩 총 4개의 Web Server를 배치하여 고가용성과 확장성을 보장합니다.  
@@ -308,7 +308,7 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 4. **Amazon RDS DB Instance** 아이콘을 **Private DB Subnet C** 내부에 배치합니다.
 5. 레이블을 `RDS Standby`로 설정합니다.
 6. Primary에서 Standby로 양방향 화살표를 연결합니다.
-7. 각 Web Server에서 Amazon RDS Primary로 화살표를 연결합니다 (Web Server A1 → RDS Primary, Web Server A2 → RDS Primary, Web Server C1 → RDS Primary, Web Server C2 → RDS Primary).
+7. 각 Web Server에서 Amazon RDS Primary로 화살표를 연결합니다. (Web Server A1 → RDS Primary, Web Server A2 → RDS Primary, Web Server C1 → RDS Primary, Web Server C2 → RDS Primary)
 
 > [!NOTE]
 >
