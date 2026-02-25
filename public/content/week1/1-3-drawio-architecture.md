@@ -19,7 +19,7 @@ prerequisites:
 
 **Multi-AZ 설계 원칙**을 적용하여 **Amazon EC2 인스턴스**, **Amazon RDS Multi-AZ**, **Amazon EC2 Auto Scaling**의 고가용성 구성을 다이어그램에 표현하고, **보안 그룹** 설정을 통한 계층화된 보안을 구현합니다. 이를 통해 실제 프로덕션 환경에서 사용되는 **AWS Well-Architected Framework**의 **6가지 원칙**을 이해하게 됩니다.
 
-![QuickTable 3-Tier Architecture](/images/week1/quicktable-3tier-architecture.png)
+![QuickTable 3-Tier Architecture](/images/week1/1-3-quicktable-3tier-architecture-with-sg.png)
 
 *QuickTable 레스토랑 예약 시스템의 3-Tier 고가용성 아키텍처*
 
@@ -70,7 +70,7 @@ prerequisites:
 
 이 태스크에서는 **QuickTable Amazon VPC**와 **2개의 가용 영역(Availability Zone)**을 다이어그램에 배치합니다. **Multi-AZ** 구조를 통해 **고가용성** 아키텍처의 기반을 마련합니다.
 
-![QuickTable 3-Tier Architecture with Traffic Flow](/images/week1/quicktable-3tier-architecture-with-arrows.png)
+![QuickTable 3-Tier Architecture with Traffic Flow](/images/week1/1-3-quicktable-3tier-architecture-with-arrows.png)
 
 *트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이터 흐름, 점선: 복제/아웃바운드)*
 
