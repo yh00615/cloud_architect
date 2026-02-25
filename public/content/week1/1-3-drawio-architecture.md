@@ -331,7 +331,7 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 ### Web Server 보안 그룹
 
-4. **Security Group** 아이콘을 Web Server 주변에 배치합니다. (4개 Web Server를 한 번에 포함하도록 배치 가능)
+4. **Security Group** 아이콘을 Web Server 주변에 배치합니다. (여러 개를 한 번에 포함 가능)
 5. 레이블을 `Web-SG`로 설정합니다.
 
 ### RDS 보안 그룹
