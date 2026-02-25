@@ -69,7 +69,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 8. 아래로 스크롤하여 **Regions** 섹션으로 이동합니다.
 9. **AWS Regions** 드롭다운을 클릭한 후 `Asia Pacific (Seoul) ap-northeast-2`를 선택합니다.
 
-![Regions 섹션에서 AWS Region 선택](/images/week1/1-2-step9-region-selection.png)
+<img src="/images/week1/1-2-step9-region-selection.png" alt="Regions 섹션에서 AWS Region 선택" class="guide-img-md" />
 
 > [!NOTE]
 > **Regions** 섹션은 AWS Regions와 Non-AWS regions 두 부분으로 구성됩니다. 이 실습에서는 AWS 리전만 선택합니다.
@@ -79,7 +79,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 12. **AWS Trusted Advisor** 섹션은 선택사항이므로 활성화하지 않습니다.
 13. **Jira** 섹션은 선택사항이므로 설정하지 않습니다.
 
-![Jira 섹션 설정 화면](/images/week1/1-2-step13-jira-section.png)
+<img src="/images/week1/1-2-step13-jira-section.png" alt="Jira 섹션 설정 화면" class="guide-img-md" />
 
 14. 아래로 스크롤하여 **Tags** 섹션으로 이동합니다.
 15. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
@@ -100,7 +100,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 18. [[Next]] 버튼을 클릭합니다.
 
-![Apply profile 단계 화면](/images/week1/1-2-step18-apply-profile.png)
+<img src="/images/week1/1-2-step18-apply-profile.png" alt="Apply profile 단계 화면" class="guide-img-md" />
 
 19. **Apply lenses** 단계에서 **AWS Well-Architected Framework** 렌즈가 자동으로 선택되어 있는지 확인합니다.
 
@@ -109,7 +109,9 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 20. [[Define workload]] 버튼을 클릭하여 워크로드를 저장합니다.
 
-![Apply lenses 단계에서 AWS Well-Architected Framework 렌즈 확인](/images/week1/1-2-step20-apply-lenses.png) 21. 워크로드가 생성되면 워크로드 상세 페이지로 이동합니다.
+<img src="/images/week1/1-2-step20-apply-lenses.png" alt="Apply lenses 단계에서 AWS Well-Architected Framework 렌즈 확인" class="guide-img-md" />
+
+21. 워크로드가 생성되면 워크로드 상세 페이지로 이동합니다.
 
 ✅ **태스크 완료**: 워크로드가 생성되었습니다.
 
@@ -194,7 +196,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > <img src="/images/week1/1-2-task2-ops7-example.png" alt="OPS 7 질문 답변 예시 화면" class="guide-img-sm" />
 
 10. 나머지 질문들도 동일한 방법으로 체크리스트 파일을 참고하여 답변합니다.
-11. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
+11. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭하거나, [[Next]] 버튼을 클릭하여 다음 원칙(보안)으로 이동합니다.
 
 > [!NOTE]
 > 버튼명은 콘솔 버전에 따라 "Save and exit", "Save", "Save and close"로 표시될 수 있습니다.
@@ -258,7 +260,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 4. 위 예시들을 참고하여 해당하는 모범 사례를 선택합니다.
 5. 나머지 질문들도 동일한 방법으로 체크리스트 파일을 참고하여 답변합니다.
-6. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭합니다.
+6. 모든 질문에 답변한 후 [[Save and exit]] 버튼을 클릭하거나, [[Next]] 버튼을 클릭하여 다음 원칙(안정성)으로 이동합니다.
 
 > [!NOTE]
 > 버튼명은 콘솔 버전에 따라 "Save and exit", "Save", "Save and close"로 표시될 수 있습니다.
