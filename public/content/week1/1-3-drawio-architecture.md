@@ -102,9 +102,9 @@ _QuickTable 레스토랑 예약 시스템의 3-Tier 고가용성 아키텍처_
 
 ✅ **태스크 완료**: Draw.io 작업 환경이 준비되고 AWS 아이콘 라이브러리가 자동으로 로드되었습니다.
 
-## 태스크 2: QuickTable Amazon VPC 및 가용 영역 구성
+## 태스크 2: AWS 리전 및 QuickTable Amazon VPC 구성
 
-이 태스크에서는 **QuickTable Amazon VPC**와 **2개의 가용 영역(Availability Zone)**을 다이어그램에 배치합니다. **Multi-AZ** 구조를 통해 **고가용성** 아키텍처의 기반을 마련합니다.
+이 태스크에서는 **AWS 리전**, **QuickTable Amazon VPC**, **2개의 가용 영역(Availability Zone)**을 다이어그램에 배치합니다. **Multi-AZ** 구조를 통해 **고가용성** 아키텍처의 기반을 마련합니다.
 
 ![QuickTable 3-Tier Architecture with Traffic Flow](/images/week1/1-3-quicktable-3tier-architecture-with-arrows.png)
 
@@ -113,40 +113,52 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 > [!NOTE]
 > 왼쪽 패널에 AWS 아이콘 라이브러리가 자동으로 로드되어 있습니다.
 
+### AWS 리전 배치
+
 1. 왼쪽 패널에서 **AWS / Groups** 카테고리를 확장합니다.
 
 > [!TIP]
-> **AWS 아이콘 검색 방법**: 왼쪽 패널 상단의 검색창에 `VPC` 또는 `RDS`를 입력하면 아이콘을 빠르게 찾을 수 있습니다.  
+> **AWS 아이콘 검색 방법**: 왼쪽 패널 상단의 검색창에 `Region` 또는 `VPC`를 입력하면 아이콘을 빠르게 찾을 수 있습니다.  
 > 카테고리를 클릭하면 해당 카테고리의 모든 아이콘이 표시됩니다. 이후 태스크에서도 이 방법을 사용하여 필요한 아이콘을 검색하세요.
 
-2. **VPC** 아이콘을 캔버스로 드래그합니다.
+2. **Region** 아이콘을 캔버스로 드래그합니다.
+3. Region 박스 크기를 조정하여 전체 아키텍처를 포함할 수 있도록 확장합니다.
+4. Region 박스를 더블클릭하여 레이블을 `AWS Region: ap-northeast-2 (Seoul)`로 변경합니다.
+
+### Amazon VPC 배치
+
+5. **VPC** 아이콘을 Region 내부로 드래그합니다.
 
 <img src="/images/week1/1-3-step2-vpc-drag.png" alt="Draw.io 캔버스에 VPC 아이콘 드래그" class="guide-img-sm" />
 
-3. VPC 박스 크기를 조정하여 전체 아키텍처를 포함할 수 있도록 확장합니다.
+6. VPC 박스 크기를 조정하여 전체 아키텍처를 포함할 수 있도록 확장합니다.
 
 <img src="/images/week1/1-3-step2-vpc-size.png" alt="Draw.io에서 VPC 박스 크기 조정" class="guide-img-sm" />
 
-4. VPC 박스를 더블클릭하여 레이블을 `QuickTable Amazon VPC (10.0.0.0/16)`로 변경합니다.
-5. 왼쪽 패널에서 **Availability Zone** 아이콘을 검색합니다.
-6. **Availability Zone** 아이콘을 VPC 내부에 배치하고 크기를 조정합니다.
-7. 복제 기능을 사용하여 두 번째 Availability Zone을 추가합니다.
+7. VPC 박스를 더블클릭하여 레이블을 `QuickTable Amazon VPC (10.0.0.0/16)`로 변경합니다.
+
+### 가용 영역 배치
+
+8. 왼쪽 패널에서 **Availability Zone** 아이콘을 검색합니다.
+9. **Availability Zone** 아이콘을 VPC 내부에 배치하고 크기를 조정합니다.
+
+> [!TIP]
+> **아이콘 복제 방법**:
+> - 배치한 아이콘을 선택 → **마우스 오른쪽 버튼** → **Duplicate** 선택
+> - **단축키**: **⌘ (Cmd) + D** (Mac) / **Ctrl + D** (Windows)
+> - **드래그**: **⌘ (Cmd)** (Mac) / **Ctrl** (Windows)을 누른 채로 드래그
+
+10. 복제 기능을 사용하여 두 번째 Availability Zone을 추가합니다.
 
 <img src="/images/week1/1-3-step2-az-placement.png" alt="Draw.io에 VPC와 2개의 가용 영역 배치 완료" class="guide-img-sm" />
 
-> [!TIP]
-> **아이콘 복제 방법**: Windows에서는 Ctrl 키를, macOS에서는 Cmd 키를 누른 채로 드래그하면 복제됩니다.
-
-8. 첫 번째 AZ 레이블을 `ap-northeast-2a`로 설정합니다.
-9. 두 번째 AZ 레이블을 `ap-northeast-2c`로 설정합니다.
-
-<img src="/images/week1/1-3-step6-web-app-connection.png" alt="Draw.io에서 가용 영역 레이블 설정 완료" class="guide-img-sm" />
+11. 첫 번째 AZ 레이블을 `ap-northeast-2a`로 설정합니다.
+12. 두 번째 AZ 레이블을 `ap-northeast-2c`로 설정합니다.
 
 > [!NOTE]
-> Multi-AZ 구성은 하나의 가용 영역에 장애가 발생해도 다른 가용 영역에서 서비스를 계속 제공할 수 있도록 합니다.  
-> QuickTable은 2개의 AZ를 사용하여 고가용성을 보장합니다.
+> Multi-AZ 구성은 하나의 가용 영역에 장애가 발생해도 다른 가용 영역에서 서비스를 계속 제공할 수 있도록 합니다. QuickTable은 2개의 AZ를 사용하여 고가용성을 보장합니다.
 
-✅ **태스크 완료**: QuickTable Amazon VPC와 2개의 가용 영역이 생성되었습니다.
+✅ **태스크 완료**: AWS 리전, QuickTable Amazon VPC, 2개의 가용 영역이 생성되었습니다.
 
 ## 태스크 3: 3-Tier 서브넷 구성
 
