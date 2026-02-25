@@ -143,6 +143,9 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 ### 가용 영역 배치
 
 8. 왼쪽 패널에서 **Availability Zone** 아이콘을 검색합니다.
+
+<img src="/images/week1/1-3-step2-az-placement.png" alt="Draw.io에 VPC와 2개 가용 영역" class="guide-img-sm" />
+
 9. **Availability Zone** 아이콘을 VPC 내부에 배치하고 크기를 조정합니다.
 
 > [!TIP]
@@ -154,10 +157,10 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 10. 복제 기능을 사용하여 두 번째 Availability Zone을 추가합니다.
 
-<img src="/images/week1/1-3-step2-az-placement.png" alt="Draw.io에 VPC와 2개의 가용 영역 배치 완료" class="guide-img-sm" />
-
 11. 첫 번째 AZ 레이블을 `ap-northeast-2a`로 설정합니다.
 12. 두 번째 AZ 레이블을 `ap-northeast-2c`로 설정합니다.
+
+<img src="/images/week1/1-3-step2-az-labels.png" alt="Draw.io에서 가용 영역 레이블 설정 완료" class="guide-img-sm" />
 
 > [!NOTE]
 > Multi-AZ 구성은 하나의 가용 영역에 장애가 발생해도 다른 가용 영역에서 서비스를 계속 제공할 수 있도록 합니다. QuickTable은 2개의 AZ를 사용하여 고가용성을 보장합니다.
@@ -174,13 +177,6 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 > - **Public Subnet** (초록색): 인터넷 게이트웨이를 통해 외부와 통신
 > - **Private Subnet** (파란색): NAT Gateway를 통해 아웃바운드만 허용 또는 완전히 격리
 
-### ap-northeast-2a 서브넷 배치
-
-1. 왼쪽 패널에서 **Public Subnet** 아이콘을 검색합니다.
-2. **Public Subnet** 아이콘을 **ap-northeast-2a** AZ 내부에 배치하고 크기를 조정합니다.
-3. 레이블을 `Public Subnet A (10.0.1.0/24)`로 설정합니다.
-
-> [!TIP]
 > [!TIP]
 > **서브넷 색상 변경**: AWS / Groups 카테고리의 서브넷 아이콘은 예전 버전이며 그룹화되어 있어 색상 변경이 어렵습니다.
 >
@@ -189,8 +185,15 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 > **정식 아키텍처 다이어그램 작성 시**: [AWS Architecture Icons](https://aws.amazon.com/architecture/icons/) 페이지에서 공식 아키텍처 아이콘 PPT를 다운로드하여 최신 아이콘을 가져온 후, 박스를 직접 그려서 서브넷을 표현하는 것을 권장합니다.
 >
 > **일반적인 색상 구분**:
+>
 > - **Public Subnet**: 초록색 계열 (인터넷 연결)
 > - **Private Subnet**: 파란색 계열 (격리된 환경)
+
+### ap-northeast-2a 서브넷 배치
+
+1. 왼쪽 패널에서 **Public Subnet** 아이콘을 검색합니다.
+2. **Public Subnet** 아이콘을 **ap-northeast-2a** AZ 내부에 배치하고 크기를 조정합니다.
+3. 레이블을 `Public Subnet A (10.0.1.0/24)`로 설정합니다.
 
 4. 왼쪽 패널에서 **Private Subnet** 아이콘을 검색합니다.
 5. **Private Subnet** 아이콘을 **ap-northeast-2a** AZ 내부에 배치하고 크기를 조정합니다.
@@ -209,8 +212,8 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 > [!NOTE]
 >
 > - **퍼블릭 서브넷**: 인터넷 게이트웨이를 통해 외부와 통신하며, Application Load Balancer가 배치됩니다.
-> - **프라이빗 애플리케이션 서브넷**: NAT Gateway를 통해 외부로 나가는 트래픽만 허용하며, Amazon EC2 웹 서버와 앱 서버가 배치됩니다.
-> - **프라이빗 데이터베이스 서브넷**: 외부 인터넷 접근이 차단되며, Amazon RDS 데이터베이스가 배치됩니다.
+> - **프라이빗 서브넷(애플리케이션)**: NAT Gateway를 통해 외부로 나가는 트래픽만 허용하며, Amazon EC2 웹 서버와 앱 서버가 배치됩니다.
+> - **프라이빗 서브넷(데이터베이스)**: 외부 인터넷 접근이 차단되며, Amazon RDS 데이터베이스가 배치됩니다.
 
 ✅ **태스크 완료**: 3-Tier 서브넷 구성이 완료되었습니다.
 
