@@ -289,7 +289,7 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 10. 왼쪽 패널에서 **Auto Scaling** 또는 **Amazon EC2 Auto Scaling** 아이콘을 검색합니다.
 11. **Amazon EC2 Auto Scaling** 아이콘을 Web Server 영역 주변에 배치합니다.
 12. 레이블을 `QuickTable Web ASG`로 설정합니다.
-13. QuickTable ALB에서 각 AZ의 Web Server 1개씩 화살표를 연결합니다 (Web Server A1, Web Server C1).
+13. ALB에서 각 AZ의 Web Server 1개씩 화살표를 연결합니다 (Web Server A1, Web Server C1).
 14. 각 AZ의 Web Server 1개에서 NAT Gateway로 화살표를 연결합니다 (Web Server A2 → NAT Gateway A, Web Server C2 → NAT Gateway C).
 
 > [!NOTE]
