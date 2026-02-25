@@ -1157,14 +1157,12 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
         : `${base}${src?.replace(/^\//, '')}`;
 
       return (
-        <Box margin={{ vertical: 's' }}>
-          <img
-            src={imageSrc}
-            alt={alt || ''}
-            className="markdown-image"
-            {...props}
-          />
-        </Box>
+        <img
+          src={imageSrc}
+          alt={alt || ''}
+          className="markdown-image"
+          {...props}
+        />
       );
     },
 
