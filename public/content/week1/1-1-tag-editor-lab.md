@@ -5,10 +5,10 @@ session: 1
 awsServices:
   - AWS Resource Groups & Tag Editor
 learningObjectives:
-  - AWS 리소스 태그의 개념과 중요성을 이해할 수 있습니다
-  - Tag Editor를 사용하여 리소스를 검색하고 관리할 수 있습니다
-  - Resource Groups를 생성하여 관련 리소스를 그룹화할 수 있습니다
-  - 태그 기반 리소스 정리 방법을 학습할 수 있습니다
+  - AWS 리소스 태그의 개념과 중요성을 이해할 수 있습니다.
+  - Tag Editor를 사용하여 리소스를 검색하고 관리할 수 있습니다.
+  - Resource Groups를 생성하여 관련 리소스를 그룹화할 수 있습니다.
+  - 태그 기반 리소스 정리 방법을 학습할 수 있습니다.
 prerequisites:
   - AWS Management Console 기본 사용법
   - AWS 계정 및 로그인 정보
