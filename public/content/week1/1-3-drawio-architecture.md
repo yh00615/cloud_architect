@@ -277,23 +277,15 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 이 태스크에서는 **Web Tier**의 **Amazon EC2 인스턴스**와 **Amazon EC2 Auto Scaling 그룹**을 추가합니다.
 
-### ap-northeast-2a Web Server 배치
-
 1. 왼쪽 패널에서 **Amazon EC2** 아이콘을 검색합니다.
-2. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 상단에 배치합니다.
-3. 레이블을 `Web Server A-1`로 설정합니다.
-4. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 하단에 추가로 배치합니다.
-5. 레이블을 `Web Server A-2`로 설정합니다.
-
-### ap-northeast-2c Web Server 배치
-
-6. **Amazon EC2 Instance** 아이콘을 **Private App Subnet C** 상단에 배치합니다.
-7. 레이블을 `Web Server C-1`로 설정합니다.
-8. **Amazon EC2 Instance** 아이콘을 **Private App Subnet C** 하단에 추가로 배치합니다.
-9. 레이블을 `Web Server C-2`로 설정합니다.
-
-### Auto Scaling 그룹 및 연결
-
+2. **Amazon EC2 Instance** 아이콘을 **Private App Subnet A** 내부에 배치합니다.
+3. 레이블을 `Web Server A1`로 설정합니다.
+4. **Web Server A1**을 복사하여 옆에 배치합니다.
+5. 레이블을 `Web Server A2`로 설정합니다.
+6. **Amazon EC2 Instance** 아이콘을 **Private App Subnet C** 내부에 배치합니다.
+7. 레이블을 `Web Server C1`로 설정합니다.
+8. **Web Server C1**을 복사하여 옆에 배치합니다.
+9. 레이블을 `Web Server C2`로 설정합니다.
 10. 왼쪽 패널에서 **Auto Scaling** 또는 **Amazon EC2 Auto Scaling** 아이콘을 검색합니다.
 11. **Amazon EC2 Auto Scaling** 아이콘을 Web Server 영역 주변에 배치합니다.
 12. 레이블을 `QuickTable Web ASG`로 설정합니다.
