@@ -208,7 +208,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > [!CONCEPT] 보안 원칙 (Security Pillar)
 > 보안 원칙은 데이터 기밀성과 무결성을 유지하고, 권한을 관리하며, 보안 이벤트를 탐지하는 능력을 다룹니다. 최소 권한 원칙, 다층 방어, 자동화된 보안 모범 사례 적용이 핵심입니다.
 
-1. 왼쪽 네비게이션에서 **Security**를 선택합니다.
+1. 왼쪽 네비게이션에서 **Security**를 선택하거나, 질문 화면 하단의 [[Next]] 버튼을 클릭하여 보안 원칙 질문으로 이동합니다.
 2. `well-architected-checklist.md` 파일에서 **2. 보안 (Security)** 섹션을 참고합니다.
 3. QuickTable의 현재 구성(계층화된 보안 그룹, HTTPS, RDS 암호화 등)을 확인합니다.
 
@@ -272,7 +272,7 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 > [!CONCEPT] 안정성 원칙 (Reliability Pillar)
 > 안정성 원칙은 워크로드가 의도한 기능을 올바르고 일관되게 수행하는 능력을 다룹니다. 장애 복구, 수요 변화 대응, 구성 오류 완화가 핵심입니다.
 
-1. 왼쪽 네비게이션에서 **Reliability**를 선택합니다.
+1. 왼쪽 네비게이션에서 **Reliability**를 선택하거나, 질문 화면 하단의 [[Next]] 버튼을 클릭하여 안정성 원칙 질문으로 이동합니다.
 2. `well-architected-checklist.md` 파일에서 **3. 안정성 (Reliability)** 섹션을 참고합니다.
 3. QuickTable의 현재 구성(Multi-AZ, RDS Multi-AZ, Auto Scaling 등)을 확인합니다.
 
