@@ -58,21 +58,21 @@ _QuickTable 레스토랑 예약 시스템의 3-Tier 고가용성 아키텍처_
 4. **유형**은 `XML 파일 (.drawio)`로 유지합니다.
 5. [[이름 바꾸기]] 버튼을 클릭합니다.
 
-![Draw.io 다이어그램 이름 변경 완료 화면](/images/week1/1-3-step1-diagram-name-2.png)
+<img src="/images/week1/1-3-step1-diagram-name-2.png" alt="Draw.io 다이어그램 이름 변경 완료 화면" class="guide-img-sm" />
 
 ### 다이어그램 저장
 
 6. 상단 메뉴에서 **파일** > **저장**을 선택합니다.
 
-![Draw.io 저장 위치 선택 대화상자](/images/week1/1-3-step1-save-location.png)
+<img src="/images/week1/1-3-step1-save-location.png" alt="Draw.io 저장 위치 선택 대화상자" class="guide-img-sm" />
 
 7. **위치**에서 저장 위치를 선택합니다 (예: `Google 드라이브 - 내 드라이브`, `브라우저`, `기기` 등).
 
-![Draw.io 저장 버튼](/images/week1/1-3-step1-save-button.png)
+<img src="/images/week1/1-3-step1-save-button.png" alt="Draw.io 저장 버튼" class="guide-img-sm" />
 
 8. [[저장]] 버튼을 클릭합니다.
 
-![Draw.io 저장 완료 확인](/images/week1/1-3-step1-save-confirm.png)
+<img src="/images/week1/1-3-step1-save-confirm.png" alt="Draw.io 저장 완료 확인" class="guide-img-sm" />
 
 > [!NOTE]
 > 이후 태스크를 진행하면서 주기적으로 **파일** > **저장**을 선택하여 작업 내용을 저장하는 것을 권장합니다.
@@ -86,7 +86,7 @@ _QuickTable 레스토랑 예약 시스템의 3-Tier 고가용성 아키텍처_
 > 2. **빈 다이어그램**을 선택합니다.
 > 3. [[만들기]] 버튼을 클릭합니다.
 >
-> ![Draw.io 새 다이어그램 만들기](/images/week1/1-3-step1-new-diagram.png)
+> <img src="/images/week1/1-3-step1-new-diagram.png" alt="Draw.io 새 다이어그램 만들기" class="guide-img-sm" />
 
 > [!TIP]
 > **영어 인터페이스로 변경하기**
@@ -115,6 +115,8 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 
 1. 왼쪽 패널에서 **AWS / Groups** 카테고리를 확장합니다.
 
+![Draw.io 왼쪽 패널의 AWS 아이콘 라이브러리](/images/week1/1-3-step2-aws-icons.png)
+
 > [!TIP]
 > **AWS 아이콘 검색 방법**: 왼쪽 패널 상단의 검색창에 `VPC` 또는 `RDS`를 입력하면 아이콘을 빠르게 찾을 수 있습니다. 카테고리를 클릭하면 해당 카테고리의 모든 아이콘이 표시됩니다. 이후 태스크에서도 이 방법을 사용하여 필요한 아이콘을 검색하세요.
 
@@ -122,7 +124,12 @@ _트래픽 흐름이 표시된 QuickTable 아키텍처 (회색 화살표: 데이
 3. VPC 박스 크기를 조정하여 전체 아키텍처를 포함할 수 있도록 확장합니다.
 4. VPC 박스를 더블클릭하여 레이블을 `QuickTable Amazon VPC (10.0.0.0/16)`로 변경합니다.
 5. 왼쪽 패널에서 **Availability Zone** 아이콘을 검색합니다.
-6. **Availability Zone** 아이콘을 VPC 내부에 2개 배치합니다.
+6. **Availability Zone** 아이콘을 VPC 내부에 배치하고 크기를 조정합니다.
+
+> [!TIP]
+> **아이콘 복제 방법**: 배치한 아이콘을 선택한 상태에서 **Cmd(Mac)** 또는 **Ctrl(Windows)**를 누른 채로 드래그하면 복제됩니다. 이 방법으로 동일한 크기의 Availability Zone을 빠르게 추가할 수 있습니다.
+
+7. 복제 기능을 사용하여 두 번째 Availability Zone을 추가합니다.
 7. 첫 번째 AZ 레이블을 `ap-northeast-2a`로 설정합니다.
 8. 두 번째 AZ 레이블을 `ap-northeast-2c`로 설정합니다.
 
