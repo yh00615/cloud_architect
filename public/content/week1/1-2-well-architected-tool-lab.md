@@ -360,47 +360,73 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 
 이 태스크에서는 평가 결과를 확인한 후 개선이 필요한 영역을 식별합니다. Well-Architected Tool은 각 원칙별로 위험 수준(높음, 중간, 없음)을 표시한 후 개선을 위한 권장 사항을 제공합니다. 대시보드에서 전체 워크로드의 상태를 한눈에 파악한 후 우선순위가 높은 개선 항목부터 마일스톤을 설정하여 체계적으로 아키텍처를 개선할 수 있습니다.
 
-1. 워크로드 대시보드로 이동합니다.
+1. 워크로드 상세 페이지에서 **AWS Well-Architected Framework** 렌즈를 클릭합니다.
 2. **Overview** 탭에서 전체 평가 결과를 확인합니다.
-3. 화면 중앙의 **Risk summary** 섹션에서 각 원칙별 위험 수준을 확인합니다.
+3. **Lens overview** 섹션에서 **Overall risks** 항목을 확인합니다.
 
 > [!NOTE]
-> **Risk summary**: 각 원칙별 위험 수준(High/Medium/No risk)을 색상으로 구분하여 표시합니다. High risk(빨간색)는 즉시 개선 필요, Medium risk(주황색)는 개선 고려 필요, No risk(초록색)는 모범 사례 준수를 의미합니다.
+> **Overall risks**: 전체 워크로드의 위험 수준을 요약하여 표시합니다. High risk(빨간색 원)는 즉시 개선 필요, Medium risk(주황색 삼각형)는 개선 고려 필요를 의미합니다.
+
+4. 아래로 스크롤하여 **Pillars** 섹션을 확인합니다.
+5. **Pillars** 테이블에서 각 원칙별 답변 개수와 위험 수준을 확인합니다.
 
 > [!OUTPUT]
 > **예상 출력** (답변에 따라 결과가 다르게 표시됩니다):
 >
+> **Pillars** 섹션에 각 원칙이 다음과 같이 표시됩니다:
+>
 > ```
-> Operational Excellence: N high risks, N medium risks
-> Security: N high risks, N medium risks
-> Reliability: N high risks, N medium risks
-> Performance Efficiency: N high risks, N medium risks (자율 실습 완료 시)
-> Cost Optimization: N high risks, N medium risks (자율 실습 완료 시)
-> Sustainability: N high risks, N medium risks (자율 실습 완료 시)
+> Operational Excellence
+> Questions answered: 2/11
+> High risks: 5
+> Medium risks: 3
+>
+> Security
+> Questions answered: 0/11
+> High risks: 4
+> Medium risks: 2
+>
+> Reliability
+> Questions answered: 0/13
+> High risks: 3
+> Medium risks: 4
+>
+> Performance Efficiency
+> Questions answered: 0/5
+> High risks: 2
+> Medium risks: 1
+>
+> Cost Optimization
+> Questions answered: 0/11
+> High risks: 3
+> Medium risks: 2
+>
+> Sustainability
+> Questions answered: 0/6
+> High risks: 2
+> Medium risks: 1
 > ```
 >
-> 💡 초기 단계 스타트업 시스템 특성상 High risk 항목이 다수 식별되는 것이 정상입니다.
+> 💡 초기 단계 스타트업 시스템 특성상 High risk 항목이 다수 식별되는 것이 정상입니다. Infrastructure as Code 미도입, 공식 Runbook 부재, AWS WAF 미적용 등 개선 영역이 많습니다.
 
-4. **High risk** 항목 숫자를 클릭하여 상세 내용을 확인합니다.
-5. 상세 화면에서 개선이 필요한 질문과 권장 사항을 확인합니다.
-6. Well-Architected Tool 콘솔로 이동합니다.
-7. 워크로드를 선택합니다.
-8. 하단의 **Improvement plan** 탭을 선택합니다.
+6. **Next risk to address** 섹션에서 다음으로 해결해야 할 위험 항목을 확인합니다.
+7. 위험 항목을 클릭하여 상세 내용과 권장 개선 사항을 확인합니다.
+8. **Improvement plan** 탭을 선택합니다.
 9. 개선이 필요한 위험 항목 목록을 확인합니다.
 
 > [!NOTE]
 > **Improvement plan** 탭에는 평가 중 식별된 위험 항목(High/Medium)이 자동으로 표시됩니다. 각 항목은 질문 제목, 위험 수준, 원칙, 개선 권장 사항을 포함합니다.
 
-9. 각 항목의 위험 수준(High/Medium)과 개선 권장 사항을 검토합니다.
-10. 우선순위가 높은 항목부터 개선 계획을 수립합니다.
+10. 각 항목의 위험 수준(High/Medium)과 개선 권장 사항을 검토합니다.
+11. 우선순위가 높은 항목부터 개선 계획을 수립합니다.
 
 > [!TIP]
 > **개선 우선순위**: High risk 항목 우선, 빠른 효과(Quick Wins), 비용 대비 효과, 규제 요구사항 순으로 결정합니다.
 
-11. 하단의 **Milestones** 탭을 선택합니다.
-12. [[Create milestone]] 버튼을 클릭합니다.
-13. **Milestone name**에 `Initial Assessment`를 입력합니다.
-14. [[Save]] 버튼을 클릭합니다.
+12. **Milestones** 탭을 선택합니다.
+13. [[Create milestone]] 버튼을 클릭합니다.
+14. **Milestone name**에 `Initial Assessment`를 입력합니다.
+15. [[Save]] 버튼을 클릭합니다.
 
 > [!NOTE]
 > **마일스톤(Milestone)**: 특정 시점의 워크로드 평가 상태를 저장하는 스냅샷 기능입니다. 시간이 지남에 따라 아키텍처가 어떻게 개선되었는지 추적할 수 있습니다.
@@ -483,13 +509,18 @@ Week 1-3에서 작성할 QuickTable 아키텍처 다이어그램의 설계 원�
 생성한 워크로드를 삭제합니다.
 
 1. 워크로드 목록에서 `quicktable-web-application`을 선택합니다.
-2. [[Delete]] 버튼을 클릭합니다.
-3. 확인 창에서 `delete`를 입력합니다.
-4. [[Delete]] 버튼을 클릭합니다.
+2. [[Delete workload]] 버튼을 클릭합니다.
+3. 확인 창에서 삭제할 내용을 확인합니다.
 
 > [!NOTE]
-> 워크로드를 삭제하면 평가 결과, 개선 계획, 마일스톤 등 모든 데이터가 영구적으로 삭제됩니다.
-> 필요한 경우 삭제 전에 보고서를 다운로드하여 보관하세요.
+> 확인 창에는 다음 내용이 표시됩니다:
+>
+> - Deletes the workload
+> - Deletes all milestones associated with the workload
+>
+> 워크로드를 삭제하면 평가 결과, 개선 계획, 마일스톤 등 모든 데이터가 영구적으로 삭제됩니다. 필요한 경우 삭제 전에 보고서를 다운로드하여 보관하세요.
+
+4. [[Delete]] 버튼을 클릭하여 삭제를 확정합니다.
 
 ## 3단계: 삭제 확인
 
