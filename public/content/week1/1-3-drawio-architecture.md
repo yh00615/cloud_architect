@@ -51,8 +51,7 @@ _QuickTable 레스토랑 예약 시스템의 3-Tier 고가용성 아키텍처_
 ### 다이어그램 이름 설정
 
 2. 상단의 **제목 없는 다이어그램**을 클릭합니다.
-
-![Draw.io 다이어그램 이름 변경 대화상자](/images/week1/1-3-step1-diagram-name.png)
+   ![Draw.io 다이어그램 이름 변경 대화상자](/images/week1/1-3-step1-diagram-name.png)
 
 3. **파일명** 필드에 `quicktable-architecture`를 입력합니다.
 4. **유형**은 `XML 파일 (.drawio)`로 유지합니다.
