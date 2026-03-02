@@ -24,7 +24,8 @@ prerequisites:
 >
 > **관련 태스크:**
 >
-> - 태스크 0: 실습 환경 구축 (AWS CloudFormation 스택 생성)
+> - 태스크 0: 실습 환경 구축 (`tag-editor-lab-stack.yaml` 파일을 사용하여 AWS CloudFormation 스택 생성)
+> - 참고 자료 (`README.md` 파일에서 배포 가이드 및 태그 관리 방법 확인)
 
 이 데모에서는 **AWS Resource Groups & Tag Editor**를 사용하여 태그 기반으로 리소스를 검색하고 관리하는 방법을 학습합니다.  
 태그는 AWS 리소스 관리의 핵심 도구입니다.

@@ -384,14 +384,12 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
                     const liChildren = liChild.props.children;
                     const liText = extractText(liChildren);
 
-                    // "태스크 X:" 패턴 감지 - 관련 태스크
-                    if (liText.match(/^태스크\s+\d+/)) {
-                      usageTasks.push(liText);
-                      return;
-                    }
-
-                    // "모든 태스크" 패턴 감지 - 관련 태스크
-                    if (liText.match(/^모든 태스크/)) {
+                    // "태스크 X:" 또는 "태스크 X-Y:" 또는 "참고 자료:" 패턴 감지 - 관련 태스크
+                    if (
+                      liText.match(
+                        /^(태스크\s+[\d-]+|참고\s*자료|모든\s*태스크)/,
+                      )
+                    ) {
                       usageTasks.push(liText);
                       return;
                     }

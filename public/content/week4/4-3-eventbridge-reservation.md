@@ -29,11 +29,7 @@ prerequisites:
 >
 > **관련 태스크:**
 >
-> - 태스크 0: 실습 환경 구축 (AWS CloudFormation 스택 생성 - AWS Lambda 함수 3개 포함)
-> - 태스크 1: ReservationCreated 이벤트 규칙 생성 (이벤트 패턴 정의 및 타겟 연결)
-> - 태스크 2: TableUnavailable 이벤트 규칙 생성 (이벤트 패턴 정의 및 타겟 연결)
-> - 태스크 3: 예약 생성 테스트 (이벤트 기반 워크플로우 확인)
-> - 태스크 4: 예약 불가 시나리오 테스트 (TableUnavailable 이벤트 확인)
+> - 태스크 0: 실습 환경 구축 (week4-3-quicktable-events-lab.yaml 사용)
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 **반드시 삭제해야 합니다**.

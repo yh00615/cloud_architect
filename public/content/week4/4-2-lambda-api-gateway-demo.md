@@ -28,11 +28,13 @@ prerequisites:
 > [week4-2-quicktable-api-lab.zip](/files/week4/week4-2-quicktable-api-lab.zip)
 >
 > - `week4-2-quicktable-api-lab.yaml` - AWS CloudFormation 템플릿 (태스크 0에서 Amazon DynamoDB, AWS Lambda, Amazon API Gateway 자동 생성)
-> - `week4-2-README.md` - 아키텍처 설명 및 배포 가이드
+> - `create_reservation.py` - 예약 생성 AWS Lambda 함수 코드 (참고용 - 태스크 0에서 AWS CloudFormation이 자동 생성)
+> - `list_reservations.py` - 예약 조회 AWS Lambda 함수 코드 (참고용 - 태스크 0에서 AWS CloudFormation이 자동 생성)
+> - `week4-2-README.md` - CloudFormation 배포 가이드 및 Lambda 함수 코드 설명
 >
 > **관련 태스크:**
 >
-> - 태스크 0: 실습 환경 구축 (AWS CloudFormation 스택 생성)
+> - 태스크 0: 실습 환경 구축 (week4-2-quicktable-api-lab.yaml 사용)
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.

@@ -121,8 +121,10 @@ export const FileDownload: React.FC<FileDownloadProps> = ({
                     </Box>
                     <div className="usage-tasks">
                       {usageTasks.map((task, index) => {
-                        // "태스크 X:" 패턴 감지 및 분리
-                        const match = task.match(/^(태스크\s+\d+):\s*(.+)$/);
+                        // "태스크 X:" 또는 "태스크 X-Y:" 패턴 감지 및 분리
+                        const match = task.match(
+                          /^(태스크\s+[\d-]+):\s*(.+)$/s,
+                        );
                         const taskNumber = match ? match[1] : null;
                         const taskDescription = match ? match[2] : task;
 

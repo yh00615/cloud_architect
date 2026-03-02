@@ -22,13 +22,13 @@ prerequisites:
 > [!DOWNLOAD]
 > [week3-2-security-group-lab.zip](/files/week3/week3-2-security-group-lab.zip)
 >
-> - `week3-2-security-group-lab.yaml` - 3-Tier Amazon VPC 및 빈 보안 그룹 AWS CloudFormation 템플릿
-> - `README.md` - 아키텍처 설명 및 보안 그룹 규칙 레퍼런스
+> - `week3-2-security-group-lab.yaml` - AWS CloudFormation 템플릿 (태스크 0에서 3-Tier VPC 환경, 서브넷 8개, DB 서브넷 그룹 자동 생성)
+> - `vpc-3tier-environment.yaml` - 3-Tier VPC 기본 환경 템플릿 (참고용)
+> - `README.md` - CloudFormation 배포 가이드 및 3-Tier 아키텍처 설명
 >
 > **관련 태스크:**
 >
-> - 태스크 0: Amazon VPC 환경 구축 (AWS CloudFormation 템플릿 배포하여 Amazon VPC, 서브넷, 빈 보안 그룹 자동 생성)
-> - 태스크 1-5: 각 계층별 보안 그룹 규칙 추가 (README.md 참조)
+> - 태스크 0: Amazon VPC 환경 구축 (week3-2-security-group-lab.yaml 사용)
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 **반드시 삭제해야 합니다**.

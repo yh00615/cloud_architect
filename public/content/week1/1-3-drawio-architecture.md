@@ -31,8 +31,8 @@ _QuickTable 레스토랑 예약 시스템의 3-Tier 고가용성 아키텍처_
 >
 > **관련 태스크:**
 >
-> - 태스크 1: Draw.io 환경 설정 - template-info.md를 참고하여 AWS 아이콘 라이브러리를 자동으로 로드하는 URL 파라미터 사용법을 확인하고 작업 환경을 설정합니다
-> - 태스크 2-8: QuickTable 아키텍처 다이어그램 작성 - README.md를 참고하여 Multi-AZ 고가용성 설계 원칙, 3-Tier 아키텍처 구성 요소, 보안 그룹 설계 모범 사례, Amazon EC2 Auto Scaling 전략 등을 학습하고 다이어그램에 적용합니다
+> - 태스크 1: Draw.io 환경 설정 (`template-info.md` 참고하여 AWS 아이콘 라이브러리 자동 로드)
+> - 태스크 2-8: QuickTable 아키텍처 다이어그램 작성 (`README.md` 참고하여 Multi-AZ 고가용성 설계 원칙 및 3-Tier 아키텍처 구성 요소 학습)
 
 > [!NOTE]
 > 이 실습은 Draw.io를 사용한 다이어그램 작성 실습으로, AWS 리소스를 생성하지 않습니다.

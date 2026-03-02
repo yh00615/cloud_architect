@@ -23,12 +23,13 @@ Amazon VPC Endpoint는 Amazon VPC와 AWS 서비스 간의 프라이빗 연결을
 > [!DOWNLOAD]
 > [week3-1-vpc-lab.zip](/files/week3/week3-1-vpc-lab.zip)
 >
-> - `week3-1-vpc-lab.yaml` - Amazon VPC 환경 AWS CloudFormation 템플릿 (태스크 0에서 Amazon VPC, 서브넷, NAT Gateway, Amazon EC2 인스턴스 자동 생성)
-> - `README.md` - 아키텍처 설명 및 Amazon VPC Endpoint 설정 가이드
+> - `week3-1-vpc-lab.yaml` - AWS CloudFormation 템플릿 (태스크 0에서 VPC, 서브넷, IGW, NAT Gateway, EC2 자동 생성)
+> - `week3-vpc-base.yaml` - VPC 기본 환경 템플릿 (참고용)
+> - `README.md` - CloudFormation 배포 가이드 및 VPC Endpoint 개념 설명
 >
 > **관련 태스크:**
 >
-> - 태스크 0: 실습 환경 구축 (AWS CloudFormation 템플릿 배포 - Amazon VPC Endpoint 제외)
+> - 태스크 0: 실습 환경 구축 (week3-1-vpc-lab.yaml 사용)
 
 > [!WARNING]
 > 이 실습에서 생성하는 리소스는 실습 종료 후 반드시 삭제해야 합니다.
