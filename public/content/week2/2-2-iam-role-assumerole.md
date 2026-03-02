@@ -21,11 +21,13 @@ prerequisites:
 > [!DOWNLOAD]
 > [week2-2-iam-role-assumerole.zip](/files/week2/week2-2-iam-role-assumerole.zip)
 >
-> - `assume-role-policy.json` - AssumeRole 권한 정책 템플릿 (태스크 4에서 AWS IAM 사용자가 특정 역할을 맡을 수 있도록 sts:AssumeRole 권한 부여하는 인라인 정책 작성 참고)
+> - `week2-2-iam-role-assumerole.yaml` - AWS CloudFormation 템플릿 (태스크 0에서 IAM 사용자, S3 버킷 자동 생성)
+> - `assume-role-policy.json` - AssumeRole 권한 정책 JSON (태스크 4에서 사용)
 >
 > **관련 태스크:**
 >
-> - 태스크 4: AWS IAM 사용자에게 AssumeRole 권한 부여 (assume-role-policy.json 파일을 참고하여 AWS IAM 사용자가 특정 역할을 맡을 수 있도록 sts:AssumeRole 권한을 부여하는 인라인 정책을 생성하고, Resource 요소로 맡을 수 있는 역할을 명시적으로 지정하여 보안을 강화합니다)
+> - 태스크 0: 실습 환경 구축 (week2-2-iam-role-assumerole.yaml 사용)
+> - 태스크 4: IAM 사용자에게 AssumeRole 권한 부여 (assume-role-policy.json 사용)
 
 > [!WARNING]
 > 이 실습에서 생성하는 AWS IAM 역할은 실습 종료 후 반드시 삭제해야 합니다.
@@ -82,8 +84,9 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 > [!IMPORTANT]
 > 이 출력값들은 태스크 4-6에서 사용됩니다. 반드시 메모장에 저장합니다.
-> 
+>
 > **다음 단계**: 새 시크릿 창(또는 시크릿 모드)을 열고 `LabUserConsoleLoginUrl`로 접속하여 lab-user로 로그인합니다.
+>
 > - 사용자 이름: `lab-user`
 > - 비밀번호: `ChangeMe123!` (또는 스택 생성 시 설정한 비밀번호)
 > - 첫 로그인 시 새 비밀번호로 변경해야 합니다.
@@ -317,7 +320,7 @@ ARN 형식 예시: `arn:aws:iam::123456789012:role/S3ReadOnlyRole`
 
 > [!IMPORTANT]
 > 이 태스크는 **lab-user로 로그인한 시크릿 창**에서 진행합니다.
-> 
+>
 > 1. 새 시크릿 창(또는 시크릿 모드)을 엽니다.
 > 2. 태스크 0의 Outputs에서 복사한 `LabUserConsoleLoginUrl`로 접속합니다.
 > 3. 사용자 이름: `lab-user`, 비밀번호: 태스크 0에서 확인한 초기 비밀번호

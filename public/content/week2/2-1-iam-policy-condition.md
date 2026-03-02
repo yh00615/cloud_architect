@@ -24,22 +24,18 @@ prerequisites:
 > [!DOWNLOAD]
 > [week2-1-iam-policy-condition.zip](/files/week2/week2-1-iam-policy-condition.zip)
 >
-> - `mfa-policy.json` - MFA 강제 정책 템플릿 (태스크 2에서 Amazon S3 쓰기 작업 시 MFA 인증 필수 정책 작성 참고)
-> - `ip-restriction-policy.json` - IP 제한 정책 템플릿 (태스크 3에서 특정 IP 범위만 Amazon S3 접근 허용 정책 작성 참고)
-> - `time-based-policy.json` - 시간 기반 정책 템플릿 (태스크 4에서 특정 기간만 Amazon S3 접근 허용 정책 작성 참고)
-> - `complex-condition-policy.json` - 복합 조건 정책 템플릿 (태스크 5에서 암호화+IP+MFA 조건 조합 정책 작성 참고)
+> - `week2-1-iam-policy-condition.yaml` - AWS CloudFormation 템플릿 (태스크 0에서 IAM 사용자 및 Access Key 자동 생성)
+> - `mfa-policy.json` - MFA Condition 정책 JSON 샘플 (태스크 2 참고용)
+> - `ip-restriction-policy.json` - IP 제한 정책 JSON 샘플 (태스크 3 참고용)
+> - `time-based-policy.json` - 시간 기반 정책 JSON 샘플 (태스크 4 참고용)
 > - `README.md` - 정책 사용 방법 및 Condition 키 레퍼런스
 >
 > **관련 태스크:**
 >
-> - **태스크 2: MFA 강제 정책 생성**
->   mfa-policy.json 파일을 참고하여 Amazon S3 객체 삭제 및 버킷 삭제 작업 시 MFA 인증을 필수로 요구하는 정책을 작성하고, BoolIfExists 조건을 사용하여 aws:MultiFactorAuthPresent 키로 MFA 인증 여부를 확인합니다
-> - **태스크 3: IP 주소 제한 정책 생성**
->   ip-restriction-policy.json 파일을 참고하여 특정 IP 주소 범위(CIDR 표기법)에서만 Amazon S3 리소스에 접근할 수 있도록 제한하는 정책을 작성하고, IpAddress와 NotIpAddress 조건을 사용하여 허용/차단 IP를 설정합니다
-> - **태스크 4: 시간 기반 정책 생성**
->   time-based-policy.json 파일을 참고하여 특정 시간대(업무 시간)에만 Amazon S3 쓰기 작업을 허용하는 정책을 작성하고, DateGreaterThan과 DateLessThan 조건을 사용하여 UTC 기준 시간 범위를 설정합니다
-> - **모든 태스크: README.md 참고**
->   README.md 파일에서 AWS IAM Policy Condition 키 레퍼런스와 각 조건 연산자의 사용법을 참고합니다
+> - 태스크 0: 실습 환경 구축 (week2-1-iam-policy-condition.yaml 사용)
+> - 태스크 2: MFA 강제 정책 생성 (mfa-policy.json 참고)
+> - 태스크 3: IP 주소 제한 정책 생성 (ip-restriction-policy.json 참고)
+> - 태스크 4: 시간 기반 정책 생성 (time-based-policy.json 참고)
 
 > [!WARNING]
 > 이 실습에서 생성하는 정책은 실습 종료 후 **반드시 삭제해야 합니다**.
