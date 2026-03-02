@@ -93,20 +93,27 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 드롭다운을 클릭한 후 **With new resources (standard)**를 선택합니다.
 
-   ![CloudFormation Create stack 드롭다운에서 With new resources (standard) 선택](/images/week1/1-1-step4-create-stack.png)
+   <img src="/images/week1/1-1-step4-create-stack.png" alt="CloudFormation Create stack 드롭다운에서 With new resources (standard) 선택" class="guide-img-md" />
+
+> [!TIP]
+> **다른 방법**:
+>
+> AWS Management Console 상단 검색창에서 `CloudFormation`을 검색한 후 검색 결과에서 바로 **Create stack**을 선택하는 방법도 있습니다.
+>
+> <img src="/images/week1/1-1-step4-search-create-stack.png" alt="검색창에서 CloudFormation Create stack 바로 선택" class="guide-img-md" />
 
 5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 **tag-editor-lab-stack.yaml** 파일을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
 
-   ![CloudFormation 템플릿 업로드 후 Next 버튼 클릭](/images/week1/1-1-step8-next-button.png)
+   <img src="/images/week1/1-1-step8-next-button.png" alt="CloudFormation 템플릿 업로드 후 Next 버튼 클릭" class="guide-img-md" />
 
 9. **Stack name**에 `week1-1-tag-editor-lab-stack`을 입력합니다.
 10. **Parameters** 섹션에서 기본값을 확인합니다.
 11. [[Next]] 버튼을 클릭합니다.
 
-    ![CloudFormation 스택 이름 입력 후 Next 버튼 클릭](/images/week1/1-1-step11-next-button.png)
+    <img src="/images/week1/1-1-step11-next-button.png" alt="CloudFormation 스택 이름 입력 후 Next 버튼 클릭" class="guide-img-md" />
 
 12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 찾습니다.
 13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:

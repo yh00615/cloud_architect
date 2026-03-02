@@ -5,21 +5,21 @@ Parameters:
   ProjectTag:
     Type: String
     Default: 'AWS-Lab'
-    Description: Project 태그 값
+    Description: Project tag value
 
   WeekTag:
     Type: String
     Default: '4-3'
-    Description: Week 태그 값
+    Description: Week tag value
 
   CreatedByTag:
     Type: String
     Default: 'CloudFormation'
-    Description: CreatedBy 태그 값
+    Description: CreatedBy tag value
   EnvironmentName:
     Type: String
     Default: week4-3-quicktable-events-lab
-    Description: 리소스 이름 접두사
+    Description: Resource name prefix
 
 Resources:
   # DynamoDB 테이블: Reservations
@@ -522,25 +522,25 @@ Resources:
 
 Outputs:
   ReservationsTableName:
-    Description: Reservations DynamoDB 테이블 이름
+    Description: Reservations DynamoDB table name
     Value: !Ref ReservationsTable
     Export:
       Name: !Sub '${AWS::StackName}-ReservationsTable'
 
   RestaurantAvailabilityTableName:
-    Description: RestaurantAvailability DynamoDB 테이블 이름
+    Description: RestaurantAvailability DynamoDB table name
     Value: !Ref RestaurantAvailabilityTable
     Export:
       Name: !Sub '${AWS::StackName}-RestaurantAvailabilityTable'
 
   ReservationEventBusName:
-    Description: EventBridge Event Bus 이름
+    Description: EventBridge Event Bus name
     Value: !Ref ReservationEventBus
     Export:
       Name: !Sub '${AWS::StackName}-EventBus'
 
   LambdaExecutionRoleArn:
-    Description: Lambda 실행 역할 ARN
+    Description: Lambda execution role ARN
     Value: !GetAtt LambdaExecutionRole.Arn
     Export:
       Name: !Sub '${AWS::StackName}-LambdaRole'
@@ -552,13 +552,13 @@ Outputs:
       Name: !Sub '${AWS::StackName}-SNSTopic'
 
   ReservationProcessorFunctionName:
-    Description: ReservationProcessor Lambda 함수 이름
+    Description: ReservationProcessor Lambda function name
     Value: !Ref ReservationProcessorFunction
 
   TableAvailabilityCheckerFunctionName:
-    Description: TableAvailabilityChecker Lambda 함수 이름
+    Description: TableAvailabilityChecker Lambda function name
     Value: !Ref TableAvailabilityCheckerFunction
 
   NotificationSenderFunctionName:
-    Description: NotificationSender Lambda 함수 이름
+    Description: NotificationSender Lambda function name
     Value: !Ref NotificationSenderFunction

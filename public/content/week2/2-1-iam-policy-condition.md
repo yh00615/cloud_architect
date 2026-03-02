@@ -58,14 +58,23 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 2. `week2-1-iam-policy-condition.yaml` 파일을 확인합니다.
 3. AWS Management Console에 로그인한 후 상단 검색창에 `CloudFormation`을 입력하고 선택합니다.
 4. [[Create stack]] 버튼을 클릭합니다.
+
+   <img src="/images/week2/2-1-step4-create-stack.png" alt="CloudFormation Create stack 버튼" class="guide-img-md" />
+
 5. **Prerequisite - Prepare template**에서 `Choose an existing template`를 선택합니다.
 6. **Specify template**에서 `Upload a template file`을 선택합니다.
 7. [[Choose file]] 버튼을 클릭한 후 `week2-1-iam-policy-condition.yaml` 파일을 선택합니다.
 8. [[Next]] 버튼을 클릭합니다.
+
+   <img src="/images/week2/2-1-step8-next-button.png" alt="CloudFormation 템플릿 업로드 후 Next 버튼 클릭" class="guide-img-md" />
+
 9. **Stack name**에 `week2-1-iam-policy-stack`을 입력합니다.
 10. **Parameters** 섹션에서 기본값을 확인합니다 (변경 불필요).
 11. [[Next]] 버튼을 클릭합니다.
-12. **Configure stack options** 페이지에서 아래로 스크롤하여 **Tags** 섹션을 찾습니다.
+
+    <img src="/images/week2/2-1-step11-next-button.png" alt="CloudFormation 스택 이름 입력 후 Next 버튼 클릭" class="guide-img-md" />
+
+12. **Configure stack options** 페이지에서 **Tags** 섹션을 찾습니다.
 13. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
 | Key         | Value     |
@@ -75,9 +84,15 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 14. **Capabilities** 섹션에서 `I acknowledge that AWS CloudFormation might create AWS IAM resources`를 체크합니다.
 15. [[Next]] 버튼을 클릭합니다.
+
+    <img src="/images/week2/2-1-step15-next-button.png" alt="CloudFormation Capabilities 체크 후 Next 버튼 클릭" class="guide-img-md" />
+
 16. **Review** 페이지에서 설정을 확인합니다.
+
+    <img src="/images/week2/2-1-step16-submit-button.png" alt="CloudFormation Review 페이지에서 Submit 버튼 클릭" class="guide-img-md" />
+
 17. [[Submit]] 버튼을 클릭합니다.
-18. 스택 생성이 시작됩니다. 상태가 "CREATE_IN_PROGRESS"로 표시됩니다.
+18. 스택 생성이 시작됩니다. 상태가 "**CREATE_IN_PROGRESS**"로 표시됩니다.
 
 > [!NOTE]
 > 스택 생성에 1-2분이 소요됩니다. **Events** 탭에서 생성 과정을 확인할 수 있습니다.
@@ -89,6 +104,8 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
     - `LabUserName`: lab-user
     - `LabUserAccessKeyId`: AKIA로 시작하는 Access Key ID
     - `LabUserSecretAccessKey`: Secret Access Key (한 번만 표시됨)
+
+    <img src="/images/week2/2-1-step19-outputs.png" alt="CloudFormation 스택 Outputs 탭의 출력값" class="guide-img-md" />
 
 > [!IMPORTANT]
 > 이 출력값들은 태스크 2-5에서 정책 테스트 시 사용됩니다. 반드시 메모장에 저장하세요.
