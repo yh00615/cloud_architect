@@ -110,25 +110,25 @@ Resources:
 
           def lambda_handler(event, context):
               """
-              QuickTable 예약 조회 Lambda 함수
+              QuickTable Reservation Query Lambda Function
               
-              이 함수는 QuickTable 레스토랑 예약 시스템에서 예약 정보를 조회합니다.
-              Tag Editor 실습에서 Lambda 함수 태그 관리를 연습하기 위한 샘플 함수입니다.
+              This function queries reservation information from the QuickTable restaurant reservation system.
+              Sample function for practicing Lambda function tag management in Tag Editor lab.
               
               Args:
-                  event (dict): Lambda 이벤트 객체
-                      - userId (str): 사용자 ID
-                      - reservationId (str): 예약 ID
-                  context (LambdaContext): Lambda 실행 컨텍스트
+                  event (dict): Lambda event object
+                      - userId (str): User ID
+                      - reservationId (str): Reservation ID
+                  context (LambdaContext): Lambda execution context
               
               Returns:
-                  dict: HTTP 응답 형식
-                      - statusCode (int): 200 (성공)
-                      - body (str): JSON 형식의 예약 정보
+                  dict: HTTP response format
+                      - statusCode (int): 200 (success)
+                      - body (str): JSON formatted reservation information
               """
               table_name = os.environ.get('TABLE_NAME', 'QuickTableReservations')
               
-              # 샘플 응답 (실제 DynamoDB 조회는 Week 4-2에서 구현)
+              # Sample response (actual DynamoDB query implemented in Week 4-2)
               response = {
                   'message': 'QuickTable Reservation System',
                   'tableName': table_name,

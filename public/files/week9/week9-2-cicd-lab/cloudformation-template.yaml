@@ -5,26 +5,26 @@ Parameters:
   ProjectTag:
     Type: String
     Default: 'AWS-Lab'
-    Description: Project 태그 값
+    Description: Project tag value
 
   WeekTag:
     Type: String
     Default: '9-2'
-    Description: Week 태그 값
+    Description: Week tag value
 
   CreatedByTag:
     Type: String
     Default: 'CloudFormation'
-    Description: CreatedBy 태그 값
+    Description: CreatedBy tag value
   ECRRepositoryName:
     Type: String
     Default: 'cicd-demo-app'
-    Description: 'Amazon ECR 리포지토리 이름'
+    Description: 'Amazon ECR repository name'
   
   CodeCommitRepositoryName:
     Type: String
     Default: 'cicd-demo-repo'
-    Description: 'AWS CodeCommit 리포지토리 이름'
+    Description: 'AWS CodeCommit repository name'
 
 Resources:
   # Amazon ECR 리포지토리
@@ -134,31 +134,31 @@ Resources:
 
 Outputs:
   ECRRepositoryUri:
-    Description: 'Amazon ECR 리포지토리 URI'
+    Description: 'Amazon ECR repository URI'
     Value: !GetAtt ECRRepository.RepositoryUri
     Export:
       Name: !Sub '${AWS::StackName}-ECRRepositoryUri'
   
   ECRRepositoryName:
-    Description: 'Amazon ECR 리포지토리 이름'
+    Description: 'Amazon ECR repository name'
     Value: !Ref ECRRepositoryName
     Export:
       Name: !Sub '${AWS::StackName}-ECRRepositoryName'
   
   CodeCommitRepositoryName:
-    Description: 'AWS CodeCommit 리포지토리 이름'
+    Description: 'AWS CodeCommit repository name'
     Value: !GetAtt CodeCommitRepository.Name
     Export:
       Name: !Sub '${AWS::StackName}-CodeCommitRepositoryName'
   
   CodeCommitRepositoryCloneUrlHttp:
-    Description: 'AWS CodeCommit 리포지토리 HTTPS Clone URL'
+    Description: 'AWS CodeCommit repository HTTPS Clone URL'
     Value: !GetAtt CodeCommitRepository.CloneUrlHttp
     Export:
       Name: !Sub '${AWS::StackName}-CodeCommitCloneUrlHttp'
   
   CodeBuildRoleArn:
-    Description: 'CodeBuild IAM 역할 ARN'
+    Description: 'CodeBuild IAM role ARN'
     Value: !GetAtt CodeBuildServiceRole.Arn
     Export:
       Name: !Sub '${AWS::StackName}-CodeBuildRoleArn'
