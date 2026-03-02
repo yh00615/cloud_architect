@@ -55,3 +55,58 @@ button[class*='awsui_button'][class*='awsui_variant-normal'].download-file-butto
   border-color: #07538f !important;
   color: #ffffff !important;
 }
+
+/* 다크모드에서도 라이트 모드와 동일한 파란색 유지 */
+[data-awsui-theme='dark'] .download-file-button,
+[data-awsui-theme='dark'] button.download-file-button,
+[data-awsui-theme='dark'] .awsui-button.download-file-button,
+[data-awsui-theme='dark'] button[class*='awsui_button'].download-file-button {
+  background-color: #0972d3 !important;
+  border-color: #0972d3 !important;
+  color: #ffffff !important;
+}
+
+[data-awsui-theme='dark'] .download-file-button:hover,
+[data-awsui-theme='dark'] button.download-file-button:hover,
+[data-awsui-theme='dark'] .awsui-button.download-file-button:hover,
+[data-awsui-theme='dark']
+  button[class*='awsui_button'].download-file-button:hover {
+  background-color: #0862c2 !important;
+  border-color: #0862c2 !important;
+  color: #ffffff !important;
+}
+
+[data-awsui-theme='dark'] .download-file-button:active,
+[data-awsui-theme='dark'] button.download-file-button:active,
+[data-awsui-theme='dark'] .awsui-button.download-file-button:active,
+[data-awsui-theme='dark']
+  button[class*='awsui_button'].download-file-button:active {
+  background-color: #07538f !important;
+  border-color: #07538f !important;
+  color: #ffffff !important;
+}
+
+[data-awsui-theme='dark']
+  button[class*='awsui_button'][class*='awsui_variant-normal'].download-file-button {
+  background-color: #0972d3 !important;
+  border-color: #0972d3 !important;
+  color: #ffffff !important;
+}
+
+[data-awsui-theme='dark']
+  button[class*='awsui_button'][class*='awsui_variant-normal'].download-file-button:hover:not(
+    :disabled
+  ) {
+  background-color: #0862c2 !important;
+  border-color: #0862c2 !important;
+  color: #ffffff !important;
+}
+
+[data-awsui-theme='dark']
+  button[class*='awsui_button'][class*='awsui_variant-normal'].download-file-button:active:not(
+    :disabled
+  ) {
+  background-color: #07538f !important;
+  border-color: #07538f !important;
+  color: #ffffff !important;
+}

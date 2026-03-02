@@ -109,6 +109,16 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
         <React.Fragment key={index}>{processChildren(child)}</React.Fragment>
       ));
     }
+    // React 엘리먼트인 경우 (strong, em 등)
+    if (React.isValidElement(children)) {
+      const element = children as React.ReactElement<any>;
+      // props.children을 재귀적으로 처리
+      if (element.props && element.props.children) {
+        return React.cloneElement(element, {
+          children: processChildren(element.props.children),
+        });
+      }
+    }
     return children;
   };
 
@@ -842,27 +852,8 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
       );
     },
 
-    // 강조 (굵게) → [[버튼명]]은 AWSButton, 나머지는 단순 굵게
+    // 강조 (굵게) → 버튼 패턴은 처리하지 않고 일반 굵은 텍스트로만 처리
     strong: ({ children }: any) => {
-      const extractText = (node: any): string => {
-        if (typeof node === 'string') return node;
-        if (Array.isArray(node)) return node.map(extractText).join('');
-        if (node?.props?.children) return extractText(node.props.children);
-        return '';
-      };
-
-      const text = extractText(children);
-
-      // [[버튼명]] 패턴 감지
-      if (text.startsWith('[[') && text.endsWith(']]')) {
-        const buttonText = text.slice(2, -2);
-        return (
-          <span className="markdown-strong-inline">
-            <AWSButton variant="primary">{buttonText}</AWSButton>
-          </span>
-        );
-      }
-
       // 일반 굵은 텍스트 (필드명, 메뉴명)
       // children을 그대로 렌더링하여 괄호 안 텍스트도 볼드로 표시
       return <strong className="markdown-strong">{children}</strong>;
