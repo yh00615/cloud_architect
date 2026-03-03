@@ -624,39 +624,47 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 이 태스크에서는 생성한 **Condition 정책**들을 실제로 테스트하기 위해 **테스트용 AWS IAM 사용자**를 생성합니다. 이 사용자에게 **MFA 강제 정책**을 연결하여 정책이 올바르게 작동하는지 확인할 수 있습니다. 실제 환경에서는 기존 사용자에게 정책을 연결하지만, 실습에서는 안전하게 테스트하기 위해 별도의 사용자를 생성합니다.
 
-1. 왼쪽 메뉴에서 **Users**를 선택합니다.
-2. [[Create user]] 버튼을 클릭합니다.
-3. **User name**에 `condition-test-user`를 입력합니다.
-4. **Provide user access to the AWS Management Console** 체크박스는 체크하지 않습니다.
+1. AWS IAM 콘솔로 이동합니다.
+2. 왼쪽 메뉴에서 **Users**를 선택합니다.
+3. [[Create user]] 버튼을 클릭합니다.
+   <img src="/images/week2/2-1-task6-step3-create-user.png" alt="IAM Create user 버튼" class="guide-img-md" />
+
+4. **User name**에 `condition-test-user`를 입력합니다.
+5. **Provide user access to the AWS Management Console** 체크박스는 체크하지 않습니다.
 
 > [!NOTE]
 > 이 실습에서는 AWS CLI만 사용하므로 콘솔 로그인 권한이 필요하지 않습니다. Access Key만 생성하여 CLI에서 사용합니다.
 >
 > **CloudShell 사용 방식 설명**: 태스크 7에서 AWS CloudShell을 사용하지만, CloudShell은 현재 로그인한 관리자 계정의 자격증명을 사용합니다. condition-test-user의 자격증명은 `--profile condition-test` 옵션으로 별도로 지정하여 테스트하므로, condition-test-user에게 콘솔 접근 권한이 필요하지 않습니다.
 
-5. [[Next]] 버튼을 클릭합니다.
-6. **Attach policies directly**를 선택합니다.
-7. 검색창에 `S3MFARequiredPolicy`를 입력합니다.
-8. 검색 결과에서 `S3MFARequiredPolicy` 정책 왼쪽의 체크박스를 선택합니다.
+6. [[Next]] 버튼을 클릭합니다.
+   <img src="/images/week2/2-1-task6-step6-next-button.png" alt="IAM 사용자 생성 화면에서 Next 버튼" class="guide-img-md" />
+
+7. **Set permissions** 페이지가 표시됩니다.
+8. **Permissions options** 섹션에서 `Attach policies directly` 라디오 버튼을 선택합니다.
 
 > [!NOTE]
-> 정책이 선택되면 체크박스에 체크 표시가 나타나고, 화면 하단에 "1 policy selected"라고 표시됩니다.
+> **Permissions options** 섹션에는 세 가지 옵션이 있습니다:
+>
+> - **Add user to group**: 사용자를 그룹에 추가하여 그룹의 정책을 상속받습니다 (권장 방식)
+> - **Copy permissions**: 기존 사용자의 권한을 복사합니다
+> - **Attach policies directly**: 사용자에게 직접 정책을 연결합니다 (이 실습에서 사용)
 
-9. [[Next]] 버튼을 클릭합니다.
-10. **Review and create** 페이지에서 설정을 확인합니다.
-11. **User name**이 `condition-test-user`인지 확인합니다.
-12. **Permissions summary** 섹션에서 `S3MFARequiredPolicy`가 연결되어 있는지 확인합니다.
-13. [[Create user]] 버튼을 클릭합니다.
-14. 사용자 생성이 완료되면 **Users** 페이지로 자동 이동합니다.
-15. 화면 상단에 녹색 배너로 "User condition-test-user created successfully"라는 성공 메시지가 표시됩니다.
-16. 사용자 목록에서 `condition-test-user`를 검색하여 생성된 사용자를 확인합니다.
+9. **Permissions policies** 섹션으로 스크롤합니다.
+10. 검색창에 `S3MFARequiredPolicy`를 입력합니다.
+11. 검색 결과에서 `S3MFARequiredPolicy` 정책 왼쪽의 체크박스를 선택합니다.
 
 > [!NOTE]
-> 사용자 목록에서 **User name** 열에 `condition-test-user`가 표시됩니다. 이 사용자를 클릭하면 **Permissions** 탭에서 `S3MFARequiredPolicy`가 연결되어 있는 것을 확인할 수 있습니다.
+> 정책이 선택되면 체크박스에 파란색 체크 표시가 나타나고, 정책 행 전체가 파란색으로 강조됩니다. 화면 상단의 "Filter by Type" 옆에 "1 match"라고 표시되며, 정책 테이블에서 선택된 정책을 확인할 수 있습니다.
 
-17. `condition-test-user` 상세 페이지에서 **Tags** 탭을 선택합니다.
-18. [[Manage tags]] 버튼을 클릭합니다.
-19. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+12. [[Next]] 버튼을 클릭합니다.
+    <img src="/images/week2/2-1-task6-step10-next-button.png" alt="IAM 정책 연결 후 Next 버튼" class="guide-img-md" />
+
+13. **Review and create** 페이지가 표시됩니다.
+14. **User details** 섹션에서 **User name**이 `condition-test-user`인지 확인합니다.
+15. **Permissions summary** 섹션에서 `S3MFARequiredPolicy`가 연결되어 있는지 확인합니다.
+16. **Tags - optional** 섹션으로 스크롤합니다.
+17. [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
 | Key         | Value     |
 | ----------- | --------- |
@@ -664,7 +672,33 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 | `Week`      | `2-1`     |
 | `CreatedBy` | `Student` |
 
-20. [[Save changes]] 버튼을 클릭합니다.
+> [!TIP]
+> **Tags** 섹션에서 사용자 생성 시 태그를 미리 추가하면, 생성 후 별도로 태그를 추가할 필요가 없어 효율적입니다. 각 태그를 추가한 후 [[Add new tag]] 버튼을 클릭하여 다음 태그를 입력합니다.
+
+18. [[Create user]] 버튼을 클릭합니다.
+    <img src="/images/week2/2-1-task6-step18-create-user.png" alt="IAM 사용자 생성 최종 확인 후 Create user 버튼" class="guide-img-md" />
+
+19. 사용자 생성이 완료되면 **Users** 페이지로 자동 이동합니다.
+20. 화면 상단에 녹색 배너로 "User created successfully"라는 성공 메시지가 표시됩니다.
+
+> [!NOTE]
+> 녹색 배너에는 "You can view and download the user's password and email instructions for signing in to the AWS Management Console"이라는 메시지와 [[View user]] 버튼이 표시됩니다. 이 실습에서는 콘솔 접근 권한을 부여하지 않았으므로 이 버튼은 사용하지 않습니다.
+
+21. 사용자 목록에서 `condition-test-user`가 표시되는지 확인합니다.
+    <img src="/images/week2/2-1-task6-step21-user-list.png" alt="IAM Users 목록에서 condition-test-user 확인" class="guide-img-md" />
+
+> [!TIP]
+> 사용자 목록에서 다음 정보를 확인할 수 있습니다:
+>
+> - **User name**: `condition-test-user`
+> - **Path**: `/`
+> - **Groups**: `0` (그룹에 속하지 않음)
+> - **Last activity**: `-` (아직 활동 없음)
+> - **MFA**: `-` (MFA 설정 안 됨)
+> - **Password age**: `-` (콘솔 비밀번호 없음)
+> - **Console last sign-in**: `-` (콘솔 로그인 안 함)
+>
+> 사용자를 클릭하면 **Permissions** 탭에서 `S3MFARequiredPolicy`가 연결되어 있고, **Tags** 탭에서 추가한 태그를 확인할 수 있습니다.
 
 ✅ **태스크 완료**: 테스트용 사용자가 생성되었습니다.
 
@@ -678,9 +712,13 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 2. 왼쪽 메뉴에서 **Users**를 선택합니다.
 3. 사용자 목록에서 `condition-test-user`를 검색합니다.
 4. `condition-test-user`를 클릭합니다.
+   <img src="/images/week2/2-1-task7-step4-user-details.png" alt="IAM 사용자 목록에서 condition-test-user 선택" class="guide-img-md" />
+
 5. **Security credentials** 탭을 선택합니다.
 6. **Access keys** 섹션으로 스크롤합니다.
 7. [[Create access key]] 버튼을 클릭합니다.
+   <img src="/images/week2/2-1-task7-step7-create-access-key.png" alt="IAM Security credentials 탭에서 Create access key 버튼" class="guide-img-md" />
+
 8. **Use case**에서 `Command Line Interface (CLI)`를 선택합니다.
 
 > [!NOTE]
@@ -688,8 +726,12 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 
 9. 하단의 체크박스 `I understand the above recommendation and want to proceed to create an access key`를 체크합니다.
 10. [[Next]] 버튼을 클릭합니다.
-11. **Description tag**에 `MFA policy test`를 입력합니다.
+    <img src="/images/week2/2-1-task7-step10-next-button.png" alt="Access key 사용 사례 선택 후 Next 버튼" class="guide-img-md" />
+
+11. **Description tag value**에 `MFA policy test`를 입력합니다.
 12. [[Create access key]] 버튼을 클릭합니다.
+    <img src="/images/week2/2-1-task7-step12-create-access-key.png" alt="Description tag 입력 후 Create access key 버튼" class="guide-img-md" />
+
 13. **Access key** 페이지가 표시됩니다.
 14. **Access key**와 **Secret access key** 값을 메모장에 복사합니다.
 
@@ -697,13 +739,18 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 > Secret access key는 이 화면에서만 확인할 수 있습니다. 반드시 메모장에 저장하세요.
 
 > [!WARNING]
-> **보안 주의사항**: Access Key와 Secret Access Key를 평문 메모장에 저장하는 것은 보안 위험이 있습니다. 실습 목적으로 불가피하게 메모장을 사용하지만, 실습 종료 후 메모장의 키 정보를 반드시 삭제하세요. 실무에서는 AWS Secrets Manager나 비밀번호 관리자(1Password, LastPass 등)를 사용하여 자격증명을 안전하게 저장해야 합니다.
+> **보안 주의사항**:
+>
+> - **메모장 저장**: Access Key와 Secret Access Key를 평문 메모장에 저장하는 것은 보안 위험이 있습니다. 실습 목적으로 불가피하게 메모장을 사용하지만, 실습 종료 후 메모장의 키 정보를 반드시 삭제하세요.
+> - **CSV 다운로드**: [[Download .csv file]] 버튼으로 CSV 파일을 다운로드할 수 있지만, 파일이 로컬 컴퓨터에 저장되어 보안 위험이 더 큽니다. 이 실습에서는 CSV 다운로드 대신 복사 기능을 사용하는 것을 권장합니다.
+> - **실무 권장사항**: 실무에서는 장기 자격증명 (Access Key) 대신 IAM Role과 임시 자격증명을 사용하는 것이 권장됩니다. AWS IAM Identity Center를 통해 임시 자격증명을 발급받거나, Amazon EC2/AWS Lambda 등에서는 IAM Role을 연결하여 자격증명 관리 없이 AWS 서비스에 접근할 수 있습니다.
 
 15. [[Done]] 버튼을 클릭합니다.
+    <img src="/images/week2/2-1-task7-step15-done-button.png" alt="Access key 생성 완료 후 Done 버튼" class="guide-img-md" />
 
 ### 7-2: AWS CLI 프로파일 구성
 
-1. AWS Management Console 상단 오른쪽의 AWS CloudShell 아이콘을 클릭합니다.
+1. AWS Management Console 왼쪽 하단의 AWS CloudShell 아이콘을 클릭합니다.
 
 > [!NOTE]
 > CloudShell은 AWS CLI가 사전 설치되어 있고 현재 로그인한 AWS IAM 사용자 자격증명이 자동으로 구성된 브라우저 기반 셸 환경입니다. 첫 실행 시 환경 초기화에 1-2분이 소요될 수 있습니다.
@@ -711,7 +758,7 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 > [!WARNING]
 > **AWS CloudShell 세션 지속성**: AWS CloudShell 세션은 브라우저 탭을 닫거나 일정 시간(약 20분) 동안 활동이 없으면 자동으로 종료됩니다. 세션이 종료되면 환경 변수(AWS_ACCESS_KEY_ID 등)도 함께 사라집니다. 하지만 홈 디렉토리(/home/cloudshell-user)의 파일과 AWS CLI 프로파일 설정(~/.aws/config, ~/.aws/credentials)은 유지됩니다. 따라서 이 태스크에서 설정한 condition-test 프로파일은 세션이 종료되어도 보존되며, 다음에 CloudShell을 열면 다시 사용할 수 있습니다.
 
-2. 다음 명령어를 실행하여 condition-test-user 프로파일을 구성합니다:
+2. 다음 명령어를 실행하여 condition-test 프로파일을 구성합니다:
 
 ```bash
 aws configure --profile condition-test
@@ -722,6 +769,11 @@ aws configure --profile condition-test
    - **AWS Secret Access Key**: 메모장에 저장한 Secret Access Key 입력
    - **Default region name**: `ap-northeast-2` 입력
    - **Default output format**: `json` 입력
+
+   <img src="/images/week2/2-1-task7-step3-configure-profile.png" alt="AWS CLI 프로파일 구성 프롬프트" class="guide-img-md" />
+
+> [!TIP]
+> 프로파일 이름은 IAM 사용자 이름과 달라도 됩니다. 이 실습에서는 간결하게 `condition-test`를 사용합니다.
 
 > [!NOTE]
 > 각 항목을 입력한 후 Enter 키를 누릅니다.
@@ -753,13 +805,14 @@ aws s3 ls --profile condition-test
 > [!OUTPUT]
 >
 > ```
-> YYYY-MM-DD HH:MM:SS iam-condition-lab-[이니셜]-[숫자]
+> 2026-02-21 11:39:19 cf-templates-146idipdkxm9-ap-northeast-2
+> 2026-03-02 16:24:37 iam-condition-lab-demo-12345
 > ```
 
 > [!NOTE]
 > 날짜와 버킷 목록은 실습 환경에 따라 다를 수 있습니다. 버킷 목록 조회는 MFA 없이도 성공합니다. S3MFARequiredPolicy의 AllowListBucketWithoutMFA Statement가 `s3:ListAllMyBuckets`, `s3:ListBucket`, `s3:GetBucketLocation` 작업을 허용합니다.
 >
-> **보안 관점 설명**: `s3:ListAllMyBuckets`는 `Resource: "*"`로 설정되어 있어 계정 내 모든 버킷 목록을 조회할 수 있습니다. 이는 AWS Amazon S3 서비스의 설계상 버킷 목록 조회는 계정 수준 작업이기 때문입니다. 태스크 1에서 생성한 버킷뿐만 아니라 계정에 존재하는 다른 버킷도 모두 표시됩니다. 특정 버킷만 보이도록 제한하려면 버킷별 정책이나 AWS IAM 권한 경계(Permission Boundary)를 사용해야 합니다.
+> **보안 관점 설명**: `s3:ListAllMyBuckets`는 `Resource: "*"`로 설정되어 있어 계정 내 모든 버킷 목록을 조회할 수 있습니다. 이는 AWS Amazon S3 서비스의 설계상 버킷 목록 조회는 계정 수준 작업이기 때문입니다. 태스크 1에서 생성한 버킷뿐만 아니라 계정에 존재하는 다른 버킷도 모두 표시됩니다. 특정 버킷만 보이도록 제한하려면 버킷별 정책이나 AWS IAM 권한 경계 (Permission Boundary)를 사용해야 합니다.
 
 3. 테스트 파일을 생성합니다:
 
@@ -776,11 +829,13 @@ aws s3 cp test.txt s3://iam-condition-lab-YOUR-INITIALS-12345/ --profile conditi
 > [!OUTPUT]
 >
 > ```
-> An error occurred (AccessDenied) when calling the PutObject operation: Access Denied
+> upload failed: ./test.txt to s3://iam-condition-lab-demo-12345/test.txt An error occurred (AccessDenied) when calling the PutObject operation: User: arn:aws:iam::123456789012:user/condition-test-user is not authorized to perform: s3:PutObject on resource: "arn:aws:s3:::iam-condition-lab-demo-12345/test.txt" with an explicit deny in an identity-based policy
 > ```
 
 > [!IMPORTANT]
-> **AccessDenied** 오류가 나와야 정상입니다. 이는 S3MFARequiredPolicy의 DenyS3ActionsWithoutMFA Statement가 MFA 없는 쓰기 작업을 차단했음을 의미합니다.
+> **AccessDenied** 오류가 나와야 정상입니다. 이는 S3MFARequiredPolicy의 DenyS3ActionsWithoutMFA Statement가 MFA 없는 쓰기 작업을 차단했음을 의미합니다. 오류 메시지에 "with an explicit deny in an identity-based policy"라고 표시되어 정책의 Deny Statement가 작동했음을 확인할 수 있습니다.
+
+   <img src="/images/week2/2-1-task7-step4-upload-denied.png" alt="MFA 없이 S3 업로드 시도 시 AccessDenied 오류" class="guide-img-md" />
 
 5. 버킷에서 객체 삭제를 시도합니다 (실패 예상):
 
@@ -791,8 +846,10 @@ aws s3 rm s3://iam-condition-lab-YOUR-INITIALS-12345/test.txt --profile conditio
 > [!OUTPUT]
 >
 > ```
-> An error occurred (AccessDenied) when calling the DeleteObject operation: Access Denied
+> delete failed: s3://iam-condition-lab-demo-12345/test.txt An error occurred (AccessDenied) when calling the DeleteObject operation: User: arn:aws:iam::123456789012:user/condition-test-user is not authorized to perform: s3:DeleteObject on resource: "arn:aws:s3:::iam-condition-lab-demo-12345/test.txt" with an explicit deny in an identity-based policy
 > ```
+
+   <img src="/images/week2/2-1-task7-step5-delete-denied.png" alt="MFA 없이 S3 삭제 시도 시 AccessDenied 오류" class="guide-img-md" />
 
 > [!NOTE]
 > 삭제 작업도 MFA 없이는 차단됩니다.
@@ -800,6 +857,16 @@ aws s3 rm s3://iam-condition-lab-YOUR-INITIALS-12345/test.txt --profile conditio
 > **Amazon S3 보안 설계 설명**: 이전 단계에서 업로드가 실패했으므로 `test.txt` 객체는 버킷에 존재하지 않습니다. 그러나 Amazon S3는 권한이 없는 요청에 대해 객체 존재 여부를 노출하지 않기 위해 항상 `AccessDenied`를 반환합니다. 이는 보안 설계의 일부로, 권한이 없는 사용자가 객체의 존재 여부를 추측하지 못하도록 합니다. 만약 권한이 있는 상태에서 존재하지 않는 객체를 삭제하려고 하면 `NoSuchKey` 또는 `404 Not Found` 오류가 반환됩니다.
 >
 > 이로써 MFA 강제 정책이 올바르게 작동함을 확인했습니다.
+
+> [!TIP]
+> **MFA 있을 때 테스트 방법 (옵션)**:
+>
+> 이 실습에서는 Access Key(장기 자격증명)를 사용하므로 "MFA 없이 차단"만 테스트했습니다. "MFA 있을 때 허용"을 테스트하려면 다음 방법을 사용할 수 있습니다:
+>
+> - **방법 1 (AWS CLI)**: `aws sts get-session-token --serial-number arn:aws:iam::ACCOUNT-ID:mfa/USER-NAME --token-code MFA-CODE` 명령어로 MFA 인증된 임시 자격증명을 발급받아 테스트합니다. 이 방법은 AWS IAM 사용자에 MFA 디바이스를 먼저 연결해야 합니다.
+> - **방법 2 (AWS 콘솔)**: AWS Management Console에 MFA 인증으로 로그인한 후 Amazon S3 콘솔에서 직접 파일을 업로드합니다. 콘솔 세션은 MFA 인증된 임시 자격증명을 사용하므로 업로드가 성공합니다.
+>
+> 실무에서는 민감한 작업(삭제, 쓰기)에 MFA를 필수로 요구하여 보안을 강화합니다.
 
 ✅ **태스크 완료**: MFA 정책이 올바르게 작동함을 확인했습니다.
 
@@ -814,11 +881,20 @@ aws s3 rm s3://iam-condition-lab-YOUR-INITIALS-12345/test.txt --profile conditio
 3. 사용자 목록에서 `condition-test-user`를 검색합니다.
 4. `condition-test-user`를 클릭합니다.
 5. **Permissions** 탭을 선택합니다.
-6. **Add permissions** 드롭다운을 클릭한 후 `Attach policies directly`를 선택합니다.
-7. 정책 검색창에 `S3IPRestrictionPolicy`를 입력합니다.
-8. `S3IPRestrictionPolicy` 정책 왼쪽의 체크박스를 선택합니다.
-9. [[Next]] 버튼을 클릭합니다.
-10. [[Add permissions]] 버튼을 클릭합니다.
+6. [[Add permissions]] 드롭다운 버튼을 클릭합니다.
+7. 드롭다운 메뉴에서 `Add permissions`를 선택합니다.
+   <img src="/images/week2/2-1-task8-step7-add-permissions.png" alt="Add permissions 드롭다운 메뉴" class="guide-img-md" />
+
+8. **Permissions options** 섹션에서 `Attach policies directly` 라디오 버튼을 선택합니다.
+9. **Permissions policies** 섹션으로 스크롤합니다.
+10. 정책 검색창에 `S3IPRestrictionPolicy`를 입력합니다.
+11. `S3IPRestrictionPolicy` 정책 왼쪽의 체크박스를 선택합니다.
+12. [[Next]] 버튼을 클릭합니다.
+    <img src="/images/week2/2-1-task8-step12-next-button.png" alt="정책 선택 후 Next 버튼" class="guide-img-md" />
+
+13. [[Add permissions]] 버튼을 클릭합니다.
+    <img src="/images/week2/2-1-task8-step13-add-permissions.png" alt="Add permissions 버튼" class="guide-img-md" />
+    <img src="/images/week2/2-1-task8-step13-add-permissions-2.png" alt="정책 연결 완료 화면" class="guide-img-md" />
 
 > [!NOTE]
 > 이제 condition-test-user에는 S3MFARequiredPolicy와 S3IPRestrictionPolicy 두 개의 정책이 연결되어 있습니다.
@@ -826,7 +902,94 @@ aws s3 rm s3://iam-condition-lab-YOUR-INITIALS-12345/test.txt --profile conditio
 ### 8-2: 현재 IP에서 접근 테스트 (성공 예상)
 
 1. AWS CloudShell로 이동합니다.
-2. 버킷 목록 조회를 시도합니다:
+2. 다음 명령어를 실행하여 CloudShell의 IP 주소를 확인합니다:
+
+```bash
+curl https://checkip.amazonaws.com
+```
+
+> [!NOTE]
+> AWS CloudShell은 AWS 데이터센터에서 실행되므로 로컬 컴퓨터의 IP 주소와 다릅니다. 태스크 3에서 정책에 추가한 IP 주소가 로컬 컴퓨터의 IP라면, CloudShell의 IP는 다를 수 있습니다.
+>
+> **IP 주소 차이**:
+>
+> - **로컬 컴퓨터 IP**: 집, 회사, 카페 등의 공인 IP. (태스크 3에서 확인한 IP)
+> - **CloudShell IP**: AWS 리전 데이터센터의 IP. (위 명령어로 확인한 IP)
+>
+> 두 IP가 다르다면 S3IPRestrictionPolicy에 CloudShell IP도 추가해야 합니다. 다음 단계에서 정책을 수정합니다.
+
+3. 출력된 CloudShell IP 주소를 메모장에 복사합니다.
+
+> [!TIP]
+> AWS IAM은 글로벌 서비스이므로 새 브라우저 탭에서 작업하는 것이 좋습니다. CloudShell 탭은 열어둔 채로 IAM 콘솔을 별도 탭에서 열면 두 서비스를 동시에 사용할 수 있습니다.
+
+4. 새 브라우저 탭을 엽니다.
+5. 새 탭에서 AWS Management Console에 로그인한 후 상단 검색창에서 `IAM`을 검색하고 선택합니다.
+6. 왼쪽 메뉴에서 **Policies**를 선택합니다.
+7. 정책 목록에서 `S3IPRestrictionPolicy`를 검색합니다.
+8. `S3IPRestrictionPolicy`를 클릭합니다.
+9. **Permissions** 탭에서 [[Edit]] 버튼을 클릭합니다.
+   <img src="/images/week2/2-1-task8-step9-edit-policy.png" alt="정책 편집 버튼" class="guide-img-md" />
+
+10. **JSON** 탭을 선택합니다.
+11. 기존 정책의 `aws:SourceIp` 배열에 CloudShell IP를 추가합니다:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowFromSpecificIP",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": "*",
+      "Condition": {
+        "IpAddress": {
+          "aws:SourceIp": ["YOUR_LOCAL_IP/32", "CLOUDSHELL_IP/32"]
+        }
+      }
+    },
+    {
+      "Sid": "DenyFromOtherIPs",
+      "Effect": "Deny",
+      "Action": "s3:*",
+      "Resource": "*",
+      "Condition": {
+        "NotIpAddress": {
+          "aws:SourceIp": ["YOUR_LOCAL_IP/32", "CLOUDSHELL_IP/32"]
+        }
+      }
+    }
+  ]
+}
+```
+
+> [!IMPORTANT]
+> **필수 확인**:
+>
+> - `YOUR_LOCAL_IP`는 태스크 3에서 추가한 로컬 컴퓨터의 IP 주소입니다. (그대로 유지)
+> - `CLOUDSHELL_IP`를 위에서 확인한 실제 CloudShell IP로 변경합니다.
+> - 두 Statement 모두 동일한 IP 배열을 사용해야 합니다.
+> - JSON 배열 형식을 정확히 지켜야 합니다. (쉼표, 대괄호 확인)
+
+12. [[Next]] 버튼을 클릭합니다.
+    <img src="/images/week2/2-1-task8-step12-next-button.png" alt="정책 수정 후 Next 버튼" class="guide-img-md" />
+
+13. [[Save changes]] 버튼을 클릭합니다.
+    <img src="/images/week2/2-1-task8-step13-save-changes.png" alt="정책 저장 버튼" class="guide-img-md" />
+
+14. 정책 수정이 완료되면 화면 상단에 녹색 배너로 "Policy S3IPRestrictionPolicy updated."라는 성공 메시지가 표시됩니다.
+    <img src="/images/week2/2-1-task8-step14-policy-updated.png" alt="정책 수정 완료 메시지" class="guide-img-sm" />
+
+> [!TIP]
+> **JSON 배열 형식 설명**:
+>
+> - 단일 IP: `["1.2.3.4/32"]`
+> - 여러 IP: `["1.2.3.4/32", "5.6.7.8/32"]`
+> - 마지막 항목 뒤에는 쉼표를 붙이지 않습니다.
+
+15. CloudShell 탭으로 돌아갑니다.
+16. 버킷 목록 조회를 시도합니다:
 
 ```bash
 aws s3 ls --profile condition-test
@@ -838,14 +1001,29 @@ aws s3 ls --profile condition-test
 > YYYY-MM-DD HH:MM:SS iam-condition-lab-[이니셜]-[숫자]
 > ```
 
+   <img src="/images/week2/2-1-task8-step16-bucket-list.png" alt="CloudShell IP 추가 후 버킷 목록 조회 성공" class="guide-img-md" />
+
 > [!NOTE]
 > 현재 IP가 태스크 3에서 허용 목록에 추가되었으므로 접근이 성공합니다.
+
+> [!TIP]
+> **접근 실패 시 확인 사항**:
+>
+> - CloudShell 리전이 `ap-northeast-2 (서울)`인지 확인합니다. (리전이 다르면 IP 주소가 달라집니다)
+> - CloudShell IP 주소가 정책에 정확히 반영되었는지 확인합니다. (확인한 IP와 정책의 IP가 일치해야 함)
+> - 정책 수정 후 저장이 완료되었는지 확인합니다. (성공 메시지 확인)
+> - CloudShell을 재시작한 경우 IP 주소가 변경될 수 있으므로 다시 확인합니다.
 
 ### 8-3: IP 제한 정책 분리
 
 1. AWS IAM 콘솔의 `condition-test-user` 페이지로 돌아갑니다.
-2. **Permissions** 탭에서 `S3IPRestrictionPolicy` 정책 오른쪽의 **X** 버튼을 클릭합니다.
-3. 확인 창에서 [[Remove]] 버튼을 클릭합니다.
+2. **Permissions** 탭을 선택합니다.
+3. **Permissions policies** 섹션에서 `S3IPRestrictionPolicy` 정책 왼쪽의 체크박스를 선택합니다.
+4. [[Remove]] 버튼을 클릭합니다.
+   <img src="/images/week2/2-1-task8-step4-remove-button.png" alt="정책 제거 버튼" class="guide-img-md" />
+
+5. 확인 창에서 [[Remove policy]] 버튼을 클릭합니다.
+   <img src="/images/week2/2-1-task8-step5-remove-policy.png" alt="정책 제거 확인 대화상자" class="guide-img-sm" />
 
 > [!NOTE]
 > IP 제한 정책 테스트가 완료되었으므로 정책을 분리합니다. 이제 condition-test-user에는 S3MFARequiredPolicy만 남아있습니다.
@@ -865,6 +1043,11 @@ aws s3 ls --profile condition-test
 
 > [!NOTE]
 > 이 실습에서는 MFA 정책과 IP 제한 정책을 실제로 테스트했습니다. 시간 기반 정책과 복합 조건 정책은 정책 구조를 학습하기 위해 작성했으며, 실제 동작을 테스트하려면 condition-test-user에 각 정책을 순차적으로 연결/해제하며 확인할 수 있습니다.
+>
+> **추가 학습 과제 (옵션)**:
+>
+> - **시간 기반 정책 (S3TimeBasedPolicy)**: 태스크 4에서 생성한 정책의 JSON을 다시 열어보고, `DateGreaterThan`과 `DateLessThan` 조건이 어떻게 조합되어 특정 기간만 허용하는지 분석해보세요. 현재 시간이 정책에서 지정한 기간 내에 있다면 condition-test-user에 연결하여 동작을 테스트할 수 있습니다.
+> - **복합 조건 정책 (S3ComplexConditionPolicy)**: 태스크 5에서 생성한 정책의 JSON을 다시 열어보고, 암호화 필수(`s3:x-amz-server-side-encryption`), IP 제한(`aws:SourceIp`), MFA 인증(`aws:MultiFactorAuthPresent`)이 어떻게 AND 조건으로 결합되어 있는지 분석해보세요. 세 조건을 모두 만족해야만 Amazon S3 객체 업로드가 가능합니다.
 
 ## 리소스 정리
 
@@ -886,6 +1069,7 @@ aws s3 ls --profile condition-test
    - **Tag value**: `2-1`
 6. [[Search resources]] 버튼을 클릭합니다.
 7. 이 실습에서 생성한 Amazon S3 버킷 1개, AWS IAM 사용자 1개, AWS IAM 정책 4개가 표시됩니다.
+   <img src="/images/week2/2-1-cleanup-step7-tag-search.png" alt="Tag Editor 검색 결과" class="guide-img-md" />
 
 > [!NOTE]
 > Tag Editor는 리소스를 찾는 용도로만 사용됩니다. 실제 삭제는 다음 단계에서 수행합니다.
@@ -900,9 +1084,21 @@ aws s3 ls --profile condition-test
 6. **Access keys** 섹션으로 스크롤합니다.
 7. **Access keys** 섹션에서 생성한 Access Key를 선택합니다.
 8. **Actions** > `Deactivate`를 선택합니다.
+   <img src="/images/week2/2-1-cleanup-step2-step8-deactivate.png" alt="Access Key 비활성화 확인 창" class="guide-img-md" />
+
 9. 확인 창에서 [[Deactivate]] 버튼을 클릭합니다.
-10. **Actions** > `Delete`를 선택합니다.
-11. 확인 창에서 [[Delete]] 버튼을 클릭합니다.
+   <img src="/images/week2/2-1-cleanup-step2-step9-deactivate-complete.png" alt="Access Key 비활성화 완료 화면" class="guide-img-sm" />
+   <img src="/images/week2/2-1-cleanup-step2-step9-deactivate-complete-2.png" alt="비활성화된 Access Key 상태" class="guide-img-md" />
+
+10. 다시 **Actions** > `Delete`를 선택합니다.
+    <img src="/images/week2/2-1-cleanup-step2-step10-delete.png" alt="Access Key 삭제 확인 창" class="guide-img-md" />
+
+11. 확인 창에서 **Access key ID**를 입력 필드에 입력합니다.
+12. [[Delete]] 버튼을 클릭합니다.
+    <img src="/images/week2/2-1-cleanup-step2-step12-delete-complete.png" alt="Access Key 삭제 완료 메시지" class="guide-img-sm" />
+
+> [!NOTE]
+> Access Key를 삭제하면 복구할 수 없습니다. 삭제 전 해당 키를 사용하는 애플리케이션이나 스크립트가 없는지 확인하세요.
 
 ### 단계 3: AWS CLI 프로파일 삭제
 
@@ -949,6 +1145,8 @@ aws configure list --profile condition-test
 rm ~/.aws/credentials.bak ~/.aws/config.bak
 ```
 
+<img src="/images/week2/2-1-cleanup-step3-profile-deleted.png" alt="AWS CLI 프로파일 삭제 완료" class="guide-img-md" />
+
 > [!NOTE]
 > AWS CloudShell의 홈 디렉토리는 세션 간 유지되므로, 프로파일을 삭제하지 않으면 다음에 CloudShell을 열었을 때도 condition-test 프로파일이 남아있습니다. 보안을 위해 반드시 삭제해야 합니다.
 
@@ -959,13 +1157,18 @@ rm ~/.aws/credentials.bak ~/.aws/config.bak
 3. 사용자 목록에서 `condition-test-user`를 검색합니다.
 4. `condition-test-user`를 선택합니다.
 5. [[Delete]] 버튼을 클릭합니다.
-6. 확인 창이 나타나면 입력 필드에 `condition-test-user`를 입력합니다.
+   <img src="/images/week2/2-1-cleanup-step4-step5-delete-user.png" alt="IAM 사용자 삭제 확인 창" class="guide-img-md" />
+
+6. 확인 창이 나타나면 입력 필드에 `confirm`을 입력합니다.
 
 > [!NOTE]
-> 사용자 이름을 정확히 입력해야 [[Delete]] 버튼이 활성화됩니다. 사용자를 삭제하면 연결된 정책도 자동으로 분리됩니다.
+> AWS는 실수로 인한 삭제를 방지하기 위해 "confirm"을 입력하도록 요구합니다. 사용자를 삭제하면 연결된 정책도 자동으로 분리됩니다.
 
-7. [[Delete]] 버튼을 클릭합니다.
-8. 화면 상단에 녹색 배너로 "User condition-test-user deleted successfully"라는 성공 메시지가 표시됩니다.
+7. [[Delete user]] 버튼을 클릭합니다.
+   <img src="/images/week2/2-1-cleanup-step4-step7-user-deleted.png" alt="IAM 사용자 삭제 완료 메시지" class="guide-img-sm" />
+
+8. 화면 상단에 녹색 배너로 "User "condition-test-user" deleted."라는 성공 메시지가 표시됩니다.
+   <img src="/images/week2/2-1-cleanup-step4-step8-success.png" alt="IAM 사용자 삭제 성공 배너" class="guide-img-sm" />
 
 ### 단계 5: AWS IAM 정책 삭제
 
@@ -974,12 +1177,18 @@ rm ~/.aws/credentials.bak ~/.aws/config.bak
 3. `S3MFARequiredPolicy` 정책 왼쪽의 라디오 버튼을 선택합니다.
 
 > [!NOTE]
-> 정책이 선택되면 라디오 버튼에 점이 표시되고, 상단의 **Actions** 버튼이 활성화됩니다.
+> 정책이 선택되면 라디오 버튼에 점이 표시되고, 상단의 [[Delete]] 버튼이 활성화됩니다.
 
-4. **Actions** > `Delete`를 선택합니다.
+4. 상단의 [[Delete]] 버튼을 클릭합니다.
+   <img src="/images/week2/2-1-cleanup-step5-step4-delete-button.png" alt="IAM 정책 삭제 버튼" class="guide-img-md" />
+
 5. 확인 창이 나타나면 입력 필드에 `S3MFARequiredPolicy`를 입력합니다.
 6. [[Delete]] 버튼을 클릭합니다.
-7. 화면 상단에 녹색 배너로 "Policy S3MFARequiredPolicy deleted successfully"라는 성공 메시지가 표시됩니다.
+   <img src="/images/week2/2-1-cleanup-step5-step6-delete-confirm.png" alt="IAM 정책 삭제 확인 창" class="guide-img-sm" />
+
+7. 화면 상단에 녹색 배너로 "Policy deleted."라는 성공 메시지가 표시됩니다.
+   <img src="/images/week2/2-1-cleanup-step5-step7-policy-deleted.png" alt="IAM 정책 삭제 성공 메시지" class="guide-img-sm" />
+
 8. 동일한 방법으로 다음 정책들을 각각 삭제합니다:
    - `S3IPRestrictionPolicy`
    - `S3TimeBasedPolicy`
@@ -993,25 +1202,47 @@ rm ~/.aws/credentials.bak ~/.aws/config.bak
 1. Amazon S3 콘솔로 이동합니다.
 2. 버킷 목록에서 `iam-condition-lab-YOUR-INITIALS-12345` 버킷을 검색합니다.
 3. 버킷 이름 왼쪽의 라디오 버튼을 선택합니다.
+4. [[Delete]] 버튼을 클릭합니다.
+   <img src="/images/week2/2-1-cleanup-step6-step4-delete-button.png" alt="S3 버킷 삭제 버튼" class="guide-img-md" />
 
-> [!NOTE]
-> 태스크 7에서 파일 업로드가 실패했으므로 버킷은 비어있습니다. 비어있는 버킷은 Empty 단계 없이 바로 삭제할 수 있습니다. 만약 버킷에 객체가 있다면 다음 단계(4-8)를 수행해야 합니다.
-
-4. 버킷에 객체가 있는 경우: [[Empty]] 버튼을 클릭합니다.
-5. 확인 창이 나타나면 입력 필드에 `permanently delete`를 입력합니다.
-6. [[Empty]] 버튼을 클릭합니다.
-7. 버킷 비우기가 시작됩니다.
-8. 화면 상단에 녹색 배너로 "Successfully emptied bucket"이라는 성공 메시지가 표시될 때까지 기다립니다.
-9. 버킷 목록에서 `iam-condition-lab-YOUR-INITIALS-12345` 버킷을 다시 선택합니다.
-10. [[Delete]] 버튼을 클릭합니다.
-11. 확인 창이 나타나면 입력 필드에 버킷 이름 전체를 입력합니다.
+5. 확인 창이 나타나면 입력 필드에 버킷 이름 전체를 입력합니다.
 
 > [!NOTE]
 > 버킷 이름을 정확히 입력해야 [[Delete bucket]] 버튼이 활성화됩니다.
 
-12. [[Delete bucket]] 버튼을 클릭합니다.
-13. 화면 상단에 녹색 배너로 "Successfully deleted bucket"이라는 성공 메시지가 표시됩니다.
-14. 버킷 목록에서 해당 버킷이 더 이상 표시되지 않는지 확인합니다.
+6. [[Delete bucket]] 버튼을 클릭합니다.
+   <img src="/images/week2/2-1-cleanup-step6-step6-delete-bucket.png" alt="S3 버킷 삭제 확인 창" class="guide-img-md" />
+
+7. 화면 상단에 녹색 배너로 "Successfully deleted bucket"이라는 성공 메시지가 표시됩니다.
+   <img src="/images/week2/2-1-cleanup-step6-step7-success.png" alt="S3 버킷 삭제 성공 메시지" class="guide-img-sm" />
+
+8. 버킷 목록에서 해당 버킷이 더 이상 표시되지 않는지 확인합니다.
+
+> [!TIP]
+> **버킷에 객체가 있는 경우**:
+>
+> 정상적으로 실습을 진행했다면 태스크 7에서 파일 업로드가 실패했으므로 버킷은 비어있습니다. 하지만 만약 버킷에 객체가 있다면 다음 단계를 먼저 수행해야 합니다:
+>
+> 1. 버킷을 선택한 후 [[Empty]] 버튼을 클릭합니다.
+> 2. 확인 창에서 `permanently delete`를 입력합니다.
+> 3. [[Empty]] 버튼을 클릭하여 버킷을 비웁니다.
+> 4. "Successfully emptied bucket" 메시지가 표시되면 위의 삭제 단계를 진행합니다.
+
+### 단계 7: Tag Editor로 최종 확인
+
+1. AWS Management Console에 로그인한 후 상단 검색창에 `Resource Groups & Tag Editor`을 입력하고 선택합니다.
+2. 왼쪽 메뉴에서 **Tag Editor**를 선택합니다.
+3. **Regions**에서 `All regions`를 선택합니다.
+4. **Resource types**에서 `All supported resource types`를 선택합니다.
+5. **Tags** 섹션에서 다음을 입력합니다:
+   - **Tag key**: `Week`
+   - **Tag value**: `2-1`
+6. [[Search resources]] 버튼을 클릭합니다.
+7. 검색 결과에 리소스가 표시되지 않는지 확인합니다.
+   <img src="/images/week2/2-1-cleanup-step7-no-resources.png" alt="Tag Editor 검색 결과 - 리소스 없음" class="guide-img-md" />
+
+> [!NOTE]
+> 모든 리소스가 정상적으로 삭제되었다면 검색 결과에 아무것도 표시되지 않습니다. 만약 리소스가 남아있다면 해당 리소스를 수동으로 삭제해야 합니다.
 
 ✅ **실습 종료**: 모든 리소스가 정리되었습니다.
 
