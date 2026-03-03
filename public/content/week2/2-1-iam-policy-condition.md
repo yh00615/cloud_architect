@@ -117,26 +117,22 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 이 태스크에서는 **Condition 정책**을 테스트하기 위한 **Amazon S3 버킷**을 생성합니다. **Amazon S3 버킷**은 다양한 **Condition 키**를 지원하므로 정책 테스트에 적합합니다. **버킷 이름**은 전 세계적으로 고유해야 하므로 본인의 이름이나 고유 식별자를 추가하여 생성합니다.
 
 1. AWS Management Console에 로그인한 후 상단 검색창에 `S3`을 입력하고 선택합니다.
-2. [[Create bucket]] 버튼을 클릭합니다.
-3. **Bucket name**에 `iam-condition-lab-YOUR-INITIALS-12345`를 입력합니다.
+2. 오른쪽 상단에서 현재 리전이 `Asia Pacific (Seoul) ap-northeast-2`인지 확인합니다.
+3. [[Create bucket]] 버튼을 클릭합니다.
+
+   <img src="/images/week2/2-1-step2-region-check.png" alt="AWS 콘솔 리전 확인" class="guide-img-md" />
+
+4. **Bucket name**에 `iam-condition-lab-YOUR-INITIALS-12345`를 입력합니다.
 
 > [!TIP]
 > **중요**: `YOUR-INITIALS`를 본인의 이니셜(소문자)로, `12345`를 랜덤 숫자로 변경합니다 (예: `iam-condition-lab-jdoe-98765`). Amazon S3 버킷 이름은 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다. **이 이름을 메모해둡니다.** 이후 실습에서 동일한 이름을 계속 사용합니다.
 
-4. **AWS Region**에서 `Asia Pacific (Seoul) ap-northeast-2`를 선택합니다.
-5. 나머지 설정은 기본값을 유지합니다.
-6. [[Create bucket]] 버튼을 클릭합니다.
+5. 아래로 스크롤하여 **Tags - optional** 섹션을 찾습니다.
 
-> [!NOTE]
-> 버킷 생성은 즉시 완료되며 별도의 대기 시간이 없습니다. 버킷 목록 페이지로 자동 이동합니다.
+> [!TIP]
+> **태그 추가 방법**: 이 실습에서는 버킷 생성 시 태그를 추가합니다. 생성 후에도 버킷의 **Properties** 탭 → **Tags** 섹션에서 언제든지 태그를 추가하거나 수정할 수 있습니다.
 
-7. 생성한 버킷이 목록에 표시되는지 확인합니다.
-8. 버킷 이름 옆에 **리전**이 `ap-northeast-2`로 표시되는지 확인합니다.
-9. 생성한 버킷을 클릭합니다.
-10. **Properties** 탭을 선택합니다.
-11. **Tags** 섹션으로 스크롤합니다.
-12. [[Edit]] 버튼을 클릭합니다.
-13. [[Add tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+6. [[Add tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
 
 | Key         | Value     |
 | ----------- | --------- |
@@ -144,7 +140,30 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 | `Week`      | `2-1`     |
 | `CreatedBy` | `Student` |
 
-14. [[Save changes]] 버튼을 클릭합니다.
+7. 나머지 설정은 기본값을 유지합니다.
+8. 페이지 하단의 [[Create bucket]] 버튼을 클릭합니다.
+
+   <img src="/images/week2/2-1-step8-bucket-region.png" alt="S3 버킷 생성 화면" class="guide-img-sm" />
+
+> [!NOTE]
+> 버킷 생성은 즉시 완료되며 별도의 대기 시간이 없습니다. 버킷 목록 페이지로 자동 이동합니다.
+
+9. 생성한 버킷이 목록에 표시되는지 확인합니다.
+10. 버킷 이름 옆에 **리전**이 `ap-northeast-2`로 표시되는지 확인합니다.
+11. 생성한 버킷을 클릭합니다.
+
+    <img src="/images/week2/2-1-step9-bucket-click.png" alt="S3 버킷 목록에서 생성한 버킷 선택" class="guide-img-md" />
+
+12. **Properties** 탭을 선택합니다.
+13. **Tags** 섹션으로 스크롤하여 태그가 올바르게 생성되었는지 확인합니다:
+    - `Project: AWS-Lab`
+    - `Week: 2-1`
+    - `CreatedBy: Student`
+
+    <img src="/images/week2/2-1-step14-tags-verify.png" alt="S3 버킷 Properties 탭의 Tags 섹션에서 태그 확인" class="guide-img-md" />
+
+> [!TIP]
+> **태그 관리**: 버킷 생성 후에도 이 **Tags** 섹션에서 [[Edit]] 버튼을 클릭하여 언제든지 태그를 추가, 수정, 삭제할 수 있습니다. 태그는 리소스 관리, 비용 추적, 접근 제어 등에 활용됩니다.
 
 ✅ **태스크 완료**: 테스트용 Amazon S3 버킷이 생성되었습니다.
 
@@ -160,56 +179,62 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 > - **장기 자격증명**: AWS IAM 사용자의 Access Key (만료되지 않음, MFA 정보 없음)
 > - **임시 자격증명**: AWS STS(Security Token Service)로 발급받은 자격증명 (세션 토큰 포함, MFA 정보 포함 가능)
 >
+> **요청 컨텍스트 예시**:
+>
+> ```json
+> // 장기 자격증명 (Access Key) 사용 시
+> { "aws:userid": "AIDAI...", "aws:username": "lab-user" }
+> // aws:MultiFactorAuthPresent 키가 아예 존재하지 않음
+>
+> // 임시 자격증명 (STS 토큰) 사용 시
+> { "aws:userid": "AIDAI...", "aws:MultiFactorAuthPresent": "false" }
+> ```
+>
 > **Bool vs BoolIfExists 차이**:
 >
-> | 조건 연산자      | 키가 있을 때 | 키가 없을 때                   | 사용 사례                |
-> | ---------------- | ------------ | ------------------------------ | ------------------------ |
-> | **Bool**         | 값을 비교    | 조건 평가를 건너뜀 (조건 무시) | 키가 항상 존재하는 경우  |
-> | **BoolIfExists** | 값을 비교    | 조건을 **true로 평가**         | 키가 없을 수도 있는 경우 |
+> - **Bool**: 키가 있을 때만 값을 비교하고, 키가 없으면 조건을 건너뜀 (무시)
+> - **BoolIfExists**: 키가 있으면 값을 비교하고, 키가 없으면 조건을 true로 평가 (키가 없는 경우를 false로 간주)
 >
 > **Bool 사용 시 문제점**:
 >
 > ```json
 > {
 >   "Effect": "Deny",
->   "Action": "s3:*",
->   "Condition": {
->     "Bool": {
->       "aws:MultiFactorAuthPresent": "false"
->     }
->   }
+>   "Condition": { "Bool": { "aws:MultiFactorAuthPresent": "false" } }
 > }
 > ```
 >
-> - 장기 자격증명 사용 시: 키가 없음 → 조건 평가 건너뜀 → **Deny가 적용되지 않음** (보안 취약)
-> - 임시 자격증명 + MFA 없음: 키 값이 false → Deny 적용
+> **동작**:
+>
+> - 장기 자격증명: 키가 없음 → 조건 평가 건너뜀 → Deny 미적용 (보안 취약!)
+> - 임시 자격증명 + MFA 없음: 키 값 false → Deny 적용
 >
 > **BoolIfExists 사용 시 (권장)**:
 >
 > ```json
 > {
 >   "Effect": "Deny",
->   "Action": "s3:*",
->   "Condition": {
->     "BoolIfExists": {
->       "aws:MultiFactorAuthPresent": "false"
->     }
->   }
+>   "Condition": { "BoolIfExists": { "aws:MultiFactorAuthPresent": "false" } }
 > }
 > ```
 >
-> - 장기 자격증명 사용 시: 키가 없음 → 조건을 true로 평가 → **Deny 적용** (보안 강화)
-> - 임시 자격증명 + MFA 없음: 키 값이 false → Deny 적용
+> **동작**:
+>
+> - 장기 자격증명: 키가 없음 → false로 간주 → Deny 적용 (보안 강화!)
+> - 임시 자격증명 + MFA 없음: 키 값 false → Deny 적용
 >
 > **이 정책의 동작**:
 >
-> - **AllowS3WriteWithMFA** Statement: MFA가 있을 때(키 값이 true) 쓰기 작업을 허용합니다
-> - **DenyS3ActionsWithoutMFA** Statement: MFA가 없을 때(키 값이 false) 또는 키가 아예 없을 때(장기 자격증명 사용) 쓰기 작업을 차단합니다
-> - BoolIfExists를 사용하면 장기 자격증명(Access Key)으로 API를 호출할 때도 Deny가 적용되어 보안이 강화됩니다
+> - **AllowS3WriteWithMFA** Statement: MFA가 있을 때(키 값이 true) 쓰기 작업을 허용합니다.
+> - **DenyS3ActionsWithoutMFA** Statement: MFA가 없을 때(키 값이 false) 또는 키가 아예 없을 때(장기 자격증명 사용) 쓰기 작업을 차단합니다.
+> - BoolIfExists를 사용하면 장기 자격증명(Access Key)으로 API를 호출할 때도 Deny가 적용되어 보안이 강화됩니다.
 
 1. AWS IAM 콘솔로 이동합니다.
 2. 왼쪽 메뉴에서 **Policies**를 선택합니다.
 3. [[Create policy]] 버튼을 클릭합니다.
+
+   <img src="/images/week2/2-1-task2-step3-create-policy.png" alt="IAM Policies 페이지에서 Create policy 버튼" class="guide-img-md" />
+
 4. **JSON** 탭을 선택합니다.
 5. 기존 정책 코드를 모두 삭제한 후 다음 정책을 입력합니다:
    ```json
@@ -264,6 +289,9 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
    >
    > **이 실습의 테스트 제한사항**: 태스크 7에서는 AWS IAM 사용자의 Access Key(장기 자격증명)를 사용하므로 `aws:MultiFactorAuthPresent` 키가 요청에 포함되지 않습니다. BoolIfExists는 키가 없을 때 조건을 true로 평가하지만, Deny Statement의 조건이 "false"를 요구하므로 결과적으로 Deny가 적용됩니다. 따라서 이 실습에서는 "MFA 없이 쓰기 차단"만 테스트하고, "MFA 있을 때 쓰기 허용"은 테스트하지 않습니다. MFA 있을 때의 동작을 테스트하려면 AWS STS GetSessionToken으로 임시 자격증명을 발급받거나, AWS 콘솔에 MFA 인증으로 로그인한 후 Amazon S3 콘솔에서 직접 파일을 업로드해야 합니다.
 6. [[Next]] 버튼을 클릭합니다.
+
+   <img src="/images/week2/2-1-task2-step6-next-button.png" alt="IAM 정책 JSON 입력 후 Next 버튼" class="guide-img-md" />
+
 7. **Policy name**에 `S3MFARequiredPolicy`를 입력합니다.
 8. **Description**에 `Requires MFA for Amazon S3 write operations`를 입력합니다.
 9. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
@@ -275,12 +303,32 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 | `CreatedBy` | `Student` |
 
 10. [[Create policy]] 버튼을 클릭합니다.
+
+    <img src="/images/week2/2-1-task2-step10-create-policy.png" alt="IAM 정책 생성 완료 버튼" class="guide-img-md" />
+
 11. 정책 생성이 완료되면 **Policies** 페이지로 자동 이동합니다.
-12. 화면 상단에 녹색 배너로 "Policy S3MFARequiredPolicy has been created"라는 성공 메시지가 표시됩니다.
+12. 화면 상단에 녹색 배너로 "Policy S3MFARequiredPolicy created."라는 성공 메시지가 표시됩니다.
+
+    <img src="/images/week2/2-1-task2-step12-success-banner.png" alt="IAM 정책 생성 성공 배너" class="guide-img-sm" />
+
+> [!TIP]
+> 녹색 배너 오른쪽의 [[View policy]] 버튼을 클릭하면 생성된 정책의 상세 페이지를 바로 확인할 수 있습니다.
+
 13. 정책 목록에서 `S3MFARequiredPolicy`를 검색하여 생성된 정책을 확인합니다.
 
 > [!NOTE]
 > 정책 목록에서 **Policy name** 열에 `S3MFARequiredPolicy`가 표시되고, **Type** 열에 "Customer managed"로 표시됩니다. 이는 사용자가 직접 생성한 정책임을 의미합니다.
+
+14. 생성한 정책을 클릭합니다.
+
+    <img src="/images/week2/2-1-task2-step13-policy-list.png" alt="IAM 정책 목록에서 생성된 정책 확인" class="guide-img-sm" />
+
+15. **Permissions** 탭에서 JSON 형식의 정책 내용을 확인합니다.
+
+    <img src="/images/week2/2-1-task2-step15-permissions-tab.png" alt="IAM 정책 Permissions 탭의 JSON 내용" class="guide-img-sm" />
+
+> [!TIP]
+> 생성한 정책의 **Permissions** 탭에서 JSON 형식으로 입력한 정책 내용을 언제든지 확인할 수 있습니다.
 
 ✅ **태스크 완료**: MFA 강제 정책이 생성되었습니다.
 
@@ -349,6 +397,9 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 > - 이 두 Statement를 함께 사용하면 "이 IP에서만 Amazon S3를 사용할 수 있다"는 강력한 제한을 구현할 수 있습니다.
 
 8. [[Next]] 버튼을 클릭합니다.
+
+   <img src="/images/week2/2-1-task3-step8-next-button.png" alt="IAM 정책 JSON 입력 후 Next 버튼" class="guide-img-md" />
+
 9. **Policy name**에 `S3IPRestrictionPolicy`를 입력합니다.
 10. **Description**에 `Restricts Amazon S3 access to specific IP addresses`를 입력합니다.
 11. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
@@ -360,9 +411,15 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 | `CreatedBy` | `Student` |
 
 12. [[Create policy]] 버튼을 클릭합니다.
+
+    <img src="/images/week2/2-1-task3-step12-create-policy.png" alt="IAM 정책 생성 완료 버튼" class="guide-img-md" />
+
 13. 정책 생성이 완료되면 **Policies** 페이지로 자동 이동합니다.
-14. 화면 상단에 녹색 배너로 "Policy S3IPRestrictionPolicy has been created"라는 성공 메시지가 표시됩니다.
-15. 정책 목록에서 `S3IPRestrictionPolicy`를 검색하여 생성된 정책을 확인합니다.
+14. 화면 상단에 녹색 배너로 "Policy S3IPRestrictionPolicy created."라는 성공 메시지가 표시됩니다.
+
+> [!TIP]
+> 녹색 배너 오른쪽의 [[View policy]] 버튼을 클릭하면 생성된 정책의 상세 페이지를 바로 확인할 수 있습니다.  
+> 또는 정책 목록에서 `S3IPRestrictionPolicy`를 검색하여 확인할 수 있습니다.
 
 > [!NOTE]
 > 정책 목록에서 **Policy name** 열에 `S3IPRestrictionPolicy`가 표시되고, **Type** 열에 "Customer managed"로 표시됩니다.
@@ -378,16 +435,16 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 >
 > **시간대 처리**:
 >
-> - AWS IAM 정책의 시간 조건은 항상 **UTC(협정 세계시)** 기준입니다
-> - 한국 시간(KST)은 UTC+9이므로, 한국 시간 09:00는 UTC 00:00입니다
+> - AWS IAM 정책의 시간 조건은 항상 **UTC(협정 세계시)** 기준입니다.
+> - 한국 시간(KST)은 UTC+9이므로, 한국 시간 09:00는 UTC 00:00입니다.
 > - 예: 한국 시간 2026-01-01 09:00 → UTC 2026-01-01 00:00
-> - 정책 작성 시 반드시 UTC로 변환하여 입력해야 합니다
+> - 정책 작성 시 반드시 UTC로 변환하여 입력해야 합니다.
 >
 > **매일 반복되는 업무 시간 제한의 한계**:
 >
-> - **aws:CurrentTime**은 특정 날짜 범위 제한에 적합합니다
-> - 매일 반복되는 시간대 제한(예: 매일 09:00-18:00)에는 적합하지 않습니다
-> - 이유: 날짜와 시간을 함께 비교하므로, "매일 09:00-18:00"을 표현할 수 없습니다
+> - **aws:CurrentTime**은 특정 날짜 범위 제한에 적합합니다.
+> - 매일 반복되는 시간대 제한(예: 매일 09:00-18:00)에는 적합하지 않습니다.
+> - 이유: 날짜와 시간을 함께 비교하므로, "매일 09:00-18:00"을 표현할 수 없습니다.
 > - 대안: AWS Lambda 함수 + Amazon EventBridge 스케줄러, AWS Config 규칙, 또는 서드파티 솔루션 사용
 >
 > **실무 활용 시나리오**:
@@ -459,11 +516,14 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 > - **DenyOutsideSpecificPeriod**와 **DenyAfterSpecificPeriod** Statement는 다른 정책에서 부여한 Amazon S3 권한도 기간 외에는 차단합니다.
 > - **Deny는 항상 Allow보다 우선**하므로, 다른 정책이 s3:\*를 허용하더라도 기간 외에는 차단됩니다.
 > - 이 세 Statement를 함께 사용하면 "이 기간에만 Amazon S3를 사용할 수 있다"는 강력한 제한을 구현할 수 있습니다.
->
-> 4. [[Next]] 버튼을 클릭합니다.
-> 5. **Policy name**에 `S3TimeBasedPolicy`를 입력합니다.
-> 6. **Description**에 `Restricts Amazon S3 access to specific date range`를 입력합니다.
-> 7. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
+
+4. [[Next]] 버튼을 클릭합니다.
+
+   <img src="/images/week2/2-1-task4-step4-next-button.png" alt="IAM 정책 JSON 입력 후 Next 버튼" class="guide-img-md" />
+
+5. **Policy name**에 `S3TimeBasedPolicy`를 입력합니다.
+6. **Description**에 `Restricts Amazon S3 access to specific date range`를 입력합니다.
+7. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다.:
 
 | Key         | Value     |
 | ----------- | --------- |
@@ -472,9 +532,15 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 | `CreatedBy` | `Student` |
 
 8. [[Create policy]] 버튼을 클릭합니다.
+
+   <img src="/images/week2/2-1-task4-step8-create-policy.png" alt="IAM 정책 생성 완료 버튼" class="guide-img-md" />
+
 9. 정책 생성이 완료되면 **Policies** 페이지로 자동 이동합니다.
-10. 화면 상단에 녹색 배너로 "Policy S3TimeBasedPolicy has been created"라는 성공 메시지가 표시됩니다.
-11. 정책 목록에서 `S3TimeBasedPolicy`를 검색하여 생성된 정책을 확인합니다.
+10. 화면 상단에 녹색 배너로 "Policy S3TimeBasedPolicy created."라는 성공 메시지가 표시됩니다.
+
+> [!TIP]
+> 녹색 배너 오른쪽의 [[View policy]] 버튼을 클릭하면 생성된 정책의 상세 페이지를 바로 확인할 수 있습니다.  
+> 또는 정책 목록에서 `S3TimeBasedPolicy`를 검색하여 확인할 수 있습니다.
 
 > [!NOTE]
 > 정책 목록에서 **Policy name** 열에 `S3TimeBasedPolicy`가 표시되고, **Type** 열에 "Customer managed"로 표시됩니다.
@@ -486,11 +552,13 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 이 태스크에서는 **복합 조건 정책**을 생성합니다. 여러 **Condition 키**를 동시에 사용하여 매우 세밀한 **권한 제어**를 구현합니다. 모든 조건을 만족해야만 접근이 허용되므로(**AND 조건**), **암호화 필수**, **IP 제한**, **MFA 인증** 등을 조합하여 **Zero Trust 보안 모델**을 구현할 수 있습니다.
 
 > [!CONCEPT] 복합 조건의 AND 연산
-> 하나의 Condition 블록 내에 여러 조건 키를 나열하면 **모든 조건을 만족해야** 접근이 허용됩니다(AND 연산). 예를 들어, 암호화 필수 + IP 제한 + MFA 인증을 모두 만족해야만 Amazon S3 접근이 가능합니다.
+> 하나의 Condition 블록 내에 여러 조건 키를 나열하면, **모든 조건을 만족해야** 접근이 허용됩니다. (AND 연산)
+>
+> 예를 들어, 암호화 필수 + IP 제한 + MFA 인증을 모두 만족해야만 Amazon S3 접근이 가능합니다.
 
 1. [[Create policy]] 버튼을 다시 클릭합니다.
 2. **JSON** 탭을 선택합니다.
-3. 기존 정책 코드를 모두 삭제한 후 다음 정책을 입력합니다 (`YOUR_IP_ADDRESS`를 실제 IP로 변경):
+3. 기존 정책 코드를 모두 삭제한 후 다음 정책을 입력합니다.(`YOUR_IP_ADDRESS`를 실제 IP로 변경):
    ```json
    {
      "Version": "2012-10-17",
@@ -520,9 +588,12 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 > **필수 확인**: `YOUR_IP_ADDRESS`를 실제 IP 주소로 변경했는지 반드시 확인하세요. 현재 IP는 `https://checkip.amazonaws.com`에서 확인할 수 있습니다.
 
 > [!NOTE]
-> 이 정책은 여러 조건을 동시에 만족해야 Amazon S3 객체 업로드가 가능합니다: 암호화 필수(AES256), 특정 IP 범위, MFA 인증. 모든 조건이 AND 연산으로 결합되어 있습니다.
+> 이 정책은 여러 조건을 동시에 만족해야 Amazon S3 객체 업로드가 가능합니다.: 암호화 필수(AES256), 특정 IP 범위, MFA 인증. 모든 조건이 AND 연산으로 결합되어 있습니다.
 
 4. [[Next]] 버튼을 클릭합니다.
+
+   <img src="/images/week2/2-1-task5-step4-next-button.png" alt="IAM 정책 JSON 입력 후 Next 버튼" class="guide-img-md" />
+
 5. **Policy name**에 `S3ComplexConditionPolicy`를 입력합니다.
 6. **Description**에 `Amazon S3 access with multiple conditions`를 입력합니다.
 7. **Tags - optional** 섹션에서 [[Add new tag]] 버튼을 클릭한 후 다음 태그를 추가합니다:
@@ -534,9 +605,15 @@ AWS CloudFormation 스택은 다음 리소스를 생성합니다:
 | `CreatedBy` | `Student` |
 
 8. [[Create policy]] 버튼을 클릭합니다.
+
+   <img src="/images/week2/2-1-task5-step8-create-policy.png" alt="IAM 정책 생성 최종 확인 화면에서 Create policy 버튼" class="guide-img-md" />
+
 9. 정책 생성이 완료되면 **Policies** 페이지로 자동 이동합니다.
-10. 화면 상단에 녹색 배너로 "Policy S3ComplexConditionPolicy has been created"라는 성공 메시지가 표시됩니다.
-11. 정책 목록에서 `S3ComplexConditionPolicy`를 검색하여 생성된 정책을 확인합니다.
+10. 화면 상단에 녹색 배너로 "Policy S3ComplexConditionPolicy created."라는 성공 메시지가 표시됩니다.
+
+> [!TIP]
+> 녹색 배너 오른쪽의 [[View policy]] 버튼을 클릭하면 생성된 정책의 상세 페이지를 바로 확인할 수 있습니다.  
+> 또는 정책 목록에서 `S3ComplexConditionPolicy`를 검색하여 확인할 수 있습니다.
 
 > [!NOTE]
 > 정책 목록에서 **Policy name** 열에 `S3ComplexConditionPolicy`가 표시되고, **Type** 열에 "Customer managed"로 표시됩니다. 이제 4개의 Condition 정책이 모두 생성되었습니다.

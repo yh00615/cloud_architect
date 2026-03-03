@@ -541,10 +541,13 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
                   item?.type === 'li' ||
                   item?.props?.node?.tagName === 'li'
                 ) {
-                  // children을 그대로 렌더링 (strong 태그 등 유지)
+                  const text =
+                    typeof item.props?.children === 'string'
+                      ? item.props.children
+                      : extractText(item.props?.children);
                   listItems.push(
                     <li key={`li-${idx}`} className="alert-content-list-item">
-                      {item.props?.children}
+                      {text}
                     </li>,
                   );
                 }
@@ -567,17 +570,6 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
               result.push(
                 <div key={`strong-${key++}`} className="alert-content-strong">
                   {text}
-                </div>,
-              );
-              return;
-            }
-
-            // pre 태그 (코드 블록) 처리
-            if (node?.type === 'pre' || node?.props?.node?.tagName === 'pre') {
-              // pre 태그를 그대로 렌더링 (syntax highlighting 포함)
-              result.push(
-                <div key={`code-${key++}`} className="markdown-code-block">
-                  {node}
                 </div>,
               );
               return;
